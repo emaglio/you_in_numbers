@@ -6,7 +6,6 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
-gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 group :development, :test do
   gem 'byebug'
@@ -22,3 +21,19 @@ group :development do
   gem 'better_errors'
   gem 'rails_layout'
 end
+
+group :test do
+  gem "memory_test_fix"
+  gem "minitest-rails-capybara"
+  gem "minitest-line"
+  gem "minitest-bang"
+end
+
+gem 'trailblazer', '>= 2.0.1'
+gem 'trailblazer-cells'
+gem 'trailblazer-rails'
+gem 'cells-rails'
+gem 'cells-slim'
+gem 'dry-validation'
+gem 'formular', :github => "trailblazer/formular"
+gem 'tyrant', :git => "https://github.com/emaglio/tyrant.git", :branch => "to_TRB2"
