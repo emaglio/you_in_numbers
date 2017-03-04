@@ -1,0 +1,24 @@
+.row
+  = email
+.row
+  .col-sm-6
+    = firstname
+  .col-sm-6
+    = lastname
+.row
+  - if current_user != nil
+    .col-sm-4
+      h6 = edit
+    .col-sm-4
+      h6 = change_password
+    .col-sm-4
+      h6 = delete
+  - if current_user.email == "admin@email.com"
+     = form_tag controller: :users, action: :block  do
+      = hidden_field_tag :id, model.id
+      - if model.block == true
+        = hidden_field_tag :block, "false"
+        h6 = submit_tag "Un-Block", data: {confirm: "Are you sure?"}
+      - else
+        = hidden_field_tag :block, "true"
+        h6 = submit_tag "Block", data: {confirm: "Are you sure?"}

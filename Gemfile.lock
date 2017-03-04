@@ -79,6 +79,9 @@ GEM
     bootstrap (4.0.0.alpha6)
       autoprefixer-rails (>= 6.0.3)
       sass (>= 3.4.19)
+    bootstrap-sass (3.3.7)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     builder (3.2.3)
     byebug (9.0.6)
     capybara (2.12.1)
@@ -148,6 +151,8 @@ GEM
       dry-types (~> 0.9, >= 0.9.0)
     erubis (2.7.0)
     execjs (2.7.0)
+    font-awesome-rails (4.7.0.1)
+      railties (>= 3.2, < 5.1)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     high_voltage (3.0.0)
@@ -280,6 +285,9 @@ GEM
       reform-rails (>= 0.1.4, < 0.2.0)
       trailblazer (>= 2.0.0, < 2.1.0)
       trailblazer-loader (>= 0.1.0)
+    turbolinks (5.0.1)
+      turbolinks-source (~> 5)
+    turbolinks-source (5.0.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uber (0.1.0)
@@ -301,11 +309,13 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   bootstrap (~> 4.0.0.alpha3.1)
+  bootstrap-sass
   byebug
   cells-rails
   cells-slim
   coffee-rails (~> 4.1.0)
   dry-validation
+  font-awesome-rails
   formular!
   high_voltage
   jbuilder (~> 2.0)
@@ -323,6 +333,7 @@ DEPENDENCIES
   trailblazer (>= 2.0.1)
   trailblazer-cells
   trailblazer-rails
+  turbolinks
   tyrant!
   uglifier (>= 1.3.0)
   web-console (~> 2.0)

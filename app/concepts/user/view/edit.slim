@@ -1,0 +1,26 @@
+.row
+  h1 Edit User
+
+  = trb_form_for(model, "/users/#{current_user.id}", method: :patch, builder: :bootstrap4, id: :edit_user) do |f|
+    = f.input :id, type: "hidden", value: current_user.id
+    .row
+      .col-sm-6
+        = f.input :firstname, placeholder: "Firstname"
+      .col-sm-6
+        = f.input :lastname, placeholder: "Lastname"
+    .row
+      .col-sm-4
+        = f.input :gender, placeholder: "Gender"
+      .col-sm-4
+        = f.input :phone, placeholder: "Phone"
+      .col-sm-4
+        = f.input :age, placeholder: "Age"
+    .row
+      .col-sm-12
+        = f.input :email, placeholder: "Email"
+    .row
+      .col-sm-2
+      .col-sm-8
+        = f.submit(value: "Save")
+      .col-sm-2
+        h6 = back

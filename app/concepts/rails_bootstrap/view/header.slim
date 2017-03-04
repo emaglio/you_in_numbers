@@ -1,0 +1,14 @@
+<!-- Page Header -->
+.header class="intro-header" style="background-image: url(#{image})"
+  .container
+    .row
+      .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+        div class = container
+          h1 = title
+          hr class = dec
+          .subheading
+            = subtitle
+          .span.meta
+            = "Posted by #{author} on #{time.strftime("%d %B %Y")}" if show_post 
+          .row
+            = cell "RailsBootstrap/cell/message"

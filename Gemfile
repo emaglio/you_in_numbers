@@ -2,10 +2,10 @@ source 'https://rubygems.org'
 ruby '2.2.3'
 gem 'rails', '4.2.6'
 gem 'sqlite3'
-gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
+gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 group :development, :test do
   gem 'byebug'
@@ -15,6 +15,7 @@ group :development do
   gem 'spring'
 end
 gem 'bootstrap', '~> 4.0.0.alpha3.1'
+gem 'bootstrap-sass'
 gem 'high_voltage'
 gem 'slim-rails'
 group :development do
@@ -27,6 +28,11 @@ group :test do
   gem "minitest-rails-capybara"
   gem "minitest-line"
   gem "minitest-bang"
+end
+
+group :assets do
+  gem 'sass-rails', '~> 5.0'
+  gem 'font-awesome-rails'
 end
 
 gem 'trailblazer', '>= 2.0.1'

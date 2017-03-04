@@ -1,3 +1,12 @@
 Rails.application.routes.draw do
-  root to: 'visitors#index'
+  
+  resources :users
+  
+  resources :reports do
+    collection do
+      post :welcome
+    end
+  end
+
+  root to: 'reports#welcome'
 end

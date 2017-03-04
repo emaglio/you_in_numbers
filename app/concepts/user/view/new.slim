@@ -1,0 +1,28 @@
+.row.new
+  h1 New User
+
+  = trb_form_for(model, "/users", method: :post, builder: :bootstrap4, id: :new_user) do |f|
+    = f.input :block, value: :false, type: "hidden"
+    .row
+      .col-sm-6
+        = f.input :firstname, placeholder: "Firstname"
+      .col-sm-6
+        = f.input :lastname, placeholder: "Lastname"
+    .row
+      .col-sm-2
+        = f.select :gender, placeholder: "Gender", collection: [["Male"], ["Female"], ["You"]]
+      .col-sm-5
+        = f.input :phone, placeholder: "Phone"
+      .col-sm-5
+        = f.input :age, placeholder: "Age"
+    .row
+      .col-sm-12
+        = f.input :email, placeholder: "Email"
+    .row
+      .col-sm-6
+        = f.input :password, placeholder: "Password", type: "password"
+      .col-sm-6
+        = f.input :confirm_password, placeholder: "Confirm Password", type: "password"
+    .row
+      .col-sm-12
+        = f.submit(value: "Create User")
