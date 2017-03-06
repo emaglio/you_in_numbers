@@ -1,0 +1,22 @@
+.row.new
+  h1 New Report
+
+  = trb_form_for(model, "/reports", method: :post, builder: :bootstrap4, id: :new_report) do |f|
+    .row
+      .col-sm-4
+      .col-sm-4
+        = f.input :title, placeholder: "Title"
+      .col-sm-4
+    .row
+      .col-sm-4
+      .col-sm-4
+        = f.input :cpet_file_path, placeholder: "CPET test", type: 'file'
+      .col-sm-4
+    .row
+      .col-sm-4
+      .col-sm-4
+        = f.input :rmr_file_path, placeholder: "RMR test", type: 'file'
+      .col-sm-4
+    .row
+      .col-sm-12
+        = f.submit(value: "Create Report")
