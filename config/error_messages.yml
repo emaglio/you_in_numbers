@@ -8,3 +8,4 @@ en:
     unique_email?: "This email has been already used"
     email?: "Wrong format"
     not_blocked?: "You have been blocked mate"
+    at_least_one_file?: "At least one file must be uploaded"

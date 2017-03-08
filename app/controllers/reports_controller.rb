@@ -11,6 +11,11 @@ class ReportsController < ApplicationController
   end
 
   def create
+    run Report::Create do |result|
+      return redirect_to "/reports/#{result["model"].id}"
+    end
+
+    render Report::Cell::New, result["contract.default"]
   end
 
 
