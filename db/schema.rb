@@ -15,6 +15,12 @@ ActiveRecord::Schema.define(version: 20170303220114) do
 
   create_table "reports", force: :cascade do |t|
     t.string   "title"
+    t.text     "cpet_params"
+    t.text     "cpet_results"
+    t.text     "rmr_params"
+    t.text     "rmr_results"
+    t.text     "header"
+    t.text     "subject"
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"

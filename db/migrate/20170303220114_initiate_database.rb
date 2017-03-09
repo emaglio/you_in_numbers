@@ -16,6 +16,12 @@ class InitiateDatabase < ActiveRecord::Migration
 
     create_table :reports do |t|
       t.string :title
+      t.text :cpet_params
+      t.text :cpet_results
+      t.text :rmr_params
+      t.text :rmr_results
+      t.text :header
+      t.text :subject
       t.text :content
 
       t.timestamps
