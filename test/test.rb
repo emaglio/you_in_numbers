@@ -38,8 +38,8 @@ module MyReport
 
 
     # find list of column index for all the parameters
-    def cpet_params_col(file)
-      params = {"t" => [], "time" => [], "Rf" => [], "VE" => [], "VO2" => [], "VCO2" => [], 
+    def cpet_params(file)
+      cpet_params = {"t" => [], "time" => [], "Rf" => [], "VE" => [], "VO2" => [], "VCO2" => [], 
                 "RQ" => [], "VE/VO2" => [], "HR" => [], "VO2/Kg" => [], "FAT%" => [], "CHO%" => [],
                 "Power" => [], "Revolution" => [], "Phase" => []
                 }
@@ -48,7 +48,7 @@ module MyReport
       params_col = []
 
       # TODO: needs to find the params with different format ex: VO2, Vo2, vo2
-      params.each do |key, value|
+      cpet_params.each do |key, value|
         params_col << params_header.index(key)
       end
 
@@ -66,18 +66,24 @@ module MyReport
       row = first_num + 1
       file.each_row_streaming do
         i = 0
-        params.each do |key, value|
-          params[key] << file.cell(row, params_col[i]) if params_col[i] != nil
+        cpet_params.each do |key, value|
+          value = nil
+          if (key == "t" or key == "time" or key == "Phase") 
+            # I need strings for Phase and time
+            value = file.formatted_value(row, params_col[i]+1) if params_col[i] != nil
+            cpet_params[key] << value if value != nil
+          else
+            # numbers for all the rest
+            value = file.cell(row, params_col[i]+1) if params_col[i] != nil
+            cpet_params[key] << value if value != nil
+          end
           i += 1
         end
         row += 1
       end
 
 
-      puts params.inspect
-      puts params_col.inspect
-
-
+      return cpet_params
     end
 
 

@@ -1,17 +1,21 @@
 require_dependency 'report/operation/new'
+require_dependency 'report/operation/get_cpet_data'
 require 'roo'
 
 class Report::Create < Trailblazer::Operation
   step Nested(Report::New)
   step Contract::Validate()
-  step :open_file
-  # step Nested(Report::GetData)
   step Contract::Persist()
+  step Nested(Report::GetCpetData)
+  # step Nested(Report::GetCpetResults)
+  # step Nested(Report::GetRmrData)
+  # step Nested(Report::GetCpetResults)
+  step :model!
 
-  def open_file(options, params:, **)
-    options["cpet_file"] = Roo::Spreadsheet.open(params[:cpet_file_path]) if params[:cpet_file_path] != nil
-    options["rmr_file"] = Roo::Spreadsheet.open(params[:rmr_file_path]) if params[:rmr_file_path] != nil
-
-    return true
+  def model!(options, model:, cpet_params:, **)
+    model[:cpet_params] = cpet_params
+    model.save
   end
+
+  
 end
