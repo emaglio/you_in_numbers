@@ -1,3 +1,5 @@
+require 'roo'
+
 class Report::GetCpetData < Trailblazer::Operation
   step :open_file!
   step :set_default_sheet!

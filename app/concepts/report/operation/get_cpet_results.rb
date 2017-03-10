@@ -1,34 +1,14 @@
-require 'more_help'
-require 'roo'
+class Report::GetCpetResults < Trailblazer::Operation
+  step :find_exer_phase!
+  step :find_AT!
+  step :find_VO2_max!
+  step :cpet_results!
 
-# class ReportTest < MiniTest::Spec
-
-
-
-#   cpet_path = './app/assets/files/cpet.xlsx'
-
-#   cpet_file = Roo::Spreadsheet.open(cpet_path)
-
-#   puts get_data_sheet(cpet_file)
-  
-# end
-
-class GetResults
-
-  # string time to integer seconds
-  def sec(time)
-    zero = Time.parse("00:00:00")
-    time = "00:" + time if time.length >= 5
-    time = Time.parse(time)
-
-    return (time - zero).to_i
-  end
-
-  def find_exercise_phase(params)
+  def find_exer_phase!(options, *)
     start_exer = 0
     end_exer = 0
 
-    params["Phase"].each do |phase|
+    options["Phase"].each do |phase|
       start_exer += 1 if phase != "EXERCISE" and phase != "RECOVERY"
       end_exer += 1 if phase == "EXERCISE"
     end
@@ -38,25 +18,27 @@ class GetResults
     # hash with starting index of exercise phase and durantion on it (num_steps)
     exer_phase = { "starts" => start_exer, "num_steps" => end_exer - start_exer + 1}
 
-    return exer_phase
+    options["exer_phase"] = exer_phase
   end
 
-  def find_AT(params, exer_phase)
-    exer_array = params["VE/VO2"][exer_phase["starts"], exer_phase["num_steps"]]
+  # simply the minimum of the curve VE/VO2 TODO: make sure that it's enough
+  def find_AT!(options, exer_phase:, **)
+    exer_array = options["VE/VO2"][exer_phase["starts"], exer_phase["num_steps"]]
 
-    return exer_array.index(exer_array.min)
+    # index in the exercise phase
+    options["at_index"] = exer_array.index(exer_array.min)
   end
 
-  def find_VO2_max(params, exer_phase)
+  def find_VO2_max!(options, exer_phase:, **)
     # searching a range of 30 seconds where the max is included
     # starting from the end of the exer phase
 
-    exer_array = params["VO2"][exer_phase["starts"], exer_phase["num_steps"]]
+    exer_array = options["VO2"][exer_phase["starts"], exer_phase["num_steps"]]
 
     max_index = exer_array.index(exer_array.max)
 
     # get the correct time array
-    params["t"] != nil ? time_array = params["t"] : time_array = params["time"]
+    options["t"] != nil ? time_array = options["t"] : time_array = options["time"]
     time_array = time_array[exer_phase["starts"], exer_phase["num_steps"]]
 
     # last index
@@ -86,31 +68,25 @@ class GetResults
     # as max point I use the end of the 30 seconds range
     vo2_max = {"index" => ends, "value" => max_value}
 
-    return vo2_max
+    options["vo2_max"] = vo2_max
   end
 
-  
-end
-
-class Test
-  GetData = GetData.new
-  GetResults = GetResults.new
-
-  cpet_path = './app/assets/files/cpet.xlsx'
-
-  cpet_file = Roo::Spreadsheet.open(cpet_path)
-
-  GetData::set_default_sheet(cpet_file)
-
-  params = []
-  params = GetData::cpet_params(cpet_file)
-
-  exer_phase = []
-  exer_phase = GetResults::find_exercise_phase(params)
-  
-  GetResults::find_AT(params, exer_phase)
-  GetResults::find_VO2_max(params, exer_phase)
+  def cpet_results!(options, exer_phase:, at_index:, vo2_max:, **)
+    options["cpet_results"] = {
+      "exer_phase" => exer_phase,
+      "at_index" => at_index,
+      "vo2_max" => vo2_max
+    }
+  end
 
 
+private
+  def sec(time)
+    zero = Time.parse("00:00:00")
+    # make sure that the time string has the same format hh:mm:ss
+    time = "00:" + time if time.length >= 5
+    time = Time.parse(time)
 
+    return (time - zero).to_i
+  end
 end
