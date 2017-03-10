@@ -18,5 +18,11 @@ class ReportsController < ApplicationController
     render Report::Cell::New, result["contract.default"]
   end
 
+  def show
+    run Report::Show
+
+    render Report::Cell::Show, result["model"]
+  end
+
 
 end
