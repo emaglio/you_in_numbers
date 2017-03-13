@@ -22,5 +22,7 @@ module YouInNumbers
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # config.assets.precompile = ['application.js', 'application.css', 'pages.js', 'pages.css']
   end
 end
