@@ -1,14 +1,30 @@
-<!-- Page Header -->
-.header class="intro-header" style="background-image: url(#{image})"
-  .container
-    .row
-      .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
-        div class = container
-          h1 = title
-          hr class = dec
-          .subheading
-            = subtitle
-          .span.meta
-            = "Posted by #{author} on #{time.strftime("%d %B %Y")}" if show_post 
-          .row
-            = cell "RailsBootstrap/cell/message"
+
+<header>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-7">
+        <div class="header-content">
+          <div class="header-content-inner">
+            <h1>New Age is an app landing page that will help you beautifully showcase your new mobile app, or anything else!</h1>
+            <a href="#download" class="btn btn-outline btn-xl page-scroll">Start Now for Free!</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5">
+          <div class="device-container">
+              <div class="device-mockup iphone6_plus portrait white">
+                  <div class="device">
+                      <div class="screen">
+                          <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                          <img src="assets/img/demo-screen-1.jpg" class="img-responsive" alt="">
+                      </div>
+                      <div class="button">
+                          <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</header>

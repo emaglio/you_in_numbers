@@ -10,8 +10,8 @@ module RailsBootstrap::Cell
       true if Float(string) rescue false
     end
 
-    def show_post
-      params["action"] == "show" and params["controller"] == "posts"
+    def welcome?
+      params["action"] == "welcome" and params["controller"] == "reports"
     end
 
     def show_id

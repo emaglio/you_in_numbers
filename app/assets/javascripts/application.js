@@ -16,6 +16,6 @@
 //= require bootstrap-sprockets
 //= require_tree .
 //= require js/new-age.min.js
-//= require js/bootstrap.min.js
 //= require jquery.min.js
+//= require js/bootstrap.min.js
 //= require js/highcharts.js
