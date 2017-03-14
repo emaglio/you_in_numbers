@@ -17,12 +17,22 @@ class ApplicationController < ActionController::Base
   end
 
   
-  def render(cell_constant, model, options: {})
+  def render(cell_constant, model, options: {}, layout_type: "app")
+
+    layout_types = {
+      # "welcome" => RailsBootstrap::Cell::WelcomeLayout,
+      "app" => RailsBootstrap::Cell::Layout,
+      nil => nil
+    }
+
+    layout = layout_types[layout_type]
+
+
     super(
           html: cell(
                 cell_constant,
                 model,
-                { layout: RailsBootstrap::Cell::Layout,
+                { layout: layout,
                   context: {current_user: tyrant.current_user, flash: flash}
                   }.merge(options))
           )

@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
+
+  root to: 'reports#welcome'
   
-  resources :users
+  resources :users do
+    collection do
+      post 'reset_password'
+      get 'get_email'
+      get 'get_new_password'
+      post 'change_password'
+      post 'block'
+    end
+  end
   
   resources :reports do
     collection do
@@ -8,5 +18,10 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: 'reports#welcome'
+  resources :sessions do
+    collection do
+      get 'sign_out'
+    end
+  end
+
 end

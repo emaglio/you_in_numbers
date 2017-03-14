@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
 
   def new
     run Session::SignInForm
-    render Session::Cell::SignIn, result["contract.default"]
+    render Session::Cell::SignIn, result["contract.default"], layout_type: nil
   end
 
   def create
