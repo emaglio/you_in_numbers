@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   def render(cell_constant, model, options: {}, layout_type: "app")
 
     layout_types = {
-      # "welcome" => RailsBootstrap::Cell::WelcomeLayout,
+      "welcome" => RailsBootstrap::Cell::WelcomeLayout,
       "app" => RailsBootstrap::Cell::Layout,
       nil => nil
     }

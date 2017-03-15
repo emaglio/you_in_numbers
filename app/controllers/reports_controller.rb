@@ -1,7 +1,7 @@
 class ReportsController < ApplicationController
 
   def welcome
-    render RailsBootstrap::Cell::Welcome, nil
+    render RailsBootstrap::Cell::Welcome, nil, layout_type: "welcome"
   end
 
   def new

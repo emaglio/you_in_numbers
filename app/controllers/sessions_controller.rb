@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       flash[:notice] = "Hey mate, welcome back!"
       return redirect_to "/posts"
     end
-    render Session::Cell::SignIn, result["contract.default"]
+    render Session::Cell::SignIn, result["contract.default"], layout_type: nil
   end
 
   def sign_out

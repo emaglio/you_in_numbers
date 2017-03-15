@@ -23,3 +23,7 @@
 .navbar-default .nav > li.active > a:focus:hover {
   background-color: transparent;
 }
+
+.btn {
+  background-color: green;
+}
