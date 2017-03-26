@@ -5,11 +5,11 @@ class User::Create < Trailblazer::Operation
   step Contract::Validate()
   step Contract::Persist()
   step :create!
-  step :notify!
+  # step :notify!
 
-  def notify!(options, model:, **)
-    Notification::User.({}, "email" => model.email, "type" => "welcome")
-  end
+  # def notify!(options, model:, **)
+  #   Notification::User.({}, "email" => model.email, "type" => "welcome")
+  # end
 
   def create!(options, model:, params:, **)
     auth = Tyrant::Authenticatable.new(model)

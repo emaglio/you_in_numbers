@@ -10,6 +10,11 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery
+//= require jquery_ujs
+//= require turbolinks
+//= require bootstrap-sprockets
 //= require js/sb-admin-2.min.js
+//= require js/bootstrap.min.js
 //= require metisMenu.min.js
 //= require js/highcharts.js

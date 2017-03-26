@@ -27,4 +27,11 @@ html lang = "en"
       script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"
 
   body
-    = yield
+    . id="wrapper"
+      = cell('rails_bootstrap/cell/navigation')
+
+      . id="page-wrapper"
+          .row
+            .col-lg-12
+              = yield
+

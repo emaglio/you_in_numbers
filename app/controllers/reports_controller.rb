@@ -4,6 +4,12 @@ class ReportsController < ApplicationController
     render RailsBootstrap::Cell::Welcome, nil, layout_type: "welcome"
   end
 
+  def index
+    run Report::Index
+
+    render Report::Cell::Index, result["model"]
+  end
+
   def new
     run Report::New
 

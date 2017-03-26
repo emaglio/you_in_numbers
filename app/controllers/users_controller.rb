@@ -16,12 +16,12 @@ class UsersController < ApplicationController
       flash[:notice] = "Welcome #{get_name(result["model"])}!"
       return redirect_to "/posts"
     end
-    render User::Cell::New, result["contract.default"]
+    render User::Cell::New, result["contract.default"], layout_type: nil
   end
 
   def new
     run User::New
-    render User::Cell::New, result["contract.default"]
+    render User::Cell::New, result["contract.default"], layout_type: nil
   end
 
   def edit

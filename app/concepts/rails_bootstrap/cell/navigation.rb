@@ -17,19 +17,6 @@ module RailsBootstrap::Cell
     def signed_in?
       return current_user != nil
     end
-
-    def numPending
-      Post.where("status like ?", "Pending").size
-    end
-
-    def numApproved
-      Post.where("status like ?", "Approved").size
-    end
-
-    def numDeclined
-      Post.where("status like ?", "Declined").size
-    end
-
   end
 
   class Navigation < Trailblazer::Cell
