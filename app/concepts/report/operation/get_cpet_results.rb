@@ -2,6 +2,7 @@ class Report::GetCpetResults < Trailblazer::Operation
   step :find_exer_phase!
   step :find_AT!
   step :find_VO2_max!
+  step :find_training_zones!
   step :cpet_results!
 
   def find_exer_phase!(options, *)
@@ -71,16 +72,44 @@ class Report::GetCpetResults < Trailblazer::Operation
     options["vo2_max"] = vo2_max
   end
 
-  def cpet_results!(options, exer_phase:, at_index:, vo2_max:, **)
+  def training_zones!(options, exer_phase:, vo2_max:, **)
+    vo2_array = options["VO2"][exer_phase["starts"], exer_phase["num_steps"]]
+    
+    35_index = getValueIndex(vo2_max["value"]*0.35, vo2_array, 0)
+    50_index = getValueIndex(vo2_max["value"]*0.50, vo2_array, 35_index)
+    51_index = getValueIndex(vo2_max["value"]*0.51, vo2_array, 50_index)
+    75_index = getValueIndex(vo2_max["value"]*0.75, vo2_array, 51_index)
+    76_index = getValueIndex(vo2_max["value"]*0.76, vo2_array, 75_index)
+    90_index = getValueIndex(vo2_max["value"]*0.90, vo2_array, 76_index)
+    91_index = getValueIndex(vo2_max["value"]*0.91, vo2_array, 90_index)
+    100_index = getValueIndex(vo2_max["value"], vo2_array, 91_index)
+
+
+    options["training_zones"] = {
+      "35%" => 35_index,
+      "50%" => 50_index,
+      "51%" => 51_index,
+      "75%" => 75_index,
+      "76%" => 76_index,
+      "90%" => 90_index,
+      "91%" => 91_index,
+      "100%" => 100_index
+    }
+    
+  end
+
+  def cpet_results!(options, exer_phase:, at_index:, vo2_max:, training_zones:, **)
     options["cpet_results"] = {
       "exer_phase" => exer_phase,
       "at_index" => at_index,
-      "vo2_max" => vo2_max
+      "vo2_max" => vo2_max,
+      "training_zones" => training_zones
     }
   end
 
 
 private
+  
   def sec(time)
     zero = Time.parse("00:00:00")
     # make sure that the time string has the same format hh:mm:ss
@@ -89,4 +118,37 @@ private
 
     return (time - zero).to_i
   end
+
+
+  def getValueIndex(value, vo2, offset)
+    # return the row in the range 3 cells are bigger than the value, check starting with offset
+    row_index = offset
+    count = 0
+    check = 0
+    found = false
+
+    while(row_index <= vo2.size and found == false)
+
+      if vo2[row_index] > value 
+          if count == 0 Then
+              check = row_index
+              count += 1
+          else
+            if row_index != check + 1
+                count = 0
+            else
+                check = row_index
+                count += 1
+            end
+          end
+      end
+        
+      found = true if count == 3
+      
+      row_index = row_index + 1
+    end
+    
+    return row_index-1
+  end
 end
+
