@@ -1,9 +1,12 @@
 .row
   .col-lg-12
-    .page-header
-      h1 = model.title
+      .page-header
+        h1 = model.title
 .row
-  .col-lg-8
+  .col-lg-12
     .panel.panel-default
-      = cell ('report/cell/chart'), model
-      = cell ('report/cell/training_zones'), model
+      .panel.body
+        = cell ('report/cell/chart'), model
+    .panel.panel-defult
+      .panel-body
+        = cell ('report/cell/training_zones'), model

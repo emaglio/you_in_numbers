@@ -72,28 +72,28 @@ class Report::GetCpetResults < Trailblazer::Operation
     options["vo2_max"] = vo2_max
   end
 
-  def training_zones!(options, exer_phase:, vo2_max:, **)
+  def find_training_zones!(options, exer_phase:, vo2_max:, **)
     vo2_array = options["VO2"][exer_phase["starts"], exer_phase["num_steps"]]
     
-    35_index = getValueIndex(vo2_max["value"]*0.35, vo2_array, 0)
-    50_index = getValueIndex(vo2_max["value"]*0.50, vo2_array, 35_index)
-    51_index = getValueIndex(vo2_max["value"]*0.51, vo2_array, 50_index)
-    75_index = getValueIndex(vo2_max["value"]*0.75, vo2_array, 51_index)
-    76_index = getValueIndex(vo2_max["value"]*0.76, vo2_array, 75_index)
-    90_index = getValueIndex(vo2_max["value"]*0.90, vo2_array, 76_index)
-    91_index = getValueIndex(vo2_max["value"]*0.91, vo2_array, 90_index)
-    100_index = getValueIndex(vo2_max["value"], vo2_array, 91_index)
+    index_35 = getValueIndex(vo2_max["value"]*0.35, vo2_array, 0)
+    index_50 = getValueIndex(vo2_max["value"]*0.50, vo2_array, index_35)
+    index_51 = getValueIndex(vo2_max["value"]*0.51, vo2_array, index_50)
+    index_75 = getValueIndex(vo2_max["value"]*0.75, vo2_array, index_51)
+    index_76 = getValueIndex(vo2_max["value"]*0.76, vo2_array, index_75)
+    index_90 = getValueIndex(vo2_max["value"]*0.90, vo2_array, index_76)
+    index_91 = getValueIndex(vo2_max["value"]*0.91, vo2_array, index_90)
+    index_100 = getValueIndex(vo2_max["value"], vo2_array, index_91)
 
 
     options["training_zones"] = {
-      "35%" => 35_index,
-      "50%" => 50_index,
-      "51%" => 51_index,
-      "75%" => 75_index,
-      "76%" => 76_index,
-      "90%" => 90_index,
-      "91%" => 91_index,
-      "100%" => 100_index
+      "35%" => index_35,
+      "50%" => index_50,
+      "51%" => index_51,
+      "75%" => index_75,
+      "76%" => index_76,
+      "90%" => index_90,
+      "91%" => index_91,
+      "100%" => index_100
     }
     
   end
@@ -127,20 +127,20 @@ private
     check = 0
     found = false
 
-    while(row_index <= vo2.size and found == false)
+    while(row_index <= vo2.size and found == false) do
 
       if vo2[row_index] > value 
-          if count == 0 Then
+        if count == 0
+            check = row_index
+            count += 1
+        else
+          if row_index != check + 1
+              count = 0
+          else
               check = row_index
               count += 1
-          else
-            if row_index != check + 1
-                count = 0
-            else
-                check = row_index
-                count += 1
-            end
           end
+        end
       end
         
       found = true if count == 3

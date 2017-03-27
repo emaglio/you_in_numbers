@@ -16,5 +16,6 @@
 //= require bootstrap-sprockets
 //= require js/sb-admin-2.min.js
 //= require js/bootstrap.min.js
+//= require_tree ../../../vendor/assets/datatable/js
 //= require metisMenu.min.js
 //= require js/highcharts.js

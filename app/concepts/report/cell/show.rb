@@ -6,6 +6,10 @@ module Report::Cell
 
   class Chart < Trailblazer::Cell 
 
+    def title
+      "VO2 and VCO2 on time"
+    end
+
     def vo2
       model["cpet_params"]["VO2"].inspect
     end
@@ -30,9 +34,6 @@ module Report::Cell
 
       return exer_phase_array
     end
-  end
-
-  class TrainingZones < Trailblazer::Cell
   end
 
 end

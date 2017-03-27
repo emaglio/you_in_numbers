@@ -1,12 +1,45 @@
-table id = "training_zones" class = "display" cellspacing = "0" width = "100%"
-  thead
-    tr
-      th Name
-      th Position
-
-
-
-javascript:
-  $(document).ready(function(){
-    $('#training_zones').DataTable();
-  });
+.col-sm-2
+.col-sm-8.text-center
+  h2 Training Zones
+  .training_zones
+    .row style="border: 2px solid black; border-bottom: none; background: #00b300"
+      .col-sm-5
+        .row style="margin-top: 4px; font-style: italic; font-weight: bold; font-size: 20px"
+          = first_row_1
+        .row style="margin-top: 4px"
+          = hr[0]
+        .row style="margin-top: 4px"
+          = load1[0]
+        .row style="margin-top: 4px"
+          = load2[0]
+      .col-sm-1
+      .col-sm-5
+        .row style="margin-top: 4px; font-style: italic; font-weight: bold; font-size: 20px"
+          = first_row_2
+        .row style="margin-top: 4px"
+          = hr[1]
+        .row style="margin-top: 4px"
+          = load1[1]
+        .row style="margin-top: 4px"
+          = load2[1]
+    .row style="border: 2px solid black; background: #ff5c33"
+      .col-sm-5
+        .row style="margin-top: 4px; font-style: italic; font-weight: bold; font-size: 20px"
+          = second_row_1
+        .row style="margin-top: 4px"
+          = hr[2]
+        .row style="margin-top: 4px"
+          = load1[2]
+        .row style="margin-top: 4px"
+          = load2[2]
+      .col-sm-1 
+      .col-sm-5 
+        .row style="margin-top: 4px; font-style: italic; font-weight: bold; font-size: 20px"
+          = second_row_2
+        .row style="margin-top: 4px"
+          = hr[3]
+        .row style="margin-top: 4px"
+          = load1[3]
+        .row style="margin-top: 4px"
+          = load2[3]
+.col-sm-2
