@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/emaglio/tyrant.git
-  revision: d83fbdb70fd53619cb017dbe36615e8b633e9f03
+  revision: 694db4bf63b9e3ab0771d1d3250fc2cf3fbb3649
   branch: to_TRB2
   specs:
     tyrant (0.0.3)
@@ -20,7 +20,7 @@ GIT
       dry-validation
       formular
       pony
-      reform (~> 2.0)
+      reform (>= 2.3.0.rc1)
       sqlite3
       trailblazer (>= 2.0.1)
       trailblazer-cells
@@ -329,6 +329,7 @@ DEPENDENCIES
   minitest-bang
   minitest-line
   minitest-rails-capybara
+  pony
   rails (= 4.2.6)
   rails_layout
   reform (>= 2.3.0.rc1)
