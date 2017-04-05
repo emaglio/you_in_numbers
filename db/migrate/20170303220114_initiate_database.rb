@@ -28,7 +28,7 @@ class InitiateDatabase < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :conmpany do |t|
+    create_table :companies do |t|
       t.integer :user_id
       t.string :name
       t.string :addres_1

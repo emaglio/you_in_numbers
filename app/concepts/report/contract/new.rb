@@ -1,11 +1,11 @@
 require 'reform/form/dry'
-require 'pathname'
 
-module Report::Contract 
-  class New < Reform::Form 
+module Report::Contract
+  class New < Reform::Form
     feature Reform::Form::Dry
 
     property :title
+    property :user_id
     property :cpet_file_path, virtual: true
     property :rmr_file_path, virtual: true
 

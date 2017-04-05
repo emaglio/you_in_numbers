@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
-  
+
   def show
     run User::Show
     render User::Cell::Show, result["model"]
   end
-  
+
   def index
     run User::Index
     render User::Cell::Index, result["model"]
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     run User::Create do |result|
       tyrant.sign_in!(result["model"])
       flash[:notice] = "Welcome #{get_name(result["model"])}!"
-      return redirect_to "/posts"
+      return redirect_to "/reports"
     end
     render User::Cell::New, result["contract.default"], layout_type: nil
   end
@@ -35,14 +35,14 @@ class UsersController < ApplicationController
       flash[:notice] = "New details saved"
       return redirect_to "/users/#{result["model"].id}"
     end
-    
+
     render User::Cell::Edit, result["model"]
   end
 
   def destroy
     run User::Delete do
       flash[:alert] = "User deleted"
-      return redirect_to "/posts"
+      return redirect_to "/reports"
     end
 
     render User::Cell::Edit, result["contract.default"]
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   end
 
   def reset_password
-    run Tyrant::ResetPassword do 
+    run Tyrant::ResetPassword do
       flash[:alert] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
@@ -96,5 +96,5 @@ private
     return name
   end
 
-  
+
 end

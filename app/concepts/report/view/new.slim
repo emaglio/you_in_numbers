@@ -2,6 +2,7 @@
   h1 New Report
 
   = trb_form_for(model, "/reports", method: :post, builder: :bootstrap4, id: :new_report, enctype: 'multipart/form-data') do |f|
+    = f.input :user_id, type: "hidden", value: current_user.id
     .row
       .col-sm-4
       .col-sm-4

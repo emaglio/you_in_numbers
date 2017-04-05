@@ -13,7 +13,24 @@
 
 ActiveRecord::Schema.define(version: 20170303220114) do
 
+  create_table "companies", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "addres_1"
+    t.string   "addres_2"
+    t.string   "city"
+    t.string   "poscode"
+    t.string   "country"
+    t.string   "phone"
+    t.string   "email"
+    t.text     "content"
+    t.text     "logo_meta_data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "reports", force: :cascade do |t|
+    t.integer  "user_id"
     t.string   "title"
     t.text     "cpet_params"
     t.text     "cpet_results"

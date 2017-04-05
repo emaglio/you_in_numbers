@@ -1,6 +1,6 @@
 require 'reform/form/dry'
 
-module Report::Contract
+module Company::Contract
   class New < Reform::Form
     feature Reform::Form::Dry
 
@@ -16,17 +16,16 @@ module Report::Contract
     validation  with: { form: true } do
       configure do
         config.messages_file = 'config/error_messages.yml'
+
+        def email?
+          ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
+        end
+
       end
 
-      def email?
-        ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
-      end
-
-      # TODO: add limit in lenght
+      # TODO: add limit in lenght maybe
       required(:name).filled
-      required(:address_1).filled
-      required(:city).filled
-      required(:postcode).filled
+      required(:email).maybe(:email?)
     end
   end
 end
