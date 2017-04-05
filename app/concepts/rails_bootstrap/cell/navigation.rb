@@ -1,9 +1,9 @@
 module RailsBootstrap::Cell
-  
+
   class NavigationMenu < Trailblazer::Cell
 
     def current_user
-      return options[:context][:current_user]
+      options[:context][:current_user]
     end
 
     def welcome
@@ -11,19 +11,21 @@ module RailsBootstrap::Cell
     end
 
     def admin?
-      return current_user.email == "admin@email.com"
+      current_user.email == "admin@email.com"
     end
 
     def signed_in?
-      return current_user != nil
+      current_user != nil
     end
   end
 
   class Navigation < Trailblazer::Cell
-    
+    def current_user
+      options[:context][:current_user]
+    end
   end
 
   class WelcomeNavigation < Trailblazer::Cell
-    
+
   end
 end

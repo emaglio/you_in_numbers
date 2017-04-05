@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     run Session::SignIn do |result|
       tyrant.sign_in!(result["model"])
       flash[:notice] = "Hey mate, welcome back!"
-      return redirect_to "/posts"
+      return redirect_to "/reports"
     end
     render Session::Cell::SignIn, result["contract.default"], layout_type: nil
   end
@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
     run Session::SignOut do
       tyrant.sign_out!
       flash[:notice] = "See ya!"
-      redirect_to "/posts"
+      redirect_to "/reports"
     end
   end
 end

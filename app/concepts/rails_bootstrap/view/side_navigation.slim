@@ -1,0 +1,49 @@
+. class="navbar-default sidebar" role="navigation"
+  . class="sidebar-nav navbar-collapse"
+    ul class="nav" id="side-menu"
+      li class="sidebar-search"
+        . class="input-group custom-search-form"
+            input type="text" class="form-control" placeholder="Search..."
+            span class="input-group-btn"
+              button class="btn btn-default" type="button"
+                i class="fa fa-search"
+      li
+        a href="index.html"
+          i class="fa fa-dashboard fa-fw"
+          |  Dashboard
+      li
+        a href="#"
+          i class="fa fa-bar-chart-o fa-fw"
+          |  Reports
+          span class="fa arrow"
+        ul class="nav nav-second-level"
+          li
+            = link_to "New Report", new_report_path
+          li
+            = link_to "My Reports", reports_path
+      li
+        a href="tables.html"
+          i class="fa fa-table fa-fw"
+          |  Tables
+      li
+        a href="forms.html"
+          i class="fa fa-edit fa-fw"
+          |  Forms
+      li
+        a href="#"
+          i class="fa fa-wrench fa-fw"
+          |  UI Elements
+          span class="fa arrow"
+        ul class="nav nav-second-level"
+          li
+            a href="panels-wells.html" Panels and Wells
+          li
+            a href="buttons.html" Buttons
+          li
+            a href="notifications.html" Notifications
+          li
+            a href="typography.html" Typography
+          li
+            a href="icons.html" Icons
+          li
+            a href="grid.html" Grid
