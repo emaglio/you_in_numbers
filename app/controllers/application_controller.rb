@@ -10,13 +10,13 @@ class ApplicationController < ActionController::Base
 
   class NotAuthorizedError < RuntimeError
   end
-  
+
   rescue_from ApplicationController::NotAuthorizedError do
     flash[:alert] = "You are not authorized mate!"
-    redirect_to posts_path
+    redirect_to reports_path
   end
 
-  
+
   def render(cell_constant, model, options: {}, layout_type: "app")
 
     layout_types = {
