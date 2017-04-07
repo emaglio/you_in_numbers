@@ -50,7 +50,7 @@ class UsersController < ApplicationController
 
   def get_email
     run Tyrant::GetEmail
-    render Tyrant::Cell::ResetPassword, result["contract.default"]
+    render User::Cell::ResetPassword, result["contract.default"], layout_type: nil
   end
 
   def reset_password

@@ -1,7 +1,7 @@
 doctype html
 html lang = "en"
   head
-    
+
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge"
     meta name="viewport" content="width=device-width, initial-scale=1"
@@ -43,6 +43,7 @@ html lang = "en"
                 .row.col-sm-12.text-center
                   = f.submit(value: "Sign In")
                 .row
-                  .col-sm-6
-                  .col-sm-12.text-right
-                    = link_to "Reset Password", get_email_users_path
+                  .col-sm-6.text-left
+                    = link_to "Create Account", new_user_path
+                  .col-sm-6.text-right
+                    = link_to "Forgot Password", get_email_users_path

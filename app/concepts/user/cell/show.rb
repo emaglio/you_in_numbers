@@ -1,6 +1,6 @@
 module User::Cell
 
-  class Show < Trailblazer::Cell 
+  class Show < New
 
     property :email
     property :firstname
