@@ -23,3 +23,9 @@
 .navbar-default .nav > li.active > a:focus:hover {
   background-color: transparent;
 }
+
+.mybox{
+  border-style: solid;
+  border-width: 0.5px;
+  border-radius: 30px;
+}

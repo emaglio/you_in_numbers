@@ -12,19 +12,19 @@ module User::Cell
 
     def edit
       if current_user.email == model.email or current_user.email == "admin@email.com"
-        link_to "Edit", edit_user_path(model)
+        button_to "Edit", edit_user_path(model), class: "btn btn-outline btn-success", :method => :get
       end
     end
 
     def delete
       if current_user.email == model.email or current_user.email == "admin@email.com"
-        link_to "Delete", user_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}
+        button_to "Delete", user_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger"
       end
     end
 
     def change_password
       if current_user.email == model.email or current_user.email == "admin@email.com"
-        link_to "Change Password", get_new_password_users_path
+        button_to "Change Password", get_new_password_users_path, class: "btn btn-outline btn-warning", :method => :get
       end
     end
 

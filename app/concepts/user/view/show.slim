@@ -1,42 +1,52 @@
 .row
-  .col-lg-12
-      .page-header
-        h3 Account details
-        hr
+  .col-sm-12
+    h3 Account details
+hr style="margin-top: 0px;"
 
-.col-sm-8.offset-sm-2
-  = trb_form_for(model, "/users/#{current_user.id}", method: :patch, builder: :bootstrap4, id: :edit_user) do |f|
-    = f.input :id, type: "hidden", value: current_user.id
-    .row
-      .col-sm-6
-        = f.input :firstname, label: "Firstname"
-      .col-sm-6
-        = f.input :lastname, label: "Lastname"
-    .row
-      .col-sm-4
-        = f.input :gender, label: "Gender"
-      .col-sm-4
-        = f.input :phone, label: "Phone"
-      .col-sm-4
-        = f.input :age, label: "Age"
-    .row
-      .col-sm-8.offest-sm-2
-        = f.input :email, label: "Email"
+.row style="margin-top: 40px;"
+  .col-sm-1
+  .col-sm-6.mybox
+    = trb_form_for(model, "/users/#{current_user.id}", method: :patch, builder: :bootstrap4, id: :edit_user) do |f|
+      = f.input :id, type: "hidden", value: current_user.id
+      .row
+        .col-sm-6
+          = f.input :firstname, label: "Firstname", disabled: "true"
+        .col-sm-6
+          = f.input :lastname, label: "Lastname", disabled: "true"
+      .row
+        .col-sm-4
+          = f.input :gender, label: "Gender", disabled: "true"
+        .col-sm-4
+          = f.input :phone, label: "Phone", disabled: "true"
+        .col-sm-4
+          = f.input :age, label: "Age", disabled: "true"
+      .row
+        .col-sm-8.offest-sm-2
+          = f.input :email, label: "Email", disabled: "true"
 
-  .row
+  .col-sm-5
+.row
+  .col-sm-1
+  .col-sm-6.text-center style="margin-top: 20px;"
     - if current_user != nil
       .col-sm-4
-        h6 = edit
+        = edit
       .col-sm-4
-        h6 = change_password
+        = change_password
       .col-sm-4
-        h6 = delete
-    - if current_user.email == "admin@email.com"
-       = form_tag controller: :users, action: :block  do
-        = hidden_field_tag :id, model.id
-        - if model.block == true
-          = hidden_field_tag :block, "false"
-          h6 = submit_tag "Un-Block", data: {confirm: "Are you sure?"}
-        - else
-          = hidden_field_tag :block, "true"
-          h6 = submit_tag "Block", data: {confirm: "Are you sure?"}
+        = delete
+.row
+  - if current_user.email == "admin@email.com"
+     = form_tag controller: :users, action: :block  do
+      = hidden_field_tag :id, model.id
+      - if model.block == true
+        = hidden_field_tag :block, "false"
+        h6 = submit_tag "Un-Block", data: {confirm: "Are you sure?"}
+      - else
+        = hidden_field_tag :block, "true"
+        h6 = submit_tag "Block", data: {confirm: "Are you sure?"}
+
+.row style="margin-top: 40px;"
+  .col-sm-12
+    h3 Comapny details
+hr style="margin-top: 0px;"
