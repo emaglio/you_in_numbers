@@ -1,51 +1,58 @@
 ul class="nav navbar-top-links navbar-right"
-  li class="dropdown"
+  - if current_user != nil
+    li
+      | Hi, #{name}
+    li
+      = link_to "User Settings", user_path(current_user.id)
+    li
+      = link_to "Sign Out", sign_out_sessions_path
+
+  /li class="dropdown"
     a class="dropdown-toggle" data-toggle="dropdown" href="#"
       i class="fa fa-envelope fa-fw"
       i class="fa fa-caret-down"
-
     ul class="dropdown-menu dropdown-messages"
-        li
-          a href="#"
-            .
-              strong
-                | John Smith
-              span class="pull-right text-muted"
-                em
-                  | Yesterday
-            .
-              | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...
-        li class="divider"
-        li
-          a href="#"
-            .
-              strong
-                | John Smith
-              span class="pull-right text-muted"
-                em
-                  | Yesterday
-            .
-              | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...
-        li class="divider"
-        li
-          a href="#"
-            .
-              strong
-                | John Smith
-              span class="pull-right text-muted"
-                em
-                  | Yesterday
-            .
-              | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...
-        li class="divider"
-        li
-          a class="text-center" href="#"
-              strong
-                | Read All Messages
-              .i class="fa fa-angle-right"
+      li
+        a href="#"
+          .
+            strong
+              | John Smith
+            span class="pull-right text-muted"
+              em
+                | Yesterday
+          .
+            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...
+      li class="divider"
+      li
+        a href="#"
+          .
+            strong
+              | John Smith
+            span class="pull-right text-muted"
+              em
+                | Yesterday
+          .
+            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...
+      li class="divider"
+      li
+        a href="#"
+          .
+            strong
+              | John Smith
+            span class="pull-right text-muted"
+              em
+                | Yesterday
+          .
+            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...
+      li class="divider"
+      li
+        a class="text-center" href="#"
+            strong
+              | Read All Messages
+            .i class="fa fa-angle-right"
     <!-- /.dropdown-messages -->
   <!-- /.dropdown -->
-  li class="dropdown"
+  /li class="dropdown"
       a class="dropdown-toggle" data-toggle="dropdown" href="#"
           i class="fa fa-tasks fa-fw"
           i class="fa fa-caret-down"
@@ -111,7 +118,7 @@ ul class="nav navbar-top-links navbar-right"
               | See All Tasks
               i class="fa fa-angle-right"
       <!-- /.dropdown-tasks -->
-  li class="dropdown"
+  /li class="dropdown"
     a class="dropdown-toggle" data-toggle="dropdown" href="#"
       i class="fa fa-bell fa-fw"
       i class="fa fa-caret-down"
@@ -162,7 +169,7 @@ ul class="nav navbar-top-links navbar-right"
             | See All Alerts
             i class="fa fa-angle-right"
     <!-- /.dropdown-alerts -->
-  li class="dropdown"
+  /li class="dropdown"
     a class="dropdown-toggle" data-toggle="dropdown" href="#"
       i class="fa fa-user fa-fw"
       i class="fa fa-caret-down"
@@ -170,7 +177,7 @@ ul class="nav navbar-top-links navbar-right"
       li
         a href="#"
           i class="fa fa-user fa-fw"
-          = link_to "User Settings", user_path(current_user.id)
+
       li
         a href="#"
           i class="fa fa-gear fa-fw"

@@ -6,6 +6,10 @@ module RailsBootstrap::Cell
       options[:context][:current_user]
     end
 
+    def name
+      current_user.firstname ? current_user.firstname : current_user.email
+    end
+
   end # class TopNavigation
 
 end # module RailsBootstrao
