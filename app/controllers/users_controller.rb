@@ -64,7 +64,7 @@ class UsersController < ApplicationController
 
   def get_new_password
     run Tyrant::GetNewPassword
-    render Tyrant::Cell::ChangePassword, result["contract.default"]
+    render User::Cell::ChangePassword, result["contract.default"]
   end
 
   def change_password
@@ -73,7 +73,7 @@ class UsersController < ApplicationController
       return redirect_to user_path(tyrant.current_user)
     end
 
-    render Tyrant::Cell::ChangePassword, result["contract.default"]
+    render User::Cell::ChangePassword, result["contract.default"]
   end
 
   def block
