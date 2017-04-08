@@ -1,0 +1,33 @@
+.row
+  .col-sm-12
+    h3 Account details
+hr style="margin-top: 0px;"
+
+.row style="margin-top: 40px;"
+  .col-sm-1
+  .col-sm-6.mybox
+    = trb_form_for(model, "/companies", method: :post, builder: :bootstrap4, id: :new_company) do |f|
+      = f.input :user_id, value: current_user.id, type: "hidden"
+      .row
+        .col-sm-6
+          = f.input :firstname, placeholder: "Firstname"
+        .col-sm-6
+          = f.input :lastname, placeholder: "Lastname"
+      .row
+        .col-sm-4
+          = f.select :gender, placeholder: "Gender", collection: [["Male"], ["Female"], ["You"]]
+        .col-sm-6
+          = f.input :phone, placeholder: "Phone"
+        .col-sm-2
+          = f.input :age, placeholder: "Age"
+      .row
+        .col-sm-12
+          = f.input :email, placeholder: "Email"
+      .row
+        .col-sm-6
+          = f.input :password, placeholder: "Password", type: "password"
+        .col-sm-6
+          = f.input :confirm_password, placeholder: "Confirm Password", type: "password"
+      .row
+        .col-sm-12.text-center
+          = f.submit(value: "Submit")

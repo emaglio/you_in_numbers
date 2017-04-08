@@ -50,3 +50,9 @@ hr style="margin-top: 0px;"
   .col-sm-12
     h3 Comapny details
 hr style="margin-top: 0px;"
+
+- if company == nil
+  h6 Your company details has not been set!
+  = new_company
+- else
+  = cell ("company/cell/show"), model: company

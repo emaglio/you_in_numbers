@@ -28,6 +28,16 @@ module User::Cell
       end
     end
 
+    def company
+      Company.find_by(user_id: model.id)
+    end
+
+    def new_company
+      if current_user.email == model.email or current_user.email == "admin@email.com"
+        button_to "Update details", new_company_path, class: "btn btn-outline btn-success", :method => :get
+      end
+    end
+
 
   end
 end

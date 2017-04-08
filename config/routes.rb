@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   root to: 'reports#welcome'
-  
+
   resources :users do
     collection do
       post 'reset_password'
@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       post 'block'
     end
   end
-  
+
   resources :reports do
     collection do
       post :welcome
@@ -23,5 +23,7 @@ Rails.application.routes.draw do
       get 'sign_out'
     end
   end
+
+  resources :companies
 
 end
