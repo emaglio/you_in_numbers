@@ -1,5 +1,5 @@
 class Session::Policy
-  
+
   def initialize(user, model)
     @user = user
     @model = model
@@ -9,7 +9,7 @@ class Session::Policy
     true
   end
 
-  def post_owner?
+  def report_company_owner?
     return unless @user
     @user.id == @model.user_id
   end
@@ -19,7 +19,7 @@ class Session::Policy
     @user.email == "admin@email.com"
   end
 
-  def update_delete_post?
+  def update_delete_report?
     post_owner? or admin?
   end
 

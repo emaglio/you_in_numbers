@@ -4,9 +4,9 @@
 hr style="margin-top: 0px;"
 
 .row style="margin-top: 40px;"
-  .col-sm-1
+  .col-sm-3
   .col-sm-6.mybox
-    = trb_form_for(model, "/companies", method: :post, builder: :bootstrap4, id: :new_company) do |f|
+    = trb_form_for(model, "/companies/#{model.id}", method: :patch, builder: :bootstrap4, id: :new_company) do |f|
       = f.input :user_id, value: current_user.id, type: "hidden"
       .row
         .col-sm-12
@@ -25,15 +25,12 @@ hr style="margin-top: 0px;"
         .col-sm-4
           = f.input :country, placeholder: "Country"
       .row
-        .col-sm-2
-        .col-sm-8
-          = f.input :email, placeholder: "Email"
-      .row
-        .col-sm-1
-        .col-sm-5
+        .col-sm-4
           = f.input :phone, placeholder: "Phone"
-        .col-sm-5
+        .col-sm-4
+          = f.input :email, placeholder: "Email"
+        .col-sm-4
           = f.input :website, placeholder: "Website"
       .row style="margin-bottom: 20px;"
         .col-sm-12.text-center
-          = f.submit(value: "Submit")
+          = f.submit(value: "Save Changes")

@@ -38,6 +38,10 @@ class ApplicationController < ActionController::Base
           )
   end
 
+  def current_user
+    tyrant.current_user
+  end
+
 
 private
   def _run_options(options)

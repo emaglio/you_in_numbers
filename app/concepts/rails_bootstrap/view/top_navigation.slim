@@ -1,7 +1,7 @@
 ul class="nav navbar-top-links navbar-right"
   - if current_user != nil
     li
-      | Hi, #{name}
+      = name_link
     li
       = link_to "User Settings", user_path(current_user.id)
     li
