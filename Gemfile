@@ -50,3 +50,4 @@ gem 'reform', '>= 2.3.0.rc1'
 gem 'reform-rails', '>= 0.2.0.rc1'
 
 gem 'pony'
+gem 'paperdragon'

@@ -28,6 +28,10 @@ class Session::Policy
     @user.email == @model.email
   end
 
+  def signed_in?
+    @user
+  end
+
   def show_block_user?
     current_user? or admin?
   end

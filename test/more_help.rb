@@ -1,5 +1,5 @@
 class GetData
-  
+
   def is_number?(string)
     true if Float(string) rescue false
   end
@@ -10,8 +10,8 @@ class GetData
     rows = 0
     sheet_name = ""
     file.each_with_pagename do |name, sheet|
-      if sheet.last_row > rows 
-        rows = sheet.last_row 
+      if sheet.last_row > rows
+        rows = sheet.last_row
         sheet_name = name
       end
     end
@@ -22,7 +22,7 @@ class GetData
 
   # find list of column index for all the parameters
   def cpet_params(file)
-    cpet_params = {"t" => [], "time" => [], "Rf" => [], "VE" => [], "VO2" => [], "VCO2" => [], 
+    cpet_params = {"t" => [], "time" => [], "Rf" => [], "VE" => [], "VO2" => [], "VCO2" => [],
               "RQ" => [], "VE/VO2" => [], "HR" => [], "VO2/Kg" => [], "FAT%" => [], "CHO%" => [],
               "Power" => [], "Revolution" => [], "Phase" => []
               }
@@ -51,7 +51,7 @@ class GetData
       i = 0
       cpet_params.each do |key, value|
         value = nil
-        if (key == "t" or key == "time" or key == "Phase") 
+        if (key == "t" or key == "time" or key == "Phase")
           # I need strings for Phase and time
           value = file.formatted_value(row, params_col[i]+1) if params_col[i] != nil
           cpet_params[key] << value if value != nil

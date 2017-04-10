@@ -24,11 +24,17 @@ module Company::Contract
           ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
         end
 
+        def number?
+          true if Float(form.postcode) rescue false
+        end
+
       end
 
       # TODO: add limit in lenght maybe and format email check if present
+      required(:user_id).filled
       required(:name).filled
       required(:email).maybe(:email?)
+      required(:postcode).maybe(:number?)
     end
   end
 end
