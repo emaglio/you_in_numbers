@@ -14,6 +14,12 @@ module Company::Contract
     property :email
     property :website
     property :user_id
+    property :logo, virtual: true
+
+    extend Paperdragon::Model::Writer
+    processable_writer :logo
+
+    property :logo_meta_data
 
     validation  with: { form: true } do
       configure do
@@ -25,12 +31,15 @@ module Company::Contract
         end
 
         def number?
+          return true if form.postcode == ''
           true if Float(form.postcode) rescue false
         end
 
       end
 
-      # TODO: add limit in lenght maybe and format email check if present
+      # TODO: add limit in lenght maybe
+      # TODO: add file validations
+
       required(:user_id).filled
       required(:name).filled
       required(:email).maybe(:email?)

@@ -4,7 +4,7 @@
 hr style="margin-top: 0px;"
 
 .row style="margin-top: 40px;"
-  .col-sm-1
+  .col-sm-3
   .col-sm-6.mybox
     = trb_form_for(model, "/companies", method: :post, builder: :bootstrap4, id: :new_company) do |f|
       = f.input :user_id, value: current_user.id, type: "hidden"
@@ -34,6 +34,9 @@ hr style="margin-top: 0px;"
           = f.input :phone, placeholder: "Phone"
         .col-sm-5
           = f.input :website, placeholder: "Website"
+      .row
+        .col-sm-12
+          = f.input :logo, label: "Upload Logo", type: "file"
       .row style="margin-bottom: 20px;"
         .col-sm-12.text-center
           = f.submit(value: "Submit")

@@ -33,6 +33,14 @@ class CompanyOperationTest < MiniTest::Spec
 
   end
 
+  it "wrong input" do
+    user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
+    user.success?.must_equal true
+
+    result = Company::Create.({}, "current_user" => user)
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:user_id=>[\"must be filled\"], :name=>[\"must be filled\"]}"
+  end
+
   it "only the Company's owner can edit it" do
     user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})["model"]
     user2 = User::Create.({email: "test2@email.com", password: "password", confirm_password: "password"})["model"]

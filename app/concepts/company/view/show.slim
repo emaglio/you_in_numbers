@@ -1,5 +1,10 @@
 .row style="margin-top: 40px;"
-  .col-sm-3
+  .col-sm-3.text-center
+    - if logo.exists?
+      .img src: logo.[:thumb].url, class: "logo"
+    - else
+      = "No logo"
+      = upload_logo
   .col-sm-6.mybox
     = trb_form_for(model, "/companies/#{model.id}", method: :patch, builder: :bootstrap4, id: :new_company) do |f|
       = f.input :user_id, value: current_user.id, type: "hidden"

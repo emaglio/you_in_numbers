@@ -1,0 +1,6 @@
+# Logfile created on 2017-04-10 10:39:47 +1000 by logger.rb/47272
+D, [2017-04-10T10:39:47.158448 #2012] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170410-2012-r22ozn'
+D, [2017-04-10T10:41:08.467480 #2012] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170410-2012-nc0150'
+D, [2017-04-10T10:48:54.170896 #2012] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170410-2012-6wfkex'
+D, [2017-04-10T10:59:33.947500 #2012] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170410-2012-1v613sq'
+D, [2017-04-10T11:00:06.220338 #2012] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170410-2012-1vp96x5'
