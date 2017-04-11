@@ -29,7 +29,7 @@ class CompaniesController < ApplicationController
 
   def update
     run Company::Update do |result|
-      flash[:notice] = "Company details updated!"
+      flash[:success] = "Company details updated!"
       return redirect_to "/users/#{result["model"].user_id}"
     end
 

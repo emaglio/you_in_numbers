@@ -30,7 +30,9 @@ html lang = "en"
     . id="wrapper"
       = cell('rails_bootstrap/cell/navigation')
 
+
       . id="page-wrapper"
+        = cell('rails_bootstrap/cell/message')
         = yield
 
         = cell('rails_bootstrap/cell/footer')

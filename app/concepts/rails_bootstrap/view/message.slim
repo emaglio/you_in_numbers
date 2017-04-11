@@ -1,10 +1,9 @@
-.col-sm-3
-.col-sm-6
+.col-sm-4
+.col-sm-4.text-center
   - context[:flash].each do |name, msg|
     - if msg.is_a?(String)
-      div class="alert-box round #{name.to_s == 'notice' ? 'success' : 'alert'}"
-        div class="flash_#{name}"
-          h6
-            = content_tag :div, msg
-.col-sm-3
-        
+      div class="alert alert-#{name.to_s}"
+        strong
+          = content_tag :div, msg
+.col-sm-4
+
