@@ -30,5 +30,12 @@ class ReportsController < ApplicationController
     render Report::Cell::Show, result["model"]
   end
 
+  def destroy
+    run Report::Delete do
+      flash[:success] = "Report deleted!"
+      return redirect_to "/reports"
+    end
+  end
+
 
 end

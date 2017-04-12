@@ -1,4 +1,6 @@
-class Report::New < Trailblazer::Operation 
+class Report::New < Trailblazer::Operation
   step Model(Report, :new)
-  step Contract::Build(constant: Report::Contract::New)    
+  step Policy::Pundit( ::Session::Policy, :signed_in?)
+  failure Session::Lib::ThrowException
+  step Contract::Build(constant: Report::Contract::New)
 end
