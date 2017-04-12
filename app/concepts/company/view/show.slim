@@ -1,7 +1,7 @@
 .row style="margin-top: 40px;"
   .col-sm-3.text-center
     - if logo.exists?
-      .img src: logo.[:thumb].url, class: "logo"
+      = image_tag model.logo[:thumb].url
     - else
       = "No logo"
       = upload_logo
