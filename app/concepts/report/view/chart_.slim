@@ -1,0 +1,52 @@
+.div id = "container"
+  
+javascript:
+  Highcharts.chart('container', {
+
+    title: {
+        text: 'Solar Employment Growth by Sector, 2010-2016'
+    },
+
+    subtitle: {
+        text: 'Source: thesolarfoundation.com'
+    },
+
+    xAxis: {
+        categories: #{time},
+
+        plotBands: [{
+            color: '#FCFFC5',
+            from: #{exer_phase[0]},
+            to: #{exer_phase[1]}
+        }],
+        
+        plotLines: [{
+            color: '#FF0000',
+            width: 2,
+            value: #{at}
+        }],
+    },
+
+    yAxis: {
+        title: {
+            text: 'Number of Employees'
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    series: [{
+        name: 'VO2',
+        data: #{vo2}
+    }, {
+        name: 'VCO2',
+        data: #{vco2}
+    }]
+
+  });
+
+
+

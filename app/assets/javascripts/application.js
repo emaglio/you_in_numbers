@@ -18,4 +18,6 @@
 //= require js/bootstrap.min.js
 //= require_tree ../../../vendor/assets/datatable/js
 //= require metisMenu.min.js
-//= require js/highcharts.js
+//= require moment.min.js
+//= require Chart.js
+//= require utils.js

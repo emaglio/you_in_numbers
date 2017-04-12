@@ -4,10 +4,10 @@ module Report::Cell
 
   end
 
-  class Chart < Trailblazer::Cell 
+  class Chart < Trailblazer::Cell
 
     def title
-      "VO2 and VCO2 on time"
+      "'VO2 and VCO2 on time'"
     end
 
     def vo2

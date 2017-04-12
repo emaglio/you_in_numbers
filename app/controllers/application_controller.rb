@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ApplicationController::NotAuthorizedError do
-    flash[:alert] = "You are not authorized mate!"
+    flash[:danger] = "You are not authorized mate!"
     redirect_to reports_path
   end
 

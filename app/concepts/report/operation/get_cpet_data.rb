@@ -13,8 +13,8 @@ class Report::GetCpetData < Trailblazer::Operation
     rows = 0
     sheet_name = ""
     cpet_file.each_with_pagename do |name, sheet|
-      if sheet.last_row > rows 
-        rows = sheet.last_row 
+      if sheet.last_row > rows
+        rows = sheet.last_row
         sheet_name = name
       end
     end
@@ -23,7 +23,7 @@ class Report::GetCpetData < Trailblazer::Operation
   end
 
   def cpet_params!(options, cpet_file:, **)
-    cpet_params = { "t" => [], "time" => [], "Rf" => [], "VE" => [], "VO2" => [], "VCO2" => [], 
+    cpet_params = { "t" => [], "time" => [], "Rf" => [], "VE" => [], "VO2" => [], "VCO2" => [],
                     "RQ" => [], "VE/VO2" => [], "HR" => [], "VO2/Kg" => [], "FAT%" => [], "CHO%" => [],
                     "Power" => [], "Revolution" => [], "Phase" => []
                   }
@@ -52,7 +52,7 @@ class Report::GetCpetData < Trailblazer::Operation
       i = 0
       cpet_params.each do |key, value|
         value = nil
-        if (key == "t" or key == "time" or key == "Phase") 
+        if (key == "t" or key == "time" or key == "Phase")
           # I need strings for Phase and time
           value = cpet_file.formatted_value(row, params_col[i]+1) if params_col[i] != nil
           cpet_params[key] << value if value != nil
@@ -74,5 +74,5 @@ private
   def is_number?(string)
     true if Float(string) rescue false
   end
-  
+
 end
