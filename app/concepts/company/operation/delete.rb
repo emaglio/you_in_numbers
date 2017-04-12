@@ -7,7 +7,7 @@ class Company::Delete < Trailblazer::Operation
 
   def delete_logo!(options, model:, **)
     return true if model.logo_meta_data == nil
-    model.logo! do |v|
+    model.logo do |v|
       v.delete!
     end
   end
