@@ -1,45 +1,106 @@
 body
-  . style="width:75%;"
+  . style="width:80%; margin-left:10px;"
       canvas id="canvas" style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
   br
   br
-  button id="randomizeData" Randomize Data
-  button id="addData" Add Data
-  button id="removeData" Remove Data
 
 javascript:
-    function getTimeString(time) {
-      return moment(time, 'mm:ss').format();
-    }
+  var color = Chart.helpers.color;
 
-    function getDataSet(time, yArray) {
-      var array_size = yArray.length - 1;
-      var data = new Array();
-      for(var i=0;i < array_size; i++) {
-        var obj = {
-                    x: getTimeString(time[i]),
-                    y: yArray[i]
-                  };
-        data.push(obj);
-      }
-      return data;
+  function getTimeString(time) {
+    return moment(time, 'mm:ss');
+  }
+
+  function getDataSet(time, yArray) {
+    var array_size = yArray.length - 1;
+    var data = new Array();
+    for(var i=0;i < array_size; i++) {
+      var obj = {
+                  x: getTimeString(time[i]),
+                  y: yArray[i]
+                };
+      data.push(obj);
     }
+    return data;
+  }
 
   var ctx = document.getElementById("canvas").getContext("2d");
-  var scatterChart = new Chart(ctx, {
-                                      type: 'line',
-                                      data: {
-                                          datasets: [{
-                                              label: 'Scatter Dataset',
-                                              data: getDataSet(#{time}, #{vo2})
-                                          }],
-                                      },
-                                      options: {
-                                          scales: {
-                                              xAxes: [{
-                                                  type: 'time',
-                                                  position: 'bottom'
-                                              }]
-                                          }
-                                      }
-                                      });
+
+  var originalLineDraw = Chart.controllers.line.prototype.draw;
+  Chart.helpers.extend(Chart.controllers.line.prototype, {
+    draw: function() {
+      originalLineDraw.apply(this, arguments);
+
+      var chart = this.chart;
+      var ctx = chart.chart.ctx;
+
+      var index = chart.config.data.lineAtIndex;
+      if (index) {
+        var xaxis = chart.scales['x-axis-0'];
+        var yaxis = chart.scales['y-axis-0'];
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(xaxis.getPixelForValue(undefined, index), yaxis.top + 24);
+        ctx.strokeStyle = '#ff0000';
+        ctx.lineTo(xaxis.getPixelForValue(undefined, index), yaxis.bottom);
+        ctx.stroke();
+        ctx.restore();
+
+        // write AT
+        ctx.textAlign = 'center';
+        ctx.fillText("AT", xaxis.getPixelForValue(undefined, index), yaxis.top + 14);
+      }
+    }
+  });
+
+
+  var config = {
+                type: 'line',
+                data: {
+                    datasets: [{
+                      backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+                      borderColor: window.chartColors.blue,
+                      fill: false,
+                      label: 'VO2',
+                      data: getDataSet(#{time}, #{vo2})
+                    },
+                    {
+                      backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                      borderColor: window.chartColors.red,
+                      fill: false,
+                      label: 'VCO2',
+                      data: getDataSet(#{time}, #{vco2})
+                    }],
+                    lineAtIndex: 50
+                },
+                options: {
+
+                  title : {
+                    display: true,
+                    text: 'VO2-VCO2 on time'
+                  },
+
+                  legend: {
+                    display: true,
+                    position: 'right'
+                  },
+
+                  scales: {
+                      xAxes: [{
+                          type: 'time',
+                          time: {
+                            unit: 'minute',
+                            displayFormats: {
+                              'second': 'mm:ss',
+                              'minute': 'mm:ss'
+                            },
+                            tooltipFormat: "mm:ss"
+                          },
+                          position: 'bottom'
+                      }]
+                  }
+                }
+              }
+
+  window.myLine = new Chart(ctx, config);
