@@ -24,3 +24,7 @@ D, [2017-04-12T17:03:41.639602 #2607] DEBUG -- : DRAGONFLY: shell command: 'iden
 D, [2017-04-12T17:31:28.873880 #3460] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/RackMultipart20170412-3460-1pl4fgo.jpeg'
 D, [2017-04-12T17:31:28.892729 #3460] DEBUG -- : DRAGONFLY: shell command: 'convert' '/tmp/RackMultipart20170412-3460-1pl4fgo.jpeg' '-resize' '120x120^^' '-gravity' 'Center' '-crop' '120x120+0+0' '+repage' '/tmp/dragonfly20170412-3460-sylefa.jpeg'
 D, [2017-04-12T17:31:28.992208 #3460] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170412-3460-sylefa.jpeg'
+D, [2017-04-18T14:13:16.503555 #2997] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/RackMultipart20170418-2997-14hohn6.jpeg'
+D, [2017-04-18T14:19:01.786936 #2997] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/RackMultipart20170418-2997-n3jyom.jpeg'
+D, [2017-04-18T14:19:01.868487 #2997] DEBUG -- : DRAGONFLY: shell command: 'convert' '/tmp/RackMultipart20170418-2997-n3jyom.jpeg' '-resize' '120x120^^' '-gravity' 'Center' '-crop' '120x120+0+0' '+repage' '/tmp/dragonfly20170418-2997-kaken8.jpeg'
+D, [2017-04-18T14:19:01.924513 #2997] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170418-2997-kaken8.jpeg'
