@@ -52,6 +52,20 @@ module Report::Cell
       array[1] = model["cpet_params"]["VCO2"].max
       return (array.max + 200).round(-2)
     end
+
+    def vo2_max_value
+      model["cpet_results"]["vo2_max"]["value"]
+    end
+
+    def vo2_max_starts
+      index = model["cpet_results"]["vo2_max"]["starts"] + model["cpet_results"]["exer_phase"]["starts"]
+      return model["cpet_params"]["t"][index].inspect
+    end
+
+    def vo2_max_ends
+      index = model["cpet_results"]["vo2_max"]["ends"] + model["cpet_results"]["exer_phase"]["starts"]
+      return model["cpet_params"]["t"][index].inspect
+    end
   end
 
 end

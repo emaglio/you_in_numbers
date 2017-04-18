@@ -51,7 +51,7 @@ class Report::GetCpetResults < Trailblazer::Operation
       if (sec(time_array[ends]) - sec(time_array[starts])) >= 30
         # check if the max value is in the range
         if max_index.between?(starts, ends)
-          break 
+          break
         else
           # move the range back in time
           ends -= 1
@@ -67,14 +67,14 @@ class Report::GetCpetResults < Trailblazer::Operation
     max_value = ((exer_array[starts, ends-starts+1].sum).to_f / (ends-starts+1).to_f).round
 
     # as max point I use the end of the 30 seconds range
-    vo2_max = {"index" => ends, "value" => max_value}
+    vo2_max = {"index" => ends, "value" => max_value, "starts" => starts, "ends" => ends}
 
     options["vo2_max"] = vo2_max
   end
 
   def find_training_zones!(options, exer_phase:, vo2_max:, **)
     vo2_array = options["VO2"][exer_phase["starts"], exer_phase["num_steps"]]
-    
+
     index_35 = getValueIndex(vo2_max["value"]*0.35, vo2_array, 0)
     index_50 = getValueIndex(vo2_max["value"]*0.50, vo2_array, index_35)
     index_51 = getValueIndex(vo2_max["value"]*0.51, vo2_array, index_50)
@@ -95,7 +95,7 @@ class Report::GetCpetResults < Trailblazer::Operation
       "91%" => index_91,
       "100%" => index_100
     }
-    
+
   end
 
   def cpet_results!(options, exer_phase:, at_index:, vo2_max:, training_zones:, **)
@@ -109,7 +109,7 @@ class Report::GetCpetResults < Trailblazer::Operation
 
 
 private
-  
+
   def sec(time)
     zero = Time.parse("00:00:00")
     # make sure that the time string has the same format hh:mm:ss
@@ -129,7 +129,7 @@ private
 
     while(row_index <= vo2.size and found == false) do
 
-      if vo2[row_index] > value 
+      if vo2[row_index] > value
         if count == 0
             check = row_index
             count += 1
@@ -142,12 +142,12 @@ private
           end
         end
       end
-        
+
       found = true if count == 3
-      
+
       row_index = row_index + 1
     end
-    
+
     return row_index-1
   end
 end

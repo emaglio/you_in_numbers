@@ -1,5 +1,5 @@
 body
-  . style="width:80%; margin-left:10px;"
+  . style="width:80%; margin-left: 10%;"
     canvas id="canvas" style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
   br
   br
@@ -59,7 +59,23 @@ javascript:
   var config = {
                 type: 'line',
                 data: {
-                    datasets: [{
+                    datasets: [
+                    {
+                      borderColor: "#020000",
+                      backgroundColor: "#020000",
+                      fill: false,
+                      label: 'VO2 Max',
+                      data:[{
+                              x: getTimeString(#{vo2_max_starts}),
+                              y: #{vo2_max_value}
+                            },
+                            {
+                              x: getTimeString(#{vo2_max_ends}),
+                              y: #{vo2_max_value}
+                            }
+                            ]
+                    },
+                    {
                       backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
                       borderColor: window.chartColors.blue,
                       fill: false,
@@ -74,7 +90,7 @@ javascript:
                       data: getDataSet(#{time}, #{vco2})
                     },
                     {
-                      backgroundColor: "#fff493",
+                      backgroundColor: "#f7edca",
                       label: 'Exercise Phase',
                       pointRadius: 0,
                       data:[{
