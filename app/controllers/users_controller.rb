@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   def create
     run User::Create do |result|
       tyrant.sign_in!(result["model"])
-      flash[:notice] = "Welcome #{get_name(result["model"])}!"
+      flash[:success] = "Welcome #{get_name(result["model"])}!"
       return redirect_to "/reports"
     end
     render User::Cell::New, result["contract.default"], layout_type: nil
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
 
   def update
     run User::Update do |result|
-      flash[:notice] = "New details saved"
+      flash[:success] = "New details saved"
       return redirect_to "/users/#{result["model"].id}"
     end
 
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
 
   def destroy
     run User::Delete do
-      flash[:alert] = "User deleted"
+      flash[:danger] = "User deleted"
       return redirect_to "/reports"
     end
 
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
 
   def reset_password
     run Tyrant::ResetPassword do
-      flash[:alert] = "Your password has been reset"
+      flash[:danger] = "Your password has been reset"
       return redirect_to "/sessions/new"
     end
 
@@ -69,7 +69,7 @@ class UsersController < ApplicationController
 
   def change_password
     run User::ChangePassword do
-      flash[:alert] = "The new password has been saved"
+      flash[:danger] = "The new password has been saved"
       return redirect_to user_path(tyrant.current_user)
     end
 
@@ -79,9 +79,9 @@ class UsersController < ApplicationController
   def block
     run User::Block do |result|
       if result["model"]["block"] == true
-        flash[:alert] = "#{get_name(result["model"])} has been blocked"
+        flash[:danger] = "#{get_name(result["model"])} has been blocked"
       else
-        flash[:alert] = "#{get_name(result["model"])} has been un-blocked"
+        flash[:danger] = "#{get_name(result["model"])} has been un-blocked"
       end
       redirect_to users_path
     end

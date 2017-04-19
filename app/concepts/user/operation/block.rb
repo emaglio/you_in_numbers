@@ -13,7 +13,7 @@ class User::Block < Trailblazer::Operation
     model[:block] = params[:block]
     model.save
   end
-  
+
   # def notify!(options, model:, **)
   #   Notification::User.({}, "email" => model.email, "type" => "block")
   # end

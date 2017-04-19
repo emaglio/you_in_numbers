@@ -8,7 +8,7 @@ class CompaniesController < ApplicationController
 
   def create
     run Company::Create do |result|
-      flash[:notice] = "Company details updated!"
+      flash[:success] = "Company details updated!"
       return redirect_to "/users/#{result["model"].user_id}"
     end
 
@@ -38,7 +38,14 @@ class CompaniesController < ApplicationController
 
   def destroy
     run Company::Delete do |result|
-      flash[:notice] = "Company deleted!"
+      flash[:success] = "Company deleted!"
+      return  redirect_to "/users/#{current_user.id}"
+    end
+  end
+
+  def delete_logo
+    run Company::DeleteLogo do
+      flash[:success] = "Company Logo deleted!"
       return  redirect_to "/users/#{current_user.id}"
     end
   end
