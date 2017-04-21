@@ -4,9 +4,58 @@
         h1 = model.title
 .row
   .col-lg-12
+    .text-right style="margin-bottom: 20px;"
+      button id="generate_report" class="btn btn-outline btn-success" Generate Report
     .panel.panel-default
       .panel.body
         = cell ('report/cell/chart'), model
     .panel.panel-defult
       .panel-body
         = cell ('report/cell/training_zones'), model
+
+javascript:
+
+   function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
+
+  document.getElementById('generate_report').addEventListener('click', function() {
+    var canvas = document.getElementById('canvas');
+    var image_type = 'image/jpeg'
+    var dataURL = canvas.toDataURL(image_type, 1.0);
+    var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
+
+    var file= b64toBlob(mybase64, image_type);
+    // Create new form data
+    var fd = new FormData();
+    // Append our Canvas image file to the form data
+    fd.append("image", file);
+    // And send it
+    $.ajax({
+       url: "/reports/#{model.id}/generate_pdf",
+       type: "POST",
+       data: fd,
+       processData: false,
+       contentType: false,
+    });
+  });

@@ -136,3 +136,8 @@ D, [2017-04-19T16:59:19.526745 #5110] DEBUG -- : DRAGONFLY: shell command: 'iden
 D, [2017-04-19T16:59:20.702968 #5110] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/home/emaglio/project/you_in_numbers/test/images/logo.jpeg'
 D, [2017-04-19T16:59:20.715041 #5110] DEBUG -- : DRAGONFLY: shell command: 'convert' '/home/emaglio/project/you_in_numbers/test/images/logo.jpeg' '-resize' '120x120^^' '-gravity' 'Center' '-crop' '120x120+0+0' '+repage' '/tmp/dragonfly20170419-5110-87rsno.jpeg'
 D, [2017-04-19T16:59:20.781798 #5110] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170419-5110-87rsno.jpeg'
+D, [2017-04-21T14:03:12.528123 #6148] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170421-6148-f8y7tt'
+D, [2017-04-21T14:06:22.176010 #3412] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/RackMultipart20170421-3412-1h5w5td.jpeg'
+D, [2017-04-21T14:06:22.395034 #3412] DEBUG -- : DRAGONFLY: shell command: 'convert' '/tmp/RackMultipart20170421-3412-1h5w5td.jpeg' '-resize' '120x120^^' '-gravity' 'Center' '-crop' '120x120+0+0' '+repage' '/tmp/dragonfly20170421-3412-195b5ec.jpeg'
+D, [2017-04-21T14:06:22.531712 #3412] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170421-3412-195b5ec.jpeg'
+D, [2017-04-21T14:18:18.040302 #6500] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170421-6500-12s72nn'

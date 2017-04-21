@@ -207,9 +207,13 @@ GEM
     paperdragon (0.0.11)
       dragonfly (~> 1.0.12)
       uber
+    pdf-core (0.7.0)
     pipetree (0.1.1)
     pony (1.11)
       mail (>= 2.0)
+    prawn (2.2.2)
+      pdf-core (~> 0.7.0)
+      ttfunk (~> 1.5)
     public_suffix (2.0.5)
     rack (1.6.5)
     rack-test (0.6.3)
@@ -298,6 +302,7 @@ GEM
       reform-rails (>= 0.1.4, < 0.2.0)
       trailblazer (>= 2.0.0, < 2.1.0)
       trailblazer-loader (>= 0.1.0)
+    ttfunk (1.5.1)
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
@@ -339,6 +344,7 @@ DEPENDENCIES
   minitest-rails-capybara
   paperdragon
   pony
+  prawn
   rails (= 4.2.6)
   rails_layout
   reform (>= 2.3.0.rc1)

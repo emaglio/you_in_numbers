@@ -1,7 +1,9 @@
 require 'roo'
+require 'pathname'
 
 class Report::GetCpetData < Trailblazer::Operation
   step :open_file!
+  failure Report::Lib::OpenFileException
   step :set_default_sheet!
   step :cpet_params!
 

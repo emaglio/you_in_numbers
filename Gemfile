@@ -51,3 +51,5 @@ gem 'reform-rails', '>= 0.2.0.rc1'
 
 gem 'pony'
 gem 'paperdragon'
+
+gem 'prawn'

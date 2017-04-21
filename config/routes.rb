@@ -16,6 +16,10 @@ Rails.application.routes.draw do
     collection do
       post :welcome
     end
+
+    member do
+      post :generate_pdf
+    end
   end
 
   resources :sessions do

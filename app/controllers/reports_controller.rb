@@ -37,5 +37,8 @@ class ReportsController < ApplicationController
     end
   end
 
+  def generate_pdf
+    raise
+  end
 
 end
