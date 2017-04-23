@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   def create
     run Session::SignIn do |result|
       tyrant.sign_in!(result["model"])
-      flash[:notice] = "Hey mate, welcome back!"
+      flash[:success] = "Hey mate, welcome back!"
       return redirect_to "/reports"
     end
     render Session::Cell::SignIn, result["contract.default"], layout_type: nil
@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
   def sign_out
     run Session::SignOut do
       tyrant.sign_out!
-      flash[:notice] = "See ya!"
+      flash[:success] = "See ya!"
       redirect_to root_path
     end
   end

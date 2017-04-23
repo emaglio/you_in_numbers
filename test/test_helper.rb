@@ -11,6 +11,7 @@ Minitest::Spec.class_eval do
   after :each do
     # DatabaseCleaner.clean
     ::User.delete_all
+    ::Company.delete_all
   end
 
   def admin_for
@@ -20,8 +21,8 @@ Minitest::Spec.class_eval do
   def get_data_sheet(file)
     rows = 0
     file.each_with_pagename do |name, sheet|
-      if sheet.last_row > rows 
-        rows = sheet.last_row 
+      if sheet.last_row > rows
+        rows = sheet.last_row
         sheet_name = name
       end
     end
@@ -65,8 +66,8 @@ Trailblazer::Test::Integration.class_eval do
   end
 
   def log_in_as_admin
-    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin")["model"] unless User.find_by(email: "admin@email.com") != nil 
-    
+    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin")["model"] unless User.find_by(email: "admin@email.com") != nil
+
     visit "sessions/new"
     submit!("admin@email.com", "password")
   end
@@ -115,9 +116,9 @@ Trailblazer::Test::Integration.class_eval do
   end
 end
 
-# to test that a new password "NewPassword" is actually saved 
+# to test that a new password "NewPassword" is actually saved
 #in the auth_meta_data of User for integration tests
-Tyrant::ResetPassword.class_eval do 
+Tyrant::ResetPassword.class_eval do
   def generate_password!(options, *)
     options["new_password"] = "NewPassword"
   end
@@ -125,8 +126,8 @@ end
 
 #to test the email notification to the user for the ResetPassword
 #for integration tests
-Tyrant::Mailer.class_eval do 
+Tyrant::Mailer.class_eval do
   def email_options!(options, *)
     Pony.options = {via: :test}
-  end  
+  end
 end

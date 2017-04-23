@@ -24,6 +24,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :companies
+  resources :companies do
+    member do
+      post 'delete_logo'
+    end
+  end
 
 end

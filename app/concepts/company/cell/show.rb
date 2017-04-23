@@ -18,8 +18,16 @@ module Company::Cell
       end
     end
 
-    def upload_logo
+    def delete_logo
+      if current_user.id == model.user_id
+        button_to "Remove Logo", delete_logo_company_path(model), method: :post, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger"
+      end
+    end
 
+    def upload_logo
+      if current_user.id == model.user_id
+        button_to "Upload Logo", edit_company_path(model), class: "btn btn-outline btn-success", :method => :get
+      end
     end
 
 

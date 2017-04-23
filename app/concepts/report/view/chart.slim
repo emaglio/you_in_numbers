@@ -1,6 +1,6 @@
 body
-  . style="width:80%; margin-left:10px;"
-      canvas id="canvas" style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
+  . style="width:80%; margin-left: 10%;"
+    canvas id="canvas" style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
   br
   br
 
@@ -34,34 +34,50 @@ javascript:
       var chart = this.chart;
       var ctx = chart.chart.ctx;
 
-      var index = chart.config.data.lineAtIndex;
-      if (index) {
+      var value = chart.config.data.lineAtValue;
+      if (value) {
         var xaxis = chart.scales['x-axis-0'];
         var yaxis = chart.scales['y-axis-0'];
 
         var from = xaxis.getPixelForValue(undefined, index);
         var to = xaxis.getPixelForValue(undefined, index);
+        var at_point = xaxis.getPixelForValue(value);
 
         ctx.save();
         ctx.beginPath();
-        ctx.moveTo(xaxis.getPixelForValue(undefined, index), yaxis.top + 24);
+        ctx.moveTo(at_point, yaxis.top + 20);
         ctx.strokeStyle = '#ff0000';
-        ctx.lineTo(xaxis.getPixelForValue(undefined, index), yaxis.bottom);
+        ctx.lineTo(at_point, yaxis.bottom);
         ctx.stroke();
         ctx.restore();
 
         // write AT
         ctx.textAlign = 'center';
-        ctx.fillText("AT", xaxis.getPixelForValue(undefined, index), yaxis.top + 14);
+        ctx.fillText("AT", at_point, yaxis.top + 5);
       }
     }
   });
 
-
   var config = {
                 type: 'line',
                 data: {
-                    datasets: [{
+                    datasets: [
+                    {
+                      borderColor: "#020000",
+                      backgroundColor: "#020000",
+                      fill: false,
+                      label: 'VO2 Max',
+                      data:[{
+                              x: getTimeString(#{vo2_max_starts}),
+                              y: #{vo2_max_value}
+                            },
+                            {
+                              x: getTimeString(#{vo2_max_ends}),
+                              y: #{vo2_max_value}
+                            }
+                            ]
+                    },
+                    {
                       backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
                       borderColor: window.chartColors.blue,
                       fill: false,
@@ -74,11 +90,25 @@ javascript:
                       fill: false,
                       label: 'VCO2',
                       data: getDataSet(#{time}, #{vco2})
+                    },
+                    {
+                      backgroundColor: "#f7edca",
+                      label: 'Exercise Phase',
+                      pointRadius: 0,
+                      data:[{
+                              x: getTimeString(#{exer_phase[0]}),
+                              y: #{y_exer_phase}
+                            },
+                            {
+                              x: getTimeString(#{exer_phase[1]}),
+                              y: #{y_exer_phase}
+                            }
+                            ]
                     }],
-                    lineAtIndex: 50
+                    lineAtValue: getTimeString(#{at_value})
                 },
                 options: {
-
+                  responsive: true,
                   title : {
                     display: true,
                     text: 'VO2-VCO2 on time'
