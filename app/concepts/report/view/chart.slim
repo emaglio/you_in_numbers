@@ -2,7 +2,6 @@ body
   . style="width:80%; margin-left: 10%;"
     canvas id="canvas" style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
   br
-  br
 
 javascript:
   var color = Chart.helpers.color;
@@ -25,6 +24,9 @@ javascript:
   }
 
   var ctx = document.getElementById("canvas").getContext("2d");
+
+  ctx.fillStyle = 'white';
+  ctx.fill();
 
   var originalLineDraw = Chart.controllers.line.prototype.draw;
   Chart.helpers.extend(Chart.controllers.line.prototype, {
@@ -107,6 +109,7 @@ javascript:
                 },
                 options: {
                   responsive: true,
+                  backgroundColor: "#ffffff",
                   title : {
                     display: true,
                     text: 'VO2-VCO2 on time'

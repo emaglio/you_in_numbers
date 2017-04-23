@@ -32,7 +32,9 @@ html lang = "en"
 
 
       . id="page-wrapper"
-        = cell('rails_bootstrap/cell/message')
-        = yield
+        .row
+          = cell('rails_bootstrap/cell/message')
+        .row
+          = yield
 
         = cell('rails_bootstrap/cell/footer')

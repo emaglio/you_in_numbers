@@ -141,3 +141,8 @@ D, [2017-04-21T14:06:22.176010 #3412] DEBUG -- : DRAGONFLY: shell command: 'iden
 D, [2017-04-21T14:06:22.395034 #3412] DEBUG -- : DRAGONFLY: shell command: 'convert' '/tmp/RackMultipart20170421-3412-1h5w5td.jpeg' '-resize' '120x120^^' '-gravity' 'Center' '-crop' '120x120+0+0' '+repage' '/tmp/dragonfly20170421-3412-195b5ec.jpeg'
 D, [2017-04-21T14:06:22.531712 #3412] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170421-3412-195b5ec.jpeg'
 D, [2017-04-21T14:18:18.040302 #6500] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170421-6500-12s72nn'
+W, [2017-04-23T17:04:22.577391 #5882]  WARN -- : DRAGONFLY: Dragonfly::FileDataStore destroy error: No such file or directory @ unlink_internal - public/images/original-logo_white_low_res.jpeg
+W, [2017-04-23T17:04:22.596423 #5882]  WARN -- : DRAGONFLY: Dragonfly::FileDataStore destroy error: No such file or directory @ unlink_internal - public/images/thumb-logo_white_low_res.jpeg
+D, [2017-04-23T17:04:42.902013 #5882] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/RackMultipart20170423-5882-90edo1.jpeg'
+D, [2017-04-23T17:04:43.248350 #5882] DEBUG -- : DRAGONFLY: shell command: 'convert' '/tmp/RackMultipart20170423-5882-90edo1.jpeg' '-resize' '120x120^^' '-gravity' 'Center' '-crop' '120x120+0+0' '+repage' '/tmp/dragonfly20170423-5882-1yojilv.jpeg'
+D, [2017-04-23T17:04:43.424252 #5882] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170423-5882-1yojilv.jpeg'

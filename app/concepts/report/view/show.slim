@@ -15,7 +15,7 @@
 
 javascript:
 
-   function b64toBlob(b64Data, contentType, sliceSize) {
+  function b64toBlob(b64Data, contentType, sliceSize) {
     contentType = contentType || '';
     sliceSize = sliceSize || 512;
 
@@ -39,11 +39,17 @@ javascript:
     return blob;
   }
 
+  function getAllElements(){
+
+  }
+
   document.getElementById('generate_report').addEventListener('click', function() {
     var canvas = document.getElementById('canvas');
-    var image_type = 'image/jpeg'
+    var image_type = 'image/png'
     var dataURL = canvas.toDataURL(image_type, 1.0);
     var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
+
+    console.log(dataURL);
 
     var file= b64toBlob(mybase64, image_type);
     // Create new form data

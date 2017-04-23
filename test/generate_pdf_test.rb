@@ -7,6 +7,7 @@ class Header
   def initialize(model)
     @model = model
     @logo_size = 80
+    @chart_size = 500
   end
 
   def write_details
@@ -29,6 +30,10 @@ class Header
 
   def write_logo
     image "#{Rails.root.join("test/images/logo.jpeg")}", :position => :left, :vposition => :top, :fit => [@logo_size,@logo_size]
+  end
+
+  def write_chart
+    image "#{Rails.root.join("public/temp_files/image.png")}", :fit => [@chart_size,@chart_size]
   end
 end
 
@@ -57,6 +62,7 @@ class GeneratePDF < MiniTest::Spec
     greeter = Header.new(company)
     greeter.write_details
     greeter.write_logo
+    greeter.write_chart
     greeter.save_as(path)
   end
 end

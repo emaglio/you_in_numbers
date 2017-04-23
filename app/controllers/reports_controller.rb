@@ -38,7 +38,9 @@ class ReportsController < ApplicationController
   end
 
   def generate_pdf
-    raise
+    file = File.open("#{Rails.root}/public/temp_files/image.jpeg", "wb")
+    file.write(params[:image].read)
+
   end
 
 end
