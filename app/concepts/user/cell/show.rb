@@ -38,6 +38,12 @@ module User::Cell
       end
     end
 
+    def update_settings
+      if current_user.email == model.email
+        button_to "Upload Report Settings", get_report_settings_user_path(model.id), class: "btn btn-outline btn-success", :method => :get
+      end
+    end
+
 
   end
 end

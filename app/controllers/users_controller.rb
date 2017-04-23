@@ -87,6 +87,30 @@ class UsersController < ApplicationController
     end
   end
 
+  def get_report_settings
+    run User::GetReportSettings
+
+    render User::Cell::GetReportSettings, result["contract.default"]
+  end
+
+  def report_settings
+    run User::ReportSettings do |result|
+      flash[:success] = "Report settings updated!"
+      return redirect_to "/users/#{result["model"].id}"
+    end
+
+    render User::Cell::GetReportSettings, result["contract.default"]
+  end
+
+  def delete_report_settings
+    run User::DeleteReportSettings do |result|
+      flash[:success] = "Report settings deleted!"
+      return redirect_to "/users/#{result["model"].id}"
+    end
+
+    render User::Cell::GetReportSettings, result["contract.default"]
+  end
+
 private
   def get_name(model)
     name = model.firstname

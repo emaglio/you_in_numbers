@@ -10,6 +10,12 @@ Rails.application.routes.draw do
       post 'change_password'
       post 'block'
     end
+
+    member do
+      get 'get_report_settings'
+      post 'report_settings'
+      post 'delete_report_settings'
+    end
   end
 
   resources :reports do

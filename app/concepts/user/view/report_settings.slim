@@ -1,0 +1,21 @@
+.row style="margin-top: 40px;"
+  .col-sm-3
+  .col-sm-6.mybox
+    .row
+      .col-sm-12 style="margin-top:10px;"
+        strong
+          | Params list
+        .row style="margin-left:5px;"
+          = model.content["params_list"]
+        .row style="width:80%;margin-left:5px;"
+          small
+            | List of all the params that are going to used in the website to generate charts and the report eventually.
+.row
+  .col-sm-3
+  .col-sm-6.text-center style="margin-top: 20px;"
+    - if current_user != nil
+      .col-sm-2
+      .col-sm-4
+        = edit
+      .col-sm-4
+        = delete
