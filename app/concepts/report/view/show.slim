@@ -8,10 +8,12 @@
       button id="generate_report" class="btn btn-outline btn-success" Generate Report
     .panel.panel-default
       .panel.body
-        = cell ('report/cell/chart'), model
-    .panel.panel-defult
-      .panel-body
-        = cell ('report/cell/training_zones'), model
+        .row
+          = cell ('report/cell/vo2max_summary'), model
+        .row style="margin-top:40px;"
+          = cell ('report/cell/training_zones'), model
+        .row style="margin-top:40px;"
+          = cell ('report/cell/chart'), model
 
 javascript:
 

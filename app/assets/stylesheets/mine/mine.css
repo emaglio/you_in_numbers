@@ -55,3 +55,38 @@
   font: bold 12px sans-serif;
   text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
 }
+
+
+.my-table{
+  font-size: 20px;
+}
+
+.my-table .header{
+  font-style: italic; font-weight: bold;
+}
+
+.my-table .row{
+  border-bottom: 2px solid black;
+}
+
+.my-table .first {
+  font-style: italic; font-weight: bold;
+}
+
+.my-table .second {
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+}
+
+.my-table .third {
+  border-right: 2px solid black;
+}
+
+.my-table .forth {
+  border-right: 2px solid black;
+}
+
+.my-table .text{
+  height: 30px;
+  margin-top: 10px;
+}
