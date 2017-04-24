@@ -2,14 +2,59 @@
   .col-sm-3
   .col-sm-6.mybox
     .row
-      .col-sm-12 style="margin-top:10px;"
-        strong
-          | Params list
-        .row style="margin-left:5px;"
-          = model.content["params_list"]
-        .row style="width:80%;margin-left:5px;"
-          small
-            | List of all the params that are going to used in the website to generate charts and the report eventually.
+      .col-sm-12 style="margin-top:10px;margin-bottom:10px;"
+        - if model.content["params_list"] != nil and model.content["params_list"] != ""
+          strong
+            | Params list
+          .row style="margin-left:5px;"
+            = model.content["params_list"]
+          .row style="width:80%;margin-left:5px;"
+            small
+              | List of all the params that are going to used in the website to generate charts and the report eventually.
+        - if model.content["training_zones_settings"] != nil
+          strong
+            | Training Zones Settings
+          .row
+            .col-sm-2
+            .col-sm-2.text-right
+              = "0 %"
+            .col-sm-4.text-center
+              strong
+                = "<- Fat Burning ->"
+            .col-sm-2.text-left
+              = model.content["training_zones_settings"][1].to_s + " %"
+            .col-sm-2
+          .row
+            .col-sm-2
+            .col-sm-2.text-right
+              = model.content["training_zones_settings"][2].to_s + " %"
+            .col-sm-4.text-center
+              strong
+                = "<- Endurance ->"
+            .col-sm-2.text-left
+              = model.content["training_zones_settings"][3].to_s + " %"
+            .col-sm-2
+          .row
+            .col-sm-2
+            .col-sm-2.text-right
+              = model.content["training_zones_settings"][4].to_s + " %"
+            .col-sm-4.text-center
+              strong
+                = "<- Anaerobic Threshold ->"
+            .col-sm-2.text-left
+              = model.content["training_zones_settings"][5].to_s + " %"
+            .col-sm-2
+          .row
+            .col-sm-2
+            .col-sm-2.text-right
+              = model.content["training_zones_settings"][6].to_s + " %"
+            .col-sm-4.text-center
+              strong
+                = "<- VO2 Max ->"
+            .col-sm-2.text-left
+              = "100 %"
+            .col-sm-2
+
 .row
   .col-sm-3
   .col-sm-6.text-center style="margin-top: 20px;"

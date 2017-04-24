@@ -7,12 +7,97 @@ hr style="margin-top: 0px;"
   .col-sm-3
   .col-sm-6.mybox
     = trb_form_for(model, "/users/#{model.id}/report_settings", method: :post, builder: :bootstrap4, id: :report_settings) do |f|
+      .row style="margin-top:10px; margin-left:1px;"
+        strong
+          | Parameter List
+      .row style="margin-top:10px;margin-left:1px;"
+        small
+          | Type the list of all the parameters that are going to used to import the data from the files.
+          |  Add the params as shown in the files for both VO2 and RMR test separated by a comma.
+        .col-sm-12
+          = f.input :params_list, placeholder: "t,VO2,VCO2,HR....", id:"params_list", value: params
+      .row style="margin-top:10px;margin-left:1px;"
+        strong
+          | Ergometer Parameters List
+      .row style="margin-top:10px;margin-left:1px;"
+        small
+          | Type 2 parameters for the ergometer as shown in the VO2max file (bike: Power and Revolution or treadmill: Speed and Grade).
+        .col-sm-6
+          = f.input :load_1, placeholder: "Power, Speed...", id:"load_1", value: ergo_params[0]
+        .col-sm-6
+          = f.input :load_2, placeholder: "Revolution, Grade...", id:"load_2", value: ergo_params[1]
+      .row style="margin-top:10px;margin-left:1px;"
+        strong
+          | Training Zones Levels
+      .row style="margin-left:1px;"
+        small
+          | Select 4 ranges between 0% and 100% of the VO2max value in order to have the 4 traning zones
+      .row style="margin-top:10px;"
+        .col-sm-2
+        .col-sm-2.text-right
+          = f.input :fat_burning_1, value: 35, readonly: "true"
+        .col-sm-4.text-center
+          strong
+            i class="fa fa-arrow-left"
+            = " Fat Burning "
+            i class="fa fa-arrow-right"
+        .col-sm-2.text-left
+          = f.select :fat_burning_2, collection: collection_array, id:"level2", selected: "true", value: training_zones[1].to_i
+        .col-sm-2
       .row
-        .col-sm-12 style="margin-top:10px;"
-          = f.input :params_list, label: "Params List", placeholder: "t,VO2,VCO2,HR...."
-          small
-            | Insert the list of all the params that are going to used in the website to generate charts and the report eventually.
-            |  Add the params as shown in the file that you are going to upload separated by a comma.
+        .col-sm-2
+        .col-sm-2.text-right
+          = f.select :endurance_1, collection: collection_array, id:"level3", selected: "true", value: training_zones[2].to_i
+        .col-sm-4.text-center
+          strong
+            i class="fa fa-arrow-left"
+            = " Endurance "
+            i class="fa fa-arrow-right"
+        .col-sm-2.text-left
+          = f.select :endurance_2, collection: collection_array, id:"level4", selected: "true", value: training_zones[3].to_i
+        .col-sm-2
+      .row
+        .col-sm-2
+        .col-sm-2.text-right
+          = f.select :at_1, collection: collection_array, id:"level5", selected: "true", value: training_zones[4].to_i
+        .col-sm-4.text-center
+          strong
+            i class="fa fa-arrow-left"
+            = " Anaerobic Threshold "
+            i class="fa fa-arrow-right"
+        .col-sm-2.text-left
+          = f.select :at_2, collection: collection_array, id:"level6", selected: "true", value: training_zones[5].to_i
+        .col-sm-2
+      .row
+        .col-sm-2
+        .col-sm-2.text-right
+          = f.select :vo2max_1, collection: collection_array, id:"level7", selected: "true", value: training_zones[6].to_i
+        .col-sm-4.text-center
+          strong
+            i class="fa fa-arrow-left"
+            = " VO2 Max "
+            i class="fa fa-arrow-right"
+        .col-sm-2.text-left
+          = f.input :vo2max_2, value: 100, disabled: "true"
+        .col-sm-2
       .row
         .col-sm-12.text-center style="margin-bottom:10px;"
           = f.submit(value:"Submit")
+    .row.text-right style="margin:5px;"
+      button id="default" Default settings
+
+javascript:
+
+  document.getElementById('default').addEventListener('click', function() {
+
+    document.getElementById('params_list').value = "t,Rf,VE,VO2,VCO2,RQ,VE/VO2,HR,VO2/Kg,FAT%,CHO%,Phase";
+    document.getElementById('load_1').value = "Power";
+    document.getElementById('load_2').value = "Revolution";
+    document.getElementById('level2').value = 50;
+    document.getElementById('level3').value = 51;
+    document.getElementById('level4').value = 75;
+    document.getElementById('level5').value = 76;
+    document.getElementById('level6').value = 90;
+    document.getElementById('level7').value = 91;
+
+  });

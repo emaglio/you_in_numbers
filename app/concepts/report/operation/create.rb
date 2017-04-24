@@ -7,8 +7,9 @@ class Report::Create < Trailblazer::Operation
   step Contract::Validate()
   step Contract::Persist()
   step Nested(Report::GetCpetData)
-  step Nested(Report::GetCpetResults, input: ->(options, cpet_params:, **) do
+  step Nested(Report::GetCpetResults, input: ->(options, cpet_params:, current_user:, **) do
                 options["cpet_params"] = cpet_params
+                options["current_user"] = current_user
               end)
 
   # step Nested(Report::GetRmrData)
@@ -22,5 +23,5 @@ class Report::Create < Trailblazer::Operation
     model.save
   end
 
-  
+
 end

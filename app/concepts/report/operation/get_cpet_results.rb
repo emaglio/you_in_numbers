@@ -72,16 +72,19 @@ class Report::GetCpetResults < Trailblazer::Operation
     options["vo2_max"] = vo2_max
   end
 
-  def find_training_zones!(options, exer_phase:, vo2_max:, **)
+  def find_training_zones!(options, current_user:, exer_phase:, vo2_max:, **)
     vo2_array = options["VO2"][exer_phase["starts"], exer_phase["num_steps"]]
 
-    index_35 = getValueIndex(vo2_max["value"]*0.35, vo2_array, 0)
-    index_50 = getValueIndex(vo2_max["value"]*0.50, vo2_array, index_35)
-    index_51 = getValueIndex(vo2_max["value"]*0.51, vo2_array, index_50)
-    index_75 = getValueIndex(vo2_max["value"]*0.75, vo2_array, index_51)
-    index_76 = getValueIndex(vo2_max["value"]*0.76, vo2_array, index_75)
-    index_90 = getValueIndex(vo2_max["value"]*0.90, vo2_array, index_76)
-    index_91 = getValueIndex(vo2_max["value"]*0.91, vo2_array, index_90)
+    # get training zones level from Report settings
+    level_array = current_user.content["training_zones_settings"]
+
+    index_35 = getValueIndex(vo2_max["value"]*(level_array[0]/100), vo2_array, 0)
+    index_50 = getValueIndex(vo2_max["value"]*(level_array[1]/100), vo2_array, index_35)
+    index_51 = getValueIndex(vo2_max["value"]*(level_array[2]/100), vo2_array, index_50)
+    index_75 = getValueIndex(vo2_max["value"]*(level_array[3]/100), vo2_array, index_51)
+    index_76 = getValueIndex(vo2_max["value"]*(level_array[4]/100), vo2_array, index_75)
+    index_90 = getValueIndex(vo2_max["value"]*(level_array[5]/100), vo2_array, index_76)
+    index_91 = getValueIndex(vo2_max["value"]*(level_array[6]/100), vo2_array, index_90)
     index_100 = getValueIndex(vo2_max["value"], vo2_array, index_91)
 
 

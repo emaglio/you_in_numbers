@@ -25,10 +25,16 @@ class Report::GetCpetData < Trailblazer::Operation
   end
 
   def cpet_params!(options, cpet_file:, **)
-    cpet_params = { "t" => [], "time" => [], "Rf" => [], "VE" => [], "VO2" => [], "VCO2" => [],
-                    "RQ" => [], "VE/VO2" => [], "HR" => [], "VO2/Kg" => [], "FAT%" => [], "CHO%" => [],
-                    "Power" => [], "Revolution" => [], "Phase" => []
-                  }
+    cpet_params = {}
+
+    # generate the cpet_params hash in base on Report settings
+    options["current_user"].content["params_list"].each do |key, value|
+      cpet_params[key] = []
+    end
+
+    options["current_user"].content["ergo_params_list"].each do |key, value|
+      cpet_params[key] = []
+    end
 
     params_header = cpet_file.row(1)
     params_col = []
