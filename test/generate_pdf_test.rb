@@ -39,31 +39,43 @@ end
 
 class GeneratePDF < MiniTest::Spec
 
-  it "description" do
-    user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})["model"]
+  # it "description" do
+  #   user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})["model"]
 
-    upload_logo = ActionDispatch::Http::UploadedFile.new({
-      :tempfile => File.new(Rails.root.join("test/images/logo.jpeg")),
-      :filename => "logo.jpeg",
-      :type => "image/jpeg"
-    })
+  #   upload_logo = ActionDispatch::Http::UploadedFile.new({
+  #     :tempfile => File.new(Rails.root.join("test/images/logo.jpeg")),
+  #     :filename => "logo.jpeg",
+  #     :type => "image/jpeg"
+  #   })
 
-    company = Company::Create.({ user_id: user.id, name: "My Company", address_1: "address 1", address_2: "address 2", city: "Freshwater", postcode: "2096", country: "Australia",
-                                  country: "Australia", email: "company@email.com", phone: "12345", website: "wwww.company.com.au"
-                                }, "current_user" => user)["model"]
+  #   company = Company::Create.({ user_id: user.id, name: "My Company", address_1: "address 1", address_2: "address 2", city: "Freshwater", postcode: "2096", country: "Australia",
+  #                                 country: "Australia", email: "company@email.com", phone: "12345", website: "wwww.company.com.au"
+  #                               }, "current_user" => user)["model"]
 
-    upload_file = ActionDispatch::Http::UploadedFile.new({
-      :tempfile => File.new(Rails.root.join("test/files/cpet.xlsx"))
-    })
-    # report = Report::Create.({user_id: user.id, title: "Report", cpet_file_path: upload_file}, "current_user" => user)["model"]
+  #   upload_file = ActionDispatch::Http::UploadedFile.new({
+  #     :tempfile => File.new(Rails.root.join("test/files/cpet.xlsx"))
+  #   })
+  #   # report = Report::Create.({user_id: user.id, title: "Report", cpet_file_path: upload_file}, "current_user" => user)["model"]
 
-    path = "./test/greetings.pdf"
+  #   path = "./test/greetings.pdf"
 
-    greeter = Header.new(company)
-    greeter.write_details
-    greeter.write_logo
-    greeter.write_chart
-    greeter.save_as(path)
+  #   greeter = Header.new(company)
+  #   greeter.write_details
+  #   greeter.write_logo
+  #   greeter.write_chart
+  #   greeter.save_as(path)
+  # end
+
+  it "some stuff" do
+    obj = OpenStruct.new(type: "chart", y1: "VO2", y2: "VCO2", x: "t", index: 0)
+    array_obj = []
+
+    (1..3).each do
+      array_obj << obj
+    end
+
+    puts array_obj.inspect
+    puts array_obj[0].type.inspect
   end
 end
 
