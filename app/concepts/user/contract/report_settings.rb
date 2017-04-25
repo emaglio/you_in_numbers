@@ -26,7 +26,9 @@ module User::Contract
 
     # user for the ergometer params
     property :load_1, virtual: true
+    property :load_1_um, virtual: true
     property :load_2, virtual: true
+    property :load_2_um, virtual: true
 
 
     unnest :training_zones_levels, from: :content

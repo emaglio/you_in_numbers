@@ -36,19 +36,26 @@ class Report::GetCpetData < Trailblazer::Operation
       cpet_params[key] = []
     end
 
+    # TODO: search in each row the cpet_params - generate error in case
     params_header = cpet_file.row(1)
     params_col = []
 
-    # TODO: needs to find the params with different format ex: VO2, Vo2, vo2
     cpet_params.each do |key, value|
       params_col << params_header.index(key)
     end
 
     # using the VO2 columns
     # TODO: check on params_col, heandle the situtation if params_index is nil
+
+    # search the time key
+    vo2_index = 0
+    cpet_params.each do |key, value|
+      key.downcase == "vo2" ? break : vo2_index += 1
+    end
+
     first_num = 0
     temp_array = []
-    temp_array = cpet_file.column(params_col[4])
+    temp_array = cpet_file.column(params_col[vo2_index])
 
     # find first number of the columns
     temp_array.each do |value|
@@ -60,7 +67,7 @@ class Report::GetCpetData < Trailblazer::Operation
       i = 0
       cpet_params.each do |key, value|
         value = nil
-        if (key == "t" or key == "time" or key == "Phase")
+        if (key.downcase == "t" or key.downcase == "time" or key.downcase == "phase")
           # I need strings for Phase and time
           value = cpet_file.formatted_value(row, params_col[i]+1) if params_col[i] != nil
           cpet_params[key] << value if value != nil

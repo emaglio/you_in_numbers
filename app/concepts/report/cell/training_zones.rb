@@ -2,22 +2,34 @@ module Report::Cell
 
   class TrainingZones < Trailblazer::Cell
 
+    def content
+      options[:context][:current_user].content
+    end
+
+    def zones_settings
+      content["training_zones_settings"] if content
+    end
+
+    def ergo_params
+      content["ergo_params_list"] if content
+    end
+
     def first_row_1
-      "Fat Burning (35-50% of VO2Max)"
+      "Fat Burning (" + zones_settings[0].to_s + "-" + zones_settings[1].to_s + "% of VO2Max)"
     end
 
     def first_row_2
-      "Endurance (51-75% of VO2Max)"
+      "Endurance (" + zones_settings[2].to_s + "-" + zones_settings[3].to_s + "% of VO2Max)"
     end
 
     def second_row_1
-      "Anaerobic Threshold (76-90% of VO2Max)"
+      "Anaerobic Threshold (" + zones_settings[4].to_s + "-" + zones_settings[5].to_s + "% of VO2Max)"
     end
 
     def second_row_2
-      "VO2max (91-100% of VO2Max)"
+      "VO2max (" + zones_settings[6].to_s + "-" + zones_settings[7].to_s + "% of VO2Max)"
     end
-    
+
     def hr
       hr = []
       hr_temp = []
@@ -25,7 +37,7 @@ module Report::Cell
       hr_array = model["cpet_params"]["HR"][model["cpet_results"]["exer_phase"]["starts"], model["cpet_results"]["exer_phase"]["num_steps"]]
 
       model["cpet_results"]["training_zones"].each do |key, index|
-        hr_temp << hr_array[index] 
+        hr_temp << hr_array[index]
       end
 
       i = 0
@@ -44,12 +56,12 @@ module Report::Cell
       load1_array = model["cpet_params"]["Power"][model["cpet_results"]["exer_phase"]["starts"], model["cpet_results"]["exer_phase"]["num_steps"]]
 
       model["cpet_results"]["training_zones"].each do |key, index|
-        load1_temp << load1_array[index] 
+        load1_temp << load1_array[index]
       end
 
       i = 0
       (1..4).each do
-        load1 << "Power (Watts) " + load1_temp[i].to_s + " - " + load1_temp[i+1].to_s
+        load1 << "#{ergo_params[0]} (#{ergo_params[1]}) " + load1_temp[i].to_s + " - " + load1_temp[i+1].to_s
         i += 2
       end
       return load1
@@ -62,12 +74,12 @@ module Report::Cell
       load2_array = model["cpet_params"]["Revolution"][model["cpet_results"]["exer_phase"]["starts"], model["cpet_results"]["exer_phase"]["num_steps"]]
 
       model["cpet_results"]["training_zones"].each do |key, index|
-        load2_temp << load2_array[index] 
+        load2_temp << load2_array[index]
       end
 
       i = 0
       (1..4).each do
-        load2 << "RPM " + load2_temp[i].to_s + " - " + load2_temp[i+1].to_s
+        load2 << "#{ergo_params[2]} (#{ergo_params[3]}) " + load2_temp[i].to_s + " - " + load2_temp[i+1].to_s
         i += 2
       end
       return load2

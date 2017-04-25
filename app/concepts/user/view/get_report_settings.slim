@@ -22,10 +22,16 @@ hr style="margin-top: 0px;"
       .row style="margin-top:10px;margin-left:1px;"
         small
           | Type 2 parameters for the ergometer as shown in the VO2max file (bike: Power and Revolution or treadmill: Speed and Grade).
-        .col-sm-6
-          = f.input :load_1, placeholder: "Power, Speed...", id:"load_1", value: ergo_params[0]
-        .col-sm-6
-          = f.input :load_2, placeholder: "Revolution, Grade...", id:"load_2", value: ergo_params[1]
+        .col-sm-1
+        .col-sm-3
+          = f.input :load_1, placeholder: "Power, Speed...", id:"load_1", value: ergo_params[0], label: "Load 1"
+        .col-sm-2
+          = f.input :load_1_um, placeholder: "Watt, km/h,...", id:"load_1_um", value: ergo_params[1], label: "Unit of mes."
+        .col-sm-1
+        .col-sm-3
+          = f.input :load_2, placeholder: "Revolution, Grade...", id:"load_2", value: ergo_params[2], label: "Load 2"
+        .col-sm-2
+          = f.input :load_2_um, placeholder: "RPM, %...", id:"load_2_um", value: ergo_params[3], label: "Unit of mes."
       .row style="margin-top:10px;margin-left:1px;"
         strong
           | Training Zones Levels
@@ -92,7 +98,9 @@ javascript:
 
     document.getElementById('params_list').value = "t,Rf,VE,VO2,VCO2,RQ,VE/VO2,HR,VO2/Kg,FAT%,CHO%,Phase";
     document.getElementById('load_1').value = "Power";
+    document.getElementById('load_1_um').value = "Watt";
     document.getElementById('load_2').value = "Revolution";
+    document.getElementById('load_2_um').value = "RPM";
     document.getElementById('level2').value = 50;
     document.getElementById('level3').value = 51;
     document.getElementById('level4').value = 75;

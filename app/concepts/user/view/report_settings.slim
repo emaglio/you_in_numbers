@@ -3,21 +3,48 @@
   .col-sm-6.mybox
     .row
       .col-sm-12 style="margin-top:10px;margin-bottom:10px;"
+
         - if model.content["params_list"] != nil and model.content["params_list"] != ""
-          strong
-            | Params list
+          .row style="margin-top:10px;margin-left:5px;"
+            strong
+              | Parameters list
           .row style="margin-left:5px;"
-            = model.content["params_list"]
+            = params
           .row style="width:80%;margin-left:5px;"
             small
-              | List of all the params that are going to used in the website to generate charts and the report eventually.
+              | List of all metabolic parameters used during the data import and report generation.
+
+        - if model.content["ergo_params_list"] != nil
+          .row style="margin-top:10px;margin-left:5px;"
+            strong
+              | Ergometer Parameters
+          .row style="width:80%;margin-left:5px;"
+            small
+              | Ergometer parameters used during the data importing and import generation.
+          .row
+            .col-sm-2
+            .col-sm-4
+              strong
+                | Load 1:
+              |  #{model.content["ergo_params_list"][0]}
+              small
+                |   (#{model.content["ergo_params_list"][1]})
+            .col-sm-4
+              strong
+                | Load 2:
+              |  #{model.content["ergo_params_list"][2]}
+              small
+                |   (#{model.content["ergo_params_list"][3]})
+            .col-sm-2
+
         - if model.content["training_zones_settings"] != nil
-          strong
-            | Training Zones Settings
+          .row style="margin-top:10px;margin-left:5px;"
+            strong
+              | Training Zones Settings
           .row
             .col-sm-2
             .col-sm-2.text-right
-              = "0 %"
+              = model.content["training_zones_settings"][0].to_s + " %"
             .col-sm-4.text-center
               strong
                 = "<- Fat Burning ->"
@@ -52,7 +79,7 @@
               strong
                 = "<- VO2 Max ->"
             .col-sm-2.text-left
-              = "100 %"
+              = model.content["training_zones_settings"][7].to_s + " %"
             .col-sm-2
 
 .row

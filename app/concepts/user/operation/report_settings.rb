@@ -16,12 +16,14 @@ class User::ReportSettings < Trailblazer::Operation
   def ergo_params_list!(options, params:, **)
     options["model"]["content"]["ergo_params_list"] = []
     options["model"]["content"]["ergo_params_list"] << params["load_1"].gsub(/\s+/, "")
+    options["model"]["content"]["ergo_params_list"] << params["load_1_um"].gsub(/\s+/, "")
     options["model"]["content"]["ergo_params_list"] << params["load_2"].gsub(/\s+/, "")
+    options["model"]["content"]["ergo_params_list"] << params["load_2_um"].gsub(/\s+/, "")
   end
 
   def training_zones_settings!(options, params:, model:, **)
     options["model"]["content"]["training_zones_settings"] = []
-    options["model"]["content"]["training_zones_settings"] << 0
+    options["model"]["content"]["training_zones_settings"] << 35
     options["model"]["content"]["training_zones_settings"] << params["fat_burning_2"].to_i
     options["model"]["content"]["training_zones_settings"] << params["endurance_1"].to_i
     options["model"]["content"]["training_zones_settings"] << params["endurance_2"].to_i

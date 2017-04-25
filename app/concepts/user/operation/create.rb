@@ -14,7 +14,7 @@ class User::Create < Trailblazer::Operation
 
   def default_report_settings!(options, model:, **)
     model["content"]["params_list"] = ["t", "Rf", "VE", "VO2", "VCO2", "RQ", "VE/VO2", "HR", "VO2/Kg", "FAT%", "CHO%", "Phase"]
-    model["content"]["ergo_params_list"] = ["Power", "Revolution"]
+    model["content"]["ergo_params_list"] = ["Power", "Watt", "Revolution", "RPM"]
     model["content"]["training_zones_settings"] = [35, 50, 51, 75, 76, 90, 91, 100]
   end
 
