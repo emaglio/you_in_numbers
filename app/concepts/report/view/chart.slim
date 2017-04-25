@@ -41,6 +41,8 @@ javascript:
         var xaxis = chart.scales['x-axis-0'];
         var yaxis = chart.scales['y-axis-0'];
 
+        var from = xaxis.getPixelForValue(undefined, index);
+        var to = xaxis.getPixelForValue(undefined, index);
         var at_point = xaxis.getPixelForValue(value);
 
         ctx.save();
