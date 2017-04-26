@@ -3,19 +3,40 @@ module Report::Cell
   class Chart < Trailblazer::Cell
 
     def title
-      "'VO2 and VCO2 on time'"
+      "'#{options[:obj][:y1]} and #{options[:obj][:y2]} on time'"
     end
 
-    def vo2
-      model["cpet_params"]["VO2"].inspect
+    def chart_id
+      "canvas-#{options[:obj][:index]}"
     end
 
-    def vco2
-      model["cpet_params"]["VCO2"].inspect
+    def label_1
+      options[:obj][:y1].inspect
     end
 
-    def time
-      model["cpet_params"]["t"].inspect
+    def label_2
+      options[:obj][:y2].inspect
+    end
+
+    def y1
+      model["cpet_params"][options[:obj][:y1]].inspect
+    end
+
+    def y2
+      model["cpet_params"][options[:obj][:y2]].inspect
+    end
+
+    def x
+      model["cpet_params"][options[:obj][:x]].inspect
+    end
+
+    def x_type
+      if options[:obj][:x].downcase == "t" or options[:obj][:x].downcase == "time"
+        type = "time".inspect
+      else
+        type = "".inspect
+      end
+      return type
     end
 
     def at_index
@@ -44,9 +65,9 @@ module Report::Cell
 
     def y_exer_phase #for exersice phase
       array = []
-      array[0] = model["cpet_params"]["VO2"].max
-      array[1] = model["cpet_params"]["VCO2"].max
-      return (array.max + 200).round(-2)
+      array[0] = model["cpet_params"][options[:obj][:y1]].max
+      array[1] = model["cpet_params"][options[:obj][:y2]].max
+      array.max > 1000 ? (array.max + 200).round(-2) : (array.max+20).round(-1)
     end
 
     def vo2_max_value

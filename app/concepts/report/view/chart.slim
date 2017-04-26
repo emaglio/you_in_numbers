@@ -1,15 +1,17 @@
 body
   . style="width:80%; margin-left: 10%;"
-    canvas id="canvas" style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
+    canvas id= chart_id style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
   br
 
 javascript:
   var color = Chart.helpers.color;
 
+  // get time format
   function getTimeString(time) {
     return moment(time, 'mm:ss');
   }
 
+  //generate obj to use in the scatter chart
   function getDataSet(time, yArray) {
     var array_size = yArray.length - 1;
     var data = new Array();
@@ -23,48 +25,20 @@ javascript:
     return data;
   }
 
-  var ctx = document.getElementById("canvas").getContext("2d");
+  var ctx = document.getElementById('#{chart_id}').getContext("2d");
 
-  ctx.fillStyle = 'white';
-  ctx.fill();
+  // set time option in case x is a time scale
+  function getTimeOptions(time_type){
+    var time_options = { unit: 'minute', displayFormats: { 'second': 'mm:ss', 'minute': 'mm:ss'},tooltipFormat: "mm:ss" };
 
-  var originalLineDraw = Chart.controllers.line.prototype.draw;
-  Chart.helpers.extend(Chart.controllers.line.prototype, {
-    draw: function() {
-      originalLineDraw.apply(this, arguments);
-
-      var chart = this.chart;
-      var ctx = chart.chart.ctx;
-
-      var value = chart.config.data.lineAtValue;
-      if (value) {
-        var xaxis = chart.scales['x-axis-0'];
-        var yaxis = chart.scales['y-axis-0'];
-
-        var from = xaxis.getPixelForValue(undefined, index);
-        var to = xaxis.getPixelForValue(undefined, index);
-        var at_point = xaxis.getPixelForValue(value);
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(at_point, yaxis.top + 20);
-        ctx.strokeStyle = '#ff0000';
-        ctx.lineTo(at_point, yaxis.bottom);
-        ctx.stroke();
-        ctx.restore();
-
-        // write AT
-        ctx.textAlign = 'center';
-        ctx.fillText("AT", at_point, yaxis.top + 5);
-      }
+    if(time_type == 'time'){
+      return time_options;
     }
-  });
+  }
 
-  var config = {
-                type: 'line',
-                data: {
-                    datasets: [
-                    {
+  // drow a line to show the VO2max line if required
+  function drawVO2max(){
+   var vo2_max = {
                       borderColor: "#000000",
                       backgroundColor: "#000000",
                       fill: false,
@@ -78,22 +52,14 @@ javascript:
                               y: #{vo2_max_value}
                             }
                             ]
-                    },
-                    {
-                      backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-                      borderColor: window.chartColors.blue,
-                      fill: false,
-                      label: 'VO2',
-                      data: getDataSet(#{time}, #{vo2})
-                    },
-                    {
-                      backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-                      borderColor: window.chartColors.red,
-                      fill: false,
-                      label: 'VCO2',
-                      data: getDataSet(#{time}, #{vco2})
-                    },
-                    {
+                    };
+    return vo2_max;
+
+  }
+
+  // draw a line to show the VO2max line if required
+  function drawExerPhase(){
+   var exer_phase = {
                       backgroundColor: "#f7edca",
                       label: 'Exercise Phase',
                       pointRadius: 0,
@@ -106,37 +72,122 @@ javascript:
                               y: #{y_exer_phase}
                             }
                             ]
-                    }],
-                    lineAtValue: getTimeString(#{at_value})
+                    };
+    return exer_phase;
+  }
+
+  // draw the line for the AT if required
+  function drawAT(bool){
+   var at_line = getTimeString(#{at_value});
+
+    if (bool){
+      return at_line;
+    }else{
+      return 0;
+    }
+  }
+
+  function generateParams(){
+    params = {
+                xAxisID: "x-axis-0",
+                yAxisID: "y-axis-1",
+                backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+                borderColor: window.chartColors.blue,
+                fill: false,
+                label: #{label_1},
+                data: getDataSet(#{x}, #{y1})
+              };
+    return params;
+  }
+
+
+  // generate the data array to pass to Chart
+  function dataSet(vo2, exer){
+    var dataset = new Array();
+    if(vo2){
+      dataset.push(drawVO2max());
+    }
+    var test = window.chartColors.blue;
+
+    params1 = {
+                xAxisID: "x-axis-0",
+                yAxisID: "y-axis-1",
+                backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+                borderColor: window.chartColors.blue,
+                fill: false,
+                label: #{label_1},
+                data: getDataSet(#{x}, #{y1})
+              };
+
+    params2 = {
+                xAxisID: "x-axis-0",
+                yAxisID: "y-axis-2",
+                backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                borderColor: window.chartColors.red,
+                fill: false,
+                label: #{label_2},
+                data: getDataSet(#{x}, #{y2})
+              };
+
+    dataset.push(params1);
+    dataset.push(params2);
+
+    if(exer){
+      dataset.push(drawExerPhase());
+    }
+    return dataset;
+  }
+
+  var config = {
+                type: 'line',
+                data: {
+                    datasets: dataSet(false,true),
+                    lineAtValue: drawAT(true)
                 },
                 options: {
                   responsive: true,
-                  backgroundColor: "#ffffff",
                   title : {
                     display: true,
-                    text: 'VO2-VCO2 on time'
+                    text: #{title}
                   },
+
+
+                  scales: {
+                      yAxes: [{
+                              type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                              display: true,
+                              position: "left",
+                              id: "y-axis-1",
+                              scaleLabel: {
+                                            display: true,
+                                            labelString: #{label_1},
+                                          },
+                              }, {
+                                  type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                                  display: true,
+                                  position: "right",
+                                  id: "y-axis-2",
+                                  scaleLabel: {
+                                            display: true,
+                                            labelString: #{label_2},
+                                          },
+                                  gridLines: {
+                                    drawOnChartArea: false, // only want the grid lines for one axis to show up
+                                  }
+                              }],
+                      xAxes: [{
+                                type: #{x_type},
+                                time: getTimeOptions(#{x_type}),
+                                position: 'bottom'
+                              }]
+                          },
 
                   legend: {
                     display: true,
-                    position: 'right'
-                  },
-
-                  scales: {
-                      xAxes: [{
-                          type: 'time',
-                          time: {
-                            unit: 'minute',
-                            displayFormats: {
-                              'second': 'mm:ss',
-                              'minute': 'mm:ss'
-                            },
-                            tooltipFormat: "mm:ss"
-                          },
-                          position: 'bottom'
-                      }]
+                    position: 'top'
                   }
                 }
               }
 
   window.myLine = new Chart(ctx, config);
+

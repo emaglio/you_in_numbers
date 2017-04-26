@@ -9,14 +9,41 @@
       button id="generate_report" class="btn btn-outline btn-success" Generate Report
     .panel.panel-default
       .panel.body
-        .row
-          = cell ('report/cell/vo2max_summary'), model
-        .row style="margin-top:40px;"
-          = cell ('report/cell/training_zones'), model
-        .row style="margin-top:40px;"
-          = cell ('report/cell/chart'), model
+        - obj_array.each do |obj|
+          .row style="margin-top:40px;"
+            = cell (obj[:type]), model, obj: obj
 
 javascript:
+
+  var originalLineDraw = Chart.controllers.line.prototype.draw;
+  Chart.helpers.extend(Chart.controllers.line.prototype, {
+    draw: function() {
+      originalLineDraw.apply(this, arguments);
+
+      var chart = this.chart;
+      var ctx = chart.chart.ctx;
+
+      var value = chart.config.data.lineAtValue;
+      if (value) {
+        var xaxis = chart.scales['x-axis-0'];
+        var yaxis = chart.scales['y-axis-1'];
+
+        var at_point = xaxis.getPixelForValue(value);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(at_point, yaxis.top + 60);
+        ctx.strokeStyle = '#ff0000';
+        ctx.lineTo(at_point, yaxis.bottom);
+        ctx.stroke();
+        ctx.restore();
+
+        // write AT
+        ctx.textAlign = 'center';
+        ctx.fillText("AT", at_point, yaxis.top + 40);
+      }
+    }
+  });
 
   function b64toBlob(b64Data, contentType, sliceSize) {
     contentType = contentType || '';
