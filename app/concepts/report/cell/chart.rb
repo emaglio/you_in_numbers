@@ -38,13 +38,18 @@ module Report::Cell
       options[:obj][:y3][:show_scale]
     end
 
+    def x_label
+      label = options[:obj][:x][:name]
+      label = "time" if label == "t"
+    end
+
     def title
       this_title = "#{options[:obj][:y1][:name]}"
 
-      this_title = this_title + " - #{options[:obj][:y2][:name]}" if label_2
-      this_title = this_title + " - #{options[:obj][:y3][:name]}" if label_3
+      this_title = this_title + " - #{options[:obj][:y2][:name]}" if label_2 != "nil"
+      this_title = this_title + " - #{options[:obj][:y3][:name]}" if label_3 != "nil"
 
-      this_title = this_title + " on #{options[:obj][:x][:name]}"
+      this_title = this_title + " on " + x_label
 
       return this_title.inspect
     end

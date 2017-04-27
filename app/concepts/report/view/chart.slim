@@ -141,7 +141,6 @@ javascript:
   }
 
   // get y scale options
-
   function  getYaxisOptions(){
     scale = new Array();
 
@@ -170,6 +169,9 @@ javascript:
                                 display: true,
                                 labelString: #{label_2},
                               },
+                  gridLines: {
+                    drawOnChartArea: false,
+                    }
                   };
       scale.push(y2_scale);
     }
@@ -184,6 +186,9 @@ javascript:
                                 display: true,
                                 labelString: #{label_3}
                               },
+                  gridLines: {
+                    drawOnChartArea: false,
+                    }
                   };
     scale.push(y3_scale);
     }
@@ -212,7 +217,11 @@ javascript:
                       xAxes: [{
                                 type: #{x_type},
                                 time: getTimeOptions(#{x_type}),
-                                position: 'bottom'
+                                position: 'bottom',
+                                scaleLabel: {
+                                  display: true,
+                                  labelString: #{x_label.inspect}
+                                },
                               }]
                           },
 
