@@ -36,7 +36,7 @@ javascript:
     }
   }
 
-  // drow a line to show the VO2max line if required
+  // draw a line to show the VO2max line if required
   function drawVO2max(){
    var vo2_max = {
                       borderColor: "#000000",
@@ -87,20 +87,6 @@ javascript:
     }
   }
 
-  function generateParams(){
-    params = {
-                xAxisID: "x-axis-0",
-                yAxisID: "y-axis-1",
-                backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-                borderColor: window.chartColors.blue,
-                fill: false,
-                label: #{label_1},
-                data: getDataSet(#{x}, #{y1})
-              };
-    return params;
-  }
-
-
   // generate the data array to pass to Chart
   function dataSet(vo2, exer){
     var dataset = new Array();
@@ -109,33 +95,101 @@ javascript:
     }
     var test = window.chartColors.blue;
 
-    params1 = {
-                xAxisID: "x-axis-0",
-                yAxisID: "y-axis-1",
-                backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-                borderColor: window.chartColors.blue,
-                fill: false,
-                label: #{label_1},
-                data: getDataSet(#{x}, #{y1})
-              };
+    if(#{generate_param_1}){
+      param1 = {
+                  xAxisID: "x-axis-0",
+                  yAxisID: "y-axis-1",
+                  backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+                  borderColor: window.chartColors.blue,
+                  fill: false,
+                  label: #{label_1},
+                  data: getDataSet(#{x}, #{y1})
+                };
+      dataset.push(param1);
+    }
 
-    params2 = {
-                xAxisID: "x-axis-0",
-                yAxisID: "y-axis-2",
-                backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-                borderColor: window.chartColors.red,
-                fill: false,
-                label: #{label_2},
-                data: getDataSet(#{x}, #{y2})
-              };
+    if(#{generate_param_2}){
+      param2 = {
+                  xAxisID: "x-axis-0",
+                  yAxisID: "y-axis-2",
+                  backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                  borderColor: window.chartColors.red,
+                  fill: false,
+                  label: #{label_2},
+                  data: getDataSet(#{x}, #{y2})
+                };
+      dataset.push(param2)
+    }
 
-    dataset.push(params1);
-    dataset.push(params2);
+    if(#{generate_param_3}){
+      param3 = {
+                  xAxisID: "x-axis-0",
+                  yAxisID: "y-axis-3",
+                  backgroundColor: color(window.chartColors.orange).alpha(0.5).rgbString(),
+                  borderColor: window.chartColors.orange,
+                  fill: false,
+                  label: #{label_3},
+                  data: getDataSet(#{x}, #{y3})
+                };
+      dataset.push(param3)
+    }
 
     if(exer){
       dataset.push(drawExerPhase());
     }
     return dataset;
+  }
+
+  // get y scale options
+
+  function  getYaxisOptions(){
+    scale = new Array();
+
+    if(#{generate_param_1}){
+      y1_scale = {
+                  type: "linear",
+                  display: #{show_scale_1},
+                  position: "left",
+                  id: "y-axis-1",
+                  scaleLabel: {
+                                display: true,
+                                labelString: #{label_1},
+                              },
+                  };
+      scale.push(y1_scale);
+    }
+
+
+    if(#{generate_param_2}){
+      y2_scale = {
+                  type: "linear",
+                  display: #{show_scale_2},
+                  position: "left",
+                  id: "y-axis-2",
+                  scaleLabel: {
+                                display: true,
+                                labelString: #{label_2},
+                              },
+                  };
+      scale.push(y2_scale);
+    }
+
+    if(#{generate_param_3}){
+      y3_scale = {
+                  type: "linear",
+                  display: #{show_scale_3},
+                  position: "right",
+                  id: "y-axis-3",
+                  scaleLabel: {
+                                display: true,
+                                labelString: #{label_3}
+                              },
+                  };
+    scale.push(y3_scale);
+    }
+
+
+    return scale;
   }
 
   var config = {
@@ -144,6 +198,7 @@ javascript:
                     datasets: dataSet(false,true),
                     lineAtValue: drawAT(true)
                 },
+
                 options: {
                   responsive: true,
                   title : {
@@ -153,28 +208,7 @@ javascript:
 
 
                   scales: {
-                      yAxes: [{
-                              type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                              display: true,
-                              position: "left",
-                              id: "y-axis-1",
-                              scaleLabel: {
-                                            display: true,
-                                            labelString: #{label_1},
-                                          },
-                              }, {
-                                  type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                                  display: true,
-                                  position: "right",
-                                  id: "y-axis-2",
-                                  scaleLabel: {
-                                            display: true,
-                                            labelString: #{label_2},
-                                          },
-                                  gridLines: {
-                                    drawOnChartArea: false, // only want the grid lines for one axis to show up
-                                  }
-                              }],
+                      yAxes: getYaxisOptions(),
                       xAxes: [{
                                 type: #{x_type},
                                 time: getTimeOptions(#{x_type}),

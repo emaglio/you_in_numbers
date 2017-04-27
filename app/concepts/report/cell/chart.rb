@@ -2,41 +2,75 @@ module Report::Cell
 
   class Chart < Trailblazer::Cell
 
+    def label_1
+      options[:obj][:y1][:name].inspect
+    end
+
+    def label_2
+      options[:obj][:y2][:name].inspect
+    end
+
+    def label_3
+      options[:obj][:y3][:name].inspect
+    end
+
+    def generate_param_1
+      label_1 != "nil"
+    end
+
+    def generate_param_2
+      label_2 != "nil"
+    end
+
+    def generate_param_3
+      label_3 != "nil"
+    end
+
+    def show_scale_1
+      options[:obj][:y1][:show_scale]
+    end
+
+    def show_scale_2
+      options[:obj][:y2][:show_scale]
+    end
+
+    def show_scale_3
+      options[:obj][:y3][:show_scale]
+    end
+
     def title
-      "'#{options[:obj][:y1]} and #{options[:obj][:y2]} on time'"
+      this_title = "#{options[:obj][:y1][:name]}"
+
+      this_title = this_title + " - #{options[:obj][:y2][:name]}" if label_2
+      this_title = this_title + " - #{options[:obj][:y3][:name]}" if label_3
+
+      this_title = this_title + " on #{options[:obj][:x][:name]}"
+
+      return this_title.inspect
     end
 
     def chart_id
       "canvas-#{options[:obj][:index]}"
     end
 
-    def label_1
-      options[:obj][:y1].inspect
-    end
-
-    def label_2
-      options[:obj][:y2].inspect
-    end
-
     def y1
-      model["cpet_params"][options[:obj][:y1]].inspect
+      model["cpet_params"][options[:obj][:y1][:name]].inspect
     end
 
     def y2
-      model["cpet_params"][options[:obj][:y2]].inspect
+      model["cpet_params"][options[:obj][:y2][:name]].inspect
+    end
+
+    def y3
+      model["cpet_params"][options[:obj][:y3][:name]].inspect
     end
 
     def x
-      model["cpet_params"][options[:obj][:x]].inspect
+      model["cpet_params"][options[:obj][:x][:name]].inspect
     end
 
     def x_type
-      if options[:obj][:x].downcase == "t" or options[:obj][:x].downcase == "time"
-        type = "time".inspect
-      else
-        type = "".inspect
-      end
-      return type
+      options[:obj][:x][:time] ? "time".inspect : "linear".inspect
     end
 
     def at_index
@@ -65,8 +99,9 @@ module Report::Cell
 
     def y_exer_phase #for exersice phase
       array = []
-      array[0] = model["cpet_params"][options[:obj][:y1]].max
-      array[1] = model["cpet_params"][options[:obj][:y2]].max
+      array[0] = model["cpet_params"][options[:obj][:y1][:name]].max
+      array[1] = model["cpet_params"][options[:obj][:y2][:name]].max unless label_2 == "nil"
+      array[2] = model["cpet_params"][options[:obj][:y3][:name]].max unless label_3 == "nil"
       array.max > 1000 ? (array.max + 200).round(-2) : (array.max+20).round(-1)
     end
 
