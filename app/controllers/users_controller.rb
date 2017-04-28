@@ -5,6 +5,16 @@ class UsersController < ApplicationController
     render User::Cell::Show, result["model"]
   end
 
+  def user_settings
+    run User::Show
+    render User::Cell::UserSettings, result["model"]
+  end
+
+  def report_settings
+    run User::Show
+    render User::Cell::ReportSettings, result["model"]
+  end
+
   def index
     run User::Index
     render User::Cell::Index, result["model"]

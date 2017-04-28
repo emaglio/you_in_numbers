@@ -40,13 +40,13 @@ module User::Cell
 
     def update_settings
       if current_user.email == model.email
-        button_to "Upload Report Settings", get_report_settings_user_path(model.id), class: "btn btn-outline btn-success", :method => :get
+        button_to "Upload Report Settings", get_report_settings_user_path(model.id), class: "btn btn-outline btn-success", :method => :post
       end
     end
 
     def update_template
       if current_user.email == model.email
-        button_to "Upload Report Template", get_report_template_user_path(model.id), class: "btn btn-outline btn-success", :method => :get
+        button_to "Upload Report Template", get_report_template_user_path(model.id), class: "btn btn-outline btn-success", :method => :post
       end
     end
 

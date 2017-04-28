@@ -50,7 +50,9 @@ module User::Contract
 
       required(:params_list).filled
       required(:load_1).filled
+      required(:load_1_um).filled
       required(:load_2).filled
+      required(:load_2_um).filled
 
       rule(zones_ok?: [:fat_burning_1, :fat_burning_2]) do |fat_burning_1, fat_burning_2|
         fat_burning_2.gt?(value(:fat_burning_1))

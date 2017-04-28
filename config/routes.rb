@@ -12,12 +12,12 @@ Rails.application.routes.draw do
     end
 
     member do
-      get 'get_report_settings'
-      get 'get_report_template'
-      post 'report_settings'
-      post 'report_template'
-      post 'delete_report_settings'
-      post 'delete_report_template'
+      post 'get_report_settings'
+      post 'get_report_template'
+      get 'report_settings'
+      get 'report_template'
+      delete 'delete_report_settings'
+      delete 'delete_report_template'
     end
   end
 
