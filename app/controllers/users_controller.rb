@@ -10,9 +10,9 @@ class UsersController < ApplicationController
     render User::Cell::UserSettings, result["model"]
   end
 
-  def report_settings
+  def show_report_settings
     run User::Show
-    render User::Cell::ReportSettings, result["model"]
+    render User::Cell::ShowReportSettings, result["model"]
   end
 
   def index

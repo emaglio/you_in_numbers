@@ -1,6 +1,6 @@
 module User::Cell
 
-  class Show < New
+  class UserSettings < New
 
     property :email
     property :firstname
@@ -18,7 +18,9 @@ module User::Cell
 
     def delete
       if current_user.email == model.email or current_user.email == "admin@email.com"
-        button_to "Delete", user_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger"
+        button_to "Delete", user_path(model.id), method: :delete,
+          data: {confirm: 'Your account within your Company details and all your Reports are going to be deleted. Are you sure?'},
+          class: "btn btn-outline btn-danger"
       end
     end
 
@@ -36,22 +38,6 @@ module User::Cell
       if current_user.email == model.email or current_user.email == "admin@email.com"
         button_to "Update details", new_company_path, class: "btn btn-outline btn-success", :method => :get
       end
-    end
-
-    def update_settings
-      if current_user.email == model.email
-        button_to "Upload Report Settings", get_report_settings_user_path(model.id), class: "btn btn-outline btn-success", :method => :post
-      end
-    end
-
-    def update_template
-      if current_user.email == model.email
-        button_to "Upload Report Template", get_report_template_user_path(model.id), class: "btn btn-outline btn-success", :method => :post
-      end
-    end
-
-    def report_settings?
-      model.content["report_settings"] == nil
     end
 
   end

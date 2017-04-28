@@ -1,0 +1,19 @@
+.row style="margin-top: 40px;"
+  .col-sm-12 class="company"
+    h3 Report settings
+hr style="margin-top: 0px;"
+- if report_settings?
+  h6 Your report settings details have not been set!
+  = update_settings
+- else
+  = cell ("user/cell/report_settings"), model
+
+.row style="margin-top: 40px;"
+  .col-sm-12 class="company"
+    h3 Report Templates
+hr style="margin-top: 0px;"
+- if model.content[:report_template] == nil
+  h6 Your report templates have not been set!
+  = update_template
+- else
+  = cell ("user/cell/report_template"), model
