@@ -24,7 +24,7 @@ class CompanyOperationTest < MiniTest::Spec
 
   it "create only if singed_in" do
 
-    assert_raises ApplicationController::NotAuthorizedError do
+    assert_raises ApplicationController::NotSignedIn do
       Company::Create.(
         {user_id: 1,
         name: "NewTitle"},

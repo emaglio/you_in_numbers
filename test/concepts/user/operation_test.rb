@@ -10,6 +10,8 @@ class UserOperationTest < MiniTest::Spec
     result = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
     result.success?.must_equal true
     result["model"].email.must_equal "test@email.com"
+    (result["model"]["content"]["report_settings"] != nil).must_equal true
+    (result["model"]["content"]["report_template"] != nil).must_equal true
   end
 
   it "wrong input" do
@@ -37,7 +39,7 @@ class UserOperationTest < MiniTest::Spec
 
   it "only current_user can modify user" do
     user.email.must_equal "test@email.com"
-    user2.email.must_equal "test2@email.com"  
+    user2.email.must_equal "test2@email.com"
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Update.(
@@ -53,7 +55,7 @@ class UserOperationTest < MiniTest::Spec
 
   it "only current_user can delete user" do
     user.email.must_equal "test@email.com"
-    user2.email.must_equal "test2@email.com"  
+    user2.email.must_equal "test2@email.com"
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Delete.(
@@ -65,7 +67,7 @@ class UserOperationTest < MiniTest::Spec
     res.success?.must_equal true
   end
 
-  it "reset password" do 
+  it "reset password" do
     res = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
     res.success?.must_equal true
 
@@ -80,10 +82,10 @@ class UserOperationTest < MiniTest::Spec
     Tyrant::Authenticatable.new(user).confirmable?.must_equal false
 
     Mail::TestMailer.deliveries.last.to.must_equal ["test@email.com"]
-    Mail::TestMailer.deliveries.last.body.raw_source.must_equal "Hi there, here is your temporary password: NewPassword. We suggest you to modify this password ASAP. Cheers" 
+    Mail::TestMailer.deliveries.last.body.raw_source.must_equal "Hi there, here is your temporary password: NewPassword. We suggest you to modify this password ASAP. Cheers"
   end
 
-  it "wrong input change password" do 
+  it "wrong input change password" do
     user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
     user.success?.must_equal true
 
@@ -92,9 +94,9 @@ class UserOperationTest < MiniTest::Spec
     res["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"User not found\"], :password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"The New Password is not matching\"]}"
   end
 
-  it "only current_user can change password" do 
+  it "only current_user can change password" do
     user.email.must_equal "test@email.com"
-    user2.email.must_equal "test2@email.com"  
+    user2.email.must_equal "test2@email.com"
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::ChangePassword.(
@@ -113,12 +115,12 @@ class UserOperationTest < MiniTest::Spec
     assert Tyrant::Authenticatable.new(user_updated).digest != "password"
     assert Tyrant::Authenticatable.new(user_updated).digest == "new_password"
     Tyrant::Authenticatable.new(user_updated).confirmed?.must_equal true
-    Tyrant::Authenticatable.new(user_updated).confirmable?.must_equal false    
+    Tyrant::Authenticatable.new(user_updated).confirmable?.must_equal false
   end
 
   it "only admin can block user" do
     user.email.must_equal "test@email.com"
-    user2.email.must_equal "test2@email.com"  
+    user2.email.must_equal "test2@email.com"
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Block.(
@@ -128,7 +130,7 @@ class UserOperationTest < MiniTest::Spec
     end
 
     op = User::Block.({id: user.id, block: "true"}, "current_user" => admin)
-    op.success?.must_equal true 
+    op.success?.must_equal true
     op["model"].block.must_equal true
   end
 

@@ -77,7 +77,7 @@ class Report::GetCpetResults < Trailblazer::Operation
 
     # get training zones level from Report settings
     level_array = []
-    current_user.content["training_zones_settings"].each do |value|
+    current_user.content["report_settings"]["training_zones_settings"].each do |value|
       level_array << value * 0.01
     end
 

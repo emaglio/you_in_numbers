@@ -28,12 +28,15 @@ class Report::GetCpetData < Trailblazer::Operation
     cpet_params = {}
 
     # generate the cpet_params hash in base on Report settings
-    options["current_user"].content["params_list"].each do |key, value|
+    options["current_user"].content["report_settings"]["params_list"].each do |key, value|
       cpet_params[key] = []
     end
 
-    options["current_user"].content["ergo_params_list"].each do |key, value|
-      cpet_params[key] = []
+    i = 0
+    options["current_user"].content["report_settings"]["ergo_params_list"].each do |key, value|
+      # avoid to add the unit of measurement in the cpet_params array
+      cpet_params[key] = [] if (i==0 or i==2)
+      i += 1
     end
 
     # TODO: search in each row the cpet_params - generate error in case
