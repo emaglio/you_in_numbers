@@ -7,11 +7,11 @@ module Report::Cell
     end
 
     def zones_settings
-      content["training_zones_settings"] if content
+      content["report_settings"]["training_zones_settings"] if content
     end
 
     def ergo_params
-      content["ergo_params_list"] if content
+      content["report_settings"]["ergo_params_list"] if content
     end
 
     def first_row_1

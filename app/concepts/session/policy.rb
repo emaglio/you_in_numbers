@@ -11,6 +11,7 @@ class Session::Policy
 
   def report_company_owner?
     return unless @user
+    return true if @model.user_id == -1 # this is to edit the report template
     @user.id == @model.user_id
   end
 

@@ -134,4 +134,39 @@ class UserOperationTest < MiniTest::Spec
     op["model"].block.must_equal true
   end
 
+  it "delete Company and Reports if delete User" do
+    user.email.must_equal "test@email.com"
+
+    # create company
+    company = Company::Create.({ user_id: user.id, name: "My Company"}, "current_user" => user)
+    company.success?.must_equal true
+
+    upload_file = ActionDispatch::Http::UploadedFile.new({
+      :tempfile => File.new(Rails.root.join("test/files/cpet.xlsx"))
+    })
+
+    # create 2 Reports
+    report1 = Report::Create.({
+          user_id: user.id,
+          title: "My report",
+          cpet_file_path: upload_file
+      }, "current_user" => user)
+    report1.success?.must_equal true
+
+    report2 = Report::Create.({
+          user_id: user.id,
+          title: "My report",
+          cpet_file_path: upload_file
+      }, "current_user" => user)
+    report2.success?.must_equal true
+
+    Company.where("user_id like ?", user.id).size.must_equal 1
+    Report.where("user_id like ?", user.id).size.must_equal 2
+
+    User::Delete.({id: user.id}, "current_user" => user)
+
+    Company.where("user_id like ?", user.id).size.must_equal 0
+    Report.where("user_id like ?", user.id).size.must_equal 0
+  end
+
 end
