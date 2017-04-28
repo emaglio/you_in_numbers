@@ -3,7 +3,8 @@ module User::Cell
   class ReportSettings < New
 
     def params
-      model.content["params_list"] != nil ? (model.content["params_list"].map {|str| "#{str}"}.join(' - ')) : ""
+      return if model.content["report_settings"] == nil
+      model.content["report_settings"]["params_list"] != nil ? (model.content["report_settings"]["params_list"].map {|str| "#{str}"}.join(' - ')) : ""
     end
 
     def edit

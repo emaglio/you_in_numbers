@@ -3,8 +3,7 @@
   .col-sm-6.mybox
     .row
       .col-sm-12 style="margin-top:10px;margin-bottom:10px;"
-
-        - if model.content["params_list"] != nil and model.content["params_list"] != ""
+        - if model.content["report_settings"]["params_list"] != nil
           .row style="margin-top:10px;margin-left:5px;"
             strong
               | Parameters list
@@ -14,7 +13,7 @@
             small
               | List of all metabolic parameters used during the data import and report generation.
 
-        - if model.content["ergo_params_list"] != nil
+        - if model.content["report_settings"]["ergo_params_list"] != nil
           .row style="margin-top:10px;margin-left:5px;"
             strong
               | Ergometer Parameters
@@ -26,60 +25,60 @@
             .col-sm-4
               strong
                 | Load 1:
-              |  #{model.content["ergo_params_list"][0]}
+              |  #{model.content["report_settings"]["ergo_params_list"][0]}
               small
-                |   (#{model.content["ergo_params_list"][1]})
+                |   (#{model.content["report_settings"]["ergo_params_list"][1]})
             .col-sm-4
               strong
                 | Load 2:
-              |  #{model.content["ergo_params_list"][2]}
+              |  #{model.content["report_settings"]["ergo_params_list"][2]}
               small
-                |   (#{model.content["ergo_params_list"][3]})
+                |   (#{model.content["report_settings"]["ergo_params_list"][3]})
             .col-sm-2
 
-        - if model.content["training_zones_settings"] != nil
+        - if model.content["report_settings"]["training_zones_settings"] != nil
           .row style="margin-top:10px;margin-left:5px;"
             strong
               | Training Zones Settings
           .row
             .col-sm-2
             .col-sm-2.text-right
-              = model.content["training_zones_settings"][0].to_s + " %"
+              = model.content["report_settings"]["training_zones_settings"][0].to_s + " %"
             .col-sm-4.text-center
               strong
                 = "<- Fat Burning ->"
             .col-sm-2.text-left
-              = model.content["training_zones_settings"][1].to_s + " %"
+              = model.content["report_settings"]["training_zones_settings"][1].to_s + " %"
             .col-sm-2
           .row
             .col-sm-2
             .col-sm-2.text-right
-              = model.content["training_zones_settings"][2].to_s + " %"
+              = model.content["report_settings"]["training_zones_settings"][2].to_s + " %"
             .col-sm-4.text-center
               strong
                 = "<- Endurance ->"
             .col-sm-2.text-left
-              = model.content["training_zones_settings"][3].to_s + " %"
+              = model.content["report_settings"]["training_zones_settings"][3].to_s + " %"
             .col-sm-2
           .row
             .col-sm-2
             .col-sm-2.text-right
-              = model.content["training_zones_settings"][4].to_s + " %"
+              = model.content["report_settings"]["training_zones_settings"][4].to_s + " %"
             .col-sm-4.text-center
               strong
                 = "<- Anaerobic Threshold ->"
             .col-sm-2.text-left
-              = model.content["training_zones_settings"][5].to_s + " %"
+              = model.content["report_settings"]["training_zones_settings"][5].to_s + " %"
             .col-sm-2
           .row
             .col-sm-2
             .col-sm-2.text-right
-              = model.content["training_zones_settings"][6].to_s + " %"
+              = model.content["report_settings"]["training_zones_settings"][6].to_s + " %"
             .col-sm-4.text-center
               strong
                 = "<- VO2 Max ->"
             .col-sm-2.text-left
-              = model.content["training_zones_settings"][7].to_s + " %"
+              = model.content["report_settings"]["training_zones_settings"][7].to_s + " %"
             .col-sm-2
 
 .row

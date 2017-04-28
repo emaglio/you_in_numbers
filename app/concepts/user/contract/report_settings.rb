@@ -8,10 +8,12 @@ module User::Contract
     include Disposable::Twin::Property::Hash
 
     property :content, field: :hash do
-      property :params_list
-      property :ergo_params_list
-      property :report_path
-      property :training_zones_levels
+      property :report_settings, filed: :hash do
+        property :params_list
+        property :ergo_params_list
+        property :report_path
+        property :training_zones_levels
+      end
     end
 
     # used for the training zones
@@ -31,10 +33,11 @@ module User::Contract
     property :load_2_um, virtual: true
 
 
-    unnest :training_zones_levels, from: :content
-    unnest :params_list, from: :content
-    unnest :ergo_params_list, from: :content
-    unnest :report_path, from: :content
+    unnest :report_settings, from: :content
+    unnest :training_zones_levels, from: :report_settings
+    unnest :params_list, from: :report_settings
+    unnest :ergo_params_list, from: :report_settings
+    unnest :report_path, from: :report_settings
 
     validation  with: { form: true } do
 

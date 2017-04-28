@@ -9,7 +9,7 @@ module Report::Cell
                             y1: {:name => "VO2", :colour => "rgb(0,0,0", :show_scale => true},
                             y2: {:name => "VCO2", :colour => "rgb(0,0,0", :show_scale => false},
                             y3: {:name => nil, :colour => nil, :show_scale => true},
-                            x: {:name => "t", :time => true},
+                            x: {:name => "t", :time => true, :time_format => "mm:ss"},
                             index: 0,
                             show_vo2max: true,
                             show_exer: true,
@@ -18,7 +18,7 @@ module Report::Cell
                             y1: {:name => "HR", :colour => "rgb(0,0,0", :show_scale => true},
                             y2: {:name => "Power", :colour => "rgb(0,0,0", :show_scale => true},
                             y3: {:name => "VE", :colour => nil, :show_scale => true},
-                            x: {:name => "t", :time => true},
+                            x: {:name => "t", :time => true, :time_format => "mm:ss"},
                             index: 1,
                             show_vo2max: false,
                             show_exer: true,
@@ -42,10 +42,10 @@ module Report::Cell
                             show_exer: false,
                             show_AT: false)
 
-      array << chart
-      array << chart2
       array << summary
       array << training_zones
+      array << chart
+      array << chart2
 
       return array
 

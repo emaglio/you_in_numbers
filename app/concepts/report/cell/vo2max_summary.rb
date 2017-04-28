@@ -26,6 +26,14 @@ module Report::Cell
       model["cpet_results"]["vo2_max"]["value"]
     end
 
+    def vo2_kg_at_AT
+      model["cpet_params"]["VO2/Kg"][index_AT]
+    end
+
+    def vo2_kg_at_MAX
+      model["cpet_params"]["VO2/Kg"][index_MAX]
+    end
+
     def hr_at_AT
       model["cpet_params"]["HR"][index_AT]
     end

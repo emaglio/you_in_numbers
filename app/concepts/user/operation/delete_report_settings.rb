@@ -3,7 +3,7 @@ class User::DeleteReportSettings < Trailblazer::Operation
   step :delete!
 
   def delete!(options, model:, **)
-    model.content = nil
+    model["content"]["report_settings"] = nil
     model.save
   end
 

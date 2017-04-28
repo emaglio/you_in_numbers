@@ -14,15 +14,24 @@ class ApplicationController < ActionController::Base
   class OpenFileException < RuntimeError
   end # class OpenFileException
 
+  class NotSignedIn < RuntimeError
+  end # class OpenFileException
+
   rescue_from ApplicationController::NotAuthorizedError do
     flash[:danger] = "You are not authorized mate!"
     redirect_to reports_path
   end
 
+  rescue_from ApplicationController::NotSignedIn do
+    flash[:danger] = "Sign In or Sign Up please!"
+    redirect_to "/sessions/new"
+  end
+
+
   #exists file and file type are validated in the contract.
   #this is gonna happen when something weird happens
   rescue_from ApplicationController::OpenFileException do
-    flash[:danger] = "Something went wrong when opening the file..try again! Contact us if it happens again!"
+    flash[:danger] = "Something went wrong during file opening..try again! Contact us if it happens again!"
     redirect_to "/reports/new"
   end
 

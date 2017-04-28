@@ -10,7 +10,7 @@ class Company::Create < Trailblazer::Operation
     return true if options["contract.default"].logo == nil
     options["contract.default"].logo!(options["contract.default"].logo) do |v|
       v.process!(:original)
-      # v.process!(:thumb) { |job| job.thumb!("120x120#") }
+      v.process!(:thumb) { |job| job.thumb!("120x120#") }
     end
   end
 end # class Company::Create

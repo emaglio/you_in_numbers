@@ -7,20 +7,20 @@ module User::Cell
       return array
     end
 
-    def content
-      options[:context][:current_user].content
+    def report_settings
+      options[:context][:current_user].content["report_settings"]
     end
 
     def training_zones
-      content != nil ? content["training_zones_settings"] : []
+      report_settings != nil ? report_settings["training_zones_settings"] : []
     end
 
     def ergo_params
-      content != nil ? content["ergo_params_list"] : []
+      report_settings != nil ? report_settings["ergo_params_list"] : []
     end
 
     def params
-      content != nil ? (content["params_list"].map {|str| "#{str}"}.join(',')) : ""
+      report_settings != nil ? (report_settings["params_list"].map {|str| "#{str}"}.join(',')) : ""
     end
 
   end # class GetReportSettings

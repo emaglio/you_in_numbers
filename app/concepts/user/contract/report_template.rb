@@ -8,7 +8,9 @@ module User::Contract
     include Disposable::Twin::Property::Hash
 
     property :content, field: :hash do
-      property :template
+      property :report_template, field: :jash do
+        property :templates
+      end
     end
 
     property :type, virtual: true
@@ -20,7 +22,8 @@ module User::Contract
     property :show_exer, virtual: true
     property :show_vo2max, virtual: true
 
-    unnest :template, from: :content
+    unnest :report_template, from: :content
+    unnest :templates, from: :report_template
 
     validation  with: { form: true } do
 

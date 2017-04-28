@@ -102,12 +102,13 @@ module Report::Cell
       return exer_phase_array
     end
 
+    # TODO: make this better (maybe get this value from the Chart with js)
     def y_exer_phase #for exersice phase
       array = []
       array[0] = model["cpet_params"][options[:obj][:y1][:name]].max
       array[1] = model["cpet_params"][options[:obj][:y2][:name]].max unless label_2 == "nil"
       array[2] = model["cpet_params"][options[:obj][:y3][:name]].max unless label_3 == "nil"
-      array.max > 1000 ? (array.max + 200).round(-2) : (array.max+20).round(-1)
+      array.max > 1000 ? (array.max+200).round(-2) : (array.max+10).round(-1)
     end
 
     def vo2_max_value
