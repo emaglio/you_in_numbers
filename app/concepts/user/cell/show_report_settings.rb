@@ -22,8 +22,6 @@ module User::Cell
       model.content["report_settings"] == nil
     end
 
-
-
   end # class ShowReportSettings
 
 
