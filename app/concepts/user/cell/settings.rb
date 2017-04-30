@@ -1,6 +1,6 @@
 module User::Cell
 
-  class ShowReportSettings < Trailblazer::Cell
+  class Settings < Trailblazer::Cell
 
     def current_user
       return options[:context][:current_user]

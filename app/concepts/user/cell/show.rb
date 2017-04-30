@@ -1,6 +1,6 @@
 module User::Cell
 
-  class UserSettings < New
+  class Show < New
 
     property :email
     property :firstname

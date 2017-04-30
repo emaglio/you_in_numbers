@@ -18,8 +18,7 @@ Rails.application.routes.draw do
       get 'report_template'
       delete 'delete_report_settings'
       delete 'delete_report_template'
-      get 'user_settings'
-      get 'show_report_settings'
+      get 'settings'
     end
   end
 

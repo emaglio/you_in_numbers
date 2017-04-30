@@ -62,7 +62,7 @@ Trailblazer::Test::Integration.class_eval do
       fill_in 'Age', with: "31"
       fill_in 'Phone', with: "32343211"
     end
-    click_button "Create User"
+    click_button "Submit"
   end
 
   def log_in_as_admin

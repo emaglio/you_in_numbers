@@ -5,14 +5,9 @@ class UsersController < ApplicationController
     render User::Cell::Show, result["model"]
   end
 
-  def user_settings
+  def settings
     run User::Show
-    render User::Cell::UserSettings, result["model"]
-  end
-
-  def show_report_settings
-    run User::Show
-    render User::Cell::ShowReportSettings, result["model"]
+    render User::Cell::Settings, result["model"]
   end
 
   def index
@@ -52,7 +47,7 @@ class UsersController < ApplicationController
   def destroy
     run User::Delete do
       flash[:danger] = "User deleted"
-      return redirect_to "/reports"
+      return redirect_to "/sessions/new"
     end
 
     render User::Cell::Edit, result["contract.default"]
@@ -106,7 +101,7 @@ class UsersController < ApplicationController
   def report_settings
     run User::ReportSettings do |result|
       flash[:success] = "Report settings updated!"
-      return redirect_to "/users/#{result["model"].id}"
+      return redirect_to "/users/#{result["model"].id}/report_settings"
     end
 
     render User::Cell::GetReportSettings, result["contract.default"]
@@ -130,7 +125,7 @@ class UsersController < ApplicationController
   def report_template
     run User::ReportTemplate do |result|
       flash[:success] = "Report template updated!"
-      return redirect_to "/users/#{result["model"].id}"
+      return redirect_to "/users/#{result["model"].id}/report_settings"
     end
 
     render User::Cell::GetReportTemplate, result["contract.default"]
