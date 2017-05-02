@@ -2,11 +2,11 @@ ul class="nav navbar-top-links navbar-right"
   - if current_user != nil
     li
       = name_link
-    li.dropdown
-      a.dropdown-toggle data-toggle="dropdown" href="#"
+    li class="dropdown"
+      a class="dropdown-toggle" data-toggle="dropdown" href="#"
         | Settings
         span.caret
-      ul.dropdown-menu role="menu"
+      ul class="dropdown-menu" aria-haspopup="true" aria-expanded="false"
         li
           = link_to "User settings", user_path(current_user.id)
         li

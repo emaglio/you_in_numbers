@@ -65,7 +65,7 @@ class User::Create < Trailblazer::Operation
     array << chart2
 
     model["content"]["report_template"]["default"] = array
-    model["content"]["report_template"]["templates"] = {}
+    model["content"]["report_template"]["custom"] = {}
   end
 
   def create!(options, model:, params:, **)

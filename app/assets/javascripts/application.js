@@ -14,10 +14,10 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
-//= require js/sb-admin-2.min.js
 //= require js/bootstrap.min.js
-//= require_tree ../../../vendor/assets/datatable/js
 //= require metisMenu.min.js
+//= require js/sb-admin-2.js
+//= require_tree ../../../vendor/assets/datatable/js
 //= require moment.min.js
 //= require Chart.js
 //= require utils.js

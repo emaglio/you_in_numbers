@@ -101,7 +101,7 @@ class UsersController < ApplicationController
   def report_settings
     run User::ReportSettings do |result|
       flash[:success] = "Report settings updated!"
-      return redirect_to "/users/#{result["model"].id}/report_settings"
+      return redirect_to "/users/#{result["model"].id}/settings"
     end
 
     render User::Cell::GetReportSettings, result["contract.default"]
@@ -125,7 +125,7 @@ class UsersController < ApplicationController
   def report_template
     run User::ReportTemplate do |result|
       flash[:success] = "Report template updated!"
-      return redirect_to "/users/#{result["model"].id}/report_settings"
+      return redirect_to "/users/#{result["model"].id}/settings"
     end
 
     render User::Cell::GetReportTemplate, result["contract.default"]

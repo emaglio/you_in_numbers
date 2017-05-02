@@ -17,14 +17,18 @@ class Report::Create < Trailblazer::Operation
 
   # step Nested(Report::GetRmrData)
   # step Nested(Report::GetCpetResults)
+  step :set_template!
   step :model!
 
-  def model!(options, model:, cpet_params:, cpet_results:, **)
+  def set_template!(options, model:, params:, **)
+    model["content"] = params[:template]
+  end
+
+  def model!(options, params:, model:, cpet_params:, cpet_results:, **)
     model[:cpet_params] = cpet_params
     model[:cpet_results] = cpet_results
 
     model.save
   end
-
 
 end

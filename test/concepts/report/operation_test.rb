@@ -17,11 +17,13 @@ class UserOperationTest < MiniTest::Spec
     report = Report::Create.({
           user_id: user.id,
           title: "My report",
-          cpet_file_path: upload_file
+          cpet_file_path: upload_file,
+          template: "default"
       }, "current_user" => user)
     report.success?.must_equal true
 
     report["model"].title.must_equal "My report"
+    report["model"].content.must_equal "default"
     report["model"].user_id.must_equal user.id
 
     # check VO2max params and results are not empty (will see if I need to test the actual values of the results)

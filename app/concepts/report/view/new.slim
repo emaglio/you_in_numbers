@@ -11,12 +11,11 @@
     .row
       .col-sm-4
       .col-sm-4
-        = f.input :cpet_file_path, placeholder: "CPET test", type: 'file'
-      .col-sm-4
-    .row
-      .col-sm-4
-      .col-sm-4
-        = f.input :rmr_file_path, placeholder: "RMR test", type: 'file'
+        .col-sm-8
+          = f.input :cpet_file_path, placeholder: "CPET test", type: 'file'
+          = f.input :rmr_file_path, placeholder: "RMR test", type: 'file'
+        .col-sm-4
+          = f.select :template, label: "Report Template:", collection: [["default"], ["custom"]]
       .col-sm-4
     .row
       .col-sm-12.text-center

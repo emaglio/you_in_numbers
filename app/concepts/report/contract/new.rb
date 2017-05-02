@@ -1,14 +1,19 @@
 require 'reform/form/dry'
+require 'disposable/twin/property/hash'
+require 'disposable/twin/property/unnest'
 require 'pathname'
 
 module Report::Contract
   class New < Reform::Form
     feature Reform::Form::Dry
+    include Disposable::Twin::Property::Hash
 
     property :title
     property :user_id
     property :cpet_file_path, virtual: true
     property :rmr_file_path, virtual: true
+
+    property :template, virtual: true
 
     validation  with: { form: true } do
       configure do
@@ -21,6 +26,7 @@ module Report::Contract
 
       required(:title).filled
       required(:user_id).filled
+      required(:template).filled
       required(:cpet_file_path).maybe(:file_exists?)
     end
   end

@@ -1,6 +1,29 @@
 module Report::Cell
 
-  class TemplateChart < Trailblazer::Cell
+  class EditChart < Trailblazer::Cell
+    include ActionView::RecordIdentifier
+    include ActionView::Helpers::FormOptionsHelper
+    include ActionView::Helpers::CsrfHelper
+
+    def current_user
+      options[:context][:current_user]
+    end
+
+    def params
+      array = []
+      params_list = current_user.content["report_settings"]["params_list"]
+      ergo_params_list = current_user.content["report_settings"]["ergo_params_list"]
+
+      params_list.each do |value|
+        array << value
+      end
+
+      ergo_params_list.each do |value|
+        array << value
+      end
+
+      return array
+    end
 
     def label_1
       options[:obj][:y1][:name].inspect
@@ -55,7 +78,7 @@ module Report::Cell
     end
 
     def chart_id
-      "canvas-#{options[:obj][:index]}"
+      "canvas"
     end
 
     def y1

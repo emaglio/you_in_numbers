@@ -20,5 +20,6 @@ upload_file = ActionDispatch::Http::UploadedFile.new({
 report = Report::Create.({
       user_id: -1,
       title: "My report",
-      cpet_file_path: upload_file
+      cpet_file_path: upload_file,
+      template: "default"
   }, "current_user" => admin)
