@@ -6,7 +6,7 @@ hr style="margin-top: 0px;"
 .row style="margin-top: 40px;"
   .col-sm-3
   .col-sm-6.mybox
-    = form_tag controller: :users, action: :block  do
+    = form_tag controller: :users, action: :edit_obj  do
     .row style="margin-top:5px;margin-left:20px;margin-left:20px;"
       strong
         |Y1:
@@ -22,13 +22,13 @@ hr style="margin-top: 0px;"
           small
             | Colour:
         .row
-          = color_field_tag "y1_colour"
+          = color_field_tag "y1_colour", nil, disabled: (obj[:y1][:name] == nil)
       .col-sm-4.text-center
         .row
           small
             | Show scale?
         .row
-          = check_box_tag "y1_scale", nil, obj[:y1][:show_scale]
+          = check_box_tag "y1_scale", nil, obj[:y1][:show_scale], disabled: (obj[:y1][:name] == nil)
     .row style="margin-top:5px;margin-left:20px;"
       strong
         |Y2:
@@ -44,13 +44,13 @@ hr style="margin-top: 0px;"
           small
             | Colour:
         .row
-          = color_field_tag "y2_colour"
+          = color_field_tag "y2_colour", nil, disabled: (obj[:y2][:name] == nil)
       .col-sm-4.text-center
         .row
           small
             | Show scale?
         .row
-          = check_box_tag "y2_scale", nil, obj[:y2][:show_scale]
+          = check_box_tag "y2_scale", nil, obj[:y2][:show_scale], disabled: (obj[:y2][:name] == nil)
     .row style="margin-top:5px;margin-left:20px;"
       strong
         |Y3:
@@ -66,13 +66,13 @@ hr style="margin-top: 0px;"
           small
             | Colour:
         .row
-          = color_field_tag "y3_colour"
+          = color_field_tag "y3_colour", nil, disabled: (obj[:y3][:name] == nil)
       .col-sm-4.text-center
         .row
           small
             | Show scale?
         .row
-          = check_box_tag "y3_scale", nil, obj[:y3][:show_scale]
+          = check_box_tag "y3_scale", nil, obj[:y3][:show_scale], disabled: (obj[:y3][:name] == nil)
     .row style="margin-top:5px;margin-left:20px;"
       strong
         |X:
@@ -94,7 +94,7 @@ hr style="margin-top: 0px;"
           small
             | Time format:
         .row
-          = text_area_tag "x_format", obj[:x][:time_format], size: "8x1"
+          = text_area_tag "x_format", obj[:x][:time_format], size: "8x1", disabled: (obj[:x][:time] == false)
     .row style="margin-top:5px;margin-left:20px;"
       strong
         | VO2max area:
@@ -150,10 +150,8 @@ hr style="margin-top: 0px;"
         = submit_tag
 
 javascript:
+  var color = Chart.helpers.color;
 
-  var y1;
-  var y2;
-  var y3;
   var y1_colour = document.getElementById("y1_colour")
   var y1_scale = document.getElementById("y1_scale")
   var y2_colour = document.getElementById("y2_colour")
@@ -167,20 +165,20 @@ javascript:
 
   window.onload=function() {
     document.getElementById("y1_select").onchange=function() {
-      y1 = this.options[this.selectedIndex].text;
+      var y1 = this.options[this.selectedIndex].text;
 
       if(y1 == "none"){
         y1_colour.disabled = true;
+        y1_colour.style.opacity = '100%';
         y1_scale.disabled = true;
       }else{
         y1_colour.disabled = false;
         y1_scale.disabled = false;
       }
-
     }
 
     document.getElementById("y2_select").onchange=function() {
-      y2 = this.options[this.selectedIndex].text;
+      var y2 = this.options[this.selectedIndex].text;
 
       if(y2 == "none"){
         y2_colour.disabled = true;
@@ -192,7 +190,7 @@ javascript:
     }
 
     document.getElementById("y3_select").onchange=function() {
-      y3 = this.options[this.selectedIndex].text;
+      var y3 = this.options[this.selectedIndex].text;
 
       if(y3 == "none"){
         y3_colour.disabled = true;
@@ -233,6 +231,25 @@ javascript:
         at_colour.disabled = false;
       }else{
         at_colour.disabled = true;
+      }
+    }
+
+    // set defautl colour
+    document.getElementById("y1_colour").onload=function(){
+      if(#{obj[:y1][:name] != nil}){
+        this.value = colour(#{obj[:y2][:colour]}).rgbString();
+      }
+    }
+
+    document.getElementById("y2_colour").onload=function(){
+      if(#{obj[:y2][:name] != nil}){
+        this.value = colour(#{obj[:y2][:colour]}).rgbString();
+      }
+    }
+
+    document.getElementById("y3_colour").onload=function(){
+      if(#{obj[:y3][:name] != nil}){
+        this.value = colour(#{obj[:y3][:colour]}).rgbString();
       }
     }
   }

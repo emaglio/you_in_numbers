@@ -47,6 +47,34 @@ module Report::Cell
       options[:obj][:y3][:name].inspect
     end
 
+    def colour_1
+      options[:obj][:y1][:colour].inspect
+    end
+
+    def colour_2
+      options[:obj][:y2][:colour].inspect
+    end
+
+    def colour_3
+      options[:obj][:y2][:colour].inspect
+    end
+
+    def colour_vo2max
+      options[:obj][:show_vo2max][:colour].inspect
+    end
+
+    def colour_exer
+      options[:obj][:show_exer][:colour].inspect
+    end
+
+    def colour_at
+      options[:obj][:show_AT][:colour].inspect
+    end
+
+    def time_format
+      options[:obj][:x][:time_format].inspect
+    end
+
     def generate_param_1
       label_1 != "nil"
     end
