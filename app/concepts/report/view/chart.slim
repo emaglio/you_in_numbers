@@ -1,7 +1,23 @@
 body
-  . style="width:80%; margin-left: 10%;"
-    canvas id= chart_id style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
-  br
+  .col-sm-2
+    - if edit?
+      .col-sm-4
+      .col-sm-4
+        .row style="margin-top:50px"
+        .row style="margin-top:20px"
+          = delete
+        .row style="margin-top:20px"
+          = edit
+        .row style="margin-top:20px"
+          = move_up
+        .row style="margin-top:20px"
+          = move_down
+      .col-sm-4
+  .col-sm-8
+    . style="width:100%;"
+      canvas id= chart_id style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
+    br
+  .col-sm-2
 
 javascript:
   var color = Chart.helpers.color;

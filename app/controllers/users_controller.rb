@@ -107,6 +107,7 @@ class UsersController < ApplicationController
     render User::Cell::GetReportSettings, result["contract.default"]
   end
 
+  #TODO: remove this....nothing would work without it!
   def delete_report_settings
     run User::DeleteReportSettings do |result|
       flash[:success] = "Report settings deleted!"
@@ -117,28 +118,30 @@ class UsersController < ApplicationController
   end
 
   def get_report_template
-    run User::GetReportTemplate
+    run User::ReportTemplate
 
-    render User::Cell::GetReportTemplate, result["contract.default"]
+    render User::Cell::GetReportTemplate, result["model"]
   end
 
-  def report_template
-    run User::ReportTemplate do |result|
+  # def report_template
+  #   run User::ReportTemplate do |result|
+  #     flash[:success] = "Report template updated!"
+  #     return redirect_to "/users/#{result["model"].id}/settings"
+  #   end
+
+  #   render User::Cell::GetReportTemplate, result["contract.default"]
+  # end
+
+  def edit_obj
+    run User::EditObj do |result|
       flash[:success] = "Report template updated!"
-      return redirect_to "/users/#{result["model"].id}/settings"
+      return redirect_to "/users/#{result["model"].id}/get_report_template"
     end
 
-    render User::Cell::GetReportTemplate, result["contract.default"]
+    render User::Cell::GetReportTemplate, result["model"]
   end
 
-  def delete_report_template
-    run User::DeleteReportTemplate do |result|
-      flash[:success] = "Report template deleted!"
-      return redirect_to "/users/#{result["model"].id}"
-    end
 
-    render User::Cell::GetReportTemplate, result["contract.default"]
-  end
 
 private
   def get_name(model)

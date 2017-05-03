@@ -1,0 +1,164 @@
+.col-sm-4 style="margin-left:10px;"
+  = form_tag controller: :users, action: :block  do
+    .row
+      strong
+        |Y1:
+    .row
+      .col-sm-4
+        .row
+          small
+            | Parameter:
+        .row
+          = select_tag "y1_select", options_for_select(params, params[1])
+      .col-sm-4
+        .row
+          small
+            | Colour:
+        .row
+          = color_field_tag "y1_colour"
+      .col-sm-4
+        .row
+          small
+            | Show scale?
+        .row
+          = check_box_tag "y1_scale"
+    .row style="margin-top:5px;"
+      strong
+        |Y2:
+    .row
+      .col-sm-4
+        .row
+          small
+            | Parameter:
+        .row
+          = select_tag "y2_select", options_for_select(params, params[2])
+      .col-sm-4
+        .row
+          small
+            | Colour:
+        .row
+          = color_field_tag "y2_colour"
+      .col-sm-4
+        .row
+          small
+            | Show scale?
+        .row
+          = check_box_tag "y2_scale"
+    .row style="margin-top:5px;"
+      strong
+        |Y3:
+    .row
+      .col-sm-4
+        .row
+          small
+            | Parameter:
+        .row
+          = select_tag "y3_select", options_for_select(params, params[3])
+      .col-sm-4
+        .row
+          small
+            | Colour:
+        .row
+          = color_field_tag "y3_colour"
+      .col-sm-4
+        .row
+          small
+            | Show scale?
+        .row
+          = check_box_tag "y3_scale"
+    .row style="margin-top:5px;"
+      strong
+        |X:
+    .row
+      .col-sm-4
+        .row
+          small
+            | Parameter:
+        .row
+          = select_tag "x", options_for_select(params, params[0])
+      .col-sm-4
+        .row
+          small
+            | Time scale?
+        .row
+          = check_box_tag "x_time"
+      .col-sm-4
+        .row
+          small
+            | Time format:
+        .row
+          = text_area_tag "x_format", "mm:ss", size: "8x1"
+    .row style="margin-top:5px;"
+      strong
+        | VO2max area;
+    .row
+      .col-sm-4
+        .row
+          small
+            | Show it?
+        .row
+          = check_box_tag "vo2max_check"
+      .col-sm-4
+        .row
+          small
+            | Color:
+        .row
+          = color_field_tag "vo2max_colour"
+    .row style="margin-top:5px;"
+      strong
+        | Exercise area;
+    .row
+      .col-sm-4
+        .row
+          small
+            | Show it?
+        .row
+          = check_box_tag "exer_check"
+      .col-sm-4
+        .row
+          small
+            | Color:
+        .row
+          = color_field_tag "exer_colour"
+    .row style="margin-top:5px;"
+      strong
+        | AT line;
+    .row
+      .col-sm-4
+        .row
+          small
+            | Show it?
+        .row
+          = check_box_tag "at_check"
+      .col-sm-4
+        .row
+          small
+            | Color:
+        .row
+          = color_field_tag "at_colour"
+
+.col-sm-8
+  . style="width:80%; margin-left: 10%;"
+    canvas id= chart_id style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
+  br
+
+
+javascript:
+
+  var y1;
+  var y2;
+  var y3;
+
+  window.onload=function() {
+    document.getElementById("y1_select").onchange=function() {
+      y1 = this.options[this.selectedIndex].text;
+    }
+
+    document.getElementById("y2_select").onchange=function() {
+      y2 = this.options[this.selectedIndex].text;
+    }
+
+    document.getElementById("y3_select").onchange=function() {
+      y3 = this.options[this.selectedIndex].text;
+    }
+  }

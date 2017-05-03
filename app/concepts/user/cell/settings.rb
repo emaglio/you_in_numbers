@@ -14,12 +14,16 @@ module User::Cell
 
     def update_template
       if current_user.email == model.email
-        button_to "Upload Report Template", get_report_template_user_path(model.id), class: "btn btn-outline btn-success", :method => :post
+        button_to "Upload Report Template", report_template_user_path(model.id), class: "btn btn-outline btn-success", :method => :get
       end
     end
 
     def report_settings?
       model.content["report_settings"] == nil
+    end
+
+    def report_template?
+      model.content["report_template"] == nil
     end
 
   end # class ShowReportSettings

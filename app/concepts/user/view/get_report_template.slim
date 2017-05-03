@@ -3,5 +3,10 @@
     h3 Report Template
 hr style="margin-top: 0px;"
 
-.row style="margin-top: 40px;"
-  = cell ("report/cell/edit_chart"), default_report
+.row
+  .col-lg-12
+    .panel.panel-default
+      .panel.body
+        - obj_array.each do |obj|
+          .row style="margin-top:40px;"
+            = cell (obj[:type]), report, obj: obj, type: "edit", size: obj_array.size
