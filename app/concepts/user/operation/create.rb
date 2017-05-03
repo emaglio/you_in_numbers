@@ -64,7 +64,7 @@ class User::Create < Trailblazer::Operation
     array << summary
     array << training_zones
 
-    model["content"]["report_template"]["default"] = array
+    model["content"]["report_template"]["strict"] = array
     model["content"]["report_template"]["custom"] = array
   end
 

@@ -58,9 +58,9 @@ module User::Contract
         property :training_zones_levels
       end
 
-      property :report_template, field: :jash do
-        property :default
-        property :templates
+      property :report_template, field: :hash do
+        property :strict
+        property :custom
       end
     end
 
@@ -73,8 +73,8 @@ module User::Contract
     # to create default template
 
     unnest :report_template, from: :content
-    unnest :default, from: :report_template
-    unnest :templates, from: :report_template
+    unnest :strict, from: :report_template
+    unnest :custom, from: :report_template
 
   end
 end

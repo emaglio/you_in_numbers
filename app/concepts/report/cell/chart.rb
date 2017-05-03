@@ -20,7 +20,7 @@ module Report::Cell
     end
 
     def edit
-      #TODO: maybe create something line edit_chart but edit_table
+      button_to "Edit", edit_chart_user_path(current_user.id), method: :get, params: {edit_chart: index}, class: "btn btn-outline btn-warning"
     end
 
     def delete

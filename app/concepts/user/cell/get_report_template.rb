@@ -3,7 +3,8 @@ module User::Cell
   class GetReportTemplate < Trailblazer::Cell
 
     def report
-      Report.find_by(user_id: -1)
+      user_reports = Report.where("user_id like ?", model.id)
+      user_reports.size > 0 ? user_report.last : Report.find_by(user_id: -1)
     end
 
     def obj_array

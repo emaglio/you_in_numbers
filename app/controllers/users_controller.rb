@@ -118,7 +118,7 @@ class UsersController < ApplicationController
   end
 
   def get_report_template
-    run User::ReportTemplate
+    run User::GetReportTemplate
 
     render User::Cell::GetReportTemplate, result["model"]
   end
@@ -139,6 +139,12 @@ class UsersController < ApplicationController
     end
 
     render User::Cell::GetReportTemplate, result["model"]
+  end
+
+  def edit_chart
+    run User::EditChart
+
+    render User::Cell::EditChart, result["model"]
   end
 
 

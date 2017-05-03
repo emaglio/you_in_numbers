@@ -172,8 +172,10 @@ class UserOperationTest < MiniTest::Spec
   it "edit custom template" do
     user.email.must_equal "test@email.com"
 
-    default = user.content["report_template"]["default"]
+    default = user.content["report_template"]["strict"]
     custom = user.content["report_template"]["custom"]
+
+    puts user.content["report_template"].inspect
 
     default.each do |value|
       puts value.inspect
@@ -186,7 +188,7 @@ class UserOperationTest < MiniTest::Spec
     result = User::EditObj.({id: user.id, "move_up" => 2}, "current_user" => user)
     result.success?.must_equal true
     newuser=User.find(user.id)
-    default = newuser.content["report_template"]["default"]
+    default = newuser.content["report_template"]["strict"]
     custom = newuser.content["report_template"]["custom"]
 
     puts "---After---".inspect
