@@ -23,23 +23,23 @@ class User::Create < Trailblazer::Operation
     array = []
 
     chart = OpenStruct.new(type: 'report/cell/chart',
-                          y1: {:name => "VO2", :colour => "rgb(0,0,0)", :show_scale => true},
-                          y2: {:name => "VCO2", :colour => "rgb(0,0,0)", :show_scale => false},
+                          y1: {:name => "VO2", :colour => "#FF2D2D", :show_scale => true},
+                          y2: {:name => "VCO2", :colour => "2D2DFF", :show_scale => false},
                           y3: {:name => nil, :colour => nil, :show_scale => true},
                           x: {:name => "t", :time => true, :time_format => "mm:ss"},
                           index: 0,
-                          show_vo2max: {show: true, colour: "rgb(0,0,0)"},
-                          show_exer: {show: true, colour: "rgb(0,0,0)"},
-                          show_AT: {show: true, colour: "rgb(0,0,0)"})
+                          show_vo2max: {show: true, colour: "#000000"},
+                          show_exer: {show: true, colour: "#F8CA66"},
+                          show_AT: {show: true, colour: "#FF2D2D"})
     chart2 = OpenStruct.new(type: 'report/cell/chart',
-                          y1: {:name => "HR", :colour => "rgb(0,0,0)", :show_scale => true},
-                          y2: {:name => "Power", :colour => "rgb(0,0,0)", :show_scale => true},
-                          y3: {:name => "VE", :colour => nil, :show_scale => true},
+                          y1: {:name => "HR", :colour => "#FF2D2D", :show_scale => true},
+                          y2: {:name => "Power", :colour => "2D2DFF", :show_scale => true},
+                          y3: {:name => "VE", :colour => "#ED7C52", :show_scale => true},
                           x: {:name => "t", :time => true, :time_format => "mm:ss"},
                           index: 1,
-                          show_vo2max: {show: false, colour: "rgb(0,0,0)"},
-                          show_exer: {show: true, colour: "rgb(0,0,0)"},
-                          show_AT: {show: true, colour: "rgb(0,0,0)"})
+                          show_vo2max: {show: false, colour: "#000000"},
+                          show_exer: {show: true, colour: "#F8CA66"},
+                          show_AT: {show: true, colour: "#FF2D2D"})
     summary = OpenStruct.new(type: 'report/cell/vo2max_summary',
                           y1: nil,
                           y2: nil,

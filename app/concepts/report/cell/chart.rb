@@ -56,7 +56,7 @@ module Report::Cell
     end
 
     def colour_3
-      options[:obj][:y2][:colour].inspect
+      options[:obj][:y3][:colour].inspect
     end
 
     def colour_vo2max
