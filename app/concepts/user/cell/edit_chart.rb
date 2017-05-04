@@ -29,7 +29,7 @@ module User::Cell
     end
 
     def cancel
-      button_to "Cancel", get_report_template_user_path(model.id), method: :get
+      button_to "Back", get_report_template_user_path(model.id), method: :get
     end
 
   end #class Chart

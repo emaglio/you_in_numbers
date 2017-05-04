@@ -43,6 +43,16 @@ javascript:
 
   var ctx = document.getElementById('#{chart_id}').getContext("2d");
 
+  // hex string to rgb
+  function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+  }
+
   // set time option in case x is a time scale
   function getTimeOptions(time_type){
     var time_options = { unit: 'minute', displayFormats: { 'second': 'mm:ss', 'minute': 'mm:ss'},tooltipFormat: "mm:ss" };
@@ -76,7 +86,7 @@ javascript:
   // draw a line to show the VO2max line if required
   function drawExerPhase(){
     var exer_phase = {
-                      backgroundColor: color(#{colour_exer}).alpha(0.4).rgbString(),
+                      backgroundColor: color(hexToRgb(#{colour_exer})).alpha(0.4).rgbString(),
                       label: 'Exercise Phase',
                       pointRadius: 0,
                       data:[{
@@ -115,7 +125,7 @@ javascript:
       param1 = {
                   xAxisID: "x-axis-0",
                   yAxisID: "y-axis-1",
-                  backgroundColor: color(#{colour_1}).alpha(0.5).rgbString(),
+                  backgroundColor: color(hexToRgb(#{colour_1})).alpha(0.5).rgbString(),
                   borderColor: #{colour_1},
                   fill: false,
                   label: #{label_1},
@@ -128,7 +138,7 @@ javascript:
       param2 = {
                   xAxisID: "x-axis-0",
                   yAxisID: "y-axis-2",
-                  backgroundColor: color(#{colour_2}).alpha(0.5).rgbString(),
+                  backgroundColor: color(hexToRgb(#{colour_2})).alpha(0.5).rgbString(),
                   borderColor: #{colour_2},
                   fill: false,
                   label: #{label_2},
@@ -141,7 +151,7 @@ javascript:
       param3 = {
                   xAxisID: "x-axis-0",
                   yAxisID: "y-axis-3",
-                  backgroundColor: color(#{colour_3}).alpha(0.5).rgbString(),
+                  backgroundColor: color(hexToRgb(#{colour_3})).alpha(0.5).rgbString(),
                   borderColor: #{colour_3},
                   fill: false,
                   label: #{label_3},

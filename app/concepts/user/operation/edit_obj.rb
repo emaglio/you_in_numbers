@@ -22,6 +22,35 @@ class User::EditObj < Trailblazer::Operation
       obj_array.insert(index+1, obj_array.delete_at(index))
     end
 
+    if params["edit_chart"] != nil
+      index = params["edit_chart"].to_i
+      obj_array[index][:y1][:name] = (params["y1_select"] != "none") ? params["y1_select"] : nil
+      obj_array[index][:y1][:colour] = (params["y1_select"] != "none") ? params["y1_colour"] : nil
+      obj_array[index][:y1][:show_scale] = (params["y1_select"] != "none") ? (params["y1_scale"] == "on") : false
+
+      obj_array[index][:y2][:name] = (params["y2_select"] != "none") ? params["y2_select"] : nil
+      obj_array[index][:y2][:colour] = (params["y2_select"] != "none") ? params["y2_colour"] : nil
+      obj_array[index][:y2][:show_scale] = (params["y2_select"] != "none") ? (params["y2_scale"] == "on") : false
+
+      obj_array[index][:y3][:name] = (params["y3_select"] != "none") ? params["y3_select"] : nil
+      obj_array[index][:y3][:colour] = (params["y3_select"] != "none") ? params["y3_colour"] : nil
+      obj_array[index][:y3][:show_scale] = (params["y3_select"] != "none") ? (params["y3_scale"] == "on") : false
+
+      obj_array[index][:x][:name] = (params["x"] != "none") ? params["x"] : nil
+      obj_array[index][:x][:time] = (params["x"] != "none") ? (params["x_time"] == "on") : nil
+      obj_array[index][:x][:time_format] = (params["x"] != "none") ? params["x_format"] : nil
+
+      obj_array[index][:show_vo2max][:show] = (params["vo2max_check"] == "on")
+      obj_array[index][:show_vo2max][:colour] = params["vo2max_colour"]
+
+      obj_array[index][:show_exer][:show] = (params["exer_check"] == "on")
+      obj_array[index][:show_exer][:colour] = params["exer_colour"]
+
+      obj_array[index][:show_AT][:show] = (params["at_check"] == "on")
+      obj_array[index][:show_AT][:colour] = params["at_colour"]
+    end
+
+
     model.content["report_template"]["custom"] = obj_array
   end
 
