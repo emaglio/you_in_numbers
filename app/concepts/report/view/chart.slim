@@ -1,23 +1,12 @@
-body
+- if edit?
+  = cell ('report/cell/edit_options'), model, obj: obj, size: size
+- else
   .col-sm-2
-    - if edit?
-      .col-sm-4
-      .col-sm-4
-        .row style="margin-top:50px"
-        .row style="margin-top:20px"
-          = delete
-        .row style="margin-top:20px"
-          = edit
-        .row style="margin-top:20px"
-          = move_up
-        .row style="margin-top:20px"
-          = move_down
-      .col-sm-4
-  .col-sm-8
-    . style="width:100%;"
-      canvas id= chart_id style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
-    br
-  .col-sm-2
+.col-sm-8
+  . style="width:100%;"
+    canvas id= chart_id style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
+  br
+.col-sm-2
 
 javascript:
   var color = Chart.helpers.color;
@@ -28,12 +17,19 @@ javascript:
   }
 
   //generate obj to use in the scatter chart
-  function getDataSet(time, yArray) {
+  function getDataSet(xArray, yArray) {
     var array_size = yArray.length - 1;
+
+    if(#{x_time?}){
+      for(var i=0;i < array_size; i++) {
+        xArray[i] = getTimeString(xArray[i]);
+      }
+    }
+
     var data = new Array();
     for(var i=0;i < array_size; i++) {
       var obj = {
-                  x: getTimeString(time[i]),
+                  x: xArray[i],
                   y: yArray[i]
                 };
       data.push(obj);
@@ -223,6 +219,30 @@ javascript:
     return scale;
   }
 
+  // generate x scale options
+
+  function getXscaleOptions(){
+    x_options = {
+                  type: #{x_type},
+                  position: 'bottom',
+                  scaleLabel: {
+                    display: true,
+                    labelString: #{x_label.inspect}
+                  },
+                };
+
+    if(#{x_time?}){
+      x_options["time"] = getTimeOptions(#{x_type});
+    }else{
+      x_options["ticks"] = {
+        beginAtZero: true,
+        max: 2500
+      }
+    }
+    console.log(x_options);
+    return x_options;
+  }
+
   var config = {
                 type: 'line',
                 data: {
@@ -241,15 +261,7 @@ javascript:
 
                   scales: {
                       yAxes: getYaxisOptions(),
-                      xAxes: [{
-                                type: #{x_type},
-                                time: getTimeOptions(#{x_type}),
-                                position: 'bottom',
-                                scaleLabel: {
-                                  display: true,
-                                  labelString: #{x_label.inspect}
-                                },
-                              }]
+                      xAxes: [getXscaleOptions()]
                           },
 
                   legend: {

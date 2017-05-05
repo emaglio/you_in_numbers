@@ -24,7 +24,7 @@ class User::Create < Trailblazer::Operation
 
     chart = OpenStruct.new(type: 'report/cell/chart',
                           y1: {:name => "VO2", :colour => "#FF2D2D", :show_scale => true},
-                          y2: {:name => "VCO2", :colour => "2D2DFF", :show_scale => false},
+                          y2: {:name => "VCO2", :colour => "#2D2DFF", :show_scale => false},
                           y3: {:name => nil, :colour => nil, :show_scale => true},
                           x: {:name => "t", :time => true, :time_format => "mm:ss"},
                           index: 0,
@@ -33,7 +33,7 @@ class User::Create < Trailblazer::Operation
                           show_AT: {show: true, colour: "#FF2D2D"})
     chart2 = OpenStruct.new(type: 'report/cell/chart',
                           y1: {:name => "HR", :colour => "#FF2D2D", :show_scale => true},
-                          y2: {:name => "Power", :colour => "2D2DFF", :show_scale => true},
+                          y2: {:name => "Power", :colour => "#2D2DFF", :show_scale => true},
                           y3: {:name => "VE", :colour => "#ED7C52", :show_scale => true},
                           x: {:name => "t", :time => true, :time_format => "mm:ss"},
                           index: 1,
@@ -64,7 +64,7 @@ class User::Create < Trailblazer::Operation
     array << summary
     array << training_zones
 
-    model["content"]["report_template"]["strict"] = array
+    model["content"]["report_template"]["default"] = array
     model["content"]["report_template"]["custom"] = array
   end
 

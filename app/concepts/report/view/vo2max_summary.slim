@@ -1,17 +1,7 @@
-.col-sm-2
-  - if edit?
-    .col-sm-4
-    .col-sm-4
-      .row style="margin-top:50px"
-      .row style="margin-top:20px"
-        = delete
-      .row style="margin-top:20px"
-        = edit
-      .row style="margin-top:20px"
-        = move_up
-      .row style="margin-top:20px"
-        = move_down
-    .col-sm-4
+- if edit?
+  = cell ('report/cell/edit_options'), model, obj: obj, size: size
+- else
+  .col-sm-2
 .col-sm-8.text-center
   h2 VO2max test summary
   .my-table

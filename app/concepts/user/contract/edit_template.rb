@@ -3,9 +3,15 @@ require 'disposable/twin/property/hash'
 require 'disposable/twin/property/unnest'
 
 module User::Contract
-  class EditChart < Reform::Form
+  class EditTemplate < Reform::Form
     feature Reform::Form::Dry
     include Disposable::Twin::Property::Hash
+
+    property :content, field: :hash do
+      property :report_template, field: :hash do
+        property :custom
+      end
+    end
 
     property :y1_name, virtual: true
     property :y1_colour, virtual: true

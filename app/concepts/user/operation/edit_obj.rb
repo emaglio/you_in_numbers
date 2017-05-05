@@ -1,11 +1,16 @@
 class User::EditObj < Trailblazer::Operation
   step Model(User, :find_by)
+  step ->(options, model:, **) { options["default"] = model.content["report_template"]["default"] }
   step Policy::Pundit( ::Session::Policy, :current_user? )
   failure ::Session::Lib::ThrowException
+  #TODO: need to make the form with formular and add some validations
+  step Contract::Build(constant: User::Contract::EditTemplate)
+  step Contract::Validate()
+  step Contract::Persist()
   step :update_custom_template!
   step :save!
 
-  def update_custom_template!(options, params:, model:, **)
+  def update_custom_template!(options, params:, model:, default:, **)
     obj_array = model.content["report_template"]["custom"]
 
     if params["move_up"] != nil and params["move_up"].to_i > 0
@@ -50,12 +55,86 @@ class User::EditObj < Trailblazer::Operation
       obj_array[index][:show_AT][:colour] = params["at_colour"]
     end
 
+    if params["type"] != nil
+      index = params["index"].to_i
 
-    model.content["report_template"]["custom"] = obj_array
+      types = {
+        "VO2max summary" => obj_vo2_max_summary,
+        "Training Zones" => obj_training_zones,
+        "Chart" => obj_chart
+        }
+
+      obj = types[params["type"]]
+      obj[:index] = index
+      obj_array.insert(index, obj)
+
+      # update index
+      for i in (index+1)..(obj_array.size-1)
+        obj_array[i][:index] += 1
+      end
+    end
+
+    if params["delete"] != nil
+      index = params["delete"].to_i
+
+      obj_array.delete_at(index)
+
+      # update index
+      for i in (index)..(obj_array.size-1)
+        obj_array[i][:index] -= 1
+      end
+    end
+
+    options["model"]["content"]["report_template"]["custom"] = obj_array
+    options["model"]["content"]["report_template"]["default"] = default
   end
 
   def save!(options, model:, **)
     model.save
+  end
+
+private
+
+  def obj_chart
+    chart = OpenStruct.new(type: 'report/cell/chart',
+                          y1: {:name => "VO2", :colour => "#FF2D2D", :show_scale => true},
+                          y2: {:name => "VCO2", :colour => "#2D2DFF", :show_scale => false},
+                          y3: {:name => nil, :colour => nil, :show_scale => true},
+                          x: {:name => "t", :time => true, :time_format => "mm:ss"},
+                          index: 0,
+                          show_vo2max: {show: true, colour: "#000000"},
+                          show_exer: {show: true, colour: "#F8CA66"},
+                          show_AT: {show: true, colour: "#FF2D2D"})
+
+    return chart
+  end
+
+  def obj_vo2_max_summary
+    summary = OpenStruct.new(type: 'report/cell/vo2max_summary',
+                            y1: nil,
+                            y2: nil,
+                            y3: nil,
+                            x: nil,
+                            index: 0,
+                            show_vo2max: false,
+                            show_exer: false,
+                            show_AT: false)
+
+    return summary
+  end
+
+  def obj_training_zones
+    training_zones = OpenStruct.new(type: 'report/cell/training_zones',
+                          y1: nil,
+                          y2: nil,
+                          y3: nil,
+                          x: nil,
+                          index: 0,
+                          show_vo2max: false,
+                          show_exer: false,
+                          show_AT: false)
+
+    return training_zones
   end
 
 end # class User::EditObj

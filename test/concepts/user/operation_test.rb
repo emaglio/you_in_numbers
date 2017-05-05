@@ -172,23 +172,21 @@ class UserOperationTest < MiniTest::Spec
   it "edit custom template" do
     user.email.must_equal "test@email.com"
 
-    default = user.content["report_template"]["strict"]
+    default = user.content["report_template"]["default"]
     custom = user.content["report_template"]["custom"]
 
-    puts user.content["report_template"].inspect
+    # default.each do |value|
+    #   puts value.inspect
+    # end
+    # puts "------".inspect
+    # custom.each do |value|
+    #   puts value.inspect
+    # end
 
-    default.each do |value|
-      puts value.inspect
-    end
-    puts "------".inspect
-    custom.each do |value|
-      puts value.inspect
-    end
-
-    result = User::EditObj.({id: user.id, "move_up" => 2}, "current_user" => user)
+    result = User::EditObj.({id: user.id, "index" => 2, "delete" => 0}, "current_user" => user)
     result.success?.must_equal true
     newuser=User.find(user.id)
-    default = newuser.content["report_template"]["strict"]
+    default = newuser.content["report_template"]["default"]
     custom = newuser.content["report_template"]["custom"]
 
     puts "---After---".inspect

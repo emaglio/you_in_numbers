@@ -10,29 +10,12 @@ module Report::Cell
       options[:type] == "edit"
     end
 
-
-    def index
-      options[:obj][:index]
+    def obj
+      options[:obj]
     end
 
-    def obj_array_size
+    def size
       options[:size]
-    end
-
-    def edit
-      #TODO: maybe create something line edit_chart but edit_table
-    end
-
-    def delete
-      # button_to "Delete", delete_obj_(model.id), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger"
-    end
-
-    def move_up
-      link_to '<i class="fa fa-arrow-up" aria-hidden="true"></i>'.html_safe, edit_obj_user_path(current_user.id, move_up: index), method: :get, class: "btn btn-outline btn-success" if index > 0
-    end
-
-    def move_down
-      link_to '<i class="fa fa-arrow-down" aria-hidden="true"></i>'.html_safe, edit_obj_user_path(current_user.id, move_down: index), method: :get, class: "btn btn-outline btn-success" if index < (obj_array_size-1)
     end
 
     def zones_settings

@@ -10,6 +10,13 @@ module Report::Cell
       options[:type] == "edit"
     end
 
+    def obj
+      options[:obj]
+    end
+
+    def size
+      options[:size]
+    end
 
     def index
       options[:obj][:index]
@@ -29,26 +36,6 @@ module Report::Cell
 
     def at_colour
       show_AT ? options[:obj][:show_AT][:colour].inspect : '#0000'.inspect
-    end
-
-    def obj_array_size
-      options[:size]
-    end
-
-    def edit
-      button_to "Edit", edit_chart_user_path(current_user.id), method: :get, params: {edit_chart: index}, class: "btn btn-outline btn-warning"
-    end
-
-    def delete
-      # button_to "Delete", delete_obj_(model.id), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger"
-    end
-
-    def move_up
-      link_to '<i class="fa fa-arrow-up" aria-hidden="true"></i>'.html_safe, edit_obj_user_path(current_user.id, move_up: index), method: :get, class: "btn btn-outline btn-success" if index > 0
-    end
-
-    def move_down
-      link_to '<i class="fa fa-arrow-down" aria-hidden="true"></i>'.html_safe, edit_obj_user_path(current_user.id, move_down: index), method: :get, class: "btn btn-outline btn-success" if index < (obj_array_size-1)
     end
 
     def label_1
@@ -88,7 +75,7 @@ module Report::Cell
     end
 
     def time_format
-      options[:obj][:x][:time_format].inspect
+      options[:obj][:x][:time_format] ? options[:obj][:x][:time_format].inspect : "mm:ss".inspect
     end
 
     def generate_param_1
@@ -118,6 +105,7 @@ module Report::Cell
     def x_label
       label = options[:obj][:x][:name]
       label = "time" if label == "t"
+      return label
     end
 
     def title
@@ -151,8 +139,12 @@ module Report::Cell
       model["cpet_params"][options[:obj][:x][:name]].inspect
     end
 
+    def x_time?
+      options[:obj][:x][:time]
+    end
+
     def x_type
-      options[:obj][:x][:time] ? "time".inspect : "linear".inspect
+      x_time? ? "time".inspect : "linear".inspect
     end
 
     def at_index
