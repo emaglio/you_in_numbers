@@ -226,8 +226,9 @@ javascript:
   var config = {
                 type: 'line',
                 data: {
-                    datasets: dataSet(false,true),
-                    lineAtValue: drawAT(true)
+                    datasets: dataSet(#{show_vo2max},#{show_exer}),
+                    lineAtValue: drawAT(#{show_AT}),
+                    colourAt: #{at_colour}
                 },
 
                 options: {

@@ -24,6 +24,7 @@ javascript:
       var ctx = chart.chart.ctx;
 
       var value = chart.config.data.lineAtValue;
+      var colour = chart.config.data.colourAt;
       if (value) {
         var xaxis = chart.scales['x-axis-0'];
         var yaxis = chart.scales['y-axis-1'];
@@ -33,7 +34,7 @@ javascript:
         ctx.save();
         ctx.beginPath();
         ctx.moveTo(at_point, yaxis.top + 60);
-        ctx.strokeStyle = '#ff0000';
+        ctx.strokeStyle = colour;
         ctx.lineTo(at_point, yaxis.bottom);
         ctx.stroke();
         ctx.restore();

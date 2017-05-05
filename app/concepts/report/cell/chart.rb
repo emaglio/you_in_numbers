@@ -15,6 +15,22 @@ module Report::Cell
       options[:obj][:index]
     end
 
+    def show_vo2max
+      options[:obj][:show_vo2max][:show]
+    end
+
+    def show_exer
+      options[:obj][:show_exer][:show]
+    end
+
+    def show_AT
+      options[:obj][:show_AT][:show]
+    end
+
+    def at_colour
+      show_AT ? options[:obj][:show_AT][:colour].inspect : '#0000'.inspect
+    end
+
     def obj_array_size
       options[:size]
     end

@@ -1,13 +1,9 @@
 module Report::Cell
 
-  class TrainingZones < Trailblazer::Cell
+  class TrainingZones < New
 
     def content
-      options[:context][:current_user].content
-    end
-
-    def current_user
-      options[:context][:current_user]
+      current_user.content
     end
 
     def edit?
