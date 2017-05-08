@@ -105,13 +105,13 @@ hr style="margin-top: 0px;"
             small
               | Show it?
           .row
-            = check_box_tag "vo2max_check", nil, obj[:show_vo2max][:show]
+            = check_box_tag "vo2max_check", nil, obj[:show_vo2max][:show], disabled: (obj[:x][:time] == false)
         .col-sm-4.text-center
           .row
             small
               | Color:
           .row
-            = color_field_tag "vo2max_colour", obj[:show_vo2max][:colour], disabled: (not obj[:show_vo2max][:show])
+            = color_field_tag "vo2max_colour", obj[:show_vo2max][:colour], disabled: ((not obj[:show_vo2max][:show]) and (obj[:x][:time] == false))
       .row style="margin-top:5px;margin-left:20px;"
         strong
           | Exercise area:
@@ -121,13 +121,13 @@ hr style="margin-top: 0px;"
             small
               | Show it?
           .row
-            = check_box_tag "exer_check", nil, obj[:show_exer][:show]
+            = check_box_tag "exer_check", nil, obj[:show_exer][:show], disabled: (obj[:x][:time] == false)
         .col-sm-4.text-center
           .row
             small
               | Color:
           .row
-            = color_field_tag "exer_colour", obj[:show_exer][:colour], disabled: (not obj[:show_exer][:show])
+            = color_field_tag "exer_colour", obj[:show_exer][:colour], disabled: ((not obj[:show_exer][:show]) and (obj[:x][:time] == false))
       .row style="margin-top:5px;margin-left:20px;"
         strong
           | AT line:
@@ -137,13 +137,13 @@ hr style="margin-top: 0px;"
             small
               | Show it?
           .row
-            = check_box_tag "at_check", nil, obj[:show_AT][:show]
+            = check_box_tag "at_check", nil, obj[:show_AT][:show], disabled: (obj[:x][:time] == false)
         .col-sm-4.text-center
           .row
             small
               | Color:
           .row
-            = color_field_tag "at_colour", obj[:show_AT][:colour], disabled: (not obj[:show_AT][:show])
+            = color_field_tag "at_colour", obj[:show_AT][:colour], disabled: ((not obj[:show_AT][:show]) and (obj[:x][:time] == false))
       .row style="margin-top:20px;margin-bottom:5px;"
         .col-sm-12.text-center
           = submit_tag
@@ -214,12 +214,28 @@ javascript:
       }
     }
 
+    var vo2max_check = document.getElementById("vo2max_check");
+    var exer_check = document.getElementById("exer_check");
+    var at_check = document.getElementById("at_check");
+
     document.getElementById("x_time").onchange=function() {
       if(this.checked){
         x_format.disabled = false;
+        vo2max_check.disabled = false;
+        vo2max_colour.disabled = false;
+        exer_check.disabled = false;
+        exer_colour.disabled = false;
+        at_check.disabled = false
+        at_colour.disabled = false;
         x_format.focus();
       }else{
         x_format.disabled = true;
+        vo2max_check.disabled = true;
+        vo2max_colour.disabled = true;
+        exer_check.disabled = true;
+        exer_colour.disabled = true;
+        at_check.disabled = true
+        at_colour.disabled = true;
       }
     }
 
