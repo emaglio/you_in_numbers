@@ -13,28 +13,29 @@ module User::Contract
       end
     end
 
-    property :y1_name, virtual: true
-    property :y1_colour, virtual: true
-    property :y1_show_scale, virtual: true
-    property :y2_name, virtual: true
-    property :y2_colour, virtual: true
-    property :y2_show_scale, virtual: true
-    property :y3_name, virtual: true
-    property :y3_colour, virtual: true
-    property :y3_show_scale, virtual: true
-    property :x_name, virtual: true
-    property :x_time, virtual: true
-    property :x_time_format_scale, virtual: true
+    property :move_up, virtual: true
+    property :move_down, virtual: true
+    property :edit_chart, virtual: true
+    property :delete, virtual: true
+    property :type, virtual: true
     property :index, virtual: true
-    property :show_AT_value, virtual: true
-    property :show_AT_colour, virtual: true
-    property :show_exer_value, virtual: true
-    property :show_exer_colour, virtual: true
-    property :show_vo2max_value, virtual: true
-    property :show_vo2max_colour, virtual: true
 
     validation  with: { form: true } do
 
+      configure do
+        config.messages_file = 'config/error_messages.yml'
+        def grater_than_zero?(value)
+          (value).to_i >= 0
+        end
+
+      end
+
+      required(:move_up).maybe(:grater_than_zero?)
+      required(:move_down).maybe(:grater_than_zero?)
+      required(:edit_chart).maybe(:grater_than_zero?)
+      required(:delete).maybe(:grater_than_zero?)
+      required(:type).maybe(:str?)
+      required(:index).maybe(:grater_than_zero?)
     end
   end
 end

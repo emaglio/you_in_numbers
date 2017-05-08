@@ -3,9 +3,9 @@ require_dependency 'user/operation/new'
 class User::Create < Trailblazer::Operation
   step Nested(::User::New)
   step Contract::Validate()
-  step Contract::Persist()
   step :default_report_settings!
   step :default_report_template!
+  step Contract::Persist()
   step :create!
   # step :notify!
 
@@ -13,10 +13,10 @@ class User::Create < Trailblazer::Operation
   #   Notification::User.({}, "email" => model.email, "type" => "welcome")
   # end
 
-  def default_report_settings!(options, model:, **)
-    model["content"]["report_settings"]["params_list"] = ["t", "Rf", "VE", "VO2", "VCO2", "RQ", "VE/VO2", "HR", "VO2/Kg", "FAT%", "CHO%", "Phase"]
-    model["content"]["report_settings"]["ergo_params_list"] = ["Power", "Watt", "Revolution", "RPM"]
-    model["content"]["report_settings"]["training_zones_settings"] = [35, 50, 51, 75, 76, 90, 91, 100]
+  def default_report_settings!(options, *)
+    options["contract.default"].content.report_settings.params_list = ["t", "Rf", "VE", "VO2", "VCO2", "RQ", "VE/VO2", "HR", "VO2/Kg", "FAT%", "CHO%", "Phase"]
+    options["contract.default"].content.report_settings.ergo_params_list = ["Power", "Watt", "Revolution", "RPM"]
+    options["contract.default"].content.report_settings.training_zones_settings = [35, 50, 51, 75, 76, 90, 91, 100]
   end
 
   def default_report_template!(options, model:, **)
@@ -64,8 +64,8 @@ class User::Create < Trailblazer::Operation
     array << summary
     array << training_zones
 
-    model["content"]["report_template"]["default"] = array
-    model["content"]["report_template"]["custom"] = array
+    options["contract.default"].content.report_template.custom = array
+    options["contract.default"].content.report_template.not_custom = array
   end
 
   def create!(options, model:, params:, **)

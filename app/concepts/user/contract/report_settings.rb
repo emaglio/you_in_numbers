@@ -12,7 +12,7 @@ module User::Contract
         property :params_list
         property :ergo_params_list
         property :report_path
-        property :training_zones_levels
+        property :training_zones_settings
       end
     end
 
@@ -34,7 +34,7 @@ module User::Contract
 
 
     unnest :report_settings, from: :content
-    unnest :training_zones_levels, from: :report_settings
+    unnest :training_zones_settings, from: :report_settings
     unnest :params_list, from: :report_settings
     unnest :ergo_params_list, from: :report_settings
     unnest :report_path, from: :report_settings

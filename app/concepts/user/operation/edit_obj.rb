@@ -1,17 +1,17 @@
 class User::EditObj < Trailblazer::Operation
   step Model(User, :find_by)
-  step ->(options, model:, **) { options["default"] = model.content["report_template"]["default"] }
+  step ->(options, model:, **) { options["default"] = model.content["report_template"]["not_custom"] }
   step Policy::Pundit( ::Session::Policy, :current_user? )
   failure ::Session::Lib::ThrowException
   #TODO: need to make the form with formular and add some validations
   step Contract::Build(constant: User::Contract::EditTemplate)
   step Contract::Validate()
-  step Contract::Persist()
   step :update_custom_template!
-  step :save!
+  step Contract::Persist()
+  step :save_default!
 
-  def update_custom_template!(options, params:, model:, default:, **)
-    obj_array = model.content["report_template"]["custom"]
+  def update_custom_template!(options, params:, **)
+    obj_array = options["contract.default"].content.report_template.custom
 
     if params["move_up"] != nil and params["move_up"].to_i > 0
       index = params["move_up"].to_i
@@ -85,11 +85,12 @@ class User::EditObj < Trailblazer::Operation
       end
     end
 
-    options["model"]["content"]["report_template"]["custom"] = obj_array
-    options["model"]["content"]["report_template"]["default"] = default
+    options["contract.default"].content.report_template.custom = obj_array
+    # options["contract.default"].content.report_template.not_custom = default
   end
 
-  def save!(options, model:, **)
+  def save_default!(options, model:, default:, **)
+    model["content"]["report_template"]["not_custom"] = default
     model.save
   end
 

@@ -169,10 +169,22 @@ class UserOperationTest < MiniTest::Spec
   #   Report.where("user_id like ?", user.id).size.must_equal 0
   # end
 
+  it "default settings" do
+    user.email.must_equal "test@email.com"
+
+    user.content["report_settings"].each do |key,value|
+      (value.size > 0).must_equal true
+    end
+
+    user.content["report_template"].each do |key,value|
+      (value.size > 0).must_equal true
+    end
+  end
+
   it "edit custom template" do
     user.email.must_equal "test@email.com"
 
-    default = user.content["report_template"]["default"]
+    default = user.content["report_template"]["not_custom"]
     custom = user.content["report_template"]["custom"]
 
     # default.each do |value|
@@ -183,10 +195,11 @@ class UserOperationTest < MiniTest::Spec
     #   puts value.inspect
     # end
 
-    result = User::EditObj.({id: user.id, "index" => 2, "delete" => 0}, "current_user" => user)
+    result = User::EditObj.({id: user.id, "delete" => "0"}, "current_user" => user)
+    # result["contract.default"].errors.messages.inspect.must_equal ""
     result.success?.must_equal true
     newuser=User.find(user.id)
-    default = newuser.content["report_template"]["default"]
+    default = newuser.content["report_template"]["not_custom"]
     custom = newuser.content["report_template"]["custom"]
 
     puts "---After---".inspect

@@ -138,6 +138,7 @@ class UsersController < ApplicationController
       return redirect_to "/users/#{result["model"].id}/get_report_template"
     end
 
+    flash[:danger] = "Something went wrong and the changes have not been saved!"
     render User::Cell::GetReportTemplate, result["model"]
   end
 
@@ -147,8 +148,6 @@ class UsersController < ApplicationController
     render User::Cell::EditChart, result["model"]
   end
 
-
-
 private
   def get_name(model)
     name = model.firstname
@@ -157,6 +156,4 @@ private
     end
     return name
   end
-
-
 end

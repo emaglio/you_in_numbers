@@ -10,3 +10,4 @@ en:
     not_blocked?: "You have been blocked mate"
     at_least_one_file?: "At least one file must be uploaded"
     file_exists?: "The file selected doens't exist"
+    grater_than_zero?: "Something went wrong!"
