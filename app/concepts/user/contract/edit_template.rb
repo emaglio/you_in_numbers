@@ -9,9 +9,12 @@ module User::Contract
 
     property :content, field: :hash do
       property :report_template, field: :hash do
-        property :custom
+        property :custom, virtual: true
       end
     end
+
+    unnest :report_template, from: :content
+    unnest :custom, from: :report_template
 
     property :move_up, virtual: true
     property :move_down, virtual: true

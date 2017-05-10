@@ -3,15 +3,14 @@ class User::EditObj < Trailblazer::Operation
   step ->(options, model:, **) { options["default"] = model.content["report_template"]["not_custom"] }
   step Policy::Pundit( ::Session::Policy, :current_user? )
   failure ::Session::Lib::ThrowException
-  #TODO: need to make the form with formular and add some validations
   step Contract::Build(constant: User::Contract::EditTemplate)
   step Contract::Validate()
   step :update_custom_template!
   step Contract::Persist()
   step :save_default!
 
-  def update_custom_template!(options, params:, **)
-    obj_array = options["contract.default"].content.report_template.custom
+  def update_custom_template!(options, model:, params:, **)
+    obj_array = model["content"]["report_template"]["custom"]
 
     if params["move_up"] != nil and params["move_up"].to_i > 0
       index = params["move_up"].to_i
@@ -86,11 +85,15 @@ class User::EditObj < Trailblazer::Operation
     end
 
     options["contract.default"].content.report_template.custom = obj_array
-    # options["contract.default"].content.report_template.not_custom = default
   end
 
   def save_default!(options, model:, default:, **)
+    model["content"]["report_template"]["not_custom"] = []
     model["content"]["report_template"]["not_custom"] = default
+    # model["content"]["report_template"]["not_custom"] << obj_chart
+    # model["content"]["report_template"]["not_custom"] << obj_chart2
+    # model["content"]["report_template"]["not_custom"] << obj_vo2_max_summary
+    # model["content"]["report_template"]["not_custom"] << obj_training_zones
     model.save
   end
 
@@ -108,6 +111,20 @@ private
                           show_AT: {show: true, colour: "#FF2D2D"})
 
     return chart
+  end
+
+  def obj_chart2
+    chart2 = OpenStruct.new(type: 'report/cell/chart',
+                          y1: {:name => "HR", :colour => "#FF2D2D", :show_scale => true},
+                          y2: {:name => "Power", :colour => "#2D2DFF", :show_scale => true},
+                          y3: {:name => "VE", :colour => "#ED7C52", :show_scale => true},
+                          x: {:name => "t", :time => true, :time_format => "mm:ss"},
+                          index: 1,
+                          show_vo2max: {show: false, colour: "#000000"},
+                          show_exer: {show: true, colour: "#F8CA66"},
+                          show_AT: {show: true, colour: "#FF2D2D"})
+
+    return chart2
   end
 
   def obj_vo2_max_summary
