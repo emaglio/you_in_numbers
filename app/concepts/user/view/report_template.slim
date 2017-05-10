@@ -1,1 +1,30 @@
-= edit
+.row style="margin-top: 40px;"
+  .col-sm-1
+  .col-sm-4.mybox
+    .row
+      .col-sm-12 style="margin-top:10px;margin-bottom:10px;"
+        .row style="margin-top:10px;margin-left:5px;"
+          strong
+            | Default:
+          - default_obj_array.each do |obj|
+            .row style="margin-left:5px; margin-top:5px;"
+              .col-sm-2.text-right
+                i class="#{icon(obj)}" aria-hidden = "true"
+              .col-sm-10.text-left style="margin-top:10px;"
+                = title(obj)
+  .col-sm-2
+  .col-sm-4
+    .col-sm-12.mybox
+      .col-sm-12 style="margin-top:10px;margin-bottom:10px;"
+        .row style="margin-top:10px;margin-left:5px;"
+          strong
+            | Custom template:
+          - custom_obj_array.each do |obj|
+            .row style="margin-left:5px; margin-top:5px;"
+              .col-sm-2.text-right
+                i class="#{icon(obj)}" aria-hidden = "true"
+              .col-sm-10.text-left style="margin-top:10px;"
+                = title(obj)
+    .col-sm-12.text-center style="margin-top:5px;"
+      = edit
+  .col-sm-1

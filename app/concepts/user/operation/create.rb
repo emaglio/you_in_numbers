@@ -65,7 +65,7 @@ class User::Create < Trailblazer::Operation
     array << training_zones
 
     options["contract.default"].content.report_template.custom = array
-    options["contract.default"].content.report_template.not_custom = array
+    options["contract.default"].content.report_template.default = array
   end
 
   def create!(options, model:, params:, **)

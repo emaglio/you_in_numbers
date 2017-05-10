@@ -294,4 +294,10 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
   #   page.must_have_content "Hi, UserFirstname"
   #   page.must_have_link "Sign Out"
   # end
+
+  it "edit template" do
+    log_in_as_user("my@email.com", "password")
+
+    page.must_have_content "Hi,"
+  end
 end

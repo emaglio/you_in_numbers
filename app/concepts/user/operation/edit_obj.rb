@@ -1,6 +1,6 @@
 class User::EditObj < Trailblazer::Operation
   step Model(User, :find_by)
-  step ->(options, model:, **) { options["default"] = model.content["report_template"]["not_custom"] }
+  step ->(options, model:, **) { options["default"] = model.content["report_template"]["default"] }
   step Policy::Pundit( ::Session::Policy, :current_user? )
   failure ::Session::Lib::ThrowException
   step Contract::Build(constant: User::Contract::EditTemplate)
@@ -87,13 +87,13 @@ class User::EditObj < Trailblazer::Operation
     options["contract.default"].content.report_template.custom = obj_array
   end
 
-  def save_default!(options, model:, default:, **)
-    model["content"]["report_template"]["not_custom"] = []
-    model["content"]["report_template"]["not_custom"] = default
-    # model["content"]["report_template"]["not_custom"] << obj_chart
-    # model["content"]["report_template"]["not_custom"] << obj_chart2
-    # model["content"]["report_template"]["not_custom"] << obj_vo2_max_summary
-    # model["content"]["report_template"]["not_custom"] << obj_training_zones
+  # need to remove this as soon as find a solution to the issue of overriding not_custom
+  def save_default!(options, model:, **)
+    model["content"]["report_template"]["default"] = []
+    model["content"]["report_template"]["default"] << obj_chart
+    model["content"]["report_template"]["default"] << obj_chart2
+    model["content"]["report_template"]["default"] << obj_vo2_max_summary
+    model["content"]["report_template"]["default"] << obj_training_zones
     model.save
   end
 

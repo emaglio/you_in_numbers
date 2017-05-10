@@ -63,3 +63,7 @@
   height: 30px;
   margin-top: 10px;
 }
+
+.fa-4x {
+  font-size: 4em !important;
+}

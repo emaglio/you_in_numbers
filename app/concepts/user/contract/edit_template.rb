@@ -5,11 +5,11 @@ require 'disposable/twin/property/unnest'
 module User::Contract
   class EditTemplate < Reform::Form
     feature Reform::Form::Dry
-    include Disposable::Twin::Property::Hash
+    feature Disposable::Twin::Property::Hash
 
     property :content, field: :hash do
       property :report_template, field: :hash do
-        property :custom, virtual: true
+        property :custom
       end
     end
 
@@ -28,6 +28,7 @@ module User::Contract
       configure do
         config.messages_file = 'config/error_messages.yml'
         def grater_than_zero?(value)
+          return false if value == ""
           (value).to_i >= 0
         end
 

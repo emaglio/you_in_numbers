@@ -59,7 +59,7 @@ module User::Contract
       end
 
       property :report_template, field: :hash do
-        property :not_custom
+        property :default
         property :custom
       end
     end
@@ -73,7 +73,7 @@ module User::Contract
     # to create default template
 
     unnest :report_template, from: :content
-    unnest :not_custom, from: :report_template
+    unnest :default, from: :report_template
     unnest :custom, from: :report_template
 
   end
