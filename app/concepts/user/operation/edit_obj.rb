@@ -133,7 +133,7 @@ private
                             y2: nil,
                             y3: nil,
                             x: nil,
-                            index: 0,
+                            index: 2,
                             show_vo2max: false,
                             show_exer: false,
                             show_AT: false)
@@ -147,7 +147,7 @@ private
                           y2: nil,
                           y3: nil,
                           x: nil,
-                          index: 0,
+                          index: 3,
                           show_vo2max: false,
                           show_exer: false,
                           show_AT: false)

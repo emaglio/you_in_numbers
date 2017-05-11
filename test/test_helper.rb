@@ -12,6 +12,7 @@ Minitest::Spec.class_eval do
     # DatabaseCleaner.clean
     ::User.delete_all
     ::Company.delete_all
+    ::Report.delete_all
   end
 
   def admin_for
@@ -79,41 +80,18 @@ Trailblazer::Test::Integration.class_eval do
     submit!(email, "password")
   end
 
-  def new_post!(title = "Title", subtitle = "Subtitle", body = "Body", author = "Author", signed_in = false)
-    within("//form[@id='new_post']") do
-      fill_in 'Title',  with: title
-      fill_in 'Subtitle', with: subtitle
-      fill_in 'What do you wanna say?', with: body
-      if !signed_in
-        fill_in 'Author', with: author
-      end
-    end
-    click_button "Create Post"
-  end
+  # def new_post!(title = "Title", subtitle = "Subtitle", body = "Body", author = "Author", signed_in = false)
+  #   within("//form[@id='new_post']") do
+  #     fill_in 'Title',  with: title
+  #     fill_in 'Subtitle', with: subtitle
+  #     fill_in 'What do you wanna say?', with: body
+  #     if !signed_in
+  #       fill_in 'Author', with: author
+  #     end
+  #   end
+  #   click_button "Create Post"
+  # end
 
-  def approve_post!(post_id)
-    log_in_as_admin
-
-    visit "posts/#{post_id}"
-    within("//form[@id='status_form']") do
-      select('Approved', :from => 'status')
-      click_button "Update"
-    end
-
-    click_link "Sign Out"
-  end
-
-  def decline_post!(post_id)
-    log_in_as_admin
-
-    visit "/posts/#{post_id}"
-    within("//form[@id='status_form']") do
-      select('Declined', :from => 'status')
-      click_button "Update"
-    end
-
-    click_link "Sign Out"
-  end
 end
 
 # to test that a new password "NewPassword" is actually saved

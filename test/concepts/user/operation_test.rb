@@ -248,8 +248,6 @@ class UserOperationTest < MiniTest::Spec
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
 
-    puts default.inspect
-
     default.size.must_equal 4
     custom.size.must_equal 3
     custom[0][:type].must_equal "report/cell/chart"

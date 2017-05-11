@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class SessionsIntegrationTest < Trailblazer::Test::Integration
-  
+
   it "invalid log in (not existing)" do
     visit "sessions/new"
 
@@ -25,7 +25,7 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
 
   it "successfully log in" do
     user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password", firstname: "NewUser")["model"]
-    
+
     visit "sessions/new"
 
     submit!("#{user.email}", "password")
@@ -35,14 +35,14 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
     page.wont_have_css "#email"
     page.wont_have_css "#password"
     page.wont_have_button "Sign In"
-    page.current_path.must_equal posts_path
+    page.current_path.must_equal reports_path
 
     page.must_have_content "Hey mate, welcome back!"
   end
 
   it "succesfully log out" do
     user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password", firstname: "NewUser")["model"]
-    
+
     visit "sessions/new"
 
     submit!("#{user.email}", "password")

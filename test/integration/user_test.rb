@@ -39,7 +39,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     #sign_out and try to create user with the same email
     click_link "Sign Out"
 
-    visit 'users/new'
+    visit new_user_path
     sign_up!
     page.must_have_content "This email has been already used"
     page.current_path.must_equal "/users"
@@ -83,7 +83,6 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     #user2 trying to update user
     click_link "Sign Out"
 
-    visit 'sessions/new'
     user2 = User.find_by(email: "test2@email.com")
     submit!(user2.email, "password")
 

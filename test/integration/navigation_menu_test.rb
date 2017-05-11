@@ -4,95 +4,39 @@ class NavigationMenuTest < Trailblazer::Test::Integration
 
   it "basic" do
     #no user logged in
-    visit 'posts'
+    visit root_path
 
-    find('.nav').must_have_link "Home"
-    find('.nav').must_have_link "New User"
-    find('.nav').must_have_link "New Post"
     find('.nav').must_have_link "Sign In"
-    find('.nav').wont_have_link "My Posts"
+    find('.nav').must_have_link "Sign Up"
+    find('.nav').must_have_link "Download"
+    find('.nav').must_have_link "Features"
+    find('.nav').must_have_link "Contact"
 
     #normal user logged in
     log_in_as_user
 
-    find('.nav').must_have_link "Hi, UserFirstname"
-    find('.nav').must_have_link "Home"
-    find('.nav').wont_have_link "New User"
-    find('.nav').must_have_link "New Post"
-    find('.nav').wont_have_link "Sign In"
-    find('.nav').wont_have_link "All Users"
-    find('.nav').must_have_link "My Posts"
-    find('.nav').must_have_link "Sign Out"
+    find('.navbar-top-links').wont_have_link "Sign In"
+    find('.navbar-top-links').wont_have_link "Sign Up"
+    find('.navbar-top-links').must_have_link "Hi, UserFirstname"
+    find('.navbar-top-links').must_have_link "Settings"
+    find('.navbar-top-links').must_have_link "Sign Out"
+    find('.navbar-top-links').must_have_link "User settings"
+    find('.navbar-top-links').must_have_link "Report settings"
 
     click_link "Sign Out"
 
     #logged in as admin
+    visit root_path
     log_in_as_admin
 
-    find('.nav').must_have_link "Hi, Admin"
-    find('.nav').must_have_link "Home"
-    find('.nav').wont_have_link "New User"
-    find('.nav').must_have_link "New Post"
-    find('.nav').wont_have_link "Sign In"
-    find('.nav').must_have_link "All Users"
-    find('.nav').must_have_link "All Posts"
-    find('.nav').must_have_link "Approved (0)"
-    find('.nav').must_have_link "Pending (0)"
-    find('.nav').must_have_link "Declined (0)"
-    find('.nav').must_have_link "My Posts"
-    find('.nav').must_have_link "Sign Out"
+    # TODO: create more logic for admin and add the tests here
+    find('.navbar-top-links').wont_have_link "Sign In"
+    find('.navbar-top-links').wont_have_link "Sign Up"
+    find('.navbar-top-links').must_have_link "Hi, Admin"
+    find('.navbar-top-links').must_have_link "Settings"
+    find('.navbar-top-links').must_have_link "Sign Out"
+    find('.navbar-top-links').must_have_link "User settings"
+    find('.navbar-top-links').must_have_link "Report settings"
   end
 
-  it "All Posts and My Posts menu" do
-    log_in_as_user
-    visit "posts/new"
-    new_post!("Post1", "Subtitle1", "Body1", "", true)
-    post1 = Post.last
-
-    visit "posts/new"
-    new_post!("Post2", "Subtitle2", "Body2", "", true)
-    post2 = Post.last
-
-    approve_post!(post1.id)
-    decline_post!(post2.id) 
-
-    visit "posts/new"
-    new_post!("Post3")
-    
-    log_in_as_admin
-
-    find('.nav').must_have_link "All Posts"
-    find('.nav').must_have_link "Approved (1)"
-    find('.nav').must_have_link "Pending (1)"
-    find('.nav').must_have_link "Declined (1)"
-
-    find('.nav').click_link "Approved (1)"
-    page.must_have_content "Here are the approved posts:"
-    find('.main').must_have_content "Post1"
-    find('.main').wont_have_link "Post2"
-    find('.main').wont_have_link "Post3"
-
-    find('.nav').click_link "Declined (1)"
-    page.must_have_content "Here are the declined posts:"
-    find('.main').must_have_link "Post2"
-    find('.main').wont_have_link "Post1"
-    find('.main').wont_have_link "Post3"
-
-    find('.nav').click_link "Pending (1)"
-    page.must_have_content "Here are the pending posts:"
-    find('.main').must_have_link "Post3"
-    find('.main').wont_have_link "Post1"
-    find('.main').wont_have_link "Post2"
-
-    click_link "Sign Out"
-
-    log_in_as_user
-
-    find('.nav').click_link "My Posts"
-    find('.main').must_have_css ".fa.fa-check-circle-o"
-    find('.main').must_have_link "Post2"
-    find('.main').must_have_css ".fa.fa-times"
-    find('.main').must_have_link "Post1"
-    find('.main').wont_have_link "Post3"
-  end
 end

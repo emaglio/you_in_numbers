@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
     run Session::SignOut do
       tyrant.sign_out!
       flash[:success] = "See ya!"
-      redirect_to root_path
+      redirect_to "/sessions/new"
     end
   end
 end
