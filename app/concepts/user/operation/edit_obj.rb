@@ -52,15 +52,17 @@ class User::EditObj < Trailblazer::Operation
 
       obj_array[index][:show_AT][:show] = (params["at_check"] == "on")
       obj_array[index][:show_AT][:colour] = params["at_colour"]
+
+      obj_array[index][:only_exer] = params["only_exer"]
     end
 
     if params["type"] != nil
       index = params["index"].to_i
 
       types = {
-        "VO2max summary" => obj_vo2_max_summary,
-        "Training Zones" => obj_training_zones,
-        "Chart" => obj_chart
+        "VO2max summary" => MyDefault::ReportObj[2],
+        "Training Zones" => MyDefault::ReportObj[3],
+        "Chart" => MyDefault::ReportObj[0]
         }
 
       obj = types[params["type"]]
@@ -89,11 +91,7 @@ class User::EditObj < Trailblazer::Operation
 
   # need to remove this as soon as find a solution to the issue of overriding not_custom
   def save_default!(options, model:, **)
-    model["content"]["report_template"]["default"] = []
-    model["content"]["report_template"]["default"] << obj_chart
-    model["content"]["report_template"]["default"] << obj_chart2
-    model["content"]["report_template"]["default"] << obj_vo2_max_summary
-    model["content"]["report_template"]["default"] << obj_training_zones
+    model["content"]["report_template"]["default"] = MyDefault::ReportObj
     model.save
   end
 

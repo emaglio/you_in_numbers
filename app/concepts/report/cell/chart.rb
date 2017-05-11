@@ -2,7 +2,7 @@ module Report::Cell
 
   class Chart < Trailblazer::Cell
 
-     def current_user
+    def current_user
       options[:context][:current_user]
     end
 
@@ -23,59 +23,59 @@ module Report::Cell
     end
 
     def show_vo2max
-      options[:obj][:show_vo2max][:show]
+      obj[:show_vo2max][:show]
     end
 
     def show_exer
-      options[:obj][:show_exer][:show]
+      obj[:show_exer][:show]
     end
 
     def show_AT
-      options[:obj][:show_AT][:show]
+      obj[:show_AT][:show]
     end
 
     def at_colour
-      show_AT ? options[:obj][:show_AT][:colour].inspect : '#0000'.inspect
+      show_AT ? obj[:show_AT][:colour].inspect : '#0000'.inspect
     end
 
     def label_1
-      options[:obj][:y1][:name].inspect
+      obj[:y1][:name].inspect
     end
 
     def label_2
-      options[:obj][:y2][:name].inspect
+      obj[:y2][:name].inspect
     end
 
     def label_3
-      options[:obj][:y3][:name].inspect
+      obj[:y3][:name].inspect
     end
 
     def colour_1
-      options[:obj][:y1][:colour].inspect
+      obj[:y1][:colour].inspect
     end
 
     def colour_2
-      options[:obj][:y2][:colour].inspect
+      obj[:y2][:colour].inspect
     end
 
     def colour_3
-      options[:obj][:y3][:colour].inspect
+      obj[:y3][:colour].inspect
     end
 
     def colour_vo2max
-      options[:obj][:show_vo2max][:colour].inspect
+      obj[:show_vo2max][:colour].inspect
     end
 
     def colour_exer
-      options[:obj][:show_exer][:colour].inspect
+      obj[:show_exer][:colour].inspect
     end
 
     def colour_at
-      options[:obj][:show_AT][:colour].inspect
+      obj[:show_AT][:colour].inspect
     end
 
     def time_format
-      options[:obj][:x][:time_format] ? options[:obj][:x][:time_format].inspect : "mm:ss".inspect
+      obj[:x][:time_format] ? obj[:x][:time_format].inspect : "mm:ss".inspect
     end
 
     def generate_param_1
@@ -91,28 +91,28 @@ module Report::Cell
     end
 
     def show_scale_1
-      options[:obj][:y1][:show_scale]
+      obj[:y1][:show_scale]
     end
 
     def show_scale_2
-      options[:obj][:y2][:show_scale]
+      obj[:y2][:show_scale]
     end
 
     def show_scale_3
-      options[:obj][:y3][:show_scale]
+      obj[:y3][:show_scale]
     end
 
     def x_label
-      label = options[:obj][:x][:name]
+      label = obj[:x][:name]
       label = "time" if label == "t"
       return label
     end
 
     def title
-      this_title = "#{options[:obj][:y1][:name]}"
+      this_title = "#{obj[:y1][:name]}"
 
-      this_title = this_title + " - #{options[:obj][:y2][:name]}" if label_2 != "nil"
-      this_title = this_title + " - #{options[:obj][:y3][:name]}" if label_3 != "nil"
+      this_title = this_title + " - #{obj[:y2][:name]}" if label_2 != "nil"
+      this_title = this_title + " - #{obj[:y3][:name]}" if label_3 != "nil"
 
       this_title = this_title + " on " + x_label
 
@@ -120,27 +120,27 @@ module Report::Cell
     end
 
     def chart_id
-      "canvas-#{options[:obj][:index]}"
+      "canvas-#{obj[:index]}"
     end
 
     def y1
-      model["cpet_params"][options[:obj][:y1][:name]].inspect
+      (obj[:only_exer] and label_1 != "nil") ? model["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y1][:name]].inspect
     end
 
     def y2
-      model["cpet_params"][options[:obj][:y2][:name]].inspect
+      (obj[:only_exer] and label_2 != "nil") ? model["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y2][:name]].inspect
     end
 
     def y3
-      model["cpet_params"][options[:obj][:y3][:name]].inspect
+      (obj[:only_exer] and label_3 != "nil") ? model["cpet_params"][obj[:y3][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y3][:name]].inspect
     end
 
     def x
-      model["cpet_params"][options[:obj][:x][:name]].inspect
+      obj[:only_exer] ? model["cpet_params"][obj[:x][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:x][:name]].inspect
     end
 
     def x_time?
-      options[:obj][:x][:time]
+      obj[:x][:time]
     end
 
     def x_type
@@ -159,8 +159,12 @@ module Report::Cell
       model["cpet_results"]["exer_phase"]["starts"]
     end
 
+    def exer_num_steps
+      model["cpet_results"]["exer_phase"]["num_steps"]
+    end
+
     def exer_phase_ends
-      model["cpet_results"]["exer_phase"]["starts"] + model["cpet_results"]["exer_phase"]["num_steps"]
+      exer_phase_starts + exer_num_steps
     end
 
     def exer_phase
@@ -174,9 +178,9 @@ module Report::Cell
     # TODO: make this better (maybe get this value from the Chart with js)
     def y_exer_phase #for exersice phase
       array = []
-      array[0] = model["cpet_params"][options[:obj][:y1][:name]].max
-      array[1] = model["cpet_params"][options[:obj][:y2][:name]].max unless label_2 == "nil"
-      array[2] = model["cpet_params"][options[:obj][:y3][:name]].max unless label_3 == "nil"
+      array[0] = model["cpet_params"][obj[:y1][:name]].max
+      array[1] = model["cpet_params"][obj[:y2][:name]].max unless label_2 == "nil"
+      array[2] = model["cpet_params"][obj[:y3][:name]].max unless label_3 == "nil"
       array.max > 1000 ? (array.max+200).round(-2) : (array.max+10).round(-1)
     end
 

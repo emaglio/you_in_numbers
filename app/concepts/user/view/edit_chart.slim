@@ -12,7 +12,7 @@ hr style="margin-top: 0px;"
         strong
           |Y1:
       .row
-        .col-sm-4.`-center
+        .col-sm-4.text-center
           .row
             small
               | Parameter:
@@ -144,6 +144,13 @@ hr style="margin-top: 0px;"
               | Color:
           .row
             = color_field_tag "at_colour", obj[:show_AT][:colour], disabled: ((not obj[:show_AT][:show]) and (obj[:x][:time] == false))
+      .row style="margin-top:5px;margin-left:20px;"
+        strong
+          | Plot only exercise phase:
+      .row
+        .col-sm-4.text-center
+          .row
+            = check_box_tag "only_exer", nil, obj[:only_exer]
       .row style="margin-top:20px;margin-bottom:5px;"
         .col-sm-12.text-center
           = submit_tag
