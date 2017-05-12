@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
     member do
       post :generate_pdf
+      post :update_template
     end
   end
 

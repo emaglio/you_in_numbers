@@ -43,4 +43,14 @@ class ReportsController < ApplicationController
 
   end
 
+  def update_template
+    run Report::UpdateTemplate do |result|
+      flash[:success] = "Report template updated!"
+      return redirect_to "/reports/#{result["model"].id}"
+    end
+
+    flash[:danger] = "Report not found"
+    return redirect_to reports_path
+  end
+
 end

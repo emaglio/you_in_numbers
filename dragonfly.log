@@ -208,3 +208,4 @@ D, [2017-05-11T16:09:21.731632 #31631] DEBUG -- : DRAGONFLY: shell command: 'ide
 D, [2017-05-11T16:09:22.815685 #31631] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/home/emaglio/project/you_in_numbers/test/images/logo.jpeg'
 D, [2017-05-11T16:09:22.826874 #31631] DEBUG -- : DRAGONFLY: shell command: 'convert' '/home/emaglio/project/you_in_numbers/test/images/logo.jpeg' '-resize' '120x120^^' '-gravity' 'Center' '-crop' '120x120+0+0' '+repage' '/tmp/dragonfly20170511-31631-1ebl77z.jpeg'
 D, [2017-05-11T16:09:22.870913 #31631] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170511-31631-1ebl77z.jpeg'
+D, [2017-05-12T11:43:00.056725 #3255] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/home/emaglio/project/you_in_numbers/test/images/logo.jpeg'

@@ -5,13 +5,24 @@
 
 .row
   .col-lg-12
-    .text-right style="margin-bottom: 20px;"
-      button id="generate_report" class="btn btn-outline btn-success" Generate Report
-    .panel.panel-default
-      .panel.body
-        - obj_array.each do |obj|
-          .row style="margin-top:40px;"
-            = cell (obj[:type]), model, obj: obj
+    .row
+      .col-sm-3
+        .text-right style="margin-bottom: 20px;"
+          = form_tag(update_template_report_path(model.id)) do
+            = hidden_field_tag :id, model.id
+            = select_tag :content, options_for_select(["default","custom"])
+            = submit_tag("Update template")
+      .col-sm-3
+      .col-sm-3
+      .col-sm-3
+        .text-right style="margin-bottom: 20px;"
+          button id="generate_report" class="btn btn-outline btn-success" Generate Report
+    .row
+      .panel.panel-default
+        .panel.body
+          - obj_array.each do |obj|
+            .row style="margin-top:40px;"
+              = cell (obj[:type]), model, obj: obj
 
 javascript:
 
