@@ -21,7 +21,11 @@ module Report::Contract
         config.messages_file = 'config/error_messages.yml'
 
         def file_exists?
-          form.cpet_file_path.tempfile.size > 0
+          File.exists?(form.cpet_file_path)
+        end
+
+        def at_least_one_file?
+          (form.cpet_file_path != nil) or (form.rmr_file_path != nil)
         end
       end
 
@@ -29,6 +33,15 @@ module Report::Contract
       required(:user_id).filled
       required(:template).filled
       required(:cpet_file_path).maybe(:file_exists?)
+      required(:rmr_file_path).maybe(:file_exists?)
+
+      validate(at_least_one_file?: :cpet_file_path) do
+        at_least_one_file?
+      end
+
+      validate(at_least_one_file?: :rmr_file_path) do
+        at_least_one_file?
+      end
     end
   end
 end
