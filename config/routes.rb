@@ -30,12 +30,13 @@ Rails.application.routes.draw do
 
   resources :reports do
     collection do
-      post :welcome
+      post 'welcome'
     end
 
     member do
-      post :generate_pdf
-      post :update_template
+      post 'generate_pdf'
+      post 'update_template'
+      get 'edit_at'
     end
   end
 
