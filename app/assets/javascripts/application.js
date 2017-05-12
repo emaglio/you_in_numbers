@@ -21,3 +21,4 @@
 //= require moment.min.js
 //= require Chart.js
 //= require utils.js
+//= require dom-to-image.js

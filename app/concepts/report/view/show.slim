@@ -86,24 +86,69 @@ javascript:
 
   }
 
-  document.getElementById('generate_report').addEventListener('click', function() {
-    var canvas = document.getElementById('canvas');
+  function getNodeImage(id){
+    var node = document.getElementById(id);
+
+    domtoimage.toPng(node)
+      .then(function (dataURL) {
+        var form = new FormData();
+        var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
+        var file = b64toBlob(mybase64, 'image/png');
+        // Append our Canvas image file to the form data
+        form.append("image", file);
+        form.append("index", 1);
+        // And send it
+        $.ajax({
+           url: "/reports/#{model.id}/generate_image",
+           type: "POST",
+           data: form,
+           processData: false,
+           contentType: false,
+        });
+      })
+  }
+
+  function getCanvasImage(id){
+    var canvas = document.getElementById(id);
     var image_type = 'image/png'
     var dataURL = canvas.toDataURL(image_type, 1.0);
     var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
 
-    console.log(dataURL);
-
-    var file= b64toBlob(mybase64, image_type);
+    var file = b64toBlob(mybase64, image_type);
     // Create new form data
-    var fd = new FormData();
+    var form = new FormData();
     // Append our Canvas image file to the form data
-    fd.append("image", file);
+    form.append("image", file);
+    form.append("index", 2);
+    // And send it
+    $.ajax({
+       url: "/reports/#{model.id}/generate_image",
+       type: "POST",
+       data: form,
+       processData: false,
+       contentType: false,
+    });
+  }
+
+  function generateImages(item, index){
+    console.log(item);
+    console.log(index);
+  }
+
+  var array = #{obj_array};
+
+  document.getElementById('generate_report').addEventListener('click', function() {
+
+    array.forEach(generateImages);
+
+    getNodeImage('training_zones');
+
+    getCanvasImage('canvas-0');
+
     // And send it
     $.ajax({
        url: "/reports/#{model.id}/generate_pdf",
        type: "POST",
-       data: fd,
        processData: false,
        contentType: false,
     });

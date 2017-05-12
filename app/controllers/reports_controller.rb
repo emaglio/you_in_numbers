@@ -37,10 +37,13 @@ class ReportsController < ApplicationController
     end
   end
 
-  def generate_pdf
-    file = File.open("#{Rails.root}/public/temp_files/image.jpeg", "wb")
+  def generate_image
+    file = File.open("#{Rails.root}/public/temp_files/image-#{params[:index]}.png", "wb")
     file.write(params[:image].read)
+  end
 
+  def generate_pdf
+    raise
   end
 
   def update_template

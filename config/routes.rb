@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
     member do
       post 'generate_pdf'
+      post 'generate_image'
       post 'update_template'
       get 'edit_at'
     end
