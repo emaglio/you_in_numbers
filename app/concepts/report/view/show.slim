@@ -87,7 +87,8 @@ javascript:
   }
 
   function getNodeImage(id){
-    var node = document.getElementById(id);
+    var complete_id = 'image-'.concat(id.toString());
+    var node = document.getElementById(complete_id);
 
     domtoimage.toPng(node)
       .then(function (dataURL) {
@@ -96,7 +97,7 @@ javascript:
         var file = b64toBlob(mybase64, 'image/png');
         // Append our Canvas image file to the form data
         form.append("image", file);
-        form.append("index", 1);
+        form.append("index", id);
         // And send it
         $.ajax({
            url: "/reports/#{model.id}/generate_image",
@@ -109,7 +110,8 @@ javascript:
   }
 
   function getCanvasImage(id){
-    var canvas = document.getElementById(id);
+    var complete_id = 'canvas-'.concat(id.toString());
+    var canvas = document.getElementById(complete_id);
     var image_type = 'image/png'
     var dataURL = canvas.toDataURL(image_type, 1.0);
     var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
@@ -119,7 +121,7 @@ javascript:
     var form = new FormData();
     // Append our Canvas image file to the form data
     form.append("image", file);
-    form.append("index", 2);
+    form.append("index", id);
     // And send it
     $.ajax({
        url: "/reports/#{model.id}/generate_image",
@@ -131,19 +133,18 @@ javascript:
   }
 
   function generateImages(item, index){
-    console.log(item);
-    console.log(index);
+    if(item == "chart"){
+      getCanvasImage(index);
+    }else{
+      getNodeImage(index);
+    };
   }
 
-  var array = #{obj_array};
+  var array = #{raw js_array.to_json};
 
   document.getElementById('generate_report').addEventListener('click', function() {
 
     array.forEach(generateImages);
-
-    getNodeImage('training_zones');
-
-    getCanvasImage('canvas-0');
 
     // And send it
     $.ajax({

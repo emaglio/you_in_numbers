@@ -12,6 +12,15 @@ module Report::Cell
       current_user.content["report_template"][model.content]
     end
 
+    def js_array
+      array = []
+      obj_array.collect do |obj|
+        obj[:type] == 'report/cell/chart' ? array << "chart" : array << "dom"
+      end
+
+      return array
+    end
+
   end #class Show
 
 end
