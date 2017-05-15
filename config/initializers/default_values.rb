@@ -50,4 +50,5 @@ class MyDefault < ActiveRecord::Base
 
     ReportObj = array
 
+    ReportPdf = {"logo_size" => 80, "chart_size" => 500}
 end

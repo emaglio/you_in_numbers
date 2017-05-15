@@ -30,7 +30,6 @@ module Company::Cell
       end
     end
 
-
   end # class Show
 
 end # module Company::Cell

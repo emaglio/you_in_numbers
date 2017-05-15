@@ -147,10 +147,13 @@ javascript:
     array.forEach(generateImages);
 
     // And send it
-    $.ajax({
-       url: "/reports/#{model.id}/generate_pdf",
-       type: "POST",
-       processData: false,
-       contentType: false,
-    });
+    // timeout added to make sure that all the images are created (maybe make this smarter in TRB)
+    setTimeout(function () {
+      $.ajax({
+        url: "/reports/#{model.id}/generate_pdf",
+        type: "POST",
+        processData: false,
+        contentType: false,
+      });
+    }, 2000);
   });

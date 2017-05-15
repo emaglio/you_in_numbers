@@ -38,12 +38,16 @@ class ReportsController < ApplicationController
   end
 
   def generate_image
-    file = File.open("#{Rails.root}/public/temp_files/image-#{params[:index]}.png", "wb")
-    file.write(params[:image].read)
+    run Report::GenerateImage
   end
 
   def generate_pdf
-    raise
+    run Report::GeneratePdf do |result|
+      flash[:success] = "Report generated successfully!"
+      render Report::Cell::Show, result["model"]
+    end
+
+    flash[:danger] = "Something went wrong...please try again!"
   end
 
   def update_template

@@ -24,58 +24,59 @@ class Header
     stroke do
       line_at = cursor
       (line_at > 720 - @logo_size) ? (line_at = 720 - @logo_size - 5) : (line_at = cursor)
-      horizontal_line 0, 550, :at => line_at
+      horizontal_line 10, 550, :at => line_at
     end
   end
 
   def write_logo
-    image "#{Rails.root.join("test/images/logo.jpeg")}", :position => :left, :vposition => :top, :fit => [@logo_size,@logo_size]
+    image "#{Rails.root.join("public/") + @model.logo[:thumb].url}", :position => :left, :vposition => :top, :fit => [@logo_size,@logo_size]
   end
 
-  def write_chart
-    image "#{Rails.root.join("public/temp_files/image.png")}", :fit => [@chart_size,@chart_size]
+  def write_chart_0
+    image "#{Rails.root.join("public/temp_files/image-0.png")}", :fit => [@chart_size,@chart_size]
+  end
+
+  def write_chart_1
+    image "#{Rails.root.join("public/temp_files/image-1.png")}", :fit => [@chart_size,@chart_size]
+  end
+
+  def write_chart_2
+    image "#{Rails.root.join("public/temp_files/image-2.png")}", :fit => [@chart_size,@chart_size]
+  end
+
+  def write_chart_3
+    image "#{Rails.root.join("public/temp_files/image-3.png")}", :fit => [@chart_size,@chart_size]
   end
 end
 
-class GeneratePDF < MiniTest::Spec
+class GeneratehvPDF < MiniTest::Spec
 
   it "description" do
     user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})["model"]
 
-    upload_logo = ActionDispatch::Http::UploadedFile.new({
-      :tempfile => File.new(Rails.root.join("test/images/logo.jpeg")),
-      :filename => "logo.jpeg",
-      :type => "image/jpeg"
-    })
-
     company = Company::Create.({ user_id: user.id, name: "My Company", address_1: "address 1", address_2: "address 2", city: "Freshwater", postcode: "2096", country: "Australia",
-                                  country: "Australia", email: "company@email.com", phone: "12345", website: "wwww.company.com.au"
+                                  country: "Australia", email: "company@email.com", phone: "12345", website: "wwww.company.com.au", logo: File.open("test/images/logo.jpeg")
                                 }, "current_user" => user)["model"]
 
     upload_file = ActionDispatch::Http::UploadedFile.new({
       :tempfile => File.new(Rails.root.join("test/files/cpet.xlsx"))
     })
-    # report = Report::Create.({user_id: user.id, title: "Report", cpet_file_path: upload_file}, "current_user" => user)["model"]
+    report = Report::Create.({user_id: user.id, title: "Report", cpet_file_path: upload_file, template: "default"}, "current_user" => user)
+    report.success?.must_equal true
 
     path = "./test/greetings.pdf"
 
     greeter = Header.new(company)
     greeter.write_details
     greeter.write_logo
-    greeter.write_chart
+    greeter.write_chart_0
+    greeter.write_chart_1
+    greeter.write_chart_2
+    greeter.write_chart_3
     greeter.save_as(path)
-  end
 
-  it "some stuff" do
-    obj = OpenStruct.new(type: "chart", y1: "VO2", y2: "VCO2", x: "t", index: 0)
-    array_obj = []
-
-    (1..3).each do
-      array_obj << obj
-    end
-
-    puts array_obj.inspect
-    puts array_obj[0].type.inspect
+    # result = Report::GenerateFile.({id: report["model"].id}, "current_user" => user)
+    # result.success?.must_equal true
   end
 end
 
