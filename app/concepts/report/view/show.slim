@@ -89,24 +89,26 @@ javascript:
   function getNodeImage(id){
     var complete_id = 'image-'.concat(id.toString());
     var node = document.getElementById(complete_id);
+    var form = new FormData();
+
+    var obj = {form: form, dataUrl: dataURL};
 
     domtoimage.toPng(node)
-      .then(function (dataURL) {
-        var form = new FormData();
-        var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
+      .then(function (obj) {
+        var mybase64 = obj[:dataUrl].replace(/^data:image\/\w+;base64,/, "");
         var file = b64toBlob(mybase64, 'image/png');
         // Append our Canvas image file to the form data
-        form.append("image", file);
-        form.append("index", id);
-        // And send it
-        $.ajax({
-           url: "/reports/#{model.id}/generate_image",
-           type: "POST",
-           data: form,
-           processData: false,
-           contentType: false,
-        });
+        obj[:form].append("image", file);
+        obj[:form].append("index", id);
       })
+    // And send it
+    $.ajax({
+       url: "/reports/#{model.id}/generate_image",
+       type: "POST",
+       data: form,
+       processData: false,
+       contentType: false,
+    });
   }
 
   function getCanvasImage(id){
@@ -133,6 +135,14 @@ javascript:
   }
 
   function generateImages(item, index){
+    if(item == "chart"){
+      getCanvasImage(index);
+    }else{
+      getNodeImage(index);
+    };
+  }
+
+  function generateAllImages(item, index){
     if(item == "chart"){
       getCanvasImage(index);
     }else{

@@ -38,6 +38,7 @@ class ReportsController < ApplicationController
   end
 
   def generate_image
+    puts params.inspect
     run Report::GenerateImage
   end
 
@@ -48,6 +49,7 @@ class ReportsController < ApplicationController
     end
 
     flash[:danger] = "Something went wrong...please try again!"
+    render Report::Cell::Show, result["model"]
   end
 
   def update_template
