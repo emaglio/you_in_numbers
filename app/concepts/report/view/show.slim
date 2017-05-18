@@ -83,31 +83,25 @@ javascript:
     return blob;
   }
 
-  function getAllElements(){
+  var form = new FormData();
+  var index = 0;
 
+  function addImage(file){
+    var params = 'image-'.concat(index.toString());
+    index += 1;
+    form.append(params, file);
   }
 
   function getNodeImage(id){
     var complete_id = 'image-'.concat(id.toString());
     var node = document.getElementById(complete_id);
+    var dataUrl;
 
     domtoimage.toPng(node)
       .then(function (dataURL) {
-        var form = new FormData();
-        var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
-        var file = b64toBlob(mybase64, 'image/png');
-        // Append our Canvas image file to the form data
-        form.append("image", file);
-        form.append("index", id);
-        // And send it
-        $.ajax({
-           url: "/reports/#{model.id}/generate_image",
-           type: "POST",
-           data: form,
-           processData: false,
-           contentType: false,
-        });
+        dataUrl = dataURL.json();
       })
+<<<<<<< HEAD
       .catch(function (error) {
         var form = new FormData();
         form.append("error", error);
@@ -120,6 +114,12 @@ javascript:
            contentType: false,
         });
       });
+=======
+
+    var mybase64 = dataUrl.replace(/^data:image\/\w+;base64,/, "");
+    file = b64toBlob(mybase64, 'image/png');
+    addImage(file);
+>>>>>>> 45ff8e5ccbb7e03eeb84ee61ad8bc96e81cf5ad5
   }
 
   function getCanvasImage(id){
@@ -130,22 +130,11 @@ javascript:
     var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
 
     var file = b64toBlob(mybase64, image_type);
-    // Create new form data
-    var form = new FormData();
-    // Append our Canvas image file to the form data
-    form.append("image", file);
-    form.append("index", id);
-    // And send it
-    $.ajax({
-       url: "/reports/#{model.id}/generate_image",
-       type: "POST",
-       data: form,
-       processData: false,
-       contentType: false,
-    });
+
+    addImage(file);
   }
 
-  function generateImages(item, index){
+  function generateAllImages(item, index){
     if(item == "chart"){
       console.log(index);
       getCanvasImage(index);
@@ -154,7 +143,6 @@ javascript:
       getNodeImage(index);
     };
   }
-
 
   function generateAllImages(){
     return new Promise(function (resolve, reject){

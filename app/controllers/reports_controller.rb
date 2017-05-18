@@ -38,6 +38,7 @@ class ReportsController < ApplicationController
   end
 
   def generate_image
+    raise params.inspect
     run Report::GenerateImage
   end
 
@@ -52,7 +53,7 @@ class ReportsController < ApplicationController
       return redirect_to "/companies/new"
     end
 
-    flash[:danger] = result["error"]
+    flash[:danger] = "Something went wrong: " + result["error"]
     redirect_to "/reports/#{result["model"].id}"
   end
 
