@@ -38,7 +38,7 @@ class ReportsController < ApplicationController
   end
 
   def generate_image
-    puts params.inspect
+    raise params.inspect
     run Report::GenerateImage
   end
 

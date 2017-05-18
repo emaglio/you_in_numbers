@@ -82,33 +82,28 @@ javascript:
     return blob;
   }
 
-  function getAllElements(){
+  var form = new FormData();
+  var index = 0;
 
+  function addImage(file){
+    var params = 'image-'.concat(index.toString());
+    index += 1;
+    form.append(params, file);
   }
 
   function getNodeImage(id){
     var complete_id = 'image-'.concat(id.toString());
     var node = document.getElementById(complete_id);
-    var form = new FormData();
-
-    var obj = {form: form, dataUrl: dataURL};
+    var dataUrl;
 
     domtoimage.toPng(node)
-      .then(function (obj) {
-        var mybase64 = obj[:dataUrl].replace(/^data:image\/\w+;base64,/, "");
-        var file = b64toBlob(mybase64, 'image/png');
-        // Append our Canvas image file to the form data
-        obj[:form].append("image", file);
-        obj[:form].append("index", id);
+      .then(function (dataURL) {
+        dataUrl = dataURL.json();
       })
-    // And send it
-    $.ajax({
-       url: "/reports/#{model.id}/generate_image",
-       type: "POST",
-       data: form,
-       processData: false,
-       contentType: false,
-    });
+
+    var mybase64 = dataUrl.replace(/^data:image\/\w+;base64,/, "");
+    file = b64toBlob(mybase64, 'image/png');
+    addImage(file);
   }
 
   function getCanvasImage(id){
@@ -119,27 +114,8 @@ javascript:
     var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
 
     var file = b64toBlob(mybase64, image_type);
-    // Create new form data
-    var form = new FormData();
-    // Append our Canvas image file to the form data
-    form.append("image", file);
-    form.append("index", id);
-    // And send it
-    $.ajax({
-       url: "/reports/#{model.id}/generate_image",
-       type: "POST",
-       data: form,
-       processData: false,
-       contentType: false,
-    });
-  }
 
-  function generateImages(item, index){
-    if(item == "chart"){
-      getCanvasImage(index);
-    }else{
-      getNodeImage(index);
-    };
+    addImage(file);
   }
 
   function generateAllImages(item, index){
@@ -153,17 +129,15 @@ javascript:
   var array = #{raw js_array.to_json};
 
   document.getElementById('generate_report').addEventListener('click', function() {
+    index = 0;
 
-    array.forEach(generateImages);
+    array.forEach(generateAllImages);
 
-    // And send it
-    // timeout added to make sure that all the images are created (maybe make this smarter in TRB)
-    setTimeout(function () {
-      $.ajax({
-        url: "/reports/#{model.id}/generate_pdf",
-        type: "POST",
-        processData: false,
-        contentType: false,
-      });
-    }, 2000);
+    $.ajax({
+      url: "/reports/#{model.id}/generate_image",
+      type: "POST",
+      data: form,
+      processData: false,
+      contentType: false,
+    });
   });
