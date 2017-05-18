@@ -6,17 +6,19 @@ class Report::GeneratePdf < Trailblazer::Operation
   step Model(Report, :find_by)
   step Policy::Pundit( ::Session::Policy, :report_company_owner? )
   failure ::Session::Lib::ThrowException
-  step :find_company!
+  step :find_company!, fast_fail: true
   step :obj_array!
   step :saving_folder!
-  step :generate_pdf!
-  step :write_company_details!
-  # step :write_company_logo!
-  step :write_images!
-  step :delete_images!
-  step :save_pdf!
+  step Rescue( NoMethodError, ArgumentError, handler: :rollback! ){
+    step :generate_pdf!
+    step :write_company_details!
+    # step :write_company_logo!
+    step :write_images!
+    step :save_pdf!
+    step :delete_images!
+  }
+  failure :error!
 
-  # TODO : add check on Company and show error message in case is not set
   def find_company!(options, current_user:, **)
     options["company"] = Company.find_by("user_id like ?", current_user.id)
   end
@@ -62,7 +64,7 @@ class Report::GeneratePdf < Trailblazer::Operation
     end
   end
 
-  def delete_images(options, obj_array:, **)
+  def delete_images!(options, obj_array:, **)
     obj_array.each do |obj|
       image_path = "#{Rails.root.join("public/temp_files/image-#{obj[:index]}.png")}"
       File.delete(image_path)
@@ -72,6 +74,14 @@ class Report::GeneratePdf < Trailblazer::Operation
   def save_pdf!(options, pdf:, saving_folder:, **)
     pdf.render_file saving_folder.to_s
     return true
+  end
+
+  def rollback!(exception, options, *)
+   options["error"] = exception.inspect
+  end
+
+  def error!(options, *)
+    # options["error"] = "Something when wrong...please try again!"
   end
 
 

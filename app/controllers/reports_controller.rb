@@ -44,10 +44,16 @@ class ReportsController < ApplicationController
   def generate_pdf
     run Report::GeneratePdf do |result|
       flash[:success] = "Report generated successfully!"
-      render Report::Cell::Show, result["model"]
+      return redirect_to "/reports"
     end
 
-    flash[:danger] = "Something went wrong...please try again!"
+    if result["company"] == nil
+      flash[:danger] = "Create a company and try to generate the report again!"
+      return redirect_to "/companies/new"
+    end
+
+    flash[:danger] = result["error"]
+    redirect_to "/reports/#{result["model"].id}"
   end
 
   def update_template
