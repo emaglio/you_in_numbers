@@ -6,28 +6,38 @@ class Report::GeneratePdf < Trailblazer::Operation
   step Model(Report, :find_by)
   step Policy::Pundit( ::Session::Policy, :report_company_owner? )
   failure ::Session::Lib::ThrowException
-  step :find_company!, fast_fail: true
   step :obj_array!
+  step :check_files!
+  step :find_company!, fast_fail: true
   step :saving_folder!
   step Rescue( NoMethodError, ArgumentError, handler: :rollback! ){
     step :generate_pdf!
     step :write_company_details!
-    # step :write_company_logo!
+    step :write_company_logo!
     step :write_images!
     step :save_pdf!
     step :delete_images!
   }
   failure :error!
 
-  def find_company!(options, current_user:, **)
-    options["company"] = Company.find_by("user_id like ?", current_user.id)
-  end
-
   def obj_array!(options, current_user:, model:, **)
     options["obj_array"] = current_user.content["report_template"][model.content]
   end
 
+  def check_files!(options, *)
+    #TODO: return false if number of files is different than obj_array.size or folder not found
+    return true
+  end
+
+
+  def find_company!(options, current_user:, **)
+    options["company"] = Company.find_by("user_id like ?", current_user.id)
+  end
+
+
   def saving_folder!(options, model:, **)
+    #TODO: make this editable by the USER
+    #TODO: make name of the report editable by the USER %f %l bla bla
     options["saving_folder"] = Rails.root.join("public/reports/#{model.title}.pdf")
   end
 
@@ -54,6 +64,7 @@ class Report::GeneratePdf < Trailblazer::Operation
   end
 
   def write_company_logo!(options, model:, pdf:, company:, **)
+    return true if (company.logo_meta_data == nil or company.logo_meta_data == {})
     pdf.image "#{Rails.root.join("/public/images/") + company.logo_meta_data[:thumb][:uid]}", :position => :left, :vposition => :top, :fit => [MyDefault::ReportPdf["logo_size"], MyDefault::ReportPdf["logo_size"]]
   end
 
@@ -81,7 +92,7 @@ class Report::GeneratePdf < Trailblazer::Operation
   end
 
   def error!(options, *)
-    # options["error"] = "Something when wrong...please try again!"
+    #TODO: delete folder create in Report::GenerateImage
   end
 
 

@@ -2,8 +2,14 @@ class Report::GenerateImage < Trailblazer::Operation
   step Model(Report, :find_by)
   step Policy::Pundit( ::Session::Policy, :report_company_owner? )
   failure ::Session::Lib::ThrowException
+  step :create_folder!
   step :generate_image!
   failure :error!
+
+  def create_folder!(options, *)
+    #TODO: create folder related with subject details and report ID in order to use to save/delete images
+    return true
+  end
 
   def generate_image!(options, params:, **)
     return false if params[:error]

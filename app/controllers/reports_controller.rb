@@ -39,6 +39,7 @@ class ReportsController < ApplicationController
 
   def generate_image
     run Report::GenerateImage
+    #TODO: run js stuff to show a message or something
   end
 
   def generate_pdf

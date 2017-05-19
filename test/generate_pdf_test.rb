@@ -29,7 +29,7 @@ class Header
   end
 
   def write_logo
-    image "#{Rails.root.join("public/") + @model.logo[:thumb].url}", :position => :left, :vposition => :top, :fit => [@logo_size,@logo_size]
+    image "#{Rails.root.join("public/images/") + @model.logo[:thumb].url}", :position => :left, :vposition => :top, :fit => [@logo_size,@logo_size]
   end
 
   def write_chart_0
@@ -66,13 +66,15 @@ class GeneratehvPDF < MiniTest::Spec
 
     path = "./test/greetings.pdf"
 
+    puts company.inspect
+
     greeter = Header.new(company)
     greeter.write_details
     greeter.write_logo
-    greeter.write_chart_0
-    greeter.write_chart_1
-    greeter.write_chart_2
-    greeter.write_chart_3
+    # greeter.write_chart_0
+    # greeter.write_chart_1
+    # greeter.write_chart_2
+    # greeter.write_chart_3
     greeter.save_as(path)
 
     # result = Report::GenerateFile.({id: report["model"].id}, "current_user" => user)
