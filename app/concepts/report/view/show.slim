@@ -95,17 +95,14 @@ javascript:
   function getNodeImage(id){
     var complete_id = 'image-'.concat(id.toString());
     var node = document.getElementById(complete_id);
-    var dataUrl;
 
     domtoimage.toPng(node)
       .then(function (dataURL) {
-        dataUrl = dataURL.json();
-      })
-<<<<<<< HEAD
-      .catch(function (error) {
         var form = new FormData();
-        form.append("error", error);
-        // And send it
+        var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
+        var file = b64toBlob(mybase64, 'image/png');
+        form.append("image", file);
+        form.append("index", id);
         $.ajax({
            url: "/reports/#{model.id}/generate_image",
            type: "POST",
@@ -113,13 +110,19 @@ javascript:
            processData: false,
            contentType: false,
         });
-      });
-=======
+      })
+      .catch(function (error) {
+        var form = new FormData();
+        form.append("error", error);
+        $.ajax({
+           url: "/reports/#{model.id}/generate_image",
+           type: "POST",
+           data: form,
+           processData: false,
+           contentType: false,
+        });
+      })
 
-    var mybase64 = dataUrl.replace(/^data:image\/\w+;base64,/, "");
-    file = b64toBlob(mybase64, 'image/png');
-    addImage(file);
->>>>>>> 45ff8e5ccbb7e03eeb84ee61ad8bc96e81cf5ad5
   }
 
   function getCanvasImage(id){
@@ -131,15 +134,23 @@ javascript:
 
     var file = b64toBlob(mybase64, image_type);
 
-    addImage(file);
+    var form = new FormData();
+    form.append("image", file);
+    form.append("index", id);
+
+    $.ajax({
+      url: "/reports/#{model.id}/generate_image",
+      type: "POST",
+      data: form,
+      processData: false,
+      contentType: false,
+    });
   }
 
-  function generateAllImages(item, index){
+  function generateImages(item, index){
     if(item == "chart"){
-      console.log(index);
       getCanvasImage(index);
     }else{
-      console.log(index);
       getNodeImage(index);
     };
   }
