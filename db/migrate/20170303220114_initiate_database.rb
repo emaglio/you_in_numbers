@@ -14,8 +14,24 @@ class InitiateDatabase < ActiveRecord::Migration
       t.timestamps
     end
 
+    create_table :subjects do |t|
+      t.integer :user_id
+      t.string :email
+      t.string :firstname
+      t.string :lastname
+      t.datetime :dob
+      t.string :phone
+      t.string :gender
+      t.integer :height
+      t.integer :weight
+      t.text :content
+
+      t.timestamps
+    end
+
     create_table :reports do |t|
       t.integer :user_id
+      t.integer :subject_id
       t.string :title
       t.text :cpet_params
       t.text :cpet_results

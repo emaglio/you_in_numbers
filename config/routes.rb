@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :subjects
+
   resources :sessions do
     collection do
       get 'sign_out'
