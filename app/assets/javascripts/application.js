@@ -22,3 +22,6 @@
 //= require Chart.js
 //= require utils.js
 //= require dom-to-image.js
+//= require js/bootstrap-datetimepicker.js
+
+$('.datetimepicker').datetimepicker()
