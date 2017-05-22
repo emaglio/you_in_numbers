@@ -1,4 +1,4 @@
-class CompaniesController < ApplicationController
+class SubjectsController < ApplicationController
 
   def new
     run Subject::New
