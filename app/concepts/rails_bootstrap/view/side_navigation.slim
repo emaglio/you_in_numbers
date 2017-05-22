@@ -24,7 +24,13 @@
       li
         a href="tables.html"
           i class="fa fa-table fa-fw"
-          |  Tables
+          |  Subjects
+          span class="fa arrow"
+        ul class="nav nav-second-level"
+          li
+            = link_to "New Subject", new_subject_path
+          li
+            = link_to "My Subjects", subjects_path
       li
         a href="forms.html"
           i class="fa fa-edit fa-fw"

@@ -65,12 +65,14 @@ class Report::GeneratePdf < Trailblazer::Operation
 
   def write_company_logo!(options, model:, pdf:, company:, **)
     return true if (company.logo_meta_data == nil or company.logo_meta_data == {})
-    pdf.image "#{Rails.root.join("/public/images/") + company.logo_meta_data[:thumb][:uid]}", :position => :left, :vposition => :top, :fit => [MyDefault::ReportPdf["logo_size"], MyDefault::ReportPdf["logo_size"]]
+    options["path"] = ("#{Rails.root.join("public/images/")}" + "#{company.logo_meta_data[:thumb][:uid]}")
+    pdf.image ("#{Rails.root.join("public/images/")}" + "#{company.logo_meta_data[:thumb][:uid]}"), :position => :left, :vposition => :top, :fit => [MyDefault::ReportPdf["logo_size"], MyDefault::ReportPdf["logo_size"]]
   end
 
   def write_images!(options, pdf:, obj_array:, **)
     obj_array.each do |obj|
       image_path = "#{Rails.root.join("public/temp_files/image-#{obj[:index]}.png")}"
+      options["path"] = image_path
       pdf.image image_path, :position => :center, :fit => [MyDefault::ReportPdf["chart_size"], MyDefault::ReportPdf["chart_size"]]
     end
   end
@@ -88,7 +90,7 @@ class Report::GeneratePdf < Trailblazer::Operation
   end
 
   def rollback!(exception, options, *)
-   options["error"] = exception.inspect
+   options["error"] = exception.inspect + options["path"]
   end
 
   def error!(options, *)

@@ -29,10 +29,12 @@ class Header
   end
 
   def write_logo
+    puts ("#{Rails.root.join("public/images")}" + "#{@model.logo[:thumb].url}").inspect
     image "#{Rails.root.join("public/images/") + @model.logo[:thumb].url}", :position => :left, :vposition => :top, :fit => [@logo_size,@logo_size]
   end
 
   def write_chart_0
+    puts "#{Rails.root.join("public/temp_files/image-0.png")}".inspect
     image "#{Rails.root.join("public/temp_files/image-0.png")}", :fit => [@chart_size,@chart_size]
   end
 
@@ -66,7 +68,7 @@ class GeneratehvPDF < MiniTest::Spec
 
     path = "./test/greetings.pdf"
 
-    puts company.inspect
+    # puts company.inspect
 
     greeter = Header.new(company)
     greeter.write_details
