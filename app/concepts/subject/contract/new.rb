@@ -1,6 +1,5 @@
 require 'reform/form/dry'
-require 'disposable/twin/property/hash'
-require 'disposable/twin/property/unnest'
+require 'date'
 
 module Subject::Contract
   class New < Reform::Form
@@ -32,16 +31,29 @@ module Subject::Contract
         def unique_subject?
           (Subject.where("firstname = ?", form.firstname).size == 0) or (Subject.where("lastname = ?", form.lastname).size == 0) or (Subject.where("dob = ?", form.dob).size == 0)
         end
+
+        def greater_than_zero?(value)
+          value.to_i > 0
+        end
+
+        def greater_than_10_years?
+          return false if DateTime.parse(form.dob) > DateTime.now
+          (((DateTime.now - DateTime.parse(form.dob))/365).round) > 5
+        end
       end
 
-      required(:email).maybe(:email?)
+      required(:email).maybe
       required(:user_id).filled
       required(:firstname).filled
       required(:lastname).filled
       required(:gender).filled
-      required(:dob).filled
-      required(:height).filled(gt?: 0)
-      required(:weight).filled(gt?: 0)
+      required(:dob).filled(:greater_than_10_years?)
+      required(:height).filled(:greater_than_zero?)
+      required(:weight).filled(:greater_than_zero?)
+
+      validate(email?: :email) do
+        email?
+      end
 
       validate(unique_email?: :email) do
         unique_email?

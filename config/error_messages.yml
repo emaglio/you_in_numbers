@@ -10,4 +10,5 @@ en:
     not_blocked?: "You have been blocked mate"
     at_least_one_file?: "At least one file must be uploaded"
     file_exists?: "The file selected doens't exist"
-    grater_than_zero?: "Something went wrong!"
+    greater_than_zero?: "This must be greater than zero"
+    greater_than_10_years?: "Subject is less than 5, double check DOB."

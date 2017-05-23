@@ -16,7 +16,7 @@ class SubjectsController < ApplicationController
   end
 
   def index
-    run Subject::index
+    run Subject::Index
 
     render Subject::Cell::Index, result["contract.default"]
   end

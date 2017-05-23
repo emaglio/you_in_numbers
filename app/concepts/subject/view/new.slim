@@ -7,26 +7,29 @@
       = trb_form_for(model, "/subjects", method: :post, builder: :bootstrap4, id: :new_subject) do |f|
         = f.input :user_id, type: "hidden", value: current_user.id
         .row
-          .col-sm-6
+          .col-sm-1
+          .col-sm-5
             = f.input :firstname, placeholder: "Firstname"
-          .col-sm-6
+          .col-sm-5
             = f.input :lastname, placeholder: "Lastname"
         .row
-          .col-sm-3
+          .col-sm-1
+          .col-sm-2
             = f.select :gender, placeholder: "Gender", collection: [["Male"], ["Female"]]
           .col-sm-3
             = f.input :dob, placeholder: "Date of Birth"
-          .col-sm-3
+          .col-sm-2
             = f.input :height, placeholder: "Height (cm)"
-          .col-sm-3
+          .col-sm-2
             = f.input :weight, placeholder: "Weight (cm)"
         .row
           .col-sm-4
           .col-sm-2
         .row
-          .col-sm-6
+          .col-sm-1
+          .col-sm-5
             = f.input :phone, placeholder: "Phone"
-          .col-sm-6
+          .col-sm-5
             = f.input :email, placeholder: "Email"
         .row
           .col-sm-12.text-center
@@ -34,9 +37,9 @@
 
 javascript:
   $(function () {
-    $('#dob').datetimepicker({
-        defaultDate: "01/01/1980",
+    $('#dob').datepicker({
         format: "dd-mm-yyyy",
+        endDate: "today",
         autoclose: true,
         pickerPosition: "bottom-left",
         minView: 2 <!-- to not show the hours/mins selection -->
