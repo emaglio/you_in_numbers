@@ -13,6 +13,7 @@ Minitest::Spec.class_eval do
     ::User.delete_all
     ::Company.delete_all
     ::Report.delete_all
+    ::Subject.delete_all
   end
 
   def admin_for
