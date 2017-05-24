@@ -13,3 +13,4 @@ en:
     greater_than_zero?: "This must be greater than zero"
     check_age?: "Wrong age, Subject must be between 5 and 120 years old"
     unique_subject?: "Subject already present in the database"
+    filled?: "Can't be blank"
