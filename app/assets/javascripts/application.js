@@ -23,5 +23,6 @@
 //= require utils.js
 //= require dom-to-image.js
 //= require js/bootstrap-datepicker.js
+//= require js/jquery.dataTables.min.js
 
 $('.datepicker').datepicker()

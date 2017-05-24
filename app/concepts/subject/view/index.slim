@@ -1,4 +1,19 @@
 .row
-  h2 All Subjects
+  h2 Subject Database
 .row
-  = cell('subject/cell/item', collection: model)
+  table id="subjects" class="display" widt="100%"
+
+javascript:
+
+  $(document).ready(function() {
+    var dataSet = [["Some 1","Some 2","Some 3", "Some 4"],["Some 1","Some 2","Some 3", "Some 4"]];
+    $('#subjects').DataTable( {
+        data: dataSet,
+        columns: [
+            { title: "Firstname" },
+            { title: "Lastname" },
+            { title: "Height" },
+            { title: "Weight." }
+        ]
+    } );
+  });
