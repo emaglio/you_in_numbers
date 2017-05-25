@@ -66,18 +66,17 @@ javascript:
       processData: false,
       contentType: false,
       complete: function(response){
-        var data = response.responseText;
+        var data = JSON.parse(response.responseText);
         var thead = '',  tbody = '';
-        thead += '<th>' + "Created" + '</th>';
-        thead += '<th>' + "Title" + '</th>';
-
-        if(data.array == "No data"){
-          tbody += '<tr><td>' + "No data" + '</td><td>' + " " + '</td></tr>';
-        }else{
-
+        console.log(data);
+        var some = data[0];
+        for(var key in data[0]){
+          thead += '<th>' + key + '</th>';
         }
 
-        tbody += '<tr><td>' + " " + '</td><td>' + data.link + '</td></tr>';
+        $.each(data, function(i,d){
+          tbody += '<tr><td>' + d.Created + '</td><td>' + d.Title + '</td></tr>';
+        })
 
         row.child($('<table>' + thead + tbody + '</table>')).show();
       }
