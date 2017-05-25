@@ -41,7 +41,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :subjects
+  resources :subjects do
+    collection do
+      post 'get_reports'
+    end
+  end
 
   resources :sessions do
     collection do

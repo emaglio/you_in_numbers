@@ -1,23 +1,87 @@
 .row
   .col-sm-12 class="user"
-    h3 Subject database
+    h3 Subjects Database
 hr style="margin-top: 0px;"
 
 .row style="margin: 20px;"
   table id="subjects" class="display" width="100%"
 
 javascript:
-
+  var table;
 
   $(document).ready(function() {
-    $('#subjects').DataTable( {
-        data: [#{subject_array}],
-        columns: [
-            { title: "Firstname" },
-            { title: "Lastname" },
-            { title: "Date of Birth" },
-            { title: "Height" },
-            { title: "Weight." }
-        ]
+    table = $('#subjects').DataTable( {
+      data: [#{subject_array}],
+      columns: [
+        {
+          "className":      'details-control',
+          "orderable":      false,
+          "defaultContent": ''
+        },
+        { title: "id" },
+        { title: "Firstname" },
+        { title: "Lastname" },
+        { title: "Date of Birth" },
+        { title: "Height" },
+        { title: "Weight" },
+        { title: "" },
+        { title: "" },
+        { title: "" }
+      ],
+      "columnDefs": [
+        {"width": "1%", "orderable": false, "targets": 0 },
+        {"visible": false, "targets": 1},
+        {"width": "1%", "orderable": false, "targets": 7 },
+        {"width": "1%", "orderable": false, "targets": 8 },
+        {"width": "1%", "orderable": false, "targets": 9 }
+      ]
     } );
   });
+
+  // Add event listener for opening and closing details
+  $('#subjects').on('click', 'td.details-control', function () {
+    var tr = $(this).closest('tr');
+    var row = table.row(tr);
+
+    if (row.child.isShown()) {
+        // This row is already open - close it
+        row.child.hide();
+        tr.removeClass('shown');
+    } else {
+        // Open this row
+        //row.child( format(row.data())).show();
+        format(row);
+        tr.addClass('shown');
+    }
+  });
+
+  function format (row) {
+    var row_data = row.data();
+    var form = new FormData();
+    form.append("id", row_data[1]);
+    $.ajax({
+      url: "/subjects/get_reports",
+      type: "POST",
+      data: form,
+      processData: false,
+      contentType: false,
+      complete: function(response){
+        var data = response.responseText;
+        var thead = '',  tbody = '';
+        thead += '<th>' + "Created" + '</th>';
+        thead += '<th>' + "Title" + '</th>';
+
+        if(data.array == "No data"){
+          tbody += '<tr><td>' + "No data" + '</td><td>' + " " + '</td></tr>';
+        }else{
+
+        }
+
+        tbody += '<tr><td>' + " " + '</td><td>' + data.link + '</td></tr>';
+
+        row.child($('<table>' + thead + tbody + '</table>')).show();
+      }
+
+    });
+
+  }

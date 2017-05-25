@@ -11,6 +11,7 @@ class ReportsController < ApplicationController
   end
 
   def new
+    raise params.inspect
     run Report::New
 
     render Report::Cell::New, result["contract.default"]
