@@ -6,12 +6,19 @@ module Subject::Cell
       array = []
 
       model.each do |subject|
-        array2 = []
-        array2 << subject.firstname.inspect
-        array2 << subject.lastname
-        array2 << subject.height.to_s
-        array2 << subject.weight.to_s
-        array << array2
+        str = "["
+        str = str + ("#{subject.firstname.inspect}")
+        str = str + (",")
+        str = str + ("#{subject.lastname.inspect}")
+        str = str + (",")
+        str = str + ("#{subject.dob.strftime("%d %B %Y").inspect}")
+        str = str + (",")
+        str = str + ("#{subject.height.to_s.inspect}")
+        str = str + (",")
+        str = str + ("#{subject.weight.to_s.inspect}")
+        str = str + ("]")
+        str = str + (",")
+        array << str
       end
 
       return array

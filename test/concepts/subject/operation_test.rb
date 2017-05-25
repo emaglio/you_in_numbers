@@ -18,7 +18,9 @@ class SubjectOperationTest < MiniTest::Spec
     user.success?.must_equal true
 
     result = Subject::Create.({}, "current_user" => user)
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:user_id=>[\"must be filled\"], :firstname=>[\"must be filled\"], :lastname=>[\"must be filled\"], :gender=>[\"must be filled\"], :dob=>[\"must be filled\", \"Subject is less than 5, double check DOB.\"], :height=>[\"must be filled\", \"This must be greater than zero\"], :weight=>[\"must be filled\", \"This must be greater than zero\"]}"
+    result.failure?.must_equal true
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:user_id=>[\"must be filled\"], :firstname=>[\"must be filled\"], :lastname=>[\"must be filled\"], :gender=>[\"must be filled\"], :dob=>[\"must be filled\", \"Wrong age, Subject must be between 5 and 120 years old\"], :height=>[\"must be filled\", \"This must be greater than zero\"], :weight=>[\"must be filled\", \"This must be greater than zero\"]}"
+
   end
 
   it "create successfully" do
@@ -45,6 +47,77 @@ class SubjectOperationTest < MiniTest::Spec
     result["model"].weight.must_equal 80
     result["model"].phone.must_equal "912873"
     result["model"].email.must_equal "ema@email.com"
+  end
+
+  it "unique subject and email" do
+    user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
+    user.success?.must_equal true
+
+    subject = Subject::Create.({
+                                user_id: user["model"].id,
+                                firstname: "Ema",
+                                lastname: "Maglio",
+                                gender: "Male",
+                                dob: "01/01/1980",
+                                height: "180",
+                                weight: "80",
+                                phone: "912873",
+                                email: "ema@email.com"
+                                }, "current_user" => user)
+    subject.success?.must_equal true
+
+
+    result = Subject::Create.({
+                                user_id: user["model"].id,
+                                firstname: "Ema",
+                                lastname: "Maglio",
+                                gender: "Male",
+                                dob: "01/01/1980",
+                                height: "180",
+                                weight: "80",
+                                phone: "912873",
+                                email: "ema@email.com"
+                                }, "current_user" => user)
+    result.failure?.must_equal true
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"This email has been already used\"], :firstname=>[\"Subject already present in the database\"]}"
+  end
+
+  it "age between 5 and 120" do
+    user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
+    user.success?.must_equal true
+
+    now = DateTime.now
+
+    year_4_old = now - (365*4)
+    year_121_old = now - (365*121)
+
+    result = Subject::Create.({
+                                user_id: user["model"].id,
+                                firstname: "Ema",
+                                lastname: "Maglio",
+                                gender: "Male",
+                                dob: year_4_old.strftime("%d/%m/%Y"),
+                                height: "180",
+                                weight: "80",
+                                phone: "912873",
+                                email: "ema@email.com"
+                                }, "current_user" => user)
+    result.failure?.must_equal true
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:dob=>[\"Wrong age, Subject must be between 5 and 120 years old\"]}"
+
+    result = Subject::Create.({
+                                user_id: user["model"].id,
+                                firstname: "Ema",
+                                lastname: "Maglio",
+                                gender: "Male",
+                                dob: year_121_old.strftime("%d/%m/%Y"),
+                                height: "180",
+                                weight: "80",
+                                phone: "912873",
+                                email: "ema@email.com"
+                                }, "current_user" => user)
+    result.failure?.must_equal true
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:dob=>[\"Wrong age, Subject must be between 5 and 120 years old\"]}"
   end
 
 end

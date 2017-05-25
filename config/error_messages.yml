@@ -11,4 +11,5 @@ en:
     at_least_one_file?: "At least one file must be uploaded"
     file_exists?: "The file selected doens't exist"
     greater_than_zero?: "This must be greater than zero"
-    greater_than_10_years?: "Subject is less than 5, double check DOB."
+    check_age?: "Wrong age, Subject must be between 5 and 120 years old"
+    unique_subject?: "Subject already present in the database"

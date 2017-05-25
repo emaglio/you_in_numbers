@@ -29,16 +29,17 @@ module Subject::Contract
         end
 
         def unique_subject?
-          (Subject.where("firstname = ?", form.firstname).size == 0) or (Subject.where("lastname = ?", form.lastname).size == 0) or (Subject.where("dob = ?", form.dob).size == 0)
+          Subject.where("firstname like ? AND lastname like ? AND dob like ?", form.firstname, form.lastname, DateTime.parse(form.dob)).size == 0
         end
 
         def greater_than_zero?(value)
           value.to_i > 0
         end
 
-        def greater_than_10_years?
+        def check_age?
           return false if DateTime.parse(form.dob) > DateTime.now
-          (((DateTime.now - DateTime.parse(form.dob))/365).round) > 5
+          dob = (((DateTime.now - DateTime.parse(form.dob))/365).round)
+          dob > 5 and dob < 120
         end
       end
 
@@ -47,7 +48,7 @@ module Subject::Contract
       required(:firstname).filled
       required(:lastname).filled
       required(:gender).filled
-      required(:dob).filled(:greater_than_10_years?)
+      required(:dob).filled(:check_age?)
       required(:height).filled(:greater_than_zero?)
       required(:weight).filled(:greater_than_zero?)
 
