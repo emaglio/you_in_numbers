@@ -19,8 +19,7 @@ class SubjectOperationTest < MiniTest::Spec
 
     result = Subject::Create.({}, "current_user" => user)
     result.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:user_id=>[\"must be filled\"], :firstname=>[\"must be filled\"], :lastname=>[\"must be filled\"], :gender=>[\"must be filled\"], :dob=>[\"must be filled\", \"Wrong age, Subject must be between 5 and 120 years old\"], :height=>[\"must be filled\", \"This must be greater than zero\"], :weight=>[\"must be filled\", \"This must be greater than zero\"]}"
-
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:user_id=>[\"Can't be blank\"], :firstname=>[\"Can't be blank\"], :lastname=>[\"Can't be blank\"], :gender=>[\"Can't be blank\"], :dob=>[\"Can't be blank\", \"Wrong age, Subject must be between 5 and 120 years old\"], :height=>[\"Can't be blank\", \"This must be greater than zero\"], :weight=>[\"Can't be blank\", \"This must be greater than zero\"]}"
   end
 
   it "create successfully" do

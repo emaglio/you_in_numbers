@@ -25,6 +25,7 @@ module Subject::Contract
         end
 
         def email?
+          return true if form.email == ""
           ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
         end
 
@@ -43,7 +44,7 @@ module Subject::Contract
         end
       end
 
-      required(:email).maybe
+      required(:email).maybe(:email?)
       required(:user_id).filled
       required(:firstname).filled
       required(:lastname).filled
