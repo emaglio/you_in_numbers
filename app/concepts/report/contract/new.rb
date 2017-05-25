@@ -21,6 +21,7 @@ module Report::Contract
         config.messages_file = 'config/error_messages.yml'
 
         def file_exists?
+          # TODO: fix this
           # File.exists?(form.cpet_file_path)
           true
         end
