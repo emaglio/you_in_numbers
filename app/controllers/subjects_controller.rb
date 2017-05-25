@@ -20,4 +20,10 @@ class SubjectsController < ApplicationController
 
     render Subject::Cell::Index, result["model"]
   end
+
+  def get_reports
+    run Subject::GetReports
+
+    render Subject::Cell::GetReports, result["reports"], layout_type: nil
+  end
 end

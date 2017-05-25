@@ -10,6 +10,7 @@ module Report::Contract
 
     property :title
     property :user_id
+    property :subject_id
     property :content
     property :cpet_file_path, virtual: true
     property :rmr_file_path, virtual: true
