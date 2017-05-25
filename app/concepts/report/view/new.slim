@@ -1,8 +1,51 @@
-.row.text-center
-  h1 New Report
+.row
+  .col-sm-12.text-center
+    h1 New Report
+hr style="margin-top: 0px;"
 
+- if subject
+  .row
+    .col-sm-12.text-center
+      h3 Subject details
+  hr style="margin-top: 0px;"
+
+  .row
+    .col-sm-1
+    .col-sm-2.text-center
+      strong
+        | Firstname
+    .col-sm-2.text-center
+      strong
+        | Lastname
+    .col-sm-2.text-center
+      strong
+        | Date of Birth
+    .col-sm-2.text-center
+      strong
+        | Height
+    .col-sm-2.text-center
+      strong
+        | Weight
+  .row style="margin-top:20px;"
+    .col-sm-1
+    .col-sm-2.text-center
+      = subject.firstname
+    .col-sm-2.text-center
+      = subject.lastname
+    .col-sm-2.text-center
+      = subject.dob.strftime("%d %B %Y")
+    .col-sm-2.text-center
+      = subject.height
+    .col-sm-2.text-center
+      = subject.weight
+  hr style="margin-top: 10px;"
+- else
+  = cell('subject/cell/search', nil)
+
+.row
   = trb_form_for(model, "/reports", method: :post, builder: :bootstrap4, id: :new_report, enctype: 'multipart/form-data') do |f|
     = f.input :user_id, type: "hidden", value: current_user.id
+    = f.input :subject_id, type: "hidden", value: subject_id
     .row
       .col-sm-4
       .col-sm-4

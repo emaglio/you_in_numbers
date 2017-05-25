@@ -34,6 +34,7 @@ module Report::Contract
 
       required(:title).filled
       required(:user_id).filled
+      required(:subject_id).filled
       required(:template).filled
       required(:cpet_file_path).maybe(:file_exists?)
       required(:rmr_file_path).maybe(:file_exists?)
