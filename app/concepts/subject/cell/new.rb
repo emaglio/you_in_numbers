@@ -10,6 +10,10 @@ module Subject::Cell
     def current_user
       return options[:context][:current_user]
     end
+
+    def new_report?
+      params[:new_report] ||= "false"
+    end
   end # class New
 
 end # module Subject::Cell

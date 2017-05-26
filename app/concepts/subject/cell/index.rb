@@ -6,6 +6,10 @@ module Subject::Cell
       return options[:context][:current_user]
     end
 
+    def total
+      Subject.where("user_id like ?", current_user.id).size
+    end
+
     def subject_array
       array = []
 
@@ -34,6 +38,10 @@ module Subject::Cell
       end
 
       return array
+    end
+
+    def create_subject
+      button_to "Create Subject", new_subject_path, class: "btn btn-outline btn-success", :method => :get
     end
 
     def create_report

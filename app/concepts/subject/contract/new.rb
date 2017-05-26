@@ -15,12 +15,14 @@ module Subject::Contract
     property :phone
     property :dob
     property :content
+    property :new_report, virtual: true #to redirect to Report::New if true
 
     validation  with: { form: true } do
       configure do
         config.messages_file = 'config/error_messages.yml'
 
         def unique_email?
+          return true if form.email == ""
           Subject.where("email = ?", form.email).size == 0
         end
 

@@ -9,6 +9,7 @@ class SubjectsController < ApplicationController
   def create
     run Subject::Create do |result|
       flash[:success] = "Subject created!"
+      return redirect_to new_report_path(nil, subject_id: result["model"].id) if result["new_report"]
       return redirect_to "/subjects"
     end
 

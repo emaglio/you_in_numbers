@@ -1,11 +1,14 @@
-.row.text-center
-  h1 New Subject
+.row
+  .col-sm-12.text-center
+    h1 New Subject
+hr style="margin-top: 0px;"
 
   .row
     .col-sm-3
-    .col-sm-6
+    .col-sm-6.mybox
       = trb_form_for(model, "/subjects", method: :post, builder: :bootstrap4, id: :new_subject) do |f|
         = f.input :user_id, type: "hidden", value: current_user.id
+        = f.input :new_report, type: "hidden", value: new_report?
         .row
           .col-sm-1
           .col-sm-5
@@ -13,13 +16,11 @@
           .col-sm-5
             = f.input :lastname, placeholder: "Lastname"
         .row
-          .col-sm-4
+          .col-sm-1
           .col-sm-2
             = f.select :gender, placeholder: "Gender", collection: [["Male"], ["Female"]]
           .col-sm-3
             = f.input :dob, placeholder: "Date of Birth"
-        .row
-          .col-sm-3
           .col-sm-3
             = f.input :height, placeholder: "Height (cm)"
           .col-sm-3
@@ -33,7 +34,7 @@
             = f.input :phone, placeholder: "Phone"
           .col-sm-5
             = f.input :email, placeholder: "Email"
-        .row
+        .row style="margin-bottom:10px;"
           .col-sm-12.text-center
             = f.submit(value: "Submit")
 

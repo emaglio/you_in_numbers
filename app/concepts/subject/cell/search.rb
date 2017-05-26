@@ -34,6 +34,10 @@ module Subject::Cell
       return array
     end
 
+    def create_subject
+      button_to "Create a new one", new_subject_path, class: "btn btn-outline btn-success", :method => :get, params: {new_report: true}
+    end
+
   end # class Search
 
 end # module Subject::Cell

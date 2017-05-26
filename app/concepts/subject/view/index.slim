@@ -1,9 +1,10 @@
 .row
   .col-sm-12 class="user"
-    h3 Subjects Database
+    h3 Subjects Database (#{total})
 hr style="margin-top: 0px;"
 
 .row style="margin: 20px;"
+  = create_subject if total == 0
   table id="subjects" class="display" width="100%"
 
 javascript:
@@ -12,6 +13,13 @@ javascript:
   $(document).ready(function() {
     table = $('#subjects').DataTable( {
       data: [#{subject_array}],
+      "columnDefs": [
+        {"width": "1%", "orderable": false, "targets": 0 },
+        {"visible": false, "targets": 1},
+        {"width": "1%", "orderable": false, "targets": 7 },
+        {"width": "1%", "orderable": false, "targets": 8 },
+        {"width": "1%", "orderable": false, "targets": 9 }
+      ],
       columns: [
         {
           "className":      'details-control',
@@ -28,13 +36,7 @@ javascript:
         { title: "" },
         { title: "" }
       ],
-      "columnDefs": [
-        {"width": "1%", "orderable": false, "targets": 0 },
-        {"visible": false, "targets": 1},
-        {"width": "1%", "orderable": false, "targets": 7 },
-        {"width": "1%", "orderable": false, "targets": 8 },
-        {"width": "1%", "orderable": false, "targets": 9 }
-      ]
+      "order": [[ 3, "asc" ]]
     } );
   });
 

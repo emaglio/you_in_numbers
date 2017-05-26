@@ -1,4 +1,8 @@
 .row style="margin: 20px;"
+  strong
+    | Select an existing Subject or #{create_subject}
+
+.row style="margin: 20px;"
   table id="subjects" class="display" width="100%"
 
 javascript:
@@ -7,6 +11,9 @@ javascript:
   $(document).ready(function() {
     table = $('#subjects').DataTable( {
       data: [#{subject_array}],
+      "columnDefs": [
+        {"width": "1%", "orderable": false, "targets": 5}
+      ],
       columns: [
         { title: "Firstname" },
         { title: "Lastname" },
@@ -15,8 +22,6 @@ javascript:
         { title: "Weight" },
         { title: "" }
       ],
-      "columnDefs": [
-        {"width": "1%", "orderable": false, "targets": 5}
-      ]
+      "order": [[ 1, "asc" ]]
     } );
   });
