@@ -3,7 +3,7 @@
     h1 New Report
 hr style="margin-top: 0px;"
 
-- if subject
+- if subject != "nil"
   .row
     .col-sm-12.text-center
       h3 Subject details
@@ -39,27 +39,36 @@ hr style="margin-top: 0px;"
     .col-sm-2.text-center
       = subject.weight
   hr style="margin-top: 10px;"
+
+  .row
+    .col-sm-4
+    .col-sm-4.mybox
+      = trb_form_for(model, "/reports", method: :post, builder: :bootstrap4, id: :new_report, enctype: 'multipart/form-data') do |f|
+        = f.input :user_id, type: "hidden", value: current_user.id
+        = f.input :subject_id, type: "hidden"
+        .row style="margin:20px;"
+          = f.input :title, placeholder: "Report Title"
+        .row style="margin:20px;"
+          .col-sm-8
+            = f.input :cpet_file_path, placeholder: "CPET test", type: 'file'
+            = f.input :rmr_file_path, placeholder: "RMR test", type: 'file'
+          .col-sm-4
+            = f.select :template, label: "Report Template:", collection: [["default"], ["custom"]]
+        .row style="margin:20px;"
+          .col-sm-12.text-center
+            = f.submit(value: "Create Report")
 - else
   = cell('subject/cell/search', nil)
 
-.row
-  = trb_form_for(model, "/reports", method: :post, builder: :bootstrap4, id: :new_report, enctype: 'multipart/form-data') do |f|
-    = f.input :user_id, type: "hidden", value: current_user.id
-    = f.input :subject_id, type: "hidden", value: subject_id
-    .row
-      .col-sm-4
-      .col-sm-4
-        = f.input :title, placeholder: "Title"
-      .col-sm-4
-    .row
-      .col-sm-4
-      .col-sm-4
-        .col-sm-8
-          = f.input :cpet_file_path, placeholder: "CPET test", type: 'file'
-          = f.input :rmr_file_path, placeholder: "RMR test", type: 'file'
-        .col-sm-4
-          = f.select :template, label: "Report Template:", collection: [["default"], ["custom"]]
-      .col-sm-4
-    .row
-      .col-sm-12.text-center
-        = f.submit(value: "Create Report")
+
+javascript:
+
+  $(document).ready(function() {
+    var subject_id_node = document.getElementById('subject_id');
+
+    if("#{subject}" != "nil"){
+      subject_id_node.setAttribute("value","#{subject_id}");
+    }else{
+      alert("A subject needs to be selected to procede!")
+    }
+  });

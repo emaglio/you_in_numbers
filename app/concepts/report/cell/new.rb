@@ -10,11 +10,12 @@ module Report::Cell
     end
 
     def subject
-      Subject.find_by(id: params["subject_id"]) if params["subject_id"]
+      params["subject_id"] ? Subject.find_by(id: params["subject_id"]) : "nil"
     end
 
     def subject_id
-      subject ? subject.id : 0
+      subject != "nil" ? subject.id : "nil"
     end
+
   end
 end
