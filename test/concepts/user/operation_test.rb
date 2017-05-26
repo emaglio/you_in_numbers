@@ -18,7 +18,7 @@ class UserOperationTest < MiniTest::Spec
   it "wrong input" do
     result = User::Create.({})
     result.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"must be filled\", \"Wrong format\"], :password=>[\"must be filled\"], :confirm_password=>[\"must be filled\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"Can't be blank\", \"Wrong format\"], :password=>[\"Can't be blank\"], :confirm_password=>[\"Can't be blank\"]}"
   end
 
   it "passwords not matching" do
@@ -149,6 +149,7 @@ class UserOperationTest < MiniTest::Spec
     # create 2 Reports
     report1 = Report::Create.({
           user_id: user.id,
+          subject_id: 1,
           title: "My report",
           cpet_file_path: upload_file,
           template: "default"
@@ -157,6 +158,7 @@ class UserOperationTest < MiniTest::Spec
 
     report2 = Report::Create.({
           user_id: user.id,
+          subject_id: 1,
           title: "My report",
           cpet_file_path: upload_file,
           template: "default"
@@ -291,7 +293,7 @@ class UserOperationTest < MiniTest::Spec
     #move up
     result = User::EditObj.({id: user.id, "move_up" => ""}, "current_user" => user)
     result.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:move_up=>[\"Something went wrong!\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:move_up=>[\"Operation not possible\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true
@@ -299,7 +301,7 @@ class UserOperationTest < MiniTest::Spec
     #move down
     result = User::EditObj.({id: user.id, "move_down" => ""}, "current_user" => user)
     result.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:move_down=>[\"Something went wrong!\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:move_down=>[\"Operation not possible\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true
@@ -307,7 +309,7 @@ class UserOperationTest < MiniTest::Spec
     #edit
     result = User::EditObj.({id: user.id, "edit_chart" => ""}, "current_user" => user)
     result.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:edit_chart=>[\"Something went wrong!\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:edit_chart=>[\"Operation not possible\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true
@@ -315,7 +317,7 @@ class UserOperationTest < MiniTest::Spec
     #delete
     result = User::EditObj.({id: user.id, "delete" => ""}, "current_user" => user)
     result.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:delete=>[\"Something went wrong!\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:delete=>[\"Operation not possible\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true
@@ -323,7 +325,7 @@ class UserOperationTest < MiniTest::Spec
     #add
     result = User::EditObj.({id: user.id, "type" => 2, "index" => ""}, "current_user" => user)
     result.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:type=>[\"must be a string\"], :index=>[\"Something went wrong!\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:type=>[\"must be a string\"], :index=>[\"Operation not possible\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true

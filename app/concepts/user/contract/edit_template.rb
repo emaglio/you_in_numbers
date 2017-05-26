@@ -27,19 +27,19 @@ module User::Contract
 
       configure do
         config.messages_file = 'config/error_messages.yml'
-        def greater_than_zero?(value)
+        def check_index?(value)
           return false if value == ""
           (value).to_i >= 0
         end
 
       end
 
-      required(:move_up).maybe(:greater_than_zero?)
-      required(:move_down).maybe(:greater_than_zero?)
-      required(:edit_chart).maybe(:greater_than_zero?)
-      required(:delete).maybe(:greater_than_zero?)
+      required(:move_up).maybe(:check_index?)
+      required(:move_down).maybe(:check_index?)
+      required(:edit_chart).maybe(:check_index?)
+      required(:delete).maybe(:check_index?)
       required(:type).maybe(:str?)
-      required(:index).maybe(:greater_than_zero?)
+      required(:index).maybe(:check_index?)
     end
   end
 end

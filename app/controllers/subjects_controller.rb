@@ -26,4 +26,20 @@ class SubjectsController < ApplicationController
 
     render Subject::Cell::GetReports, result["reports"], layout_type: nil
   end
+
+  def edit
+
+  end
+
+  def update
+
+  end
+
+  def delete
+
+  end
+
+  def edit_height_weight
+
+  end
 end

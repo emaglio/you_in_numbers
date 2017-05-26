@@ -45,6 +45,10 @@ Rails.application.routes.draw do
     collection do
       post 'get_reports'
     end
+
+    member do
+      post 'edit_height_weight'
+    end
   end
 
   resources :sessions do

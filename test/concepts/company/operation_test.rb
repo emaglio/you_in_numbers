@@ -38,7 +38,7 @@ class CompanyOperationTest < MiniTest::Spec
     user.success?.must_equal true
 
     result = Company::Create.({}, "current_user" => user)
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:user_id=>[\"must be filled\"], :name=>[\"must be filled\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:user_id=>[\"Can't be blank\"], :name=>[\"Can't be blank\"]}"
   end
 
   it "only the Company's owner can edit it" do
