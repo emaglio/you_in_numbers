@@ -9,7 +9,7 @@
       .row style="margin-top: 20px;"
         = upload_logo
   .col-sm-6.mybox
-    = trb_form_for(model, "/companies/#{model.id}", method: :patch, builder: :bootstrap4, id: :new_company) do |f|
+    = trb_form_for(model, "/companies/#{model.id}", method: :patch, builder: :bootstrap4, id: :show_company) do |f|
       = f.input :user_id, value: current_user.id, type: "hidden"
       .row
         .col-sm-12

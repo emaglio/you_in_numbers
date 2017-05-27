@@ -28,6 +28,12 @@ class SubjectsController < ApplicationController
     render Subject::Cell::GetReports, result["reports"], layout_type: nil
   end
 
+  def show
+    run Subject::Show
+
+    render Subject::Cell::Show, result["model"]
+  end
+
   def edit
 
   end
