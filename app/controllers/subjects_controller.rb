@@ -35,11 +35,18 @@ class SubjectsController < ApplicationController
   end
 
   def edit
+    run Subject::Edit
 
+    render Subject::Cell::Edit, result["contract.default"]
   end
 
   def update
+    run Subject::Update do |result|
+      flash[:success] = "Subject details updated"
+      return redirect_to "/subjects/#{result["model"].id}"
+    end
 
+    render Subject::Cell::Edit, result["contract.default"]
   end
 
   def delete

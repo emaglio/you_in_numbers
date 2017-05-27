@@ -4,7 +4,7 @@
 hr style="margin-top: 0px;"
 
 .row style="margin-top: 40px;"
-  .col-sm-1
+  .col-sm-3
   .col-sm-6.mybox
     = trb_form_for(model, "/users/#{current_user.id}", method: :patch, builder: :bootstrap4, id: :edit_user) do |f|
       = f.input :id, type: "hidden", value: current_user.id
@@ -23,9 +23,9 @@ hr style="margin-top: 0px;"
       .row
         .col-sm-12
           = f.input :email, placeholder: "Email"
-      .row
+      .row style="margin-bottom:20px;"
         .col-sm-2
-        .col-sm-8
+        .col-sm-8.text-center
           = f.submit(value: "Save")
         .col-sm-2
           h6 = back
