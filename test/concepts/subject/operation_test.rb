@@ -124,7 +124,7 @@ class SubjectOperationTest < MiniTest::Spec
     user.success?.must_equal true
     user2 = User::Create.({email: "tes2t@email.com", password: "password", confirm_password: "password"})
 
-    result = Subject::Create.({
+    subject = Subject::Create.({
                                 user_id: user["model"].id,
                                 firstname: "Ema",
                                 lastname: "Maglio",
@@ -135,9 +135,20 @@ class SubjectOperationTest < MiniTest::Spec
                                 phone: "912873",
                                 email: "ema@email.com"
                                 }, "current_user" => user)
+    subject.success?.must_equal true
+
+    assert_raises ApplicationController::NotAuthorizedError do
+      Subject::Update.(
+        {id: subject["model"].id,
+        firstname: "NewName",
+        dob: "01/01/1980"},
+        "current_user" => user2["model"])
+    end
+
+    result = Subject::Update.({id: subject["model"].id, firstname: "NewEma", dob: "01/01/1980"}, "current_user" => user["model"])
     result.success?.must_equal true
-
-
+    result["model"].firstname.must_equal "NewEma"
+    result["model"].lastname.must_equal "Maglio"
   end
 
 end
