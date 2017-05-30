@@ -9,7 +9,7 @@ module Report::Cell
     end
 
     def obj_array
-      current_user.content["report_template"][model.content]
+      current_user.content["report_template"][model.content["template"]]
     end
 
     def js_array

@@ -11,7 +11,10 @@ module Report::Contract
     property :title
     property :user_id
     property :subject_id
-    property :content
+    property :cpet_params
+    property :cpet_results
+    property :rmr_params
+    property :rmr_results
     property :cpet_file_path, virtual: true
     property :rmr_file_path, virtual: true
 
@@ -23,8 +26,7 @@ module Report::Contract
 
         def file_exists?
           # TODO: fix this
-          # File.exists?(form.cpet_file_path)
-          true
+          File.exists?(form.cpet_file_path)
         end
 
         def at_least_one_file?
@@ -47,5 +49,19 @@ module Report::Contract
         at_least_one_file?
       end
     end
+
+    property :content, field: :hash do
+      property :template
+      property :subject, field: :hash do
+        property :height
+        property :weight
+      end
+    end
+
+    unnest :subject, from: :content
+    unnest :height, from: :subject
+    unnest :weight, from: :subject
+    unnest :template, from: :content
+
   end
 end

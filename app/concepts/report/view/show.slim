@@ -10,7 +10,7 @@
         .text-right style="margin-bottom: 20px;"
           = form_tag(update_template_report_path(model.id)) do
             = hidden_field_tag :id, model.id
-            = select_tag :content, options_for_select(["default","custom"])
+            = select_tag :template, options_for_select(["default","custom"])
             = submit_tag("Update template")
       .col-sm-3
       .col-sm-3

@@ -6,6 +6,16 @@ class UserOperationTest < MiniTest::Spec
   let(:admin) {admin_for}
   let(:user) {(User::Create.({email: "test@email.com", password: "password", confirm_password: "password"}))["model"]}
   let(:user2) {(User::Create.({email: "test2@email.com", password: "password", confirm_password: "password"}))["model"]}
+  let(:subject) {(Subject::Create.({
+                                    user_id: user.id,
+                                    firstname: "Ema",
+                                    lastname: "Maglio",
+                                    gender: "Male",
+                                    dob: "01/01/1980",
+                                    height: "180",
+                                    weight: "80",
+                                    phone: "912873",
+                                    email: "ema@email.com"}, "current_user" => user))["model"]}
 
   it "validate correct input" do
     result = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
@@ -149,7 +159,7 @@ class UserOperationTest < MiniTest::Spec
     # create 2 Reports
     report1 = Report::Create.({
           user_id: user.id,
-          subject_id: 1,
+          subject_id: subject.id,
           title: "My report",
           cpet_file_path: upload_file,
           template: "default"
@@ -158,7 +168,7 @@ class UserOperationTest < MiniTest::Spec
 
     report2 = Report::Create.({
           user_id: user.id,
-          subject_id: 1,
+          subject_id: subject.id,
           title: "My report",
           cpet_file_path: upload_file,
           template: "default"

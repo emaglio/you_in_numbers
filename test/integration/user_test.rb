@@ -20,7 +20,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     # num_email = Mail::TestMailer.deliveries.length
     #empty
     sign_up!("","")
-    page.must_have_content "must be filled"
+    page.must_have_content "Can't be blank"
     page.current_path.must_equal "/users"
     # Mail::TestMailer.deliveries.length.must_equal num_email #no notification
 

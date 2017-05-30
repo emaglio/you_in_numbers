@@ -5,16 +5,13 @@ require 'disposable/twin/property/unnest'
 module User::Contract
   class EditTemplate < Reform::Form
     feature Reform::Form::Dry
-    feature Disposable::Twin::Property::Hash
+    include Disposable::Twin::Property::Hash
 
     property :content, field: :hash do
       property :report_template, field: :hash do
         property :custom
       end
     end
-
-    unnest :report_template, from: :content
-    unnest :custom, from: :report_template
 
     property :move_up, virtual: true
     property :move_down, virtual: true

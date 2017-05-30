@@ -5,4 +5,5 @@ class Report < ActiveRecord::Base
   serialize :cpet_results
   serialize :rmr_params
   serialize :rmr_results
+  serialize :content
 end
