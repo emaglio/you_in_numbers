@@ -50,7 +50,10 @@ class SubjectsController < ApplicationController
   end
 
   def delete
-
+    run Subject::Delete do |result|
+      flash[:success] = "Subject deleted successfully"
+      return redirect_to "subjects"
+    end
   end
 
   def edit_height_weight
