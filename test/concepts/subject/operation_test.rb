@@ -194,4 +194,38 @@ class SubjectOperationTest < MiniTest::Spec
     Report.where("subject_id like ?", subject["model"].id).size.must_equal 0
   end
 
+  it "edit height and weight" do
+    user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
+    user.success?.must_equal true
+    user2 = User::Create.({email: "tes2t@email.com", password: "password", confirm_password: "password"})
+
+    subject = Subject::Create.({
+                                user_id: user["model"].id,
+                                firstname: "Ema",
+                                lastname: "Maglio",
+                                gender: "Male",
+                                dob: "01/01/1980",
+                                height: "180",
+                                weight: "80",
+                                phone: "912873",
+                                email: "ema@email.com"
+                                }, "current_user" => user)
+    subject.success?.must_equal true
+
+    assert_raises ApplicationController::NotAuthorizedError do
+      Subject::EditHeightWeight.(
+        {
+          id: subject["model"].id,
+          height: "180",
+          weight: "80",
+          },
+        "current_user" => user2["model"])
+    end
+
+    result = Subject::EditHeightWeight.({id: subject["model"].id, height: "200", weight: "100"}, "current_user" => user["model"])
+    result.success?.must_equal true
+    result["model"].height.must_equal 200
+    result["model"].weight.must_equal 100
+  end
+
 end
