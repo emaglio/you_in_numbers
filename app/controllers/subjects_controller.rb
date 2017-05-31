@@ -43,6 +43,7 @@ class SubjectsController < ApplicationController
   def update
     run Subject::Update do |result|
       flash[:success] = "Subject details updated"
+      return redirect_to new_report_path(nil, subject_id: result["model"].id) if result["new_report"]
       return redirect_to "/subjects/#{result["model"].id}"
     end
 
@@ -57,6 +58,12 @@ class SubjectsController < ApplicationController
   end
 
   def edit_height_weight
+    run Subject::EditHeightWeight do |result|
+      flash[:success] = "Subejct details updated!"
+      return redirect_to new_report_path(nil, subject_id: result["model"].id)
+    end
 
+    flash[:danger] = "Height and weight must be greater than zero!"
+    return redirect_to edit_subject_path(result["model"].id, new_report: true)
   end
 end

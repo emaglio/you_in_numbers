@@ -7,6 +7,7 @@ hr style="margin-top: 0px;"
     .col-sm-3
     .col-sm-6.mybox
       = trb_form_for(model, "/subjects/#{model.id}", method: :patch, builder: :bootstrap4, id: :new_subject) do |f|
+        = f.input :new_report, type: "hidden", value: params[:new_report]
         .row style="margin-top:20px;"
           .col-sm-1
           .col-sm-5

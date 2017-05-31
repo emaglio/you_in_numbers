@@ -11,33 +11,43 @@ hr style="margin-top: 0px;"
 
   .row
     .col-sm-1
-    .col-sm-2.text-center
-      strong
-        | Firstname
-    .col-sm-2.text-center
-      strong
-        | Lastname
-    .col-sm-2.text-center
-      strong
-        | Date of Birth
-    .col-sm-2.text-center
-      strong
-        | Height
-    .col-sm-2.text-center
-      strong
-        | Weight
-  .row style="margin-top:20px;"
-    .col-sm-1
-    .col-sm-2.text-center
-      = subject.firstname
-    .col-sm-2.text-center
-      = subject.lastname
-    .col-sm-2.text-center
-      = subject.dob.strftime("%d %B %Y")
-    .col-sm-2.text-center
-      = subject.height
-    .col-sm-2.text-center
-      = subject.weight
+    .col-sm-6
+      .row style="margin-top:10px;"
+        .col-sm-4.text-center
+          strong
+            | Firstname
+        .col-sm-4.text-center
+          strong
+            | Lastname
+        .col-sm-4.text-center
+          strong
+            | Date of Birth
+      .row style="margin-top:20px;"
+        .col-sm-4.text-center
+          = subject.firstname
+        .col-sm-4.text-center
+          = subject.lastname
+        .col-sm-4.text-center
+          = subject.dob.strftime("%d %B %Y")
+    .col-sm-4.mybox
+      = form_tag(edit_height_weight_subject_path(params[:subject_id]))
+          .row style="margin-top:10px;"
+            .col-sm-6.text-center
+              strong
+                | Height
+            .col-sm-6.text-center
+              strong
+                | Weight
+          .row
+            .col-sm-6.text-center style="margin-top:20px;"
+              = text_field_tag :height, subject.height, size: 5
+            .col-sm-6.text-center style="margin-top:20px;"
+              = text_field_tag :weight, subject.weight, size: 5
+          .row.text-center style="margin-top:20px;"
+            = submit_tag
+          .row.text-center style="margin:10px;"
+            small style="color:red;"
+              | Make sure the height and weight are correct!
   hr style="margin-top: 10px;"
 
   .row

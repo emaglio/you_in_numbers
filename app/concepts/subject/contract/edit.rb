@@ -15,6 +15,7 @@ module Subject::Contract
     property :phone
     property :dob
     property :content
+    property :new_report, virtual: true
 
     validation  with: { form: true } do
       configure do
