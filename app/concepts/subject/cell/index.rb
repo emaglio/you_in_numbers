@@ -48,6 +48,14 @@ module Subject::Cell
       (button_to "Create Report", new_report_path, class: "btn btn-outline btn-success", :method => :get, params: {subject_id: model.id}).inspect
     end
 
+    def um_height
+      current_user.content["report_settings"]["units_of_measurement"]["height"]
+    end
+
+    def um_weight
+      current_user.content["report_settings"]["units_of_measurement"]["weight"]
+    end
+
   end # class Index
 
 end # module Subject::Cell

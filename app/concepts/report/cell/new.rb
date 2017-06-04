@@ -17,5 +17,13 @@ module Report::Cell
       subject != "nil" ? subject.id : "nil"
     end
 
+    def um_height
+      current_user.content["report_settings"]["units_of_measurement"]["height"]
+    end
+
+    def um_weight
+      current_user.content["report_settings"]["units_of_measurement"]["weight"]
+    end
+
   end
 end

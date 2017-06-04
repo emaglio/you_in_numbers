@@ -3,15 +3,36 @@
   .col-sm-6.mybox
     .row
       .col-sm-12 style="margin-top:10px;margin-bottom:10px;"
+        - if model.content["report_settings"]["units_of_measurement"] != nil
+          .row style="margin-top:10px;margin-left:5px;"
+            strong
+              | Subject settings
+          .row style="width:80%;margin-left:5px;"
+            small
+              | Units of measurement used for height and weight
+          .row style="margin-left:5px;"
+            .col-sm-2
+            .col-sm-4
+              strong
+                | Height:
+              |  #{model.content["report_settings"]["units_of_measurement"]["height"]}
+            .col-sm-4
+              strong
+                | Weight:
+              |  #{model.content["report_settings"]["units_of_measurement"]["weight"]}
+            .col-sm-2
+          hr style="margin-top: 0px;"
+
         - if model.content["report_settings"]["params_list"] != nil
           .row style="margin-top:10px;margin-left:5px;"
             strong
               | Parameters list
-          .row style="margin-left:5px;"
-            = params
           .row style="width:80%;margin-left:5px;"
             small
               | List of all metabolic parameters used during the data import and report generation.
+          .row style="margin-left:5px;"
+            = params
+          hr style="margin-top: 0px;"
 
         - if model.content["report_settings"]["ergo_params_list"] != nil
           .row style="margin-top:10px;margin-left:5px;"
@@ -35,6 +56,7 @@
               small
                 |   (#{model.content["report_settings"]["ergo_params_list"][3]})
             .col-sm-2
+          hr style="margin-top: 0px;"
 
         - if model.content["report_settings"]["training_zones_settings"] != nil
           .row style="margin-top:10px;margin-left:5px;"

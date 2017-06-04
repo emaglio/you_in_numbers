@@ -1,160 +1,66 @@
-# require 'more_help'
-# require 'roo'
-
-# # class ReportTest < MiniTest::Spec
+# require 'test_helper.rb'
 
 
+# class GeneratehvPDF < MiniTest::Spec
 
-# #   cpet_path = './app/assets/files/cpet.xlsx'
+#   let(:user) {(User::Create.({email: "test@email.com", password: "password", confirm_password: "password"}))["model"]}
 
-# #   cpet_file = Roo::Spreadsheet.open(cpet_path)
+#   it "some" do
+#     user.email.must_equal "test@email.com"
 
-# #   puts get_data_sheet(cpet_file)
+#     form = User::Contract::EditTemplate.new(user)
+#     form.validate(id: user.id, "type" => "VO2max summary", "index" => "0")
 
-# # end
-
-# class GetResults
-
-#   # string time to integer seconds
-#   def sec(time)
-#     zero = Time.parse("00:00:00")
-#     time = "00:" + time if time.length >= 5
-#     time = Time.parse(time)
-
-#     return (time - zero).to_i
-#   end
-
-#   def find_exercise_phase(params)
-#     start_exer = 0
-#     end_exer = 0
-
-#     params["Phase"].each do |phase|
-#       start_exer += 1 if phase != "EXERCISE" and phase != "RECOVERY"
-#       end_exer += 1 if phase == "EXERCISE"
+#     form.content.report_template.default.each do |obj|
+#       puts obj.inspect
 #     end
 
-#     end_exer = end_exer + start_exer - 1
+#     puts "---------".inspect
 
-#     # hash with starting index of exercise phase and durantion on it (num_steps)
-#     exer_phase = { "starts" => start_exer, "num_steps" => end_exer - start_exer + 1}
+#     form.content.report_template.custom.each do |obj|
+#       puts obj.inspect
+#     end
+#     puts "-----after----".inspect
 
-#     return exer_phase
-#   end
+#     form.content.report_template.custom = add_element(form.content.report_template.custom)
+#     form.content.report_template.default = form.content.report_template.default
 
-#   def find_AT(params, exer_phase)
-#     exer_array = params["VE/VO2"][exer_phase["starts"], exer_phase["num_steps"]]
+#     form.save
 
-#     return exer_array.index(exer_array.min)
-#   end
-
-#   def find_VO2_max(params, exer_phase)
-#     # searching a range of 30 seconds where the max is included
-#     # starting from the end of the exer phase
-
-#     exer_array = params["VO2"][exer_phase["starts"], exer_phase["num_steps"]]
-
-#     max_index = exer_array.index(exer_array.max)
-
-#     # get the correct time array
-#     params["t"] != nil ? time_array = params["t"] : time_array = params["time"]
-#     time_array = time_array[exer_phase["starts"], exer_phase["num_steps"]]
-
-#     # last index
-#     ends = time_array.size - 1
-#     starts = ends
-
-#     time_array.each do
-#       # check if I have at least a range of 30 seconds
-#       if (sec(time_array[ends]) - sec(time_array[starts])) >= 30
-#         # check if the max value is in the range
-#         if max_index.between?(starts, ends)
-#           break
-#         else
-#           # move the range back in time
-#           ends -= 1
-#           starts -= 1
-#         end
-
-#       else
-#         # enlarge range
-#         starts -= 1
-#       end
+#     form.content.report_template.default.each do |obj|
+#       puts obj.inspect
 #     end
 
-#     max_value = ((exer_array[starts, ends-starts+1].sum).to_f / (ends-starts+1).to_f).round
+#     puts "---------".inspect
 
-#     # as max point I use the end of the 30 seconds range
-#     vo2_max = {"index" => ends, "value" => max_value}
-
-#     return vo2_max
-#   end
-
-#   def getValueIndex(value, vo2, offset)
-#     # return the row in the range 3 cells are bigger than the value, check starting with offset
-#     row_index = offset
-#     count = 0
-#     check = 0
-#     found = false
-#     while (row_index <= vo2.size-1 and found == false) do
-
-#       if vo2[row_index] > value
-#         if count == 0
-#             check = row_index
-#             count += 1
-#         else
-#           if row_index != check + 1
-#               count = 0
-#           else
-#               check = row_index
-#               count += 1
-#           end
-#         end
-#       end
-
-#       found = true if count == 3
-
-#       row_index = row_index + 1
+#     form.content.report_template.custom.each do |obj|
+#       puts obj.inspect
 #     end
 
-#     return row_index-1
+
 #   end
 
+#   def add_element(array)
+#     index = 0
+#     obj_array = array
 
-# end
+#     types = {
+#       "VO2max summary" => MyDefault::ReportObj[2],
+#       "Training Zones" => MyDefault::ReportObj[3],
+#       "Chart" => MyDefault::ReportObj[0]
+#       }
 
-# class Test
-#   GetData = GetData.new
-#   GetResults = GetResults.new
+#     obj = types["VO2max summary"]
+#     obj_array.insert(index, obj)
 
-#   cpet_path = './app/assets/files/cpet.xlsx'
+#     # update index
+#     for i in (index+1)..(obj_array.size-1)
+#       obj_array[i][:index] += 1
+#     end
 
-#   cpet_file = Roo::Spreadsheet.open(cpet_path)
+#     obj_array[index][:index] = index
 
-#   GetData::set_default_sheet(cpet_file)
+#     return obj_array
+#   end
 
-#   params = []
-#   params = GetData::cpet_params(cpet_file)
-
-#   exer_phase = []
-#   exer_phase = GetResults::find_exercise_phase(params)
-
-#   GetResults::find_AT(params, exer_phase)
-#   vo2_max = GetResults::find_VO2_max(params, exer_phase)
-
-#   vo2_array = params["VO2"][exer_phase["starts"], exer_phase["num_steps"]]
-#   value_50 = vo2_max["value"] * 0.50
-#   value_51 = vo2_max["value"] * 0.51
-
-#   puts vo2_max["value"].inspect
-#   puts value_50.inspect
-#   puts value_51.inspect
-#   puts vo2_array.inspect
-
-#   index_50 = GetResults::getValueIndex(value_50, vo2_array, 0)
-#   index_51 = GetResults::getValueIndex(value_51, vo2_array, index_50)
-
-#   puts index_50.inspect
-#   puts index_51.inspect
-#   puts vo2_array[index_50].inspect
-#   puts vo2_array[index_51].inspect
 # end

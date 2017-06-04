@@ -14,6 +14,14 @@ module Subject::Cell
       button_to "Delete", subject_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger"
     end
 
+    def height
+      "Height (#{current_user.content["report_settings"]["units_of_measurement"]["height"]})"
+    end
+
+    def weight
+      "Weight (#{current_user.content["report_settings"]["units_of_measurement"]["weight"]})"
+    end
+
   end # class Show
 
 end # module Subject::Cell

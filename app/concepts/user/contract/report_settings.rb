@@ -13,6 +13,7 @@ module User::Contract
         property :ergo_params_list
         property :report_path
         property :training_zones_settings
+        property :units_of_measurement
       end
     end
 
@@ -32,12 +33,16 @@ module User::Contract
     property :load_2, virtual: true
     property :load_2_um, virtual: true
 
+    #user for unit_of_measurment
+    property :um_height, virtual: true
+    property :um_weight, virtual: true
 
     unnest :report_settings, from: :content
     unnest :training_zones_settings, from: :report_settings
     unnest :params_list, from: :report_settings
     unnest :ergo_params_list, from: :report_settings
     unnest :report_path, from: :report_settings
+    unnest :units_of_measurement, from: :report_settings
 
     validation  with: { form: true } do
 
@@ -53,6 +58,9 @@ module User::Contract
       required(:load_1_um).filled
       required(:load_2).filled
       required(:load_2_um).filled
+
+      required(:um_height).filled
+      required(:um_weight).filled
 
       rule(zones_ok?: [:fat_burning_1, :fat_burning_2]) do |fat_burning_1, fat_burning_2|
         fat_burning_2.gt?(value(:fat_burning_1))

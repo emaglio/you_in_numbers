@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
 
     member do
-      post 'get_report_settings'
+      get 'get_report_settings'
       get 'get_report_template'
       get 'report_settings'
       get 'report_template'

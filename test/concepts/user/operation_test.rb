@@ -196,11 +196,19 @@ class UserOperationTest < MiniTest::Spec
     end
   end
 
-  it "edit custom template successfully" do
+  it "only current user can edit custom template successfully" do
     user.email.must_equal "test@email.com"
+    user2.email.must_equal "test2@email.com"
+
+    assert_raises ApplicationController::NotAuthorizedError do
+      User::EditObj.(
+        {id: user.id},
+        "current_user" => user2)
+    end
 
     #move up third element
     result = User::EditObj.({id: user.id, "move_up" => "2"}, "current_user" => user)
+    # result["result.contract.default"].errors.messages.inspect.must_equal ""
     result.success?.must_equal true
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
@@ -339,5 +347,52 @@ class UserOperationTest < MiniTest::Spec
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true
+  end
+
+  it "report settings" do
+    user.email.must_equal "test@email.com"
+    user2.email.must_equal "test2@email.com"
+
+    assert_raises ApplicationController::NotAuthorizedError do
+      User::ReportSettings.(
+        {id: user.id},
+        "current_user" => user2)
+    end
+
+    result = User::ReportSettings.(
+              {
+                id: user.id,
+                "params_list" => "Parms0,Parms1,Parms2,Parms3",
+                "load_1" => "Load1",
+                "load_1_um" => "Load1_um",
+                "load_2" => "Load2",
+                "load_2_um" => "Load2_um",
+                "fat_burning_2" => "45",
+                "endurance_1" => "55",
+                "endurance_2" => "65",
+                "at_1" => "75",
+                "at_2" => "85",
+                "vo2max_1" => "95",
+                um_height: "um_h",
+                um_weight: "um_w",
+                }, "current_user" => user)
+    result.success?.must_equal true
+    result["model"].content["report_settings"]["params_list"][0].must_equal "Parms0"
+    result["model"].content["report_settings"]["params_list"][1].must_equal "Parms1"
+    result["model"].content["report_settings"]["params_list"][2].must_equal "Parms2"
+    result["model"].content["report_settings"]["params_list"][3].must_equal "Parms3"
+    result["model"].content["report_settings"]["ergo_params_list"][0].must_equal "Load1"
+    result["model"].content["report_settings"]["ergo_params_list"][1].must_equal "Load1_um"
+    result["model"].content["report_settings"]["ergo_params_list"][2].must_equal "Load2"
+    result["model"].content["report_settings"]["ergo_params_list"][3].must_equal "Load2_um"
+    result["model"].content["report_settings"]["training_zones_settings"][0].must_equal 35
+    result["model"].content["report_settings"]["training_zones_settings"][1].must_equal 45
+    result["model"].content["report_settings"]["training_zones_settings"][2].must_equal 55
+    result["model"].content["report_settings"]["training_zones_settings"][3].must_equal 65
+    result["model"].content["report_settings"]["training_zones_settings"][4].must_equal 75
+    result["model"].content["report_settings"]["training_zones_settings"][5].must_equal 85
+    result["model"].content["report_settings"]["training_zones_settings"][6].must_equal 95
+    result["model"].content["report_settings"]["units_of_measurement"]["height"].must_equal "um_h"
+    result["model"].content["report_settings"]["units_of_measurement"]["weight"].must_equal "um_w"
   end
 end

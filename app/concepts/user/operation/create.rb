@@ -17,6 +17,7 @@ class User::Create < Trailblazer::Operation
     options["contract.default"].content.report_settings.params_list = ["t", "Rf", "VE", "VO2", "VCO2", "RQ", "VE/VO2", "HR", "VO2/Kg", "FAT%", "CHO%", "Phase"]
     options["contract.default"].content.report_settings.ergo_params_list = ["Power", "Watt", "Revolution", "RPM"]
     options["contract.default"].content.report_settings.training_zones_settings = [35, 50, 51, 75, 76, 90, 91, 100]
+    options["contract.default"].content.report_settings.units_of_measurement = {"height" => "cm", "weight" => "kg"}
   end
 
   def default_report_template!(options, model:, **)

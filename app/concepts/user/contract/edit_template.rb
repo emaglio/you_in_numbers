@@ -10,6 +10,7 @@ module User::Contract
     property :content, field: :hash do
       property :report_template, field: :hash do
         property :custom
+        property :default
       end
     end
 
@@ -38,5 +39,9 @@ module User::Contract
       required(:type).maybe(:str?)
       required(:index).maybe(:check_index?)
     end
+
+    unnest :report_template, from: :content
+    unnest :default, from: :report_template
+    unnest :custom, from: :report_template
   end
 end

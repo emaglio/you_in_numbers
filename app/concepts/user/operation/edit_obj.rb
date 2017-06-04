@@ -1,16 +1,14 @@
 class User::EditObj < Trailblazer::Operation
   step Model(User, :find_by)
-  step ->(options, model:, **) { options["default"] = model.content["report_template"]["default"] }
   step Policy::Pundit( ::Session::Policy, :current_user? )
   failure ::Session::Lib::ThrowException
   step Contract::Build(constant: User::Contract::EditTemplate)
   step Contract::Validate()
   step :update_custom_template!
   step Contract::Persist()
-  step :save_default!
 
   def update_custom_template!(options, model:, params:, **)
-    obj_array = model["content"]["report_template"]["custom"]
+    obj_array = model.content["report_template"]["custom"]
 
     if params["move_up"] != nil and params["move_up"].to_i > 0
       index = params["move_up"].to_i
@@ -66,13 +64,14 @@ class User::EditObj < Trailblazer::Operation
         }
 
       obj = types[params["type"]]
-      obj[:index] = index
       obj_array.insert(index, obj)
 
       # update index
       for i in (index+1)..(obj_array.size-1)
         obj_array[i][:index] += 1
       end
+
+      obj_array[index][:index] = index
     end
 
     if params["delete"] != nil
@@ -87,11 +86,7 @@ class User::EditObj < Trailblazer::Operation
     end
 
     options["contract.default"].content.report_template.custom = obj_array
+    options["contract.default"].content.report_template.default = model.content["report_template"]["default"]
   end
 
-  # need to remove this as soon as find a solution to the issue of overriding not_custom
-  def save_default!(options, model:, **)
-    model["content"]["report_template"]["default"] = MyDefault::ReportObj
-    model.save
-  end
 end # class User::EditObj
