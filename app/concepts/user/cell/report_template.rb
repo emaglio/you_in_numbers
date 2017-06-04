@@ -7,7 +7,7 @@ module User::Cell
     end
 
     def default_obj_array
-      current_user["content"]["report_template"]["default"]
+      MyDefault::ReportObj
     end
 
     def custom_obj_array

@@ -63,7 +63,7 @@ class ReportsController < ApplicationController
       return redirect_to "/reports/#{result["model"].id}"
     end
 
-    flash[:danger] = "Report not found"
+    result["not_found"] ? flash[:danger] = "Report not found" : flash[:danger] = "Something went wrong, please try again!"
     return redirect_to reports_path
   end
 

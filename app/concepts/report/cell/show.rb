@@ -9,7 +9,7 @@ module Report::Cell
     end
 
     def obj_array
-      current_user.content["report_template"][model.content["template"]]
+      model.content["template"]=="default" ? MyDefault::ReportObj : current_user.content["report_template"]["custom"]
     end
 
     def js_array

@@ -20,5 +20,7 @@ module Report::Contract
 
       required(:template).filled
     end
+
+    unnest :template, from: :content
   end
 end
