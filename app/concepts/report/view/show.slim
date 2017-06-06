@@ -20,6 +20,7 @@
     .row
       .panel.panel-default
         .panel.body
+          = cell('report/cell/subject', model)
           - obj_array.each do |obj|
             .row style="margin-top:40px;"
               = cell (obj[:type]), model, obj: obj

@@ -1,3 +1,5 @@
+require 'date'
+
 module Report::Cell
 
   class Vo2maxSummary < Trailblazer::Cell
@@ -92,6 +94,35 @@ module Report::Cell
 
     def load_2_at_MAX
       model["cpet_params"]["Revolution"][index_MAX]
+    end
+
+    def subject
+      ::Subject.find_by(id: model.subject_id)
+    end
+
+    def hr_pred
+      age = (((DateTime.now.to_i - subject.dob.to_i)/(365*24*60*60)).round)
+      return (220-age)
+    end
+
+    def hr_pred_perc
+      ((hr_at_MAX.to_f/hr_pred.to_f)*100).round
+    end
+
+    def vo2_category
+      age = (((DateTime.now.to_i - subject.dob.to_i)/(365*24*60*60)).round)
+
+      age_array = MyDefault::SubjectAges.clone
+
+      age_index = age_array.find_index(age_array.min_by { |x| (x.to_f - age).abs})
+
+      (subject.gender == "Male") ? pred_array = MyDefault::ACSM_male[age_index].clone : pred_array = MyDefault::ACSM_female[age_index].clone
+
+      vo2_index = pred_array.find_index(pred_array.min_by { |x| (x.to_f - vo2_kg_at_MAX).abs})
+
+      return MyDefault::SubjectScores[vo2_index].clone
+
+
     end
 
 

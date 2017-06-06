@@ -1,0 +1,31 @@
+.row style="margin-top:40px;"
+  .col-sm-2
+  .col-sm-10
+    .row style="margin-top:10px;"
+      .col-sm-2.text-center
+        strong
+          | Firstname
+      .col-sm-2.text-center
+        strong
+          | Lastname
+      .col-sm-2.text-center
+        strong
+          | Date of Birth
+      .col-sm-2.text-center
+        strong
+          | Height (#{um_height})
+      .col-sm-2.text-center
+        strong
+          | Weight (#{um_weight})
+    .row style="margin-top:20px;"
+      .col-sm-2.text-center
+        = subject.firstname
+      .col-sm-2.text-center
+        = subject.lastname
+      .col-sm-2.text-center
+        = subject.dob.strftime("%d %B %Y")
+      .col-sm-2.text-center
+        = subject.height
+      .col-sm-2.text-center
+        = subject.weight
+
