@@ -54,10 +54,10 @@
           = vo2_at_MAX
       .col-sm-2 class="forth"
         .text
-          = vo2_category
+          = "< " + vo2_pred.to_s
       .col-sm-1 class="fifth"
         .text
-          | -
+          = vo2_category
     .row
       .col-sm-3 class="first"
         .text
@@ -73,10 +73,10 @@
           = vo2_kg_at_MAX
       .col-sm-2 class="forth"
         .text
-          | TBD
+          = "< " + vo2_kg_pred.to_s
       .col-sm-1 class="fifth"
         .text
-          | -
+          = vo2_category
     .row
       .col-sm-3 class="first"
         .text
