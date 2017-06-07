@@ -28,6 +28,7 @@ group :test do
   gem "minitest-rails-capybara"
   gem "minitest-line"
   gem "minitest-bang"
+  gem 'database_cleaner'
 end
 
 group :assets do
