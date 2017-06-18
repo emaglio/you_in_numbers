@@ -43,8 +43,9 @@ gem 'trailblazer-rails'
 gem 'cells-rails'
 gem 'cells-slim'
 gem 'dry-validation'
-# gem 'formular', :github => "trailblazer/formular"
-gem 'formular', :git => "https://github.com/emaglio/formular.git", :branch => "error_slim"
+gem 'file_validators'
+gem 'formular', :github => "trailblazer/formular"
+# gem 'formular', :git => "https://github.com/emaglio/formular.git", :branch => "error_slim"
 gem 'tyrant', :git => "https://github.com/emaglio/tyrant.git", :branch => "to_TRB2"
 
 gem "roo", "~> 2.7.0"

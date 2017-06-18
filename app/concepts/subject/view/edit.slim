@@ -6,7 +6,7 @@ hr style="margin-top: 0px;"
   .row
     .col-sm-3
     .col-sm-6.mybox
-      = trb_form_for(model, "/subjects/#{model.id}", method: :patch, builder: :bootstrap4, id: :new_subject) do |f|
+      = trb_form_for(model, "/subjects/#{model.id}", method: :patch, builder: :bootstrap3, id: :new_subject) do |f|
         = f.input :new_report, type: "hidden", value: params[:new_report]
         .row style="margin-top:20px;"
           .col-sm-1
@@ -35,7 +35,7 @@ hr style="margin-top: 0px;"
             = f.input :email, placeholder: "Email"
         .row style="margin-bottom:10px;"
           .col-sm-12.text-center
-            = f.submit(value: "Save Changes")
+            = f.submit(content: "Save Changes")
 
 javascript:
   $(function () {

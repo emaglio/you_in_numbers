@@ -10,7 +10,7 @@ module Report::Cell
     end
 
     def subject
-      params["subject_id"] ? Subject.find_by(id: params["subject_id"]) : "nil"
+      params["subject_id"] ? ::Subject.find_by(id: params["subject_id"]) : "nil"
     end
 
     def subject_id
