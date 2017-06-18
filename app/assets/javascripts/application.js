@@ -15,6 +15,8 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require js/bootstrap.min.js
+//= require js/bootstrap.js
+//= require js/npm.js
 //= require metisMenu.min.js
 //= require js/sb-admin-2.js
 //= require_tree ../../../vendor/assets/datatable/js
