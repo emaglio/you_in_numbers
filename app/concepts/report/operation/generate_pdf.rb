@@ -10,10 +10,11 @@ class Report::GeneratePdf < Trailblazer::Operation
   step :check_files!
   step :find_company!, fast_fail: true
   step :saving_folder!
-  step Rescue( NoMethodError, ArgumentError, handler: :rollback! ){
+  step Rescue( NoMethodError, ArgumentError, Prawn::Errors::UnsupportedImageType,  handler: :rollback! ){
     step :generate_pdf!
     step :write_company_details!
     step :write_company_logo!
+    # step :write_subject!
     step :write_images!
     step :save_pdf!
     step :delete_images!
@@ -21,7 +22,7 @@ class Report::GeneratePdf < Trailblazer::Operation
   failure :error!
 
   def obj_array!(options, current_user:, model:, **)
-    options["obj_array"] = current_user.content["report_template"][model.content]
+    options["obj_array"] = current_user.content["report_template"][model.content["template"]]
   end
 
   def check_files!(options, *)
@@ -31,7 +32,7 @@ class Report::GeneratePdf < Trailblazer::Operation
 
 
   def find_company!(options, current_user:, **)
-    options["company"] = Company.find_by("user_id like ?", current_user.id)
+    options["company"] = ::Company.find_by("user_id like ?", current_user.id)
   end
 
 
@@ -69,6 +70,12 @@ class Report::GeneratePdf < Trailblazer::Operation
     pdf.image ("#{Rails.root.join("public/images/")}" + "#{company.logo_meta_data[:thumb][:uid]}"), :position => :left, :vposition => :top, :fit => [MyDefault::ReportPdf["logo_size"], MyDefault::ReportPdf["logo_size"]]
   end
 
+  def write_subject!(options, pdf:, **)
+      image_path = "#{Rails.root.join("public/temp_files/subject.png")}"
+      options["path"] = image_path
+      pdf.image image_path, :position => :center, :fit => [MyDefault::ReportPdf["chart_size"], MyDefault::ReportPdf["chart_size"]]
+  end
+
   def write_images!(options, pdf:, obj_array:, **)
     obj_array.each do |obj|
       image_path = "#{Rails.root.join("public/temp_files/image-#{obj[:index]}.png")}"
@@ -78,6 +85,11 @@ class Report::GeneratePdf < Trailblazer::Operation
   end
 
   def delete_images!(options, obj_array:, **)
+    # delete subject image
+    image_path = "#{Rails.root.join("public/temp_files/subject.png")}"
+    File.delete(image_path)
+
+    # delete all the rest
     obj_array.each do |obj|
       image_path = "#{Rails.root.join("public/temp_files/image-#{obj[:index]}.png")}"
       File.delete(image_path)

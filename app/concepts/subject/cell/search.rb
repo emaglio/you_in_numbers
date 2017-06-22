@@ -11,24 +11,19 @@ module Subject::Cell
     end
 
     def subject_array
-      array = []
-
+      array = ""
+      index = 0
       subjects.each do |subject|
-        str = "["
-        str = str + ("#{subject.firstname.inspect}")
-        str = str + (",")
-        str = str + ("#{subject.lastname.inspect}")
-        str = str + (",")
-        str = str + ("#{subject.dob.strftime("%d %B %Y").inspect}")
-        str = str + (",")
-        str = str + ("#{subject.height.to_s.inspect}")
-        str = str + (",")
-        str = str + ("#{subject.weight.to_s.inspect}")
-        str = str + (",")
-        str = str + ("#{button_to "Select", new_report_path, class: "btn btn-outline btn-success", :method => :get, params: {subject_id: subject.id}}".inspect)
-        str = str + ("]")
-        str = str + (",")
-        array << str
+        temp = []
+        temp << subject.firstname
+        temp << subject.lastname
+        temp << subject.dob.strftime("%d %B %Y")
+        temp << subject.height.to_s
+        temp << subject.weight.to_s
+        temp << (button_to "Select", new_report_path, class: "btn btn-outline btn-success", :method => :get, params: {subject_id: subject.id})
+        (index >= 1) ? array += "," : array
+        array +=  temp.to_json
+        index += 1
       end
 
       return array

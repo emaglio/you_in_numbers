@@ -145,7 +145,7 @@ class UserOperationTest < MiniTest::Spec
     op["model"].block.must_equal true
   end
 
-  it "delete Company and Reports if delete User" do
+  it "delete Company, Reports and Subjects if delete User" do
     user.email.must_equal "test@email.com"
 
     # create company
@@ -182,6 +182,7 @@ class UserOperationTest < MiniTest::Spec
 
     Company.where("user_id like ?", user.id).size.must_equal 0
     Report.where("user_id like ?", user.id).size.must_equal 0
+    Subject.where("user_id like ?", user.id).size.must_equal 0
   end
 
   it "default settings" do

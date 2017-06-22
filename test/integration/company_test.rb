@@ -24,12 +24,12 @@ class CompanyTest < Trailblazer::Test::Integration
     page.must_have_css "#website"
     page.must_have_css "#website"
     page.must_have_selector("input[type=file][name=logo]")
-    page.must_have_button "Submit"
+    page.must_have_button "Create Company"
 
     within("//form[@id='new_company']") do
       fill_in 'Name',    with: "My Company"
     end
-    click_button "Submit"
+    click_button "Create Company"
 
     page.wont_have_content "Your company details has not been set!"
     page.wont_have_button "Update details"

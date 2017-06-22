@@ -7,6 +7,7 @@ class User::Delete < Trailblazer::Operation
   # step :notify!
   step :delete_company!
   step :delete_reports!
+  step :delete_subjects!
   step :delete!
 
   # def notify!(options, model:, **)
@@ -22,6 +23,12 @@ class User::Delete < Trailblazer::Operation
   def delete_reports!(options, model:, current_user:, **)
     Report.where("user_id like ?", model.id).each do |report|
       Report::Delete.({id: report.id}, "current_user" => current_user)
+    end
+  end
+
+  def delete_subjects!(options, model:, current_user:, **)
+    Subject.where("user_id like ?", model.id).each do |subject|
+      Subject::Delete.({id: subject.id}, "current_user" => current_user)
     end
   end
 

@@ -70,7 +70,6 @@ javascript:
       complete: function(response){
         var data = JSON.parse(response.responseText);
         var thead = '',  tbody = '';
-        console.log(data);
         var some = data[0];
         for(var key in data[0]){
           thead += '<th>' + key + '</th>';

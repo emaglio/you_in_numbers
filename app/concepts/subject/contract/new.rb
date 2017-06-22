@@ -31,7 +31,7 @@ module Subject::Contract
           ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
         end
 
-        def unique_subject?
+        def unique_subject? #TODO: call this only if form.dob is != nil
           Subject.where("firstname like ? AND lastname like ? AND dob like ?", form.firstname, form.lastname, DateTime.parse(form.dob)).size == 0
         end
 

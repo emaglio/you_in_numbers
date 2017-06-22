@@ -11,30 +11,23 @@ module Subject::Cell
     end
 
     def subject_array
-      array = []
-
+      array = ""
+      index = 0
       model.each do |subject|
-        str = "[ null,"
-        str = str + ("#{subject.id.inspect}")
-        str = str + (",")
-        str = str + ("#{subject.firstname.inspect}")
-        str = str + (",")
-        str = str + ("#{subject.lastname.inspect}")
-        str = str + (",")
-        str = str + ("#{subject.dob.strftime("%d %B %Y").inspect}")
-        str = str + (",")
-        str = str + ("#{subject.height.to_s.inspect}")
-        str = str + (",")
-        str = str + ("#{subject.weight.to_s.inspect}")
-        str = str + (",")
-        str = str + ("#{button_to "Open", subject_path(subject), class: "btn btn-outline btn-success", :method => :get}".inspect)
-        str = str + (",")
-        str = str + ("#{button_to "Edit", edit_subject_path(subject), class: "btn btn-outline btn-warning", :method => :get}".inspect)
-        str = str + (",")
-        str = str + ("#{button_to "Delete", subject_path(subject.id), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger"}".inspect)
-        str = str + ("]")
-        str = str + (",")
-        array << str
+        temp = []
+        temp << " "
+        temp << subject.id.to_s
+        temp << subject.firstname
+        temp << subject.lastname
+        temp << subject.dob.strftime("%d %B %Y")
+        temp << subject.height.to_s
+        temp << subject.weight.to_s
+        temp << (button_to "Open", subject_path(subject), class: "btn btn-outline btn-success", :method => :get)
+        temp << (button_to "Edit", edit_subject_path(subject), class: "btn btn-outline btn-warning", :method => :get)
+        temp << (button_to "Delete", subject_path(subject.id), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger")
+        (index >= 1) ? array += "," : array
+        array +=  temp.to_json
+        index += 1
       end
 
       return array

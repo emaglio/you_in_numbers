@@ -22,7 +22,7 @@ class User::Create < Trailblazer::Operation
 
   def default_report_template!(options, model:, **)
     options["contract.default"].content.report_template.custom = MyDefault::ReportObj.clone
-    options["contract.default"].content.report_template.default = MyDefault::ReportObj
+    options["contract.default"].content.report_template.default = MyDefault::ReportObj.clone
   end
 
   def create!(options, model:, params:, **)

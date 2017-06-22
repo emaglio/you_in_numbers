@@ -25,6 +25,8 @@ class ReportOperationTest < MiniTest::Spec
       :tempfile => File.new(Rails.root.join("test/files/cpet.xlsx"))
     })
 
+    puts upload_file.inspect
+
     report = Report::Create.({
           user_id: user.id,
           subject_id: subject.id,

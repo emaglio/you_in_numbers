@@ -1,31 +1,26 @@
 .row style="margin-top:40px;"
-  .col-sm-2
-  .col-sm-10
-    .row style="margin-top:10px;"
+  .col-sm-1
+  .col-sm-10 id="subject"
+    .row style="font-weight: bold; font-style: italic; font-size: 2em;"
+      .col-sm-2.text-center style=""
+        | Firstname
       .col-sm-2.text-center
-        strong
-          | Firstname
+        | Lastname
       .col-sm-2.text-center
-        strong
-          | Lastname
+        | Date of Birth
       .col-sm-2.text-center
-        strong
-          | Date of Birth
+        | Height (#{um_height})
       .col-sm-2.text-center
-        strong
-          | Height (#{um_height})
-      .col-sm-2.text-center
-        strong
-          | Weight (#{um_weight})
+        | Weight (#{um_weight})
     .row style="margin-top:20px;"
       .col-sm-2.text-center
-        = subject.firstname
+        h4 = subject.firstname
       .col-sm-2.text-center
-        = subject.lastname
+        h4 = subject.lastname
       .col-sm-2.text-center
-        = subject.dob.strftime("%d %B %Y")
+        h4 = subject.dob.strftime("%d %B %Y")
       .col-sm-2.text-center
-        = subject.height
+        h4 = subject.height
       .col-sm-2.text-center
-        = subject.weight
+        h4 = subject.weight
 
