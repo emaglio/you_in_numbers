@@ -27,5 +27,6 @@
 //= require js/bootstrap-datepicker.js
 //= require js/jquery.dataTables.min.js
 //= require js/dataTables.responsive.min.js
+//= require pdfkit.js
 
 $('.datepicker').datepicker()

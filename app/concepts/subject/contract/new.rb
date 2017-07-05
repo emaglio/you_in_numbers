@@ -51,7 +51,7 @@ module Subject::Contract
       required(:firstname).filled
       required(:lastname).filled
       required(:gender).filled
-      required(:dob).filled(:check_age?)
+      required(:dob).filled
       required(:height).filled(:greater_than_zero?)
       required(:weight).filled(:greater_than_zero?)
 
@@ -59,7 +59,8 @@ module Subject::Contract
         email?
       end
 
-      validate(unique_email?: :email) do
+      validate(check_age?: :dob) do
+        check_age?
         unique_email?
       end
 

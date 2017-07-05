@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-ruby '2.2.3'
 
 gem 'rails', '~> 5.1.1'
 gem 'sqlite3'
@@ -44,7 +43,7 @@ gem 'cells-rails'
 gem 'cells-slim'
 gem 'dry-validation'
 gem 'file_validators'
-gem 'formular', :github => "trailblazer/formular"
+gem 'formular'
 gem 'tyrant', :git => "https://github.com/emaglio/tyrant.git", :branch => "to_TRB2"
 
 gem "roo", "~> 2.7.0"
