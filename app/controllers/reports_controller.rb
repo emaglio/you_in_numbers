@@ -38,7 +38,13 @@ class ReportsController < ApplicationController
   end
 
   def generate_image
-    run Report::GenerateImage
+    html = cell(Report::Cell::Show, Report.find(params[:id]), current_user: tyrant.current_user).()
+    kit = PDFKit.new(html)
+    kit.stylesheets << File.join(File.dirname(__dir__), "../vendor", "assets", "bootstrap", "css", "bootstrap.css")
+    pdf = kit.to_pdf
+    file = kit.to_file(File.join(File.dirname(__FILE__), 'some.pdf'))
+
+    # run Report::GenerateImage
     #TODO: run js stuff to show a message or something
   end
 

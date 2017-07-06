@@ -5,7 +5,7 @@ module Report::Cell
     include ActionView::Helpers::FormTagHelper
 
     def current_user
-      options[:context][:current_user]
+      options[:context][:current_user] ||= options[:current_user]
     end
 
     def obj_array
@@ -20,13 +20,10 @@ module Report::Cell
     def js_array
       array = []
       obj_array.each do |obj|
-        puts obj[:type].inspect
         obj[:type] == 'report/cell/chart' ? array << "chart" : (obj[:type] == 'report/cell/subject' ? array << "subject" : array << "dom")
       end
 
       return array
     end
-
   end #class Show
-
 end

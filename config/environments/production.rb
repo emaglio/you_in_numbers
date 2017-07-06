@@ -76,4 +76,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # to generate the report in PDF
+  config.middleware.use PDFKit::Middleware, :print_media_type => true, :wkhtmltopdf => '/usr/local/bin/wkhtmltopdf'
 end
