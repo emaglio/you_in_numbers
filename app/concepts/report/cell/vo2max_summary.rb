@@ -60,6 +60,7 @@ module Report::Cell
       model["cpet_params"]["HR"][index_MAX]
     end
 
+
     # TODO: make this smart
     def load_1
       load1 = []
@@ -94,6 +95,52 @@ module Report::Cell
 
     def load_2_at_MAX
       model["cpet_params"]["Revolution"][index_MAX]
+    end
+
+    def params_list
+      array = ""
+      index = 0
+      "t,VO2,VO2/Kg,HR,Power,Revolution".split(",").each do |param|
+        temp = []
+        temp << param + " unm"
+        temp << value_at_AT(param)
+        temp << value_at_MAX(param)
+        temp << pred(param)
+        temp << result_on_pred(param)
+        (index >= 1) ? array += "," : array
+        array +=  temp.to_json
+        index += 1
+      end
+
+      return array
+    end
+
+    def value_at_AT(param)
+      puts param.inspect
+      (model["cpet_params"].include? param) ? model["cpet_params"][param][index_AT] : model["cpet_results"][param][index_AT]
+    end
+
+    def value_at_MAX(param)
+      (model["cpet_params"].include? param) ? model["cpet_params"][param][index_MAX] : model["cpet_results"][param][index_MAX]
+    end
+
+    def pred(param)
+      preds = {
+        "vo2" => "< " + vo2_pred.to_s,
+        "vo2/kg" => "< " + vo2_kg_pred.to_s,
+        "hr" => hr_pred.to_s,
+      }
+      return preds.fetch(param.downcase, "-")
+    end
+
+    def result_on_pred(param)
+      result_on_preds = {
+        "vo2" => vo2_category.to_s,
+        "vo2/kg" => vo2_category.to_s,
+        "hr" => hr_pred_perc.to_s,
+        "anything" => "-"
+      }
+      return result_on_preds.fetch(param.downcase, "-")
     end
 
     def subject
@@ -139,8 +186,6 @@ module Report::Cell
     def vo2_pred
       (vo2_kg_pred.to_f * subject.weight.to_f).round
     end
-
-
   end # class VO2maxSummary
 
 end # module Report::Cell
