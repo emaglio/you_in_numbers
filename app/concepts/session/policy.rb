@@ -19,6 +19,10 @@ class Session::Policy
     company_owner?
   end
 
+  def subject_owner?
+    company_owner?
+  end
+
   def admin?
     return unless @user
     @user.email == "admin@email.com"

@@ -61,7 +61,6 @@ module Subject::Contract
 
       validate(check_age?: :dob) do
         check_age?
-        unique_email?
       end
 
       validate(unique_subject?: :firstname) do

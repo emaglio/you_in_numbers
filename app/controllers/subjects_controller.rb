@@ -1,7 +1,7 @@
 class SubjectsController < ApplicationController
 
   def new
-    run Subject::New
+    run Subject::Create::Present
 
     render Subject::Cell::New, result["contract.default"]
   end
@@ -35,7 +35,7 @@ class SubjectsController < ApplicationController
   end
 
   def edit
-    run Subject::Edit
+    run Subject::Update::Present
 
     render Subject::Cell::Edit, result["contract.default"]
   end

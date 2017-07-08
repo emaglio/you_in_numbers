@@ -1,7 +1,13 @@
-require_dependency 'subject/operation/edit'
-
 class Subject::Update < Trailblazer::Operation
-  step Nested(Subject::Edit)
+
+  class Present < Trailblazer::Operation
+    step Model(Subject, :find_by)
+    step Policy::Pundit( ::Session::Policy, :subject_owner?)
+    failure Session::Lib::ThrowException
+    step Contract::Build(constant: Subject::Contract::Edit)
+  end # class Present
+
+  step Nested( Present )
   step Contract::Validate()
   step Contract::Persist()
   step :redirect_new_report!

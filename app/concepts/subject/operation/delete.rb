@@ -1,6 +1,6 @@
 class Subject::Delete < Trailblazer::Operation
   step Model(Subject, :find_by)
-  step Policy::Pundit( ::Session::Policy, :report_company_owner?)
+  step Policy::Pundit( ::Session::Policy, :subject_owner?)
   failure Session::Lib::ThrowException
   step :delete_reports!
   step :delete!
