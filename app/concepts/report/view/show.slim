@@ -165,20 +165,14 @@ javascript:
   }
 
   document.getElementById('generate_report').addEventListener('click', function() {
-    //generateAllImages().then(function(){
-     // setTimeout(function(){
-      //  $.ajax({
-      //    url: "/reports/#{model.id}/generate_pdf",
-      //    type: "POST",
-      //    processData: false,
-      //    contentType: false,
-      //  });
-     // }, 5000);
-    //});
-    $.ajax({
-        url: "/reports/#{model.id}/generate_image",
-        type: "POST",
-        processData: false,
-        contentType: false,
-      });
+    generateAllImages().then(function(){
+      setTimeout(function(){
+        $.ajax({
+          url: "/reports/#{model.id}/generate_pdf",
+          type: "POST",
+          processData: false,
+          contentType: false,
+        });
+      }, 5000);
+    });
   });

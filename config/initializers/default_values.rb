@@ -6,6 +6,7 @@ class MyDefault < ActiveRecord::Base
                             index: "subject")
 
   chart = OpenStruct.new(type: 'report/cell/chart',
+                        title: "VO2 and VCO2 on time",
                         y1: {:name => "VO2", :colour => "#FF2D2D", :show_scale => true},
                         y2: {:name => "VCO2", :colour => "#2D2DFF", :show_scale => false},
                         y3: {:name => nil, :colour => nil, :show_scale => true},
@@ -16,6 +17,7 @@ class MyDefault < ActiveRecord::Base
                         show_AT: {show: true, colour: "#FF2D2D"},
                         only_exer: false)
   chart2 = OpenStruct.new(type: 'report/cell/chart',
+                        title: "HR, Power and Ve on time",
                         y1: {:name => "HR", :colour => "#FF2D2D", :show_scale => true},
                         y2: {:name => "Power", :colour => "#2D2DFF", :show_scale => true},
                         y3: {:name => "VE", :colour => "#ED7C52", :show_scale => true},
@@ -26,25 +28,11 @@ class MyDefault < ActiveRecord::Base
                         show_AT: {show: true, colour: "#FF2D2D"},
                         only_exer: false)
   summary = OpenStruct.new(type: 'report/cell/vo2max_summary',
-                        y1: nil,
-                        y2: nil,
-                        y3: nil,
-                        x: nil,
+                        title: "VO2max test summary",
                         index: 2,
-                        show_vo2max: false,
-                        show_exer: false,
-                        show_AT: false,
-                        only_exer: false)
+                        list_params: "time,VO2,VO2/Kg,HR,Power,Revolution")
   training_zones = OpenStruct.new(type: 'report/cell/training_zones',
-                        y1: nil,
-                        y2: nil,
-                        y3: nil,
-                        x: nil,
-                        index: 3,
-                        show_vo2max: false,
-                        show_exer: false,
-                        show_AT: false,
-                        only_exer: false)
+                        index: 3)
 
   ReportObj << chart
   ReportObj << chart2
