@@ -38,7 +38,4 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-
-  # to generate the report in PDF
-  config.middleware.use PDFKit::Middleware, :print_media_type => true, :wkhtmltopdf => '/usr/local/bin/wkhtmltopdf'
 end

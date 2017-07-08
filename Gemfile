@@ -54,5 +54,3 @@ gem 'pony'
 gem 'paperdragon'
 
 gem 'prawn'
-gem "pdfkit"
-gem "wkhtmltopdf-binary"
