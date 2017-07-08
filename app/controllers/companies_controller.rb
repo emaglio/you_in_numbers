@@ -1,7 +1,7 @@
 class CompaniesController < ApplicationController
 
   def new
-    run Company::New
+    run Company::Create::Present
 
     render Company::Cell::New, result["contract.default"]
   end
@@ -22,7 +22,7 @@ class CompaniesController < ApplicationController
   end
 
   def edit
-    run Company::Edit
+    run Company::Update::Present
 
     render Company::Cell::Edit, result["contract.default"]
   end

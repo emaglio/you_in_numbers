@@ -9,10 +9,14 @@ class Session::Policy
     true
   end
 
-  def report_company_owner?
+  def company_owner?
     return unless @user
-    return true if @model.user_id == 1 # this is to edit the report template using the Dummy report id = 1
     @user.id == @model.user_id
+  end
+
+  def report_owner?
+    return true if @model.user_id == 1 # this is to edit the report template using the Dummy report id = 1
+    company_owner?
   end
 
   def admin?
