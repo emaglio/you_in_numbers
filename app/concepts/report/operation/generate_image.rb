@@ -1,6 +1,6 @@
 class Report::GenerateImage < Trailblazer::Operation
   step Model(Report, :find_by)
-  step Policy::Pundit( ::Session::Policy, :report_company_owner? )
+  step Policy::Pundit( ::Session::Policy, :report_owner? )
   failure ::Session::Lib::ThrowException
   step :create_folder!
   step :generate_image!

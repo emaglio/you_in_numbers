@@ -11,7 +11,7 @@ class ReportsController < ApplicationController
   end
 
   def new
-    run Report::New
+    run Report::Create::Present
 
     render Report::Cell::New, result["contract.default"]
   end
@@ -38,13 +38,7 @@ class ReportsController < ApplicationController
   end
 
   def generate_image
-    html = cell(Report::Cell::Show, Report.find(params[:id]), current_user: tyrant.current_user).()
-    kit = PDFKit.new(html)
-    kit.stylesheets << File.join(File.dirname(__dir__), "../vendor", "assets", "bootstrap", "css", "bootstrap.css")
-    pdf = kit.to_pdf
-    file = kit.to_file(File.join(File.dirname(__FILE__), 'some.pdf'))
-
-    # run Report::GenerateImage
+    run Report::GenerateImage
     #TODO: run js stuff to show a message or something
   end
 

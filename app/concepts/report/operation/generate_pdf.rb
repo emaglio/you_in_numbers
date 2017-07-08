@@ -4,7 +4,7 @@ class Report::GeneratePdf < Trailblazer::Operation
   include Prawn::View
 
   step Model(Report, :find_by)
-  step Policy::Pundit( ::Session::Policy, :report_company_owner? )
+  step Policy::Pundit( ::Session::Policy, :report_owner? )
   failure ::Session::Lib::ThrowException
   step :obj_array!
   step :check_files!

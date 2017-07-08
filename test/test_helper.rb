@@ -16,10 +16,6 @@ Minitest::Spec.class_eval do
 
   after :each do
     DatabaseCleaner.clean
-    # ::User.delete_all
-    # ::Company.delete_all
-    # ::Report.delete_all
-    # ::Subject.delete_all
   end
 
   def admin_for
