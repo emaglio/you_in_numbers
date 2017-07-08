@@ -1,7 +1,11 @@
-require_dependency 'user/operation/new'
-
 class User::Create < Trailblazer::Operation
-  step Nested(::User::New)
+
+  class Present < Trailblazer::Operation
+    step Model(User, :new)
+    step Contract::Build(constant: User::Contract::New)
+  end # class Present
+
+  step Nested( Present )
   step Contract::Validate()
   step :default_report_settings!
   step :default_report_template!
@@ -22,7 +26,7 @@ class User::Create < Trailblazer::Operation
 
   def default_report_template!(options, model:, **)
     options["contract.default"].content.report_template.custom = MyDefault::ReportObj.clone
-    options["contract.default"].content.report_template.default = MyDefault::ReportObj
+    options["contract.default"].content.report_template.default = MyDefault::ReportObj.clone
   end
 
   def create!(options, model:, params:, **)

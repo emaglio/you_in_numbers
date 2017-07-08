@@ -31,7 +31,7 @@ module Subject::Contract
           ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
         end
 
-        def unique_subject?
+        def unique_subject? #TODO: call this only if form.dob is != nil
           Subject.where("firstname like ? AND lastname like ? AND dob like ?", form.firstname, form.lastname, DateTime.parse(form.dob)).size == 0
         end
 
@@ -51,7 +51,7 @@ module Subject::Contract
       required(:firstname).filled
       required(:lastname).filled
       required(:gender).filled
-      required(:dob).filled(:check_age?)
+      required(:dob).filled
       required(:height).filled(:greater_than_zero?)
       required(:weight).filled(:greater_than_zero?)
 
@@ -59,8 +59,8 @@ module Subject::Contract
         email?
       end
 
-      validate(unique_email?: :email) do
-        unique_email?
+      validate(check_age?: :dob) do
+        check_age?
       end
 
       validate(unique_subject?: :firstname) do

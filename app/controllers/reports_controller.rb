@@ -11,7 +11,7 @@ class ReportsController < ApplicationController
   end
 
   def new
-    run Report::New
+    run Report::Create::Present
 
     render Report::Cell::New, result["contract.default"]
   end
@@ -53,7 +53,7 @@ class ReportsController < ApplicationController
       return redirect_to "/companies/new"
     end
 
-    flash[:danger] = "Something went wrong: " + result["error"]
+    flash[:danger] = "An error occured -> " + result["error"]
     redirect_to "/reports/#{result["model"].id}"
   end
 

@@ -1,6 +1,9 @@
 class MyDefault < ActiveRecord::Base
   # make sure to change edit_obj in case you change this
-  array = []
+  ReportObj = []
+
+  Subject = OpenStruct.new(type: 'report/cell/subject',
+                            index: "subject")
 
   chart = OpenStruct.new(type: 'report/cell/chart',
                         y1: {:name => "VO2", :colour => "#FF2D2D", :show_scale => true},
@@ -43,12 +46,10 @@ class MyDefault < ActiveRecord::Base
                         show_AT: false,
                         only_exer: false)
 
-  array << chart
-  array << chart2
-  array << summary
-  array << training_zones
-
-  ReportObj = array
+  ReportObj << chart
+  ReportObj << chart2
+  ReportObj << summary
+  ReportObj << training_zones
 
   ReportPdf = {"logo_size" => 80, "chart_size" => 500}
 

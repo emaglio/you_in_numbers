@@ -25,12 +25,13 @@ class UsersController < ApplicationController
   end
 
   def new
-    run User::New
+    run User::Create::Present
+
     render User::Cell::New, result["contract.default"], layout_type: nil
   end
 
   def edit
-    run User::Edit
+    run User::Update::Present
 
     render User::Cell::Edit, result["model"]
   end

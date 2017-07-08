@@ -6,7 +6,7 @@ hr style="margin-top: 0px;"
   .row
     .col-sm-3
     .col-sm-6.mybox
-      = trb_form_for(model, "/subjects", method: :post, builder: :bootstrap4, id: :new_subject) do |f|
+      = trb_form_for(model, "/subjects", method: :post, builder: :bootstrap3, id: :new_subject) do |f|
         = f.input :user_id, type: "hidden", value: current_user.id
         = f.input :new_report, type: "hidden", value: new_report?
         .row
@@ -22,9 +22,9 @@ hr style="margin-top: 0px;"
           .col-sm-3
             = f.input :dob, placeholder: "Date of Birth"
           .col-sm-3
-            = f.input :height, placeholder: "Height (cm)"
+            = f.input :height, placeholder: "Height (#{um_height})"
           .col-sm-3
-            = f.input :weight, placeholder: "Weight (cm)"
+            = f.input :weight, placeholder: "Weight (#{um_weight})"
         .row
           .col-sm-4
           .col-sm-2
@@ -36,7 +36,7 @@ hr style="margin-top: 0px;"
             = f.input :email, placeholder: "Email"
         .row style="margin-bottom:10px;"
           .col-sm-12.text-center
-            = f.submit(value: "Submit")
+            = f.submit(content: "Create Subject")
 
 javascript:
   $(function () {

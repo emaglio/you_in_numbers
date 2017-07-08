@@ -15,7 +15,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_css "#email"
     page.must_have_css "#password"
     page.must_have_css "#confirm_password"
-    page.must_have_button "Submit"
+    page.must_have_button "Create User"
 
     # num_email = Mail::TestMailer.deliveries.length
     #empty

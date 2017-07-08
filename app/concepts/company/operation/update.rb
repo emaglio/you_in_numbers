@@ -1,5 +1,13 @@
 class Company::Update < Trailblazer::Operation
-  step Nested(Company::Edit)
+
+  class Present < Trailblazer::Operation
+    step Model(Company, :find_by)
+    step Policy::Pundit( ::Session::Policy, :company_owner?)
+    failure Session::Lib::ThrowException
+    step Contract::Build(constant: Company::Contract::New)
+  end # class Present
+
+  step Nested( Present )
   step Contract::Validate()
   step :upload_image!
   step Contract::Persist()

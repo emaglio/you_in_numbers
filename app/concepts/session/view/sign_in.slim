@@ -37,13 +37,13 @@ html lang = "en"
               .h3.panel-title
                 = "Please Sing In"
             .panel-body
-              = trb_form_for(model, "/sessions", method: :post, builder: :bootstrap4, id: :new_session) do |f|
+              = trb_form_for(model, "/sessions", method: :post, builder: :bootstrap3, id: :new_session) do |f|
                 .row.col-sm-12
                   = f.input :email, placeholder: "Email"
                 .row.col-sm-12
                   = f.input :password, placeholder: "Password",  type: "password"
                 .row.col-sm-12.text-center
-                  = f.submit(value: "Sign In")
+                  = f.submit(content: "Sign In")
                 .row
                   .col-sm-6.text-left style="margin-top: 20px;"
                     = link_to "Create Account", new_user_path

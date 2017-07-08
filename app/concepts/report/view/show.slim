@@ -1,5 +1,5 @@
 .row
-  .col-lg-12
+  .col-sm-12
       .page-header
         h1 = model.title
 
@@ -86,14 +86,12 @@ javascript:
   var form = new FormData();
   var index = 0;
 
-  function addImage(file){
-    var params = 'image-'.concat(index.toString());
-    index += 1;
-    form.append(params, file);
-  }
-
   function getNodeImage(id){
-    var complete_id = 'image-'.concat(id.toString());
+    if(id == "subject"){
+      var complete_id = 'subject';
+    }else{
+      var complete_id = 'image-'.concat(id.toString());
+    }
     var node = document.getElementById(complete_id);
 
     domtoimage.toPng(node)
@@ -151,7 +149,11 @@ javascript:
     if(item == "chart"){
       getCanvasImage(index);
     }else{
-      getNodeImage(index);
+      if(item == "subject"){
+        getNodeImage(item);
+      }else{
+        getNodeImage(index);
+      }
     };
   }
 
@@ -163,14 +165,20 @@ javascript:
   }
 
   document.getElementById('generate_report').addEventListener('click', function() {
-    generateAllImages().then(function(){
-      setTimeout(function(){
-        $.ajax({
-          url: "/reports/#{model.id}/generate_pdf",
-          type: "POST",
-          processData: false,
-          contentType: false,
-        });
-      }, 5000);
-    });
+    //generateAllImages().then(function(){
+     // setTimeout(function(){
+      //  $.ajax({
+      //    url: "/reports/#{model.id}/generate_pdf",
+      //    type: "POST",
+      //    processData: false,
+      //    contentType: false,
+      //  });
+     // }, 5000);
+    //});
+    $.ajax({
+        url: "/reports/#{model.id}/generate_image",
+        type: "POST",
+        processData: false,
+        contentType: false,
+      });
   });

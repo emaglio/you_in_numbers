@@ -1,6 +1,6 @@
 class Report::GenerateImage < Trailblazer::Operation
   step Model(Report, :find_by)
-  step Policy::Pundit( ::Session::Policy, :report_company_owner? )
+  step Policy::Pundit( ::Session::Policy, :report_owner? )
   failure ::Session::Lib::ThrowException
   step :create_folder!
   step :generate_image!
@@ -13,7 +13,8 @@ class Report::GenerateImage < Trailblazer::Operation
 
   def generate_image!(options, params:, **)
     return false if params[:error]
-    file = File.open("#{Rails.root}/public/temp_files/image-#{params[:index]}.png", "wb")
+    (params[:index] == "subject") ? (file_name = "subject.png") : (file_name = "image-" + params[:index].to_s + ".png")
+    file = File.open("#{Rails.root}/public/temp_files/#{file_name}", "wb")
     file.write(params[:image].read)
   end
 

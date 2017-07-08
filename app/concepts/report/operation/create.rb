@@ -1,9 +1,16 @@
-require_dependency 'report/operation/new'
 require_dependency 'report/operation/get_cpet_data'
 require_dependency 'report/operation/get_cpet_results'
 
 class Report::Create < Trailblazer::Operation
-  step Nested(Report::New)
+
+  class Present < Trailblazer::Operation
+    step Model(Report, :new)
+    step Policy::Pundit( ::Session::Policy, :signed_in?)
+    failure Session::Lib::ThrowException
+    step Contract::Build(constant: Report::Contract::New)
+  end # class Present
+
+  step Nested( Present )
   step Contract::Validate()
   step Nested(Report::GetCpetData)
   step Nested(Report::GetCpetResults, input: ->(options, cpet_params:, current_user:, **) do

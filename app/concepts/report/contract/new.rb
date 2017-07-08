@@ -26,7 +26,7 @@ module Report::Contract
 
         def file_exists?
           # TODO: fix this
-          # File.exists?(form.cpet_file_path)
+          # File.exists?(form.cpet_file_path.path())
           true
         end
 

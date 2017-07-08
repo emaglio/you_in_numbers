@@ -5,15 +5,17 @@ require 'capybara/rails'
 require 'minitest/autorun'
 require "trailblazer/rails/test/integration"
 require 'tyrant'
+require 'database_cleaner'
 
+DatabaseCleaner.strategy = :transaction
 
 Minitest::Spec.class_eval do
+  before :each do
+    DatabaseCleaner.start
+  end
+
   after :each do
-    # DatabaseCleaner.clean
-    ::User.delete_all
-    ::Company.delete_all
-    ::Report.delete_all
-    ::Subject.delete_all
+    DatabaseCleaner.clean
   end
 
   def admin_for
@@ -64,7 +66,7 @@ Trailblazer::Test::Integration.class_eval do
       fill_in 'Age', with: "31"
       fill_in 'Phone', with: "32343211"
     end
-    click_button "Submit"
+    click_button "Create User"
   end
 
   def log_in_as_admin
