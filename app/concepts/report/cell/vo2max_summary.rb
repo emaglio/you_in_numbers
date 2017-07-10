@@ -28,80 +28,12 @@ module Report::Cell
       model["cpet_results"]["exer_phase"]["starts"] + model["cpet_results"]["vo2_max"]["index"]
     end
 
-    def time_at_AT
-      model["cpet_params"]["t"][index_AT]
-    end
-
-    def time_at_MAX
-      model["cpet_params"]["t"][index_MAX]
-    end
-
-    def vo2_at_AT
-      model["cpet_params"]["VO2"][index_AT]
-    end
-
-    def vo2_at_MAX
-      model["cpet_results"]["vo2_max"]["value"]
-    end
-
-    def vo2_kg_at_AT
-      model["cpet_params"]["VO2/Kg"][index_AT]
-    end
-
-    def vo2_kg_at_MAX
-      model["cpet_params"]["VO2/Kg"][index_MAX]
-    end
-
-    def hr_at_AT
-      model["cpet_params"]["HR"][index_AT]
-    end
-
-    def hr_at_MAX
-      model["cpet_params"]["HR"][index_MAX]
-    end
-
-
-    # TODO: make this smart
-    def load_1
-      load1 = []
-
-      load1[0] = "Power"
-      load1[1] = " (Watt)"
-
-      return load1
-    end
-
-    def load_1_at_AT
-      model["cpet_params"]["Power"][index_AT]
-    end
-
-    def load_1_at_MAX
-      model["cpet_params"]["Power"][index_MAX]
-    end
-
-    # TODO: make this smart
-    def load_2
-      load2 = []
-
-      load2[0] = "Revolution"
-      load2[1] = " (RPM)"
-
-      return load2
-    end
-
-    def load_2_at_AT
-      model["cpet_params"]["Revolution"][index_AT]
-    end
-
-    def load_2_at_MAX
-      model["cpet_params"]["Revolution"][index_MAX]
-    end
-
     def params_list
       array = ""
       index = 0
       "t,VO2,VO2/Kg,HR,Power,Revolution".split(",").each do |param|
         temp = []
+        temp << index
         temp << param + " unm"
         temp << value_at_AT(param)
         temp << value_at_MAX(param)
@@ -116,7 +48,6 @@ module Report::Cell
     end
 
     def value_at_AT(param)
-      puts param.inspect
       (model["cpet_params"].include? param) ? model["cpet_params"][param][index_AT] : model["cpet_results"][param][index_AT]
     end
 
@@ -153,15 +84,15 @@ module Report::Cell
     end
 
     def hr_pred_perc
-      ((hr_at_MAX.to_f/hr_pred.to_f)*100).round
+      ((value_at_MAX("HR").to_f/hr_pred.to_f)*100).round
     end
 
     def age_index
-        age = (((DateTime.now.to_i - subject.dob.to_i)/(365*24*60*60)).round)
+      age = (((DateTime.now.to_i - subject.dob.to_i)/(365*24*60*60)).round)
 
-        age_array = MyDefault::SubjectAges.clone
+      age_array = MyDefault::SubjectAges.clone
 
-        return age_array.find_index(age_array.min_by { |x| (x.to_f - age).abs})
+      return age_array.find_index(age_array.min_by { |x| (x.to_f - age).abs})
     end
 
     def pred_array

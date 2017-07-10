@@ -30,38 +30,12 @@
   border-radius: 30px;
 }
 
-.my-table{
+.summary_table{
   font-size: 20px;
 }
 
-.my-table .header{
+.first_column {
   font-style: italic; font-weight: bold;
-}
-
-.my-table .row{
-  border-bottom: 2px solid black;
-}
-
-.my-table .first {
-  font-style: italic; font-weight: bold;
-}
-
-.my-table .second {
-  border-left: 2px solid black;
-  border-right: 2px solid black;
-}
-
-.my-table .third {
-  border-right: 2px solid black;
-}
-
-.my-table .forth {
-  border-right: 2px solid black;
-}
-
-.my-table .text{
-  height: 30px;
-  margin-top: 10px;
 }
 
 .fa-4x {
@@ -75,3 +49,5 @@ td.details-control {
 tr.shown td.details-control {
   background: url('/assets/images/details_close.png') no-repeat center center;
 }
+
+.
