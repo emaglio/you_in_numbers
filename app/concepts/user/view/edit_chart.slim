@@ -1,167 +1,36 @@
 .row
-  .col-sm-12
+  .col-sm-32
     h3 Edit chart:
 hr style="margin-top: 0px;"
 
 .row style="margin-top: 40px;"
   .col-sm-3
   .col-sm-6.mybox
-    = form_tag('edit_obj', method: :get)  do
-      = hidden_field_tag :edit_chart, index
-      .row style="margin-top:5px;margin-left:20px;"
-        strong
-          |Title:
-      .row style="margin-left:20px;"
-        = text_area_tag "title", obj[:x][:title], size:"60x1"
-      .row style="margin-top:5px;margin-left:20px;"
-        strong
-          |Y1:
-      .row
-        .col-sm-4.text-center
-          .row
-            small
-              | Parameter:
-          .row
-            = select_tag "y1_select", options_for_select(params_list, obj[:y1][:name])
-        .col-sm-4.text-center
-          .row
-            small
-              | Colour:
-          .row
-            = color_field_tag "y1_colour", obj[:y1][:colour], disabled: (obj[:y1][:name] == nil)
-        .col-sm-4.text-center
-          .row
-            small
-              | Show scale?
-          .row
-            = check_box_tag "y1_scale", nil, obj[:y1][:show_scale], disabled: (obj[:y1][:name] == nil)
-      .row style="margin-top:5px;margin-left:20px;"
-        strong
-          |Y2:
-      .row
-        .col-sm-4.text-center
-          .row
-            small
-              | Parameter:
-          .row
-            = select_tag "y2_select", options_for_select(params_list, obj[:y2][:name])
-        .col-sm-4.text-center
-          .row
-            small
-              | Colour:
-          .row
-            = color_field_tag "y2_colour", obj[:y2][:colour], disabled: (obj[:y2][:name] == nil)
-        .col-sm-4.text-center
-          .row
-            small
-              | Show scale?
-          .row
-            = check_box_tag "y2_scale", nil, obj[:y2][:show_scale], disabled: (obj[:y2][:name] == nil)
-      .row style="margin-top:5px;margin-left:20px;"
-        strong
-          |Y3:
-      .row
-        .col-sm-4.text-center
-          .row
-            small
-              | Parameter:
-          .row
-            = select_tag "y3_select", options_for_select(params_list, obj[:y3][:name])
-        .col-sm-4.text-center
-          .row
-            small
-              | Colour:
-          .row
-            = color_field_tag "y3_colour", obj[:y3][:colour], disabled: (obj[:y3][:name] == nil)
-        .col-sm-4.text-center
-          .row
-            small
-              | Show scale?
-          .row
-            = check_box_tag "y3_scale", nil, obj[:y3][:show_scale], disabled: (obj[:y3][:name] == nil)
-      .row style="margin-top:5px;margin-left:20px;"
-        strong
-          |X:
-      .row
-        .col-sm-4.text-center
-          .row
-            small
-              | Parameter:
-          .row
-            = select_tag "x", options_for_select(params_list, obj[:x][:name])
-        .col-sm-4.text-center
-          .row
-            small
-              | Time scale?
-          .row
-            = check_box_tag "x_time", nil, obj[:x][:time]
-        .col-sm-4.text-center
-          .row
-            small
-              | Time format:
-          .row
-            = text_area_tag "x_format", obj[:x][:time_format], size: "8x1", disabled: (obj[:x][:time] == false)
-      .row style="margin-top:5px;margin-left:20px;"
-        strong
-          | VO2max area:
-      .row
-        .col-sm-4.text-center
-          .row
-            small
-              | Show it?
-          .row
-            = check_box_tag "vo2max_check", nil, obj[:show_vo2max][:show], disabled: (obj[:x][:time] == false)
-        .col-sm-4.text-center
-          .row
-            small
-              | Color:
-          .row
-            = color_field_tag "vo2max_colour", obj[:show_vo2max][:colour], disabled: ((not obj[:show_vo2max][:show]) and (obj[:x][:time] == false))
-      .row style="margin-top:5px;margin-left:20px;"
-        strong
-          | Exercise area:
-      .row
-        .col-sm-4.text-center
-          .row
-            small
-              | Show it?
-          .row
-            = check_box_tag "exer_check", nil, obj[:show_exer][:show], disabled: (obj[:x][:time] == false)
-        .col-sm-4.text-center
-          .row
-            small
-              | Color:
-          .row
-            = color_field_tag "exer_colour", obj[:show_exer][:colour], disabled: ((not obj[:show_exer][:show]) and (obj[:x][:time] == false))
-      .row style="margin-top:5px;margin-left:20px;"
-        strong
-          | AT line:
-      .row
-        .col-sm-4.text-center
-          .row
-            small
-              | Show it?
-          .row
-            = check_box_tag "at_check", nil, obj[:show_AT][:show], disabled: (obj[:x][:time] == false)
-        .col-sm-4.text-center
-          .row
-            small
-              | Color:
-          .row
-            = color_field_tag "at_colour", obj[:show_AT][:colour], disabled: ((not obj[:show_AT][:show]) and (obj[:x][:time] == false))
-      .row style="margin-top:5px;margin-left:20px;"
-        strong
-          | Plot only exercise phase:
-      .row
-        .col-sm-4.text-center
-          .row
-            = check_box_tag "only_exer", nil, obj[:only_exer]
-      .row style="margin-top:20px;margin-bottom:5px;"
-        .col-sm-12.text-center
-          = submit_tag
-    .row style="margin-top:20px;margin-bottom:5px;"
-      .col-sm-12.text-left
-        = cancel
+    .col-sm-1
+    .col-sm-10
+      = trb_form_for(model, "/users/#{current_user.id}/update_chart", method: :post, builder: :bootstrap3, id: :edit_chart) do |f|
+        = f.row
+          = f.input :title, label: "Title:", inline_col_class: ['col-md-6'], value: obj[:title]
+        = f.row
+          = f.select :y1_select, label: "Y1:", collection: params_list, inline_col_class: ['col-md-4'], value: obj[:y1][:name]
+          = f.input :y1_color, label: " Y1 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y1][:colour]
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :y1_scale, label: "Show Scale?", inline_col_class: ['col-md-4'], value: obj[:y1][:show_scale]
+        = f.row
+          = f.select :y2_select, label: "Y2:", collection: params_list, inline_col_class: ['col-md-4'], value: obj[:y2][:name]
+          = f.input :y2_color, label: " Y2 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y2][:colour]
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :y2_scale, label: "Show Scale?", inline_col_class: ['col-md-4'], value: obj[:y2][:show_scale]
+        = f.row
+          = f.select :y3_select, label: "Y3:", collection: params_list, inline_col_class: ['col-md-4'], value: obj[:y3][:name]
+          = f.input :y3_color, label: "Y3 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y3][:colour]
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :y3_scale, label: "Show Scale?", inline_col_class: ['col-md-4'], value: obj[:y3][:show_scale]
+        = f.row
+          = f.select :x, label: "X:", collection: params_list, inline_col_class: ['col-sm-4'], value: obj[:x][:name]
+          = f.checkbox :x_time, label: "Time Scale?", inline_col_class: ['col-sm-4'], value: obj[:x][:time]
+          = f.input :x_format, label: "Time format:", inline_col_class: ['col-sm-4'], value: obj[:x][:time_format]
+
 
 javascript:
   var color = Chart.helpers.color;

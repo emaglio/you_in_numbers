@@ -1,20 +1,25 @@
 module User::Cell
 
-  class EditChart < New
+  class EditChart < Trailblazer::Cell
+    include Formular::RailsHelper
+
+    def current_user
+      return options[:context][:current_user]
+    end
 
     def params_list
       array = []
-      params_list = model.content["report_settings"]["params_list"]
-      ergo_params_list = model.content["report_settings"]["ergo_params_list"]
+      params_list = current_user.content["report_settings"]["params_list"]
+      ergo_params_list = current_user.content["report_settings"]["ergo_params_list"]
 
-      array << "none"
+      array << ["none"]
 
       params_list.each do |value|
-        array << value
+        array << [value]
       end
 
       ergo_params_list.each do |value|
-        array << value
+        array << [value]
       end
 
       return array
@@ -25,7 +30,7 @@ module User::Cell
     end
 
     def obj
-      model.content["report_template"]["custom"][index]
+      current_user.content["report_template"]["custom"][index]
     end
 
     def cancel
