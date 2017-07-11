@@ -17,13 +17,13 @@ module User::Contract
     property :x, virtual: true
     property :x_time, virtual: true
     property :x_format, virtual: true
-    property :vo2_show, virtual: true
-    property :vo2_color, virtual: true
+    property :vo2max_show, virtual: true
+    property :vo2max_colour, virtual: true
     property :exer_show, virtual: true
-    property :exer_color, virtual: true
+    property :exer_colour, virtual: true
     property :at_show, virtual: true
-    property :at_color, virtual: true
-    property :plot_exercise_only, virtual: true
+    property :at_colour, virtual: true
+    property :only_exer, virtual: true
 
     validation do
     end

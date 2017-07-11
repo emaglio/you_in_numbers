@@ -4,10 +4,8 @@
 hr style="margin-top: 0px;"
 
 .row style="margin-top: 40px;"
-  .col-sm-3
-  .col-sm-6.mybox
-    .col-sm-1
-    .col-sm-10
+  .col-sm-6.col-sm-offset-3.mybox
+    .col-sm-10.col-sm-offset-1
       = trb_form_for(model, "/users/#{current_user.id}/update_chart", method: :post, builder: :bootstrap3, id: :edit_chart) do |f|
         = f.row
           = f.input :title, label: "Title:", inline_col_class: ['col-md-6'], value: obj[:title]
@@ -20,7 +18,7 @@ hr style="margin-top: 0px;"
           = f.select :y2_select, label: "Y2:", collection: params_list, inline_col_class: ['col-md-4'], value: obj[:y2][:name]
           = f.input :y2_color, label: " Y2 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y2][:colour]
           .col-sm-4 style="margin-top:10px;"
-            = f.checkbox :y2_scale, label: "Show Scale?", inline_col_class: ['col-md-4'], value: obj[:y2][:show_scale]
+            = f.checkbox :y2_scale, label: "Show Scale?", value: obj[:y2][:show_scale]
         = f.row
           = f.select :y3_select, label: "Y3:", collection: params_list, inline_col_class: ['col-md-4'], value: obj[:y3][:name]
           = f.input :y3_color, label: "Y3 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y3][:colour]
@@ -28,8 +26,33 @@ hr style="margin-top: 0px;"
             = f.checkbox :y3_scale, label: "Show Scale?", inline_col_class: ['col-md-4'], value: obj[:y3][:show_scale]
         = f.row
           = f.select :x, label: "X:", collection: params_list, inline_col_class: ['col-sm-4'], value: obj[:x][:name]
-          = f.checkbox :x_time, label: "Time Scale?", inline_col_class: ['col-sm-4'], value: obj[:x][:time]
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :x_time, label: "Time Scale?", inline_col_class: ['col-sm-4'], value: obj[:x][:time]
           = f.input :x_format, label: "Time format:", inline_col_class: ['col-sm-4'], value: obj[:x][:time_format]
+        .row style="margin-left:1px;"
+          strong VO2 Max:
+        = f.row
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :vo2max_show, label: "Show it?", inline_col_class: ['col-sm-4'], value: obj[:show_vo2max][:show]
+          = f.input :vo2max_colour, type: "color", label: "Colour:", inline_col_class: ['col-sm-4'], value: obj[:show_vo2max][:colour]
+        .row style="margin-left:1px;"
+          strong Exercise Phase:
+        = f.row
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :exer_show, label: "Show it?", inline_col_class: ['col-sm-4'], value: obj[:show_exer][:show]
+          = f.input :exer_colour, type: "color", label: "Colour:", inline_col_class: ['col-sm-4'], value: obj[:show_exer][:colour]
+        .row style="margin-left:1px;"
+          strong AT line:
+        = f.row
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :at_show, label: "Show it?", inline_col_class: ['col-sm-4'], value: obj[:show_AT][:show]
+          = f.input :at_colour, type: "color", label: "Colour:", inline_col_class: ['col-sm-4'], value: obj[:show_AT][:colour]
+        = f.row
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :only_exer, label: "Plot only exervise phase?", value: obj[:only_exer]
+        = f.row
+          .col-sm-4.col-sm-offset-4.text-center
+            = f.submit(content: "Save changes")
 
 
 javascript:

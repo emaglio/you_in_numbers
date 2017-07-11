@@ -34,13 +34,13 @@ class User::UpdateChart < Trailblazer::Operation
     obj_array[index][:x][:time] = (params["x"] != "none") ? (params["x_time"] == "on") : nil
     obj_array[index][:x][:time_format] = (params["x"] != "none") ? params["x_format"] : nil
 
-    obj_array[index][:show_vo2max][:show] = (params["vo2max_check"] == "on")
+    obj_array[index][:show_vo2max][:show] = (params["vo2max_show"] == "on")
     obj_array[index][:show_vo2max][:colour] = params["vo2max_colour"]
 
-    obj_array[index][:show_exer][:show] = (params["exer_check"] == "on")
+    obj_array[index][:show_exer][:show] = (params["exer_show"] == "on")
     obj_array[index][:show_exer][:colour] = params["exer_colour"]
 
-    obj_array[index][:show_AT][:show] = (params["at_check"] == "on")
+    obj_array[index][:show_AT][:show] = (params["at_show"] == "on")
     obj_array[index][:show_AT][:colour] = params["at_colour"]
 
     obj_array[index][:only_exer] = params["only_exer"]
