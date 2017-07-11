@@ -10,13 +10,25 @@ module Report::Cell
       options[:size]
     end
 
-    def chart?
-      options[:obj][:type] == 'report/cell/chart'
+    def type
+      options[:obj][:type]
+    end
+
+    def not_training_zones?
+      type != 'report/cell/training_zones'
     end
 
     # TODO: make this for the tables
     def edit
-      button_to "Edit", edit_chart_user_path(current_user.id), method: :get, params: {edit_chart: index}, class: "btn btn-outline btn-warning" if chart?
+      (type == "report/cell/chart" ? edit_chart : edit_table) if not_training_zones?
+    end
+
+    def edit_chart
+      button_to "Edit", edit_chart_user_path(current_user.id), method: :get, params: {edit_chart: index}, class: "btn btn-outline btn-warning" if not_training_zones?
+    end
+
+    def edit_table
+      button_to "Edit", edit_chart_user_path(current_user.id), method: :get, params: {edit_chart: index}, class: "btn btn-outline btn-warning" if not_training_zones?
     end
 
     def delete

@@ -27,11 +27,13 @@ class MyDefault < ActiveRecord::Base
                         show_exer: {show: true, colour: "#F8CA66"},
                         show_AT: {show: true, colour: "#FF2D2D"},
                         only_exer: false)
-  summary = OpenStruct.new(type: 'report/cell/vo2max_summary',
-                        title: "VO2max test summary",
+  summary = OpenStruct.new(type: 'report/cell/summary_table',
+                        title: "Test Summary",
                         index: 2,
-                        list_params: "time,VO2,VO2/Kg,HR,Power,Revolution")
+                        params_list: "t,VO2,VO2/Kg,HR,Power,Revolution",
+                        params_unm_list: "mm:ss,l/min,ml/min/Kg,bpm,watt,BPM")
   training_zones = OpenStruct.new(type: 'report/cell/training_zones',
+                        title: "Training Zones",
                         index: 3)
 
   ReportObj << chart

@@ -2,7 +2,7 @@ require 'date'
 
 module Report::Cell
 
-  class Vo2maxSummary < Trailblazer::Cell
+  class SummaryTable < Trailblazer::Cell
 
     def current_user
       options[:context][:current_user]
@@ -28,13 +28,15 @@ module Report::Cell
       model["cpet_results"]["exer_phase"]["starts"] + model["cpet_results"]["vo2_max"]["index"]
     end
 
-    def params_list
+    def data
       array = ""
+      params_list = obj[:params_list].split(",")
+      params_unm_list = obj[:params_unm_list].split(",")
       index = 0
-      "t,VO2,VO2/Kg,HR,Power,Revolution".split(",").each do |param|
+      params_list.each do |param|
         temp = []
         temp << index
-        temp << param + " unm"
+        temp << "#{param} (#{params_unm_list[index]})"
         temp << value_at_AT(param)
         temp << value_at_MAX(param)
         temp << pred(param)
@@ -117,6 +119,6 @@ module Report::Cell
     def vo2_pred
       (vo2_kg_pred.to_f * subject.weight.to_f).round
     end
-  end # class VO2maxSummary
+  end # class SummaryTable
 
 end # module Report::Cell

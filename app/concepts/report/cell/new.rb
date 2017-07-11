@@ -1,6 +1,7 @@
 module Report::Cell
   class New < Trailblazer::Cell
     include Formular::RailsHelper
+    include ActionView::Helpers::FormOptionsHelper
 
     def current_user
       options[:context][:current_user]

@@ -1,8 +1,10 @@
 - if edit?
   = cell ('report/cell/edit_options'), model, obj: obj, size: size
 - else
-.row style="margin: 20px;"
-  table id="summary_table" class="display summary_table" width="80%"
+  .col-sm-2
+.col-sm-8
+  .row style="margin: 20px;"
+    table id="summary_table" class="display summary_table" width="100%"
 
 javascript:
   var table;
@@ -12,7 +14,7 @@ javascript:
       searching: false,
       paging: false,
       bInfo: false,
-      data: [#{params_list}],
+      data: [#{data}],
       "columnDefs": [
         {"width": "1%", "visible": false, "targets": 0 },
         {"orderable": false, "targets": 1, "sClass": "first_column" },
