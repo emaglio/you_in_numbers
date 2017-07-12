@@ -1,5 +1,5 @@
 .row
-  .col-sm-32
+  .col-sm-3
     h3 Edit chart:
 hr style="margin-top: 0px;"
 
@@ -50,7 +50,7 @@ hr style="margin-top: 0px;"
           = f.input :at_colour, type: "color", label: "Colour:", inline_col_class: ['col-sm-4'], value: obj[:show_AT][:colour]
         = f.row
           .col-sm-4.active style="margin-top:10px;"
-            = f.checkbox :only_exer, label: "Plot only exervise phase?", checked: obj[:only_exer]
+            = f.checkbox :only_exer, label: "Plot only exercise phase?", checked: obj[:only_exer]
         = f.row
           .col-sm-4.col-sm-offset-4.text-center
             = f.submit(content: "Save changes")

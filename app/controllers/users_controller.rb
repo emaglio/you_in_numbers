@@ -155,6 +155,7 @@ class UsersController < ApplicationController
       return redirect_to "/users/#{result["model"].id}/get_report_template"
     end
 
+    flash[:danger] = "Something went wrong and the changes have not been saved!"
     render User::Cell::EditChart, result["contract.default"]
   end
 

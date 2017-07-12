@@ -102,6 +102,10 @@ function at_show(){
   }
 }
 
+function checked(){
+  //go ahead here to set the initial values of the checkboxes
+}
+
 window.onload=function() {
   y1()
   y2()

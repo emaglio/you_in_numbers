@@ -218,7 +218,7 @@ class UserOperationTest < MiniTest::Spec
     custom.size.must_equal 4
     custom[0][:type].must_equal "report/cell/chart"
     custom[0][:index].must_equal 0
-    custom[1][:type].must_equal 'report/cell/vo2max_summary'
+    custom[1][:type].must_equal 'report/cell/summary_table'
     custom[1][:index].must_equal 1
     custom[2][:type].must_equal 'report/cell/chart'
     custom[2][:index].must_equal 2
@@ -237,13 +237,13 @@ class UserOperationTest < MiniTest::Spec
     custom[0][:index].must_equal 0
     custom[1][:type].must_equal 'report/cell/chart'
     custom[1][:index].must_equal 1
-    custom[2][:type].must_equal 'report/cell/vo2max_summary'
+    custom[2][:type].must_equal 'report/cell/summary_table'
     custom[2][:index].must_equal 2
     custom[3][:type].must_equal 'report/cell/training_zones'
     custom[3][:index].must_equal 3
 
     #edit first chart
-    result = User::EditObj.({id: user.id, "edit_chart" => "0", "y1_select" => "something", "y2_select" => "something2"}, "current_user" => user)
+    result = User::UpdateChart.({id: user.id, "edit_chart" => "0", "y1_select" => "something", "y2_select" => "something2"}, "current_user" => user)
     result.success?.must_equal true
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
@@ -258,7 +258,7 @@ class UserOperationTest < MiniTest::Spec
     custom[1][:index].must_equal 1
     custom[1][:y1][:name].must_equal "HR"
     custom[1][:y2][:name].must_equal "Power"
-    custom[2][:type].must_equal 'report/cell/vo2max_summary'
+    custom[2][:type].must_equal 'report/cell/summary_table'
     custom[2][:index].must_equal 2
     custom[3][:type].must_equal 'report/cell/training_zones'
     custom[3][:index].must_equal 3
@@ -273,7 +273,7 @@ class UserOperationTest < MiniTest::Spec
     custom.size.must_equal 3
     custom[0][:type].must_equal "report/cell/chart"
     custom[0][:index].must_equal 0
-    custom[1][:type].must_equal 'report/cell/vo2max_summary'
+    custom[1][:type].must_equal 'report/cell/summary_table'
     custom[1][:index].must_equal 1
     custom[2][:type].must_equal 'report/cell/training_zones'
     custom[2][:index].must_equal 2
@@ -286,11 +286,11 @@ class UserOperationTest < MiniTest::Spec
 
     default.size.must_equal 4
     custom.size.must_equal 4
-    custom[0][:type].must_equal "report/cell/vo2max_summary"
+    custom[0][:type].must_equal "report/cell/summary_table"
     custom[0][:index].must_equal 0
     custom[1][:type].must_equal "report/cell/chart"
     custom[1][:index].must_equal 1
-    custom[2][:type].must_equal 'report/cell/vo2max_summary'
+    custom[2][:type].must_equal 'report/cell/summary_table'
     custom[2][:index].must_equal 2
     custom[3][:type].must_equal 'report/cell/training_zones'
     custom[3][:index].must_equal 3
@@ -300,7 +300,7 @@ class UserOperationTest < MiniTest::Spec
     default[0][:index].must_equal 0
     default[1][:type].must_equal "report/cell/chart"
     default[1][:index].must_equal 1
-    default[2][:type].must_equal 'report/cell/vo2max_summary'
+    default[2][:type].must_equal 'report/cell/summary_table'
     default[2][:index].must_equal 2
     default[3][:type].must_equal 'report/cell/training_zones'
     default[3][:index].must_equal 3
