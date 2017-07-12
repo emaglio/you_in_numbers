@@ -15,7 +15,7 @@ var at_check = document.getElementById("at_show");
 function y1(){
   var y1 = document.getElementById("y1_select");
 
-  if(y1.text == "none"){
+  if(y1.options[y1.selectedIndex].value == "none"){
     y1_colour.disabled = true;
     y1_colour.style.opacity = '100%';
     y1_scale.disabled = true;
@@ -28,7 +28,7 @@ function y1(){
 function y2(){
   var y2 = document.getElementById("y2_select");
 
-  if(y2.text == "none"){
+  if(y2.options[y2.selectedIndex].value == "none"){
     y2_colour.disabled = true;
     y2_colour.style.opacity = '100%';
     y2_scale.disabled = true;
@@ -41,7 +41,7 @@ function y2(){
 function y3(){
   var y3 = document.getElementById("y3_select");
 
-  if(y3.text == "none"){
+  if(y3.options[y3.selectedIndex].value == "none"){
     y3_colour.disabled = true;
     y3_colour.style.opacity = '100%';
     y3_scale.disabled = true;
