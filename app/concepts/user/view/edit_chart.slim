@@ -7,164 +7,52 @@ hr style="margin-top: 0px;"
   .col-sm-6.col-sm-offset-3.mybox
     .col-sm-10.col-sm-offset-1
       = trb_form_for(model, "/users/#{current_user.id}/update_chart", method: :post, builder: :bootstrap3, id: :edit_chart) do |f|
+        = f.input :edit_chart, type: "hidden", value: params[:edit_chart]
         = f.row
           = f.input :title, label: "Title:", inline_col_class: ['col-md-6'], value: obj[:title]
         = f.row
           = f.select :y1_select, label: "Y1:", collection: params_list, inline_col_class: ['col-md-4'], value: obj[:y1][:name]
-          = f.input :y1_color, label: " Y1 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y1][:colour]
-          .col-sm-4 style="margin-top:10px;"
-            = f.checkbox :y1_scale, label: "Show Scale?", inline_col_class: ['col-md-4'], value: obj[:y1][:show_scale]
+          = f.input :y1_colour, label: " Y1 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y1][:colour]
+          .col-sm-4.active style="margin-top:10px;"
+            = f.checkbox :y1_scale, label: "Show Scale?", checked: obj[:y1][:show_scale], disabled: (obj[:y1][:name] == nil)
         = f.row
           = f.select :y2_select, label: "Y2:", collection: params_list, inline_col_class: ['col-md-4'], value: obj[:y2][:name]
-          = f.input :y2_color, label: " Y2 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y2][:colour]
-          .col-sm-4 style="margin-top:10px;"
-            = f.checkbox :y2_scale, label: "Show Scale?", value: obj[:y2][:show_scale]
+          = f.input :y2_colour, label: " Y2 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y2][:colour]
+          .col-sm-4.active style="margin-top:10px;"
+            = f.checkbox :y2_scale, label: "Show Scale?", checked: obj[:y2][:show_scale]
         = f.row
           = f.select :y3_select, label: "Y3:", collection: params_list, inline_col_class: ['col-md-4'], value: obj[:y3][:name]
-          = f.input :y3_color, label: "Y3 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y3][:colour]
-          .col-sm-4 style="margin-top:10px;"
-            = f.checkbox :y3_scale, label: "Show Scale?", inline_col_class: ['col-md-4'], value: obj[:y3][:show_scale]
+          = f.input :y3_colour, label: "Y3 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y3][:colour]
+          .col-sm-4.active style="margin-top:10px;"
+            = f.checkbox :y3_scale, label: "Show Scale?", checked: obj[:y3][:show_scale]
         = f.row
           = f.select :x, label: "X:", collection: params_list, inline_col_class: ['col-sm-4'], value: obj[:x][:name]
-          .col-sm-4 style="margin-top:10px;"
-            = f.checkbox :x_time, label: "Time Scale?", inline_col_class: ['col-sm-4'], value: obj[:x][:time]
+          .col-sm-4.active style="margin-top:10px;"
+            = f.checkbox :x_time, label: "Time Scale?", checked: obj[:x][:time]
           = f.input :x_format, label: "Time format:", inline_col_class: ['col-sm-4'], value: obj[:x][:time_format]
         .row style="margin-left:1px;"
           strong VO2 Max:
         = f.row
-          .col-sm-4 style="margin-top:10px;"
-            = f.checkbox :vo2max_show, label: "Show it?", inline_col_class: ['col-sm-4'], value: obj[:show_vo2max][:show]
+          .col-sm-4.active style="margin-top:10px;"
+            = f.checkbox :vo2max_show, label: "Show it?", checked: obj[:show_vo2max][:show]
           = f.input :vo2max_colour, type: "color", label: "Colour:", inline_col_class: ['col-sm-4'], value: obj[:show_vo2max][:colour]
         .row style="margin-left:1px;"
           strong Exercise Phase:
         = f.row
-          .col-sm-4 style="margin-top:10px;"
-            = f.checkbox :exer_show, label: "Show it?", inline_col_class: ['col-sm-4'], value: obj[:show_exer][:show]
+          .col-sm-4.active style="margin-top:10px;"
+            = f.checkbox :exer_show, label: "Show it?", checked: obj[:show_exer][:show]
           = f.input :exer_colour, type: "color", label: "Colour:", inline_col_class: ['col-sm-4'], value: obj[:show_exer][:colour]
         .row style="margin-left:1px;"
           strong AT line:
         = f.row
-          .col-sm-4 style="margin-top:10px;"
-            = f.checkbox :at_show, label: "Show it?", inline_col_class: ['col-sm-4'], value: obj[:show_AT][:show]
+          .col-sm-4.active style="margin-top:10px;"
+            = f.checkbox :at_show, label: "Show it?", checked: obj[:show_AT][:show]
           = f.input :at_colour, type: "color", label: "Colour:", inline_col_class: ['col-sm-4'], value: obj[:show_AT][:colour]
         = f.row
-          .col-sm-4 style="margin-top:10px;"
-            = f.checkbox :only_exer, label: "Plot only exervise phase?", value: obj[:only_exer]
+          .col-sm-4.active style="margin-top:10px;"
+            = f.checkbox :only_exer, label: "Plot only exervise phase?", checked: obj[:only_exer]
         = f.row
           .col-sm-4.col-sm-offset-4.text-center
             = f.submit(content: "Save changes")
 
-
-javascript:
-  var color = Chart.helpers.color;
-
-  var y1_colour = document.getElementById("y1_colour")
-  var y1_scale = document.getElementById("y1_scale")
-  var y2_colour = document.getElementById("y2_colour")
-  var y2_scale = document.getElementById("y2_scale")
-  var y3_colour = document.getElementById("y3_colour")
-  var y3_scale = document.getElementById("y3_scale")
-  var x_format = document.getElementById("x_format")
-  var exer_colour = document.getElementById("exer_colour")
-  var vo2max_colour = document.getElementById("vo2max_colour")
-  var at_colour = document.getElementById("at_colour")
-
-  // hex string to rgb
-  function hexToRgb(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
-  }
-
-  window.onload=function() {
-
-    document.getElementById("y1_select").onchange=function() {
-      var y1 = this.options[this.selectedIndex].text;
-
-      if(y1 == "none"){
-        y1_colour.disabled = true;
-        y1_colour.style.opacity = '100%';
-        y1_scale.disabled = true;
-      }else{
-        y1_colour.disabled = false;
-        y1_scale.disabled = false;
-      }
-    }
-
-    document.getElementById("y2_select").onchange=function() {
-      var y2 = this.options[this.selectedIndex].text;
-
-      if(y2 == "none"){
-        y2_colour.disabled = true;
-        y2_scale.disabled = true;
-      }else{
-        y2_colour.disabled = false;
-        y2_scale.disabled = false;
-      }
-    }
-
-    document.getElementById("y3_select").onchange=function() {
-      var y3 = this.options[this.selectedIndex].text;
-
-      if(y3 == "none"){
-        y3_colour.disabled = true;
-        y3_scale.disabled = true;
-      }else{
-        y3_colour.disabled = false;
-        y3_scale.disabled = false;
-      }
-    }
-
-    var vo2max_check = document.getElementById("vo2max_check");
-    var exer_check = document.getElementById("exer_check");
-    var at_check = document.getElementById("at_check");
-
-    document.getElementById("x_time").onchange=function() {
-      if(this.checked){
-        x_format.disabled = false;
-        vo2max_check.disabled = false;
-        vo2max_colour.disabled = false;
-        exer_check.disabled = false;
-        exer_colour.disabled = false;
-        at_check.disabled = false
-        at_colour.disabled = false;
-        x_format.focus();
-      }else{
-        x_format.disabled = true;
-        vo2max_check.disabled = true;
-        vo2max_colour.disabled = true;
-        exer_check.disabled = true;
-        exer_colour.disabled = true;
-        at_check.disabled = true
-        at_colour.disabled = true;
-      }
-    }
-
-    document.getElementById("vo2max_check").onchange=function() {
-      if(this.checked){
-        vo2max_colour.disabled = false;
-      }else{
-        vo2max_colour.disabled = true;
-      }
-    }
-
-    document.getElementById("exer_check").onchange=function() {
-      if(this.checked){
-        exer_colour.disabled = false;
-      }else{
-        exer_colour.disabled = true;
-      }
-    }
-
-    document.getElementById("at_check").onchange=function() {
-      if(this.checked){
-        at_colour.disabled = false;
-      }else{
-        at_colour.disabled = true;
-      }
-    }
-
-  }
+script src="../js/edit_chart.js"

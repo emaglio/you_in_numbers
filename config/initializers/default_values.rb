@@ -9,7 +9,7 @@ class MyDefault < ActiveRecord::Base
                         title: "VO2 and VCO2 on time",
                         y1: {:name => "VO2", :colour => "#FF2D2D", :show_scale => true},
                         y2: {:name => "VCO2", :colour => "#2D2DFF", :show_scale => false},
-                        y3: {:name => nil, :colour => nil, :show_scale => true},
+                        y3: {:name => nil, :colour => nil, :show_scale => false},
                         x: {:name => "t", :time => true, :time_format => "mm:ss"},
                         index: 0,
                         show_vo2max: {show: true, colour: "#000000"},
