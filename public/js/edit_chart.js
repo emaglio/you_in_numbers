@@ -8,9 +8,9 @@ var x_format = document.getElementById("x_format")
 var exer_colour = document.getElementById("exer_colour")
 var vo2max_colour = document.getElementById("vo2max_colour")
 var at_colour = document.getElementById("at_colour")
-var vo2max_check = document.getElementById("vo2max_show");
-var exer_check = document.getElementById("exer_show");
-var at_check = document.getElementById("at_show");
+var vo2max_check = document.getElementById("vo2max_show")
+var exer_check = document.getElementById("exer_show")
+var at_check = document.getElementById("at_show")
 
 function y1(){
   var y1 = document.getElementById("y1_select");
@@ -101,21 +101,6 @@ function at_show(){
     at_colour.disabled = true;
   }
 }
-
-function checked(){
-  //go ahead here to set the initial values of the checkboxes
-}
-
-window.onload=function() {
-  y1()
-  y2()
-  y3()
-  x_time()
-  vo2max_show()
-  exer_show()
-  at_show()
-}
-
 
 document.getElementById("y1_select").onchange=function() {
   y1()

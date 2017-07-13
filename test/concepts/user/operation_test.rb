@@ -243,7 +243,7 @@ class UserOperationTest < MiniTest::Spec
     custom[3][:index].must_equal 3
 
     #edit first chart
-    result = User::UpdateChart.({id: user.id, "edit_chart" => "0", "y1_select" => "something", "y2_select" => "something2"}, "current_user" => user)
+    result = User::UpdateChart.({id: user.id, "edit_chart" => "0", "y1_select" => "something", "y2_select" => "something2", "y1_scale" => "1"}, "current_user" => user)
     result.success?.must_equal true
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
@@ -329,6 +329,14 @@ class UserOperationTest < MiniTest::Spec
     result = User::EditObj.({id: user.id, "edit_chart" => ""}, "current_user" => user)
     result.failure?.must_equal true
     result["result.contract.default"].errors.messages.inspect.must_equal "{:edit_chart=>[\"Operation not possible\"]}"
+    custom = User.find(user.id).content["report_template"]["custom"]
+    default = User.find(user.id).content["report_template"]["default"]
+    (custom == default).must_equal true
+
+    #edit chart
+    result = User::UpdateChart.({id: user.id, "edit_chart" => "0", "y1_select" => "some", "y1_scale" => "0", "y2_scale" => "0", "y3_scale" => "0"}, "current_user" => user)
+    result.success?.must_equal false
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:y1_scale=>[\"Please show at least one Y scale\"], :y2_scale=>[\"Please show at least one Y scale\"], :y3_scale=>[\"Please show at least one Y scale\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true

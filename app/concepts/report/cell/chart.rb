@@ -23,15 +23,15 @@ module Report::Cell
     end
 
     def show_vo2max
-      obj[:show_vo2max][:show]
+      obj[:show_vo2max][:show] == "1"
     end
 
     def show_exer
-      obj[:show_exer][:show]
+      obj[:show_exer][:show] == "1"
     end
 
     def show_AT
-      obj[:show_AT][:show]
+      obj[:show_AT][:show] == "1"
     end
 
     def at_colour
@@ -91,15 +91,15 @@ module Report::Cell
     end
 
     def show_scale_1
-      obj[:y1][:show_scale]
+      obj[:y1][:show_scale] == "1"
     end
 
     def show_scale_2
-      obj[:y2][:show_scale]
+      obj[:y2][:show_scale] == "1"
     end
 
     def show_scale_3
-      obj[:y3][:show_scale]
+      obj[:y3][:show_scale] == "1"
     end
 
     def x_label
@@ -109,14 +109,7 @@ module Report::Cell
     end
 
     def title
-      this_title = "#{obj[:y1][:name]}"
-
-      this_title = this_title + " - #{obj[:y2][:name]}" if label_2 != "nil"
-      this_title = this_title + " - #{obj[:y3][:name]}" if label_3 != "nil"
-
-      this_title = this_title + " on " + x_label
-
-      return this_title.inspect
+      obj[:title].inspect
     end
 
     def chart_id
@@ -124,19 +117,19 @@ module Report::Cell
     end
 
     def y1
-      (obj[:only_exer] and label_1 != "nil") ? model["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y1][:name]].inspect
+      (obj[:only_exer] == "1" and label_1 != "nil") ? model["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y1][:name]].inspect
     end
 
     def y2
-      (obj[:only_exer] and label_2 != "nil") ? model["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y2][:name]].inspect
+      (obj[:only_exer] == "1" and label_2 != "nil") ? model["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y2][:name]].inspect
     end
 
     def y3
-      (obj[:only_exer] and label_3 != "nil") ? model["cpet_params"][obj[:y3][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y3][:name]].inspect
+      (obj[:only_exer] == "1" and label_3 != "nil") ? model["cpet_params"][obj[:y3][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y3][:name]].inspect
     end
 
     def x
-      obj[:only_exer] ? model["cpet_params"][obj[:x][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:x][:name]].inspect
+      obj[:only_exer] == "1" ? model["cpet_params"][obj[:x][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:x][:name]].inspect
     end
 
     def x_time?

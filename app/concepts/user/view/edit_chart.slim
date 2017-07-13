@@ -13,44 +13,44 @@ hr style="margin-top: 0px;"
         = f.row
           = f.select :y1_select, label: "Y1:", collection: params_list, inline_col_class: ['col-md-4'], value: obj[:y1][:name]
           = f.input :y1_colour, label: " Y1 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y1][:colour]
-          .col-sm-4.active style="margin-top:10px;"
-            = f.checkbox :y1_scale, label: "Show Scale?", checked: obj[:y1][:show_scale], disabled: (obj[:y1][:name] == nil)
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :y1_scale, label: "Show Scale?"
         = f.row
           = f.select :y2_select, label: "Y2:", collection: params_list, inline_col_class: ['col-md-4'], value: obj[:y2][:name]
           = f.input :y2_colour, label: " Y2 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y2][:colour]
-          .col-sm-4.active style="margin-top:10px;"
-            = f.checkbox :y2_scale, label: "Show Scale?", checked: obj[:y2][:show_scale]
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :y2_scale, label: "Show Scale?"
         = f.row
           = f.select :y3_select, label: "Y3:", collection: params_list, inline_col_class: ['col-md-4'], value: obj[:y3][:name]
           = f.input :y3_colour, label: "Y3 Colour:", type: "color", inline_col_class: ['col-md-4'], value: obj[:y3][:colour]
-          .col-sm-4.active style="margin-top:10px;"
-            = f.checkbox :y3_scale, label: "Show Scale?", checked: obj[:y3][:show_scale]
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :y3_scale, label: "Show Scale?"
         = f.row
           = f.select :x, label: "X:", collection: params_list, inline_col_class: ['col-sm-4'], value: obj[:x][:name]
-          .col-sm-4.active style="margin-top:10px;"
-            = f.checkbox :x_time, label: "Time Scale?", checked: obj[:x][:time]
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :x_time, label: "Time Scale?"
           = f.input :x_format, label: "Time format:", inline_col_class: ['col-sm-4'], value: obj[:x][:time_format]
         .row style="margin-left:1px;"
           strong VO2 Max:
         = f.row
-          .col-sm-4.active style="margin-top:10px;"
-            = f.checkbox :vo2max_show, label: "Show it?", checked: obj[:show_vo2max][:show]
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :vo2max_show, label: "Show it?"
           = f.input :vo2max_colour, type: "color", label: "Colour:", inline_col_class: ['col-sm-4'], value: obj[:show_vo2max][:colour]
         .row style="margin-left:1px;"
           strong Exercise Phase:
         = f.row
-          .col-sm-4.active style="margin-top:10px;"
-            = f.checkbox :exer_show, label: "Show it?", checked: obj[:show_exer][:show]
+          .col-sm-4 style="margin-top:10px;"
+            = f.checkbox :exer_show, label: "Show it?"
           = f.input :exer_colour, type: "color", label: "Colour:", inline_col_class: ['col-sm-4'], value: obj[:show_exer][:colour]
         .row style="margin-left:1px;"
           strong AT line:
         = f.row
           .col-sm-4.active style="margin-top:10px;"
-            = f.checkbox :at_show, label: "Show it?", checked: obj[:show_AT][:show]
+            = f.checkbox :at_show, label: "Show it?"
           = f.input :at_colour, type: "color", label: "Colour:", inline_col_class: ['col-sm-4'], value: obj[:show_AT][:colour]
         = f.row
           .col-sm-4.active style="margin-top:10px;"
-            = f.checkbox :only_exer, label: "Plot only exercise phase?", checked: obj[:only_exer]
+            = f.checkbox :only_exer, label: "Plot only exercise phase?"
         = f.row
           .col-sm-4.col-sm-offset-4.text-center
             = f.submit(content: "Save changes")
@@ -59,3 +59,23 @@ hr style="margin-top: 0px;"
           = cancel
 
 script src="/js/edit_chart.js" type="text/javascript"
+
+javascript:
+  window.onload=function() {
+    document.getElementById("y1_scale").checked = #{show_y1_scale};
+    document.getElementById("y2_scale").checked = #{show_y2_scale};
+    document.getElementById("y3_scale").checked = #{show_y3_scale};
+    document.getElementById("x_time").checked = #{x_time_scale};
+    document.getElementById("vo2max_show").checked = #{vo2max_show};
+    document.getElementById("exer_show").checked = #{exer_show};
+    document.getElementById("at_show").checked = #{at_show};
+    document.getElementById("only_exer").checked = #{plot_only_exer};
+    y1()
+    y2()
+    y3()
+    x_time()
+    vo2max_show()
+    exer_show()
+    at_show()
+  }
+

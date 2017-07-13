@@ -15,3 +15,6 @@ en:
     check_age?: "Wrong age, Subject must be between 5 and 120 years old"
     unique_subject?: "Subject already present in the database"
     filled?: "Can't be blank"
+    y1_scale: "Please show at least one Y scale"
+    y2_scale: "Please show at least one Y scale"
+    y3_scale: "Please show at least one Y scale"

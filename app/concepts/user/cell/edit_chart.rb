@@ -37,6 +37,38 @@ module User::Cell
       button_to "Back", get_report_template_user_path(model.id), method: :get
     end
 
+    def show_y1_scale
+      obj[:y1][:show_scale] == "1"
+    end
+
+    def show_y2_scale
+      obj[:y2][:show_scale] == "1"
+    end
+
+    def show_y3_scale
+      obj[:y3][:show_scale] == "1"
+    end
+
+    def x_time_scale
+      obj[:x][:time] == "1"
+    end
+
+    def vo2max_show
+      obj[:show_vo2max][:show] == "1"
+    end
+
+    def exer_show
+      obj[:show_exer][:show] == "1"
+    end
+
+    def at_show
+      obj[:show_AT][:show] == "1"
+    end
+
+    def plot_only_exer
+      obj[:only_exer] == "1"
+    end
+
   end #class Chart
 
 end # module User::Cell
