@@ -19,7 +19,7 @@ module User::Contract
         end
 
         def acceptable_params?
-          user = User.find(form.user_id)
+          user = User.find(form.id)
           params_list = user.content["report_settings"]["params_list"]
           ergo_params_list = user.content["report_settings"]["ergo_params_list"]
 

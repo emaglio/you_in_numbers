@@ -10,7 +10,6 @@ hr style="margin-top: 0px;"
     .col-sm-10.col-sm-offset-1
       = trb_form_for(model, "/users/#{current_user.id}/update_table", method: :post, builder: :bootstrap3, id: :edit_chart) do |f|
         = f.input :edit_table, type: "hidden", value: params[:edit_table]
-        = f.input :user_id, type: "hidden", value: current_user.id
         = f.input :title, label: "Title:", value: obj[:title]
         = f.input :params_list, label: "Params List:", value: obj[:params_list]
         //TODO: need to fix this

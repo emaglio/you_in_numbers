@@ -295,6 +295,17 @@ class UserOperationTest < MiniTest::Spec
     custom[3][:type].must_equal 'report/cell/training_zones'
     custom[3][:index].must_equal 3
 
+    #edit first table
+    custom[0][:title].must_equal "VO2max Test Summary"
+    custom[0][:params_list].must_equal "t,RQ,VO2,VO2/Kg,HR,Power,Revolution"
+    custom[0][:params_unm_list].must_equal "mm:ss,-,l/min,ml/min/Kg,bpm,watt,BPM"
+    result = User::UpdateTable.({id: user.id, "edit_table" => "0", "title" => "Test Sum", "params_list" => "t,RQ,VO2,VO2/Kg", "unm_list" => "mm:ss,-,l/min,ml/min/Kg"}, "current_user" => user)
+    result.success?.must_equal true
+    custom = User.find(user.id).content["report_template"]["custom"]
+    custom[0][:title].must_equal "Test Sum"
+    custom[0][:params_list].must_equal "t,RQ,VO2,VO2/Kg"
+    custom[0][:params_unm_list].must_equal "mm:ss,-,l/min,ml/min/Kg"
+
     # check that default is correct
     default[0][:type].must_equal "report/cell/chart"
     default[0][:index].must_equal 0
@@ -340,6 +351,15 @@ class UserOperationTest < MiniTest::Spec
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true
+
+    #edit table
+    result = User::UpdateTable.({id: user.id, "edit_table" => "0", "params_list" => "", "unm_list" => ""}, "current_user" => user)
+    result.success?.must_equal false
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:params_list=>[\"Can't be blank\", \"The number of the element in the parameters and the unit of measurement list must be the same. If no unit of measurement is required please use a dash (-) instead\", \"One of the paramemter is not in the possible list or the spelling is wrong (case sensitive)\"], :unm_list=>[\"Can't be blank\", \"The number of the element in the parameters and the unit of measurement list must be the same. If no unit of measurement is required please use a dash (-) instead\"]}"
+    custom = User.find(user.id).content["report_template"]["custom"]
+    default = User.find(user.id).content["report_template"]["default"]
+    (custom == default).must_equal true
+
 
     #delete
     result = User::EditObj.({id: user.id, "delete" => ""}, "current_user" => user)
