@@ -1,4 +1,4 @@
-module Report::Cell
+module User::Cell
 
   class EditOptions < New
 
@@ -24,11 +24,11 @@ module Report::Cell
     end
 
     def edit_chart
-      button_to "Edit", edit_chart_user_path(current_user.id), method: :get, params: {edit_chart: index}, class: "btn btn-outline btn-warning" if not_training_zones?
+      button_to "Edit", edit_chart_user_path(current_user.id), method: :get, params: {edit_chart: index}, class: "btn btn-outline btn-warning"
     end
 
     def edit_table
-      button_to "Edit", edit_chart_user_path(current_user.id), method: :get, params: {edit_chart: index}, class: "btn btn-outline btn-warning" if not_training_zones?
+      button_to "Edit", edit_table_user_path(current_user.id), method: :get, params: {edit_table: index}, class: "btn btn-outline btn-warning"
     end
 
     def delete
