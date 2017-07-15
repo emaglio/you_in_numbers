@@ -33,10 +33,11 @@ module Report::Cell
       params_list = obj[:params_list].split(",")
       params_unm_list = obj[:params_unm_list].split(",")
       index = 0
-      params_list.each do |param|
+      params_list.zip(params_unm_list).each do |param, unm|
         temp = []
         temp << index
-        temp << "#{param} (#{params_unm_list[index]})"
+        unm == "-" ? value = "#{param}" : value = "#{param} (#{unm})"
+        temp << value
         temp << value_at_AT(param)
         temp << value_at_MAX(param)
         temp << pred(param)

@@ -158,6 +158,21 @@ class UsersController < ApplicationController
     render User::Cell::EditChart, result["contract.default"]
   end
 
+  def edit_table
+    run User::UpdateTable::Present
+
+    render User::Cell::EditTable, result["contract.default"]
+  end
+
+  def update_table
+    run User::UpdateTable do |result|
+      flash[:success] = "Table updated!"
+      return redirect_to "/users/#{result["model"].id}/get_report_template"
+    end
+
+    render User::Cell::EditTable, result["contract.default"]
+  end
+
 private
   def get_name(model)
     name = model.firstname

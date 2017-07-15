@@ -4,7 +4,9 @@
 hr style="margin-top: 0px;"
 
 .row style="margin-top: 40px;"
-  .col-sm-6.col-sm-offset-3.mybox
+  .col-sm-3.text-right
+    <i aria-hidden="true" class="fa fa-line-chart fa-4x"></i>
+  .col-sm-6.mybox
     .col-sm-10.col-sm-offset-1
       = trb_form_for(model, "/users/#{current_user.id}/update_chart", method: :post, builder: :bootstrap3, id: :edit_chart) do |f|
         = f.input :edit_chart, type: "hidden", value: params[:edit_chart]
