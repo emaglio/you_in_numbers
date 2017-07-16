@@ -218,7 +218,7 @@ class UserOperationTest < MiniTest::Spec
     custom.size.must_equal 4
     custom[0][:type].must_equal "report/cell/chart"
     custom[0][:index].must_equal 0
-    custom[1][:type].must_equal 'report/cell/vo2max_summary'
+    custom[1][:type].must_equal 'report/cell/summary_table'
     custom[1][:index].must_equal 1
     custom[2][:type].must_equal 'report/cell/chart'
     custom[2][:index].must_equal 2
@@ -237,13 +237,13 @@ class UserOperationTest < MiniTest::Spec
     custom[0][:index].must_equal 0
     custom[1][:type].must_equal 'report/cell/chart'
     custom[1][:index].must_equal 1
-    custom[2][:type].must_equal 'report/cell/vo2max_summary'
+    custom[2][:type].must_equal 'report/cell/summary_table'
     custom[2][:index].must_equal 2
     custom[3][:type].must_equal 'report/cell/training_zones'
     custom[3][:index].must_equal 3
 
     #edit first chart
-    result = User::EditObj.({id: user.id, "edit_chart" => "0", "y1_select" => "something", "y2_select" => "something2"}, "current_user" => user)
+    result = User::UpdateChart.({id: user.id, "edit_chart" => "0", "y1_select" => "something", "y2_select" => "something2", "y1_scale" => "1"}, "current_user" => user)
     result.success?.must_equal true
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
@@ -258,7 +258,7 @@ class UserOperationTest < MiniTest::Spec
     custom[1][:index].must_equal 1
     custom[1][:y1][:name].must_equal "HR"
     custom[1][:y2][:name].must_equal "Power"
-    custom[2][:type].must_equal 'report/cell/vo2max_summary'
+    custom[2][:type].must_equal 'report/cell/summary_table'
     custom[2][:index].must_equal 2
     custom[3][:type].must_equal 'report/cell/training_zones'
     custom[3][:index].must_equal 3
@@ -273,7 +273,7 @@ class UserOperationTest < MiniTest::Spec
     custom.size.must_equal 3
     custom[0][:type].must_equal "report/cell/chart"
     custom[0][:index].must_equal 0
-    custom[1][:type].must_equal 'report/cell/vo2max_summary'
+    custom[1][:type].must_equal 'report/cell/summary_table'
     custom[1][:index].must_equal 1
     custom[2][:type].must_equal 'report/cell/training_zones'
     custom[2][:index].must_equal 2
@@ -286,21 +286,32 @@ class UserOperationTest < MiniTest::Spec
 
     default.size.must_equal 4
     custom.size.must_equal 4
-    custom[0][:type].must_equal "report/cell/vo2max_summary"
+    custom[0][:type].must_equal "report/cell/summary_table"
     custom[0][:index].must_equal 0
     custom[1][:type].must_equal "report/cell/chart"
     custom[1][:index].must_equal 1
-    custom[2][:type].must_equal 'report/cell/vo2max_summary'
+    custom[2][:type].must_equal 'report/cell/summary_table'
     custom[2][:index].must_equal 2
     custom[3][:type].must_equal 'report/cell/training_zones'
     custom[3][:index].must_equal 3
+
+    #edit first table
+    custom[0][:title].must_equal "VO2max Test Summary"
+    custom[0][:params_list].must_equal "t,RQ,VO2,VO2/Kg,HR,Power,Revolution"
+    custom[0][:params_unm_list].must_equal "mm:ss,-,l/min,ml/min/Kg,bpm,watt,BPM"
+    result = User::UpdateTable.({id: user.id, "edit_table" => "0", "title" => "Test Sum", "params_list" => "t,RQ,VO2,VO2/Kg", "unm_list" => "mm:ss,-,l/min,ml/min/Kg"}, "current_user" => user)
+    result.success?.must_equal true
+    custom = User.find(user.id).content["report_template"]["custom"]
+    custom[0][:title].must_equal "Test Sum"
+    custom[0][:params_list].must_equal "t,RQ,VO2,VO2/Kg"
+    custom[0][:params_unm_list].must_equal "mm:ss,-,l/min,ml/min/Kg"
 
     # check that default is correct
     default[0][:type].must_equal "report/cell/chart"
     default[0][:index].must_equal 0
     default[1][:type].must_equal "report/cell/chart"
     default[1][:index].must_equal 1
-    default[2][:type].must_equal 'report/cell/vo2max_summary'
+    default[2][:type].must_equal 'report/cell/summary_table'
     default[2][:index].must_equal 2
     default[3][:type].must_equal 'report/cell/training_zones'
     default[3][:index].must_equal 3
@@ -332,6 +343,23 @@ class UserOperationTest < MiniTest::Spec
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true
+
+    #edit chart
+    result = User::UpdateChart.({id: user.id, "edit_chart" => "0", "y1_select" => "some", "y1_scale" => "0", "y2_scale" => "0", "y3_scale" => "0"}, "current_user" => user)
+    result.success?.must_equal false
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:y1_scale=>[\"Please show at least one Y scale\"], :y2_scale=>[\"Please show at least one Y scale\"], :y3_scale=>[\"Please show at least one Y scale\"]}"
+    custom = User.find(user.id).content["report_template"]["custom"]
+    default = User.find(user.id).content["report_template"]["default"]
+    (custom == default).must_equal true
+
+    #edit table
+    result = User::UpdateTable.({id: user.id, "edit_table" => "0", "params_list" => "", "unm_list" => ""}, "current_user" => user)
+    result.success?.must_equal false
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:params_list=>[\"Can't be blank\", \"The number of the element in the parameters and the unit of measurement list must be the same. If no unit of measurement is required please use a dash (-) instead\", \"One of the paramemter is not in the possible list or the spelling is wrong (case sensitive)\"], :unm_list=>[\"Can't be blank\", \"The number of the element in the parameters and the unit of measurement list must be the same. If no unit of measurement is required please use a dash (-) instead\"]}"
+    custom = User.find(user.id).content["report_template"]["custom"]
+    default = User.find(user.id).content["report_template"]["default"]
+    (custom == default).must_equal true
+
 
     #delete
     result = User::EditObj.({id: user.id, "delete" => ""}, "current_user" => user)

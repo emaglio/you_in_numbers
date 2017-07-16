@@ -71,9 +71,9 @@ class Report::GeneratePdf < Trailblazer::Operation
   end
 
   def write_subject!(options, pdf:, **)
-      image_path = "#{Rails.root.join("public/temp_files/subject.png")}"
-      options["path"] = image_path
-      pdf.image image_path, :position => :center, :fit => [MyDefault::ReportPdf["chart_size"], MyDefault::ReportPdf["chart_size"]]
+    image_path = "#{Rails.root.join("public/temp_files/subject.png")}"
+    options["path"] = image_path
+    pdf.image image_path, :position => :center, :fit => [MyDefault::ReportPdf["chart_size"], MyDefault::ReportPdf["chart_size"]]
   end
 
   def write_images!(options, pdf:, obj_array:, **)

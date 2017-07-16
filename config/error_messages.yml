@@ -15,3 +15,8 @@ en:
     check_age?: "Wrong age, Subject must be between 5 and 120 years old"
     unique_subject?: "Subject already present in the database"
     filled?: "Can't be blank"
+    y1_scale: "Please show at least one Y scale"
+    y2_scale: "Please show at least one Y scale"
+    y3_scale: "Please show at least one Y scale"
+    same_size?: "The number of the element in the parameters and the unit of measurement list must be the same. If no unit of measurement is required please use a dash (-) instead"
+    acceptable_params?: "One of the paramemter is not in the possible list or the spelling is wrong (case sensitive)"

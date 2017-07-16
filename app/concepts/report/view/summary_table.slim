@@ -1,0 +1,38 @@
+- if edit?
+  = cell ('user/cell/edit_options'), model, obj: obj, size: size
+- else
+  .col-sm-2
+.col-sm-8.text-center
+  h2 = obj[:title]
+  .row style="margin: 20px;"
+    table id="summary_table" class="display summary_table" width="100%"
+
+javascript:
+  var table;
+
+  $(document).ready(function() {
+    table = $('#summary_table').DataTable( {
+      searching: false,
+      paging: false,
+      bInfo: false,
+      data: [#{data}],
+      "columnDefs": [
+        {"className": "dt-center", "targets": 2},
+        {"className": "dt-center", "targets": 3},
+        {"width": "1%", "visible": false, "targets": 0 },
+        {"orderable": false, "targets": 1, "sClass": "first_column" },
+        {"orderable": false, "targets": 2 },
+        {"orderable": false, "targets": 3 },
+        {"orderable": false, "targets": 4 },
+        {"orderable": false, "targets": 5 }
+      ],
+      columns: [
+        { title: "id" },
+        { title: " " },
+        { title: "@_AT" },
+        { title: "@_MAX" },
+        { title: "Pred" },
+        { title: "Pred(%)"}
+      ]
+    } );
+  });

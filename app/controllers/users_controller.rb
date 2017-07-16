@@ -144,9 +144,33 @@ class UsersController < ApplicationController
   end
 
   def edit_chart
-    run User::EditChart
+    run User::UpdateChart::Present
 
-    render User::Cell::EditChart, result["model"]
+    render User::Cell::EditChart, result["contract.default"]
+  end
+
+  def update_chart
+    run User::UpdateChart do |result|
+      flash[:success] = "Chart updated!"
+      return redirect_to "/users/#{result["model"].id}/get_report_template"
+    end
+
+    render User::Cell::EditChart, result["contract.default"]
+  end
+
+  def edit_table
+    run User::UpdateTable::Present
+
+    render User::Cell::EditTable, result["contract.default"]
+  end
+
+  def update_table
+    run User::UpdateTable do |result|
+      flash[:success] = "Table updated!"
+      return redirect_to "/users/#{result["model"].id}/get_report_template"
+    end
+
+    render User::Cell::EditTable, result["contract.default"]
   end
 
 private

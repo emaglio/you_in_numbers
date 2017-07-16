@@ -6,45 +6,35 @@ class MyDefault < ActiveRecord::Base
                             index: "subject")
 
   chart = OpenStruct.new(type: 'report/cell/chart',
-                        y1: {:name => "VO2", :colour => "#FF2D2D", :show_scale => true},
-                        y2: {:name => "VCO2", :colour => "#2D2DFF", :show_scale => false},
-                        y3: {:name => nil, :colour => nil, :show_scale => true},
-                        x: {:name => "t", :time => true, :time_format => "mm:ss"},
+                        title: "VO2 and VCO2 on time",
+                        y1: {:name => "VO2", :colour => "#FF2D2D", :show_scale => "1"},
+                        y2: {:name => "VCO2", :colour => "#2D2DFF", :show_scale => "0"},
+                        y3: {:name => nil, :colour => nil, :show_scale => "0"},
+                        x: {:name => "t", :time => "1", :time_format => "mm:ss"},
                         index: 0,
-                        show_vo2max: {show: true, colour: "#000000"},
-                        show_exer: {show: true, colour: "#F8CA66"},
-                        show_AT: {show: true, colour: "#FF2D2D"},
-                        only_exer: false)
+                        show_vo2max: {show: "1", colour: "#000000"},
+                        show_exer: {show: "1", colour: "#F8CA66"},
+                        show_AT: {show: "1", colour: "#FF2D2D"},
+                        only_exer: "0")
   chart2 = OpenStruct.new(type: 'report/cell/chart',
-                        y1: {:name => "HR", :colour => "#FF2D2D", :show_scale => true},
-                        y2: {:name => "Power", :colour => "#2D2DFF", :show_scale => true},
-                        y3: {:name => "VE", :colour => "#ED7C52", :show_scale => true},
-                        x: {:name => "t", :time => true, :time_format => "mm:ss"},
+                        title: "HR, Power and Ve on time",
+                        y1: {:name => "HR", :colour => "#FF2D2D", :show_scale => "1"},
+                        y2: {:name => "Power", :colour => "#2D2DFF", :show_scale => "1"},
+                        y3: {:name => "VE", :colour => "#ED7C52", :show_scale => "1"},
+                        x: {:name => "t", :time => "1", :time_format => "mm:ss"},
                         index: 1,
-                        show_vo2max: {show: false, colour: "#000000"},
-                        show_exer: {show: true, colour: "#F8CA66"},
-                        show_AT: {show: true, colour: "#FF2D2D"},
-                        only_exer: false)
-  summary = OpenStruct.new(type: 'report/cell/vo2max_summary',
-                        y1: nil,
-                        y2: nil,
-                        y3: nil,
-                        x: nil,
+                        show_vo2max: {show: "0", colour: "#000000"},
+                        show_exer: {show: "1", colour: "#F8CA66"},
+                        show_AT: {show: "1", colour: "#FF2D2D"},
+                        only_exer: "0")
+  summary = OpenStruct.new(type: 'report/cell/summary_table',
+                        title: "VO2max Test Summary",
                         index: 2,
-                        show_vo2max: false,
-                        show_exer: false,
-                        show_AT: false,
-                        only_exer: false)
+                        params_list: "t,RQ,VO2,VO2/Kg,HR,Power,Revolution",
+                        params_unm_list: "mm:ss,-,l/min,ml/min/Kg,bpm,watt,BPM")
   training_zones = OpenStruct.new(type: 'report/cell/training_zones',
-                        y1: nil,
-                        y2: nil,
-                        y3: nil,
-                        x: nil,
-                        index: 3,
-                        show_vo2max: false,
-                        show_exer: false,
-                        show_AT: false,
-                        only_exer: false)
+                        title: "Training Zones",
+                        index: 3)
 
   ReportObj << chart
   ReportObj << chart2

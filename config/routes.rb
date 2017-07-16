@@ -24,6 +24,9 @@ Rails.application.routes.draw do
       get 'delete_obj'
       post 'add_obj'
       get 'edit_chart'
+      post 'update_chart'
+      get 'edit_table'
+      post 'update_table'
       get 'save_obj'
     end
   end
