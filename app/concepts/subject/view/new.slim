@@ -20,7 +20,7 @@ hr style="margin-top: 0px;"
           .col-sm-2
             = f.select :gender, placeholder: "Gender", collection: [["Male"], ["Female"]]
           .col-sm-3
-            = f.input :dob, placeholder: "Date of Birth"
+            = f.input_group :dob, placeholder: "Date of Birth", left_addon: '<i class="fa fa-calendar"></i>'
           .col-sm-3
             = f.input :height, placeholder: "Height (#{um_height})"
           .col-sm-3
@@ -31,9 +31,9 @@ hr style="margin-top: 0px;"
         .row
           .col-sm-1
           .col-sm-5
-            = f.input :phone, placeholder: "Phone"
+            = f.input_group :phone, placeholder: "Phone", left_addon: '<i class="fa fa-phone"></i>'
           .col-sm-5
-            = f.input :email, placeholder: "Email"
+            = f.input_group :email, placeholder: "Email", left_addon: ' @ '
         .row style="margin-bottom:10px;"
           .col-sm-12.text-center
             = f.submit(content: "Create Subject")

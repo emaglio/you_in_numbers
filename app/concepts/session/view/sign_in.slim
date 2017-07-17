@@ -39,9 +39,9 @@ html lang = "en"
             .panel-body
               = trb_form_for(model, "/sessions", method: :post, builder: :bootstrap3, id: :new_session) do |f|
                 .row.col-sm-12
-                  = f.input :email, placeholder: "Email"
+                  = f.input_group :email, placeholder: "Email", left_addon: '@'
                 .row.col-sm-12
-                  = f.input :password, placeholder: "Password",  type: "password"
+                  = f.input_group :password, placeholder: "Password", type: "password", left_addon: '<i class="fa fa-lock"></i>'
                 .row.col-sm-12.text-center
                   = f.submit(content: "Sign In")
                 .row

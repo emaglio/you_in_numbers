@@ -46,17 +46,17 @@ html lang = "en"
                     .col-sm-4
                       = f.select :gender, placeholder: "Gender", collection: [["Male"], ["Female"], ["You"]]
                     .col-sm-6
-                      = f.input :phone, placeholder: "Phone"
+                      = f.input_group :phone, placeholder: "Phone", left_addon: '<i class="fa fa-phone"></i>'
                     .col-sm-2
-                      = f.input :age, placeholder: "Age"
+                      = f.input_group :age, placeholder: "Age", left_addon: '<i class="fa fa-calendar"></i>'
                   .row
                     .col-sm-12
-                      = f.input :email, placeholder: "Email"
+                      = f.input_group :email, placeholder: "Email", left_addon: '@'
                   .row
                     .col-sm-6
-                      = f.input :password, placeholder: "Password", type: "password"
+                      = f.input_group :password, placeholder: "Password", type: "password", left_addon: '<i class="fa fa-lock"></i>'
                     .col-sm-6
-                      = f.input :confirm_password, placeholder: "Confirm Password", type: "password"
+                      = f.input_group :confirm_password, placeholder: "Confirm Password", type: "password", left_addon: '<i class="fa fa-lock"></i>'
                   .row
                     .col-sm-12.text-center
                       = f.submit(content: "Create User")

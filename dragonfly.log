@@ -611,3 +611,5 @@ D, [2017-07-15T16:21:12.200302 #26229] DEBUG -- : DRAGONFLY: shell command: 'con
 D, [2017-07-15T16:21:12.467911 #26229] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170715-26229-1fj6qy.jpeg'
 D, [2017-07-15T16:21:14.392997 #26229] DEBUG -- : DRAGONFLY: shell command: 'convert' '/home/emaglio/projects/you_in_numbers/test/images/logo.jpeg' '-resize' '120x120^^' '-gravity' 'Center' '-crop' '120x120+0+0' '+repage' '/tmp/dragonfly20170715-26229-oylsog.jpeg'
 D, [2017-07-15T16:21:14.571116 #26229] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170715-26229-oylsog.jpeg'
+D, [2017-07-17T07:37:06.441705 #4375] DEBUG -- : DRAGONFLY: shell command: 'convert' '/tmp/RackMultipart20170717-4375-na936y.jpeg' '-resize' '120x120^^' '-gravity' 'Center' '-crop' '120x120+0+0' '+repage' '/tmp/dragonfly20170717-4375-l42cyd.jpeg'
+D, [2017-07-17T07:37:06.666074 #4375] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170717-4375-l42cyd.jpeg'

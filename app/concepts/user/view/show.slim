@@ -17,13 +17,13 @@ hr style="margin-top: 0px;"
         .col-sm-2
           = f.select :gender, label: "Gender", collection: [["Male"], ["Female"], ["You"]], disabled: "true"
         .col-sm-4
-          = f.input :phone, label: "Phone", disabled: "true"
+          = f.input_group :phone, label: "Phone", disabled: "true", left_addon: '<i class="fa fa-phone"></i>'
         .col-sm-4
-          = f.input :age, label: "Age", disabled: "true"
+          = f.input_group :age, label: "Age", disabled: "true", left_addon: '<i class="fa fa-calendar"></i>'
         .col-sm-2
       .row
         .col-sm-8.offest-sm-2
-          = f.input :email, label: "Email", disabled: "true"
+          = f.input_group :email, label: "Email", disabled: "true", left_addon: '@'
   .col-sm-3
 .row
   .col-sm-3

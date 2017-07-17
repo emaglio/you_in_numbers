@@ -8,7 +8,7 @@ hr style="margin-top: 0px;"
     .col-sm-6.mybox
       = trb_form_for(model, "/subjects/#{model.id}", method: :patch, builder: :bootstrap3, id: :new_subject) do |f|
         = f.input :new_report, type: "hidden", value: params[:new_report]
-        .row style="margin-top:20px;"
+        .row
           .col-sm-1
           .col-sm-5
             = f.input :firstname, placeholder: "Firstname"
@@ -19,20 +19,20 @@ hr style="margin-top: 0px;"
           .col-sm-2
             = f.select :gender, placeholder: "Gender", collection: [["Male"], ["Female"]]
           .col-sm-3
-            = f.input :dob, placeholder: "Date of Birth", value: "#{dob}"
+            = f.input_group :dob, placeholder: "Date of Birth", left_addon: '<i class="fa fa-calendar"></i>', value: dob
           .col-sm-3
-            = f.input :height, placeholder: "Height (cm)"
+            = f.input :height, placeholder: "Height (#{um_height})"
           .col-sm-3
-            = f.input :weight, placeholder: "Weight (cm)"
+            = f.input :weight, placeholder: "Weight (#{um_weight})"
         .row
           .col-sm-4
           .col-sm-2
         .row
           .col-sm-1
           .col-sm-5
-            = f.input :phone, placeholder: "Phone"
+            = f.input_group :phone, placeholder: "Phone", left_addon: '<i class="fa fa-phone"></i>'
           .col-sm-5
-            = f.input :email, placeholder: "Email"
+            = f.input_group :email, placeholder: "Email", left_addon: ' @ '
         .row style="margin-bottom:10px;"
           .col-sm-12.text-center
             = f.submit(content: "Save Changes")
