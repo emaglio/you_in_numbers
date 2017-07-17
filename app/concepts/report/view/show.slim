@@ -148,31 +148,20 @@ javascript:
   function generateImages(item, index){
     if(item == "chart"){
       getCanvasImage(index);
-    }else{
-      if(item == "subject"){
-        getNodeImage(item);
-      }else{
-        getNodeImage(index);
-      }
     };
   }
 
   function generateAllImages(){
-    return new Promise(function (resolve, reject){
-      var array = #{raw js_array.to_json};
-      resolve(array.forEach(generateImages))
-    })
+    var array = #{raw js_array.to_json};
+    array.forEach(generateImages);
   }
 
   document.getElementById('generate_report').addEventListener('click', function() {
-    generateAllImages().then(function(){
-      setTimeout(function(){
-        $.ajax({
-          url: "/reports/#{model.id}/generate_pdf",
-          type: "POST",
-          processData: false,
-          contentType: false,
-        });
-      }, 5000);
+    generateAllImages();
+    $.ajax({
+      url: "/reports/#{model.id}/generate_pdf",
+      type: "POST",
+      processData: false,
+      contentType: false,
     });
   });

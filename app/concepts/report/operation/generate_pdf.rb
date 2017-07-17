@@ -14,10 +14,10 @@ class Report::GeneratePdf < Trailblazer::Operation
     step :generate_pdf!
     step :write_company_details!
     step :write_company_logo!
-    # step :write_subject!
-    step :write_images!
+    step :write_subject!
+    # step :write_images!
     step :save_pdf!
-    step :delete_images!
+    # step :delete_images!
   }
   failure :error!
 
@@ -62,6 +62,7 @@ class Report::GeneratePdf < Trailblazer::Operation
       (line_at > 720 - MyDefault::ReportPdf["logo_size"]) ? (line_at = 720 - MyDefault::ReportPdf["logo_size"] - 5) : (line_at = pdf.cursor)
       pdf.horizontal_line 0, 550, :at => line_at
     end
+    options["current_cursor"] = pdf.cursor + 20
   end
 
   def write_company_logo!(options, model:, pdf:, company:, **)
@@ -70,10 +71,19 @@ class Report::GeneratePdf < Trailblazer::Operation
     pdf.image ("#{Rails.root.join("public/images/")}" + "#{company.logo_meta_data[:thumb][:uid]}"), :position => :left, :vposition => :top, :fit => [MyDefault::ReportPdf["logo_size"], MyDefault::ReportPdf["logo_size"]]
   end
 
-  def write_subject!(options, pdf:, **)
-    image_path = "#{Rails.root.join("public/temp_files/subject.png")}"
-    options["path"] = image_path
-    pdf.image image_path, :position => :center, :fit => [MyDefault::ReportPdf["chart_size"], MyDefault::ReportPdf["chart_size"]]
+  def write_subject!(options, model:, current_user:, pdf:, current_cursor:, **)
+    height_unm = current_user.content["report_settings"]["units_of_measurement"]["height"]
+    weight_unm = current_user.content["report_settings"]["units_of_measurement"]["weight"]
+    subject = ::Subject.find(model.subject_id)
+    data = [["Firstname", "Lastname", "Date of Birth", "Height(#{height_unm})", "Weight(#{weight_unm})"],
+            ["#{subject.firstname}", "#{subject.lastname}", "#{subject.dob.strftime("%d %B %Y")}", "#{subject.height}", "#{subject.weight}"] ]
+    pdf.y = current_cursor
+    pdf.table data, position: :center, width: 500 do
+      cells.borders = []
+      cells.align = :center
+      row(0).font_style = :bold
+      row(0).size = 14
+    end
   end
 
   def write_images!(options, pdf:, obj_array:, **)
@@ -108,6 +118,5 @@ class Report::GeneratePdf < Trailblazer::Operation
   def error!(options, *)
     #TODO: delete folder create in Report::GenerateImage
   end
-
 
 end # class Report::GeneratePdf

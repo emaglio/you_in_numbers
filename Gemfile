@@ -53,3 +53,4 @@ gem 'pony'
 gem 'paperdragon'
 
 gem 'prawn'
+gem 'prawn-table'

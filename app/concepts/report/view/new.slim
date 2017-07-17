@@ -55,7 +55,7 @@ hr style="margin-top: 0px;"
     .col-sm-4.mybox
       = trb_form_for(model, "/reports", method: :post, builder: :bootstrap3, id: :new_report, enctype: 'multipart/form-data') do |f|
         = f.input :user_id, type: "hidden", value: current_user.id
-        = f.input :subject_id, type: "hidden"
+        = f.input :subject_id, type: "hidden", value: params[:subject_id]
         .row style="margin:20px;"
           = f.input :title, placeholder: "Report Title"
         .row style="margin:20px;"

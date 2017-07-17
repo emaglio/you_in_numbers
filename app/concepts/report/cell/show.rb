@@ -10,7 +10,6 @@ module Report::Cell
 
     def obj_array
       array = []
-      array << MyDefault::Subject.clone #add this to create the subject image
       current_user.content["report_template"][model.content["template"]].each do |obj|
         array << obj
       end
