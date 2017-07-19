@@ -15,9 +15,9 @@ class Report::GeneratePdf < Trailblazer::Operation
     step :write_company_details!
     step :write_company_logo!
     step :write_subject!
-    # step :write_images!
+    step :write_objects!
     step :save_pdf!
-    # step :delete_images!
+    step :delete_images!
   }
   failure :error!
 
@@ -62,7 +62,7 @@ class Report::GeneratePdf < Trailblazer::Operation
       (line_at > 720 - MyDefault::ReportPdf["logo_size"]) ? (line_at = 720 - MyDefault::ReportPdf["logo_size"] - 5) : (line_at = pdf.cursor)
       pdf.horizontal_line 0, 550, :at => line_at
     end
-    options["current_cursor"] = pdf.cursor + 20
+    options["current_cursor"] = pdf.cursor + 30
   end
 
   def write_company_logo!(options, model:, pdf:, company:, **)
@@ -84,25 +84,22 @@ class Report::GeneratePdf < Trailblazer::Operation
       row(0).font_style = :bold
       row(0).size = 14
     end
-  end
 
-  def write_images!(options, pdf:, obj_array:, **)
-    obj_array.each do |obj|
-      image_path = "#{Rails.root.join("public/temp_files/image-#{obj[:index]}.png")}"
-      options["path"] = image_path
-      pdf.image image_path, :position => :center, :fit => [MyDefault::ReportPdf["chart_size"], MyDefault::ReportPdf["chart_size"]]
+    pdf.stroke do
+      pdf.horizontal_line 0, 550, :at => pdf.cursor
     end
   end
 
-  def delete_images!(options, obj_array:, **)
-    # delete subject image
-    image_path = "#{Rails.root.join("public/temp_files/subject.png")}"
-    File.delete(image_path)
-
-    # delete all the rest
+  def write_objects!(options, pdf:, obj_array:, params:, **)
+    options["paths"] = []
     obj_array.each do |obj|
-      image_path = "#{Rails.root.join("public/temp_files/image-#{obj[:index]}.png")}"
-      File.delete(image_path)
+      obj[:type] == 'report/cell/chart' ? write_image(options, obj: obj, pdf: pdf) : write_table(options, params: params, obj: obj, pdf: pdf)
+    end
+  end
+
+  def delete_images!(options, paths:, **)
+    paths.each do |path|
+      File.delete(path)
     end
   end
 
@@ -117,6 +114,17 @@ class Report::GeneratePdf < Trailblazer::Operation
 
   def error!(options, *)
     #TODO: delete folder create in Report::GenerateImage
+  end
+
+private
+  def write_image(options, obj:, pdf:, **)
+    image_path = "#{Rails.root.join("public/temp_files/image-#{obj[:index]}.png")}"
+    options["paths"] << image_path
+    pdf.image image_path, :position => :center, :fit => [MyDefault::ReportPdf["chart_size"], MyDefault::ReportPdf["chart_size"]]
+  end
+
+  def write_table(options, params:, obj:, pdf:, **)
+
   end
 
 end # class Report::GeneratePdf

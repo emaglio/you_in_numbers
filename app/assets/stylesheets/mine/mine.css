@@ -30,12 +30,17 @@
   border-radius: 30px;
 }
 
-.summary_table{
-  font-size: 20px;
-}
-
 .first_column {
   font-style: italic; font-weight: bold;
+}
+
+.green {
+  background-color: #00e600 !important;
+  border-color: #00e600 !important;
+}
+
+.red {
+  background-color: #cc3300 !important;
 }
 
 .fa-4x {

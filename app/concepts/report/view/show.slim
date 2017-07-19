@@ -83,46 +83,6 @@ javascript:
     return blob;
   }
 
-  var form = new FormData();
-  var index = 0;
-
-  function getNodeImage(id){
-    if(id == "subject"){
-      var complete_id = 'subject';
-    }else{
-      var complete_id = 'image-'.concat(id.toString());
-    }
-    var node = document.getElementById(complete_id);
-
-    domtoimage.toPng(node)
-      .then(function (dataURL) {
-        var form = new FormData();
-        var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
-        var file = b64toBlob(mybase64, 'image/png');
-        form.append("image", file);
-        form.append("index", id);
-        $.ajax({
-           url: "/reports/#{model.id}/generate_image",
-           type: "POST",
-           data: form,
-           processData: false,
-           contentType: false,
-        });
-      })
-      .catch(function (error) {
-        var form = new FormData();
-        form.append("error", error);
-        $.ajax({
-           url: "/reports/#{model.id}/generate_image",
-           type: "POST",
-           data: form,
-           processData: false,
-           contentType: false,
-        });
-      })
-
-  }
-
   function getCanvasImage(id){
     var complete_id = 'canvas-'.concat(id.toString());
     var canvas = document.getElementById(complete_id);
@@ -151,13 +111,9 @@ javascript:
     };
   }
 
-  function generateAllImages(){
+  document.getElementById('generate_report').addEventListener('click', function() {
     var array = #{raw js_array.to_json};
     array.forEach(generateImages);
-  }
-
-  document.getElementById('generate_report').addEventListener('click', function() {
-    generateAllImages();
     $.ajax({
       url: "/reports/#{model.id}/generate_pdf",
       type: "POST",

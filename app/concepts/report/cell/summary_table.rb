@@ -32,19 +32,17 @@ module Report::Cell
       array = ""
       params_list = obj[:params_list].split(",")
       params_unm_list = obj[:params_unm_list].split(",")
-      index = 0
-      params_list.zip(params_unm_list).each do |param, unm|
+      params_list.zip(params_unm_list).each_with_index do |param, index|
         temp = []
         temp << index
-        unm == "-" ? value = "#{param}" : value = "#{param} (#{unm})"
+        param.last == "-" ? value = "#{param.first}" : value = "#{param.first} (#{param.last})"
         temp << value
-        temp << value_at_AT(param)
-        temp << value_at_MAX(param)
-        temp << pred(param)
-        temp << result_on_pred(param)
-        (index >= 1) ? array += "," : array
+        temp << value_at_AT(param.first)
+        temp << value_at_MAX(param.first)
+        temp << pred(param.first)
+        temp << result_on_pred(param.first)
         array +=  temp.to_json
-        index += 1
+        array += ","
       end
 
       return array
