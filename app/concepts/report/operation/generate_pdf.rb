@@ -124,7 +124,9 @@ private
   end
 
   def write_table(options, params:, obj:, pdf:, **)
-
+    #TODO: go ahead here with this!
+    # obj = obj.tr('[','').tr(']','').tr('\n', '')
+    # temp = obj.split(",").map{ |i| JSON.parse(i)}.each_slice(3).to_a
   end
 
 end # class Report::GeneratePdf

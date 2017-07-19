@@ -114,9 +114,13 @@ javascript:
   document.getElementById('generate_report').addEventListener('click', function() {
     var array = #{raw js_array.to_json};
     array.forEach(generateImages);
+    var form = new FormData();
+    var tables = #{raw tables.to_json};
+    form.append("table_obj", tables)
     $.ajax({
       url: "/reports/#{model.id}/generate_pdf",
       type: "POST",
+      data: form,
       processData: false,
       contentType: false,
     });

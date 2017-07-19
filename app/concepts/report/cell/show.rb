@@ -25,26 +25,19 @@ module Report::Cell
       return array
     end
 
-    def tables_array
-      final_array = []
-
+    def tables
+      result = ""
       obj_array.each do |obj|
         if obj[:type] == 'report/cell/summary_table'
-          temp = []
           obj = Report::Cell::SummaryTable.new(model, obj: obj).data
-          obj = obj.tr('[','').tr(']','')
-          temp = obj.split(",").map{ |i| JSON.parse(i)}.each_slice(6).to_a
-          final_array << temp
+          result += "//table//" + obj.to_s
         elsif obj[:type] == 'report/cell/training_zones'
-          temp = []
           obj = Report::Cell::TrainingZones.new(model, obj: obj, context: {current_user: current_user}).data
-          obj = obj.tr('[','').tr(']','').tr('\n', '')
-          temp = obj.split(",").map{ |i| JSON.parse(i)}.each_slice(3).to_a
-          final_array << temp
+          result += "//training_zones//" + obj.to_s
         end
       end
 
-      return final_array
+      return result
     end
 
 
