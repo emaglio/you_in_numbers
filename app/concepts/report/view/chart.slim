@@ -2,7 +2,8 @@
   = cell ('user/cell/edit_options'), model, obj: obj, size: size
 - else
   .col-sm-2
-.col-sm-8
+.col-sm-8.text-center
+  h2 = obj[:title]
   . style="width:100%;"
     canvas id= chart_id style:"-moz-user-select: none; -webkit-user-select: none;-ms-user-select: none;"
   br
@@ -253,11 +254,6 @@ javascript:
 
                 options: {
                   responsive: true,
-                  title : {
-                    display: true,
-                    text: #{title}
-                  },
-
 
                   scales: {
                       yAxes: getYaxisOptions(),

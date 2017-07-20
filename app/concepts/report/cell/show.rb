@@ -27,16 +27,19 @@ module Report::Cell
 
     def tables
       result = ""
+      count = 0
       obj_array.each do |obj|
         if obj[:type] == 'report/cell/summary_table'
-          obj = Report::Cell::SummaryTable.new(model, obj: obj).data
-          result += "//table//" + obj.to_s
+          cell = Report::Cell::SummaryTable.new(model, obj: obj).data
+          result += "//table_#{obj[:index]}//" + cell.to_s
+          count += 1
         elsif obj[:type] == 'report/cell/training_zones'
-          obj = Report::Cell::TrainingZones.new(model, obj: obj, context: {current_user: current_user}).data
-          result += "//training_zones//" + obj.to_s
+          cell = Report::Cell::TrainingZones.new(model, obj: obj, context: {current_user: current_user}).data
+          result += "//training_zones_#{obj[:index]}//" + cell.to_s
+          count += 1
         end
       end
-
+      result = "//#{count}//" + result
       return result
     end
 

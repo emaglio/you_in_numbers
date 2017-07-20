@@ -10,6 +10,7 @@ class Report::GeneratePdf < Trailblazer::Operation
   step :check_files!
   step :find_company!, fast_fail: true
   step :saving_folder!
+  step :elaborate_tables_data!
   step Rescue( NoMethodError, ArgumentError, Prawn::Errors::UnsupportedImageType,  handler: :rollback! ){
     step :generate_pdf!
     step :write_company_details!
@@ -42,6 +43,12 @@ class Report::GeneratePdf < Trailblazer::Operation
     options["saving_folder"] = Rails.root.join("public/reports/#{model.title}.pdf")
   end
 
+  def elaborate_tables_data!(options, params:, **)
+    return true if !params["table_obj"]
+
+    options["tables"] = decode_table_data!(options, tables_data: params["table_obj"])
+  end
+
   def generate_pdf!(options, *)
     options["pdf"] = Prawn::Document.new
   end
@@ -68,7 +75,7 @@ class Report::GeneratePdf < Trailblazer::Operation
   def write_company_logo!(options, model:, pdf:, company:, **)
     return true if (company.logo_meta_data == nil or company.logo_meta_data == {})
     options["path"] = ("#{Rails.root.join("public/images/")}" + "#{company.logo_meta_data[:thumb][:uid]}")
-    pdf.image ("#{Rails.root.join("public/images/")}" + "#{company.logo_meta_data[:thumb][:uid]}"), :position => :left, :vposition => :top, :fit => [MyDefault::ReportPdf["logo_size"], MyDefault::ReportPdf["logo_size"]]
+    pdf.image ("#{Rails.root.join("public/images/")}" + "#{company.logo_meta_data[:thumb][:uid]}"), :position => :right, :vposition => :top, :fit => [MyDefault::ReportPdf["logo_size"], MyDefault::ReportPdf["logo_size"]]
   end
 
   def write_subject!(options, model:, current_user:, pdf:, current_cursor:, **)
@@ -88,12 +95,14 @@ class Report::GeneratePdf < Trailblazer::Operation
     pdf.stroke do
       pdf.horizontal_line 0, 550, :at => pdf.cursor
     end
+
+    pdf.y = pdf.cursor + 5
   end
 
-  def write_objects!(options, pdf:, obj_array:, params:, **)
+  def write_objects!(options, pdf:, obj_array:, params:, current_cursor:, **)
     options["paths"] = []
     obj_array.each do |obj|
-      obj[:type] == 'report/cell/chart' ? write_image(options, obj: obj, pdf: pdf) : write_table(options, params: params, obj: obj, pdf: pdf)
+      obj[:type] == 'report/cell/chart' ? write_image!(options, obj: obj, pdf: pdf) : write_table!(options, params: params, obj: obj, pdf: pdf, current_cursor: current_cursor)
     end
   end
 
@@ -117,16 +126,82 @@ class Report::GeneratePdf < Trailblazer::Operation
   end
 
 private
-  def write_image(options, obj:, pdf:, **)
+  def write_image!(options, obj:, pdf:, **)
+    pdf.text obj[:title], :size => 12, :style => :bold, :align => :center
     image_path = "#{Rails.root.join("public/temp_files/image-#{obj[:index]}.png")}"
     options["paths"] << image_path
     pdf.image image_path, :position => :center, :fit => [MyDefault::ReportPdf["chart_size"], MyDefault::ReportPdf["chart_size"]]
   end
 
-  def write_table(options, params:, obj:, pdf:, **)
-    #TODO: go ahead here with this!
-    # obj = obj.tr('[','').tr(']','').tr('\n', '')
-    # temp = obj.split(",").map{ |i| JSON.parse(i)}.each_slice(3).to_a
+  def write_table!(options, params:, obj:, pdf:, **)
+    pdf.text obj[:title], :size => 12, :style => :bold, :align => :center
+    obj[:type] == "report/cell/summary_table" ? write_summary_table(options, obj: obj, pdf: pdf) : write_training_zones(options, obj: obj, pdf: pdf)
   end
+
+  def decode_table_data!(options, tables_data:, **)
+    num_tables = tables_data[/#{"//"}(.*?)#{"//"}/m, 1].to_i
+    tables_data.slice!("//#{num_tables}//")
+    tables = {}
+    (1..num_tables).each_with_index do |index|
+      type = tables_data[/#{"//"}(.*?)#{"//"}/m, 1]
+      tables_data.slice!("//#{type}//")
+      data = tables_data.split("//").first
+      tables["#{type}"] = data
+      tables_data.slice!(data)
+    end
+
+    tables.each do |key, value|
+      value = value.tr('[]','')
+      if key.include? "table"
+        temp = value.split(",").map{ |i| JSON.parse(i).to_s}.each_slice(6).to_a
+        #remove first element of array which is the ID used to order the table in jsD
+        final_array = []
+        temp.each do |array|
+          array.shift
+          final_array << array
+        end
+        tables["#{key}"] = temp
+      else
+        temp = value.split(",").map{ |i| JSON.parse(i).to_s}.each_slice(3).to_a
+        #remove first element of array which is the ID used to order the table in jsD
+        final_array = []
+        temp.each do |array|
+          array.shift
+          final_array << array
+        end
+        tables["#{key}"] = temp
+      end
+    end
+
+    return tables
+  end
+
+  def write_summary_table(options, obj:, pdf:, **)
+    data = []
+    header = ["", "@_AT", "@_MAX", "Pred", "Pred(%)"]
+    table = "table_#{obj[:index]}"
+    data << header
+    options["tables"][table].each do |array|
+      data << array
+    end
+    pdf.table data, position: :center, width: 400 do
+      cells.borders = []
+      cells.align = :center
+      row(0).font_style = :bold
+      row(0).size = 14
+    end
+  end
+
+  def write_training_zones(options, obj:, pdf:, **)
+    table = "training_zones_#{obj[:index]}"
+    data = options["tables"][table]
+    pdf.table data, position: :center, width: 400 do
+      cells.borders = []
+      cells.align = :center
+      row(0).font_style = :bold
+      row(0).size = 14
+    end
+  end
+
 
 end # class Report::GeneratePdf
