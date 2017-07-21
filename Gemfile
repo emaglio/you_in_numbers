@@ -43,7 +43,7 @@ gem 'cells-slim'
 gem 'dry-validation'
 gem 'file_validators'
 gem 'formular'
-gem 'tyrant', :git => "https://github.com/emaglio/tyrant.git", :branch => "to_TRB2"
+gem 'tyrant', :git => "https://github.com/apotonick/tyrant.git", :branch => "trb-2"
 
 gem "roo", "~> 2.7.0"
 gem 'reform', '>= 2.3.0.rc1'
