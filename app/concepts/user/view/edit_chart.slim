@@ -8,7 +8,7 @@ hr style="margin-top: 0px;"
     <i aria-hidden="true" class="fa fa-line-chart fa-4x"></i>
   .col-sm-6.mybox
     .col-sm-10.col-sm-offset-1
-      = trb_form_for(model, "/users/#{current_user.id}/update_chart", method: :post, builder: :bootstrap3, id: :edit_chart) do |f|
+      = trb_form_for(model, "/users/#{current_user.id}/update_chart", method: :post, id: :edit_chart) do |f|
         = f.input :edit_chart, type: "hidden", value: params[:edit_chart]
         = f.row
           = f.input :title, label: "Title:", inline_col_class: ['col-md-6'], value: obj[:title]

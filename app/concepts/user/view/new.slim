@@ -35,7 +35,7 @@ html lang = "en"
               .h3.panel-title
                 = "New Account"
             .panel-body
-                = trb_form_for(model, "/users", method: :post, builder: :bootstrap3, id: :new_user) do |f|
+                = trb_form_for(model, "/users", method: :post, id: :new_user) do |f|
                   = f.input :block, value: :false, type: "hidden"
                   .row
                     .col-sm-6

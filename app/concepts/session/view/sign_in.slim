@@ -37,7 +37,7 @@ html lang = "en"
               .h3.panel-title
                 = "Please Sing In"
             .panel-body
-              = trb_form_for(model, "/sessions", method: :post, builder: :bootstrap3, id: :new_session) do |f|
+              = trb_form_for(model, "/sessions", method: :post, id: :new_session) do |f|
                 .row.col-sm-12
                   = f.input_group :email, placeholder: "Email", left_addon: '@'
                 .row.col-sm-12

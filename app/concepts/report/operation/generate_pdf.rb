@@ -136,6 +136,7 @@ private
   def write_table!(options, params:, obj:, pdf:, **)
     pdf.text obj[:title], :size => 12, :style => :bold, :align => :center
     obj[:type] == "report/cell/summary_table" ? write_summary_table(options, obj: obj, pdf: pdf) : write_training_zones(options, obj: obj, pdf: pdf)
+    pdf.y = pdf.cursor + 5
   end
 
   def decode_table_data!(options, tables_data:, **)
@@ -154,7 +155,7 @@ private
       value = value.tr('[]','')
       if key.include? "table"
         temp = value.split(",").map{ |i| JSON.parse(i).to_s}.each_slice(6).to_a
-        #remove first element of array which is the ID used to order the table in jsD
+        #remove first element of array which is the ID used to order the table in js
         final_array = []
         temp.each do |array|
           array.shift
@@ -163,7 +164,7 @@ private
         tables["#{key}"] = temp
       else
         temp = value.split(",").map{ |i| JSON.parse(i).to_s}.each_slice(3).to_a
-        #remove first element of array which is the ID used to order the table in jsD
+        #remove first element of array which is the ID used to order the table in js
         final_array = []
         temp.each do |array|
           array.shift
@@ -184,8 +185,9 @@ private
     options["tables"][table].each do |array|
       data << array
     end
-    pdf.table data, position: :center, width: 400 do
-      cells.borders = []
+    pdf.table data, position: :center, width: 400, row_colors: ["F0F0F0", "FFFFCC"]  do
+      cell.first.borders = [:bottom]
+      cell.last.borders = [:bottom]
       cells.align = :center
       row(0).font_style = :bold
       row(0).size = 14

@@ -6,7 +6,7 @@ hr style="margin-top: 0px;"
 .row style="margin-top: 40px;"
   .col-sm-3
   .col-sm-6.mybox
-    = trb_form_for(model, "/companies/#{model.id}", method: :patch, builder: :bootstrap3, id: :new_company, enctype: 'multipart/form-data') do |f|
+    = trb_form_for(model, "/companies/#{model.id}", method: :patch, id: :new_company, enctype: 'multipart/form-data') do |f|
       = f.input :user_id, value: current_user.id, type: "hidden"
       .row
         .col-sm-12

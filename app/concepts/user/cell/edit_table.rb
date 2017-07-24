@@ -12,8 +12,8 @@ module User::Cell
       params_list = current_user.content["report_settings"]["params_list"]
       ergo_params_list = current_user.content["report_settings"]["ergo_params_list"]
 
-      array = params_list.join(",")
-      array += "," + ergo_params_list.join(",")
+      array = params_list.join(", ")
+      array += ", " + ergo_params_list.join(", ")
 
       return array
     end
