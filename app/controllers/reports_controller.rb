@@ -53,7 +53,9 @@ class ReportsController < ApplicationController
       return redirect_to "/companies/new"
     end
 
-    flash[:danger] = "An error occured -> " + result["error"]
+    result["error"].nil? ? error = "" : error = result["error"]
+
+    flash[:danger] = "An error occured -> " + error
     redirect_to "/reports/#{result["model"].id}"
   end
 
