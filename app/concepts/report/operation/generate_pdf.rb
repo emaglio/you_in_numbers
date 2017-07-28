@@ -37,7 +37,7 @@ class Report::GeneratePdf < Trailblazer::Operation
   end
 
 
-  def saving_folder!(options, model:, **)
+  def saving_folder!(options, model:, company:, **)
     #TODO: make this editable by the USER
     #TODO: make name of the report editable by the USER %f %l bla bla
     options["saving_folder"] = Rails.root.join("public/reports/#{model.title}.pdf")
@@ -54,6 +54,8 @@ class Report::GeneratePdf < Trailblazer::Operation
   end
 
   def write_company_details!(options, pdf:, company:, **)
+    pdf.stroke_axis #TODO: remove this
+
     font("Courier") do
       pdf.text company.name, :size => 12, :style => :bold, :align => :center
       pdf.text company.address_1, :align => :center
@@ -68,20 +70,23 @@ class Report::GeneratePdf < Trailblazer::Operation
       line_at = pdf.cursor
       (line_at > 720 - MyDefault::ReportPdf["logo_size"]) ? (line_at = 720 - MyDefault::ReportPdf["logo_size"] - 5) : (line_at = pdf.cursor)
       pdf.horizontal_line 0, 550, :at => line_at
+      options["current_cursor"] = line_at + 5
     end
-    options["current_cursor"] = pdf.cursor + 30
   end
 
   def write_company_logo!(options, model:, pdf:, company:, **)
-    return true if (company.logo_meta_data == nil or company.logo_meta_data == {})
-    options["path"] = ("#{Rails.root.join("public/images/")}" + "#{company.logo_meta_data[:thumb][:uid]}")
-    pdf.image ("#{Rails.root.join("public/images/")}" + "#{company.logo_meta_data[:thumb][:uid]}"), :position => :right, :vposition => :top, :fit => [MyDefault::ReportPdf["logo_size"], MyDefault::ReportPdf["logo_size"]]
+    return true if company.logo_meta_data == nil
+    pdf.image ("#{Rails.root.join("public/images/")}" + "#{company.logo[:thumb].uid}"),
+              :position => :right,
+              :vposition => :top,
+              :fit => [MyDefault::ReportPdf["logo_size"], MyDefault::ReportPdf["logo_size"]]
   end
 
   def write_subject!(options, model:, current_user:, pdf:, current_cursor:, **)
     height_unm = current_user.content["report_settings"]["units_of_measurement"]["height"]
     weight_unm = current_user.content["report_settings"]["units_of_measurement"]["weight"]
     subject = ::Subject.find(model.subject_id)
+    options["subject"] = subject
     data = [["Firstname", "Lastname", "Date of Birth", "Height(#{height_unm})", "Weight(#{weight_unm})"],
             ["#{subject.firstname}", "#{subject.lastname}", "#{subject.dob.strftime("%d %B %Y")}", "#{subject.height}", "#{subject.weight}"] ]
     pdf.y = current_cursor
@@ -99,16 +104,11 @@ class Report::GeneratePdf < Trailblazer::Operation
     pdf.y = pdf.cursor + 5
   end
 
-  def write_objects!(options, pdf:, obj_array:, params:, current_cursor:, **)
+  def write_objects!(options, pdf:, obj_array:, model:, subject:, params:, current_cursor:, **)
     options["paths"] = []
     obj_array.each do |obj|
+      footer(options, pdf: pdf, model: model, subject: subject) if pdf.cursor < 400
       obj[:type] == 'report/cell/chart' ? write_image!(options, obj: obj, pdf: pdf) : write_table!(options, params: params, obj: obj, pdf: pdf, current_cursor: current_cursor)
-    end
-  end
-
-  def delete_images!(options, paths:, **)
-    paths.each do |path|
-      File.delete(path)
     end
   end
 
@@ -117,8 +117,15 @@ class Report::GeneratePdf < Trailblazer::Operation
     return true
   end
 
+  def delete_images!(options, paths:, **)
+    paths.each do |path|
+      File.delete(path)
+    end
+  end
+
+
   def rollback!(exception, options, *)
-   options["error"] = exception.inspect + options["path"]
+   options["error"] = exception.inspect
   end
 
   def error!(options, *)
@@ -131,6 +138,7 @@ private
     image_path = "#{Rails.root.join("public/temp_files/image-#{obj[:index]}.png")}"
     options["paths"] << image_path
     pdf.image image_path, :position => :center, :fit => [MyDefault::ReportPdf["chart_size"], MyDefault::ReportPdf["chart_size"]]
+    pdf.y = pdf.cursor + 5
   end
 
   def write_table!(options, params:, obj:, pdf:, **)
@@ -185,12 +193,13 @@ private
     options["tables"][table].each do |array|
       data << array
     end
-    pdf.table data, position: :center, width: 400, row_colors: ["F0F0F0", "FFFFCC"]  do
-      cell.first.borders = [:bottom]
-      cell.last.borders = [:bottom]
+    pdf.table data, header: :true, position: :center, width: 400, row_colors: ["F4F4F4", "FFFFFF"]  do
       cells.align = :center
+      cells.borders = [:bottom]
+      rows(1..(data.size-2)).border_color = "F2F2F2"
       row(0).font_style = :bold
-      row(0).size = 14
+      row(0).size = 12
+      column(0).font_style = :bold_italic
     end
   end
 
@@ -198,11 +207,29 @@ private
     table = "training_zones_#{obj[:index]}"
     data = options["tables"][table]
     pdf.table data, position: :center, width: 400 do
-      cells.borders = []
+      cells.borders = [:top]
+      rows(0..3).background_color = "00E600"
+      rows(1..3).border_color = "00E600"
+      rows(4..7).background_color = "CC3300"
+      rows(5..7).border_color = "CC3300"
+      rows(7).borders = [:bottom]
+      rows(7).border_color = "000000"
       cells.align = :center
       row(0).font_style = :bold
-      row(0).size = 14
+      row(4).font_style = :bold
+      row(0).size = 12
+      row(4).size = 12
     end
+  end
+
+  def footer(options, pdf:, model:, subject:, **)
+    canvas do
+      pdf.stroke_horizontal_line 0, 550, at: (bounds.bottom + 20)
+      pdf.y = bounds.bottom + 10
+      pdf.text "#{model.created_at.strftime("%d/%B/%Y")} - #{subject.firstname} #{subject.lastname}", :size => 8, :align => :center
+      pdf.text "Page - #{pdf.page_count}", :size => 8, :align => :right
+    end
+    pdf.start_new_page
   end
 
 

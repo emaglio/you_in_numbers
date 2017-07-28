@@ -29,6 +29,10 @@ module User::Cell
       params["edit_chart"].to_i
     end
 
+    def some
+      "checked: 'checked'"
+    end
+
     def obj
       current_user.content["report_template"]["custom"][index]
     end
