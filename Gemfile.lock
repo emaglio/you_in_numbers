@@ -202,6 +202,7 @@ GEM
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
+    nprogress-rails (0.2.0.2)
     paperdragon (0.0.11)
       dragonfly (~> 1.0.12)
       uber
@@ -345,6 +346,7 @@ DEPENDENCIES
   minitest-bang
   minitest-line
   minitest-rails-capybara
+  nprogress-rails
   paperdragon
   pony
   prawn

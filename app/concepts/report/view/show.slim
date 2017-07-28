@@ -112,6 +112,8 @@ javascript:
   }
 
   document.getElementById('generate_report').addEventListener('click', function() {
+    NProgress.start();
+
     var array = #{raw js_array.to_json};
     array.forEach(generateImages);
     var form = new FormData();

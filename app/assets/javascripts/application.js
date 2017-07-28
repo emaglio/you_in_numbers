@@ -27,5 +27,9 @@
 //= require js/bootstrap-datepicker.js
 //= require js/jquery.dataTables.min.js
 //= require js/dataTables.responsive.min.js
+//= require nprogress
+//= require nprogress-turbolinks
+//= require nprogress-ajax
+
 
 $('.datepicker').datepicker()
