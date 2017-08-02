@@ -113,7 +113,7 @@ module Report::Cell
     end
 
     def chart_id
-      "canvas-#{obj[:index]}"
+      "canvas_#{obj[:index]}"
     end
 
     def y1

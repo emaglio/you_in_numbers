@@ -24,7 +24,12 @@
             .row style="margin-top:40px;"
               = cell (obj[:type]), model, obj: obj
 
+script src="/js/generate_chart.js" type="text/javascript"
+
 javascript:
+
+
+
   var originalLineDraw = Chart.controllers.line.prototype.draw;
 
   Chart.helpers.extend(Chart.controllers.line.prototype, {
