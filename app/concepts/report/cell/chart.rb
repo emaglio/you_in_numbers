@@ -39,27 +39,27 @@ module Report::Cell
     end
 
     def label_1
-      obj[:y1][:name].inspect
+      obj[:y1][:name] ? obj[:y1][:name].inspect : "null"
     end
 
     def label_2
-      obj[:y2][:name].inspect
+      obj[:y2][:name] ? obj[:y2][:name].inspect : "null"
     end
 
     def label_3
-      obj[:y3][:name].inspect
+      obj[:y3][:name] ? obj[:y3][:name].inspect : "null"
     end
 
     def colour_1
-      obj[:y1][:colour].inspect
+      obj[:y1][:colour] ? obj[:y1][:colour].inspect : "null"
     end
 
     def colour_2
-      obj[:y2][:colour].inspect
+      obj[:y2][:colour] ? obj[:y2][:colour].inspect : "null"
     end
 
     def colour_3
-      obj[:y3][:colour].inspect
+      obj[:y3][:colour] ? obj[:y3][:colour].inspect : "null"
     end
 
     def colour_vo2max
@@ -117,15 +117,15 @@ module Report::Cell
     end
 
     def y1
-      (obj[:only_exer] == "1" and label_1 != "nil") ? model["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y1][:name]].inspect
+      (obj[:only_exer] == "1" and label_1 != "null") ? model["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y1][:name]].inspect
     end
 
     def y2
-      (obj[:only_exer] == "1" and label_2 != "nil") ? model["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y2][:name]].inspect
+      (obj[:only_exer] == "1" and label_2 != "null") ? model["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y2][:name]].inspect
     end
 
     def y3
-      (obj[:only_exer] == "1" and label_3 != "nil") ? model["cpet_params"][obj[:y3][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y3][:name]].inspect
+      (obj[:only_exer] == "1" and label_3 != "null") ? model["cpet_params"][obj[:y3][:name]][exer_phase_starts, exer_num_steps].inspect : "null"
     end
 
     def x
@@ -172,8 +172,8 @@ module Report::Cell
     def y_exer_phase #for exersice phase
       array = []
       array[0] = model["cpet_params"][obj[:y1][:name]].max
-      array[1] = model["cpet_params"][obj[:y2][:name]].max unless label_2 == "nil"
-      array[2] = model["cpet_params"][obj[:y3][:name]].max unless label_3 == "nil"
+      array[1] = model["cpet_params"][obj[:y2][:name]].max unless label_2 == "null"
+      array[2] = model["cpet_params"][obj[:y3][:name]].max unless label_3 == "null"
       array.max > 1000 ? (array.max+200).round(-2) : (array.max+10).round(-1)
     end
 
