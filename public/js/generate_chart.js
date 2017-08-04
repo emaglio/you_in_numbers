@@ -190,7 +190,7 @@ function drawAtLine(){
                 borderColor: at_colour,
                 backgroundColor: at_colour,
                 pointRadius: 0,
-                label: false,
+                label: "AT",
                 data:[{
                         x: getTimeString(at_value),
                         y: 0
@@ -368,7 +368,15 @@ function getConfig(){
 
                   legend: {
                     display: true,
-                    position: 'top'
+                    position: 'top',
+                    labels: {
+                      filter: function(legendItem, data) {
+                        if (legendItem.text != "AT"){
+                          var data = data.datasets[legendItem.datasetIndex]
+                          return !data.legendHidden;
+                        }
+                      }
+                    }
                   }
                 }
               }
