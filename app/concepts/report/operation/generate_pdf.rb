@@ -14,7 +14,6 @@ class Report::GeneratePdf < Trailblazer::Operation
   step :saving_folder!
   step :elaborate_tables_data!
   step Rescue( NoMethodError, ArgumentError, Prawn::Errors::UnsupportedImageType,  handler: :rollback! ){
-    step ->(options, **) { raise ArgumentError }
     step :generate_pdf!
     step :write_company_details!
     step :write_company_logo!
