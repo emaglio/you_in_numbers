@@ -378,7 +378,7 @@ class UserOperationTest < MiniTest::Spec
     (custom == default).must_equal true
   end
 
-  it "report settings" do
+  it "report settings correct input" do
     user.email.must_equal "test@email.com"
     user2.email.must_equal "test2@email.com"
 
@@ -423,5 +423,23 @@ class UserOperationTest < MiniTest::Spec
     result["model"].content["report_settings"]["training_zones_settings"][6].must_equal 95
     result["model"].content["report_settings"]["units_of_measurement"]["height"].must_equal "um_h"
     result["model"].content["report_settings"]["units_of_measurement"]["weight"].must_equal "um_w"
+  end
+
+    it "report settings wrong input" do
+    user.email.must_equal "test@email.com"
+    user2.email.must_equal "test2@email.com"
+
+    assert_raises ApplicationController::NotAuthorizedError do
+      User::ReportSettings.(
+        {id: user.id},
+        "current_user" => user2)
+    end
+
+    result = User::ReportSettings.(
+              {
+                id: user.id,
+                }, "current_user" => user)
+    result.failure?.must_equal true
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:fat_burning_2=>[\"Can't be blank\", \"This must be greater than 35\"], :endurance_1=>[\"Can't be blank\", \"This range is wrong or it's over the previous one\"], :endurance_2=>[\"Can't be blank\", \"This range is wrong or it's over the previous one\"], :at_1=>[\"Can't be blank\", \"This range is wrong or it's over the previous one\"], :at_2=>[\"Can't be blank\", \"This range is wrong or it's over the previous one\"], :vo2max_1=>[\"Can't be blank\", \"This range is wrong or it's over the previous one\"], :load_1=>[\"Can't be blank\"], :load_1_um=>[\"Can't be blank\"], :load_2=>[\"Can't be blank\"], :load_2_um=>[\"Can't be blank\"], :um_height=>[\"Can't be blank\"], :um_weight=>[\"Can't be blank\"]}"
   end
 end
