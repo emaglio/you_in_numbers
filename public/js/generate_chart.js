@@ -59,9 +59,9 @@ function setVO2MaxParams(colour, starts, ends, value, show) {
 
 function setExerParams(colour, starts, ends, value, show){
   colour_exer = colour
-  exer_starts = starts
-  exer_ends = ends
-  y_exer_value = value
+  exer_phase_starts = starts
+  exer_phase_ends = ends
+  y_exer_phase = value
   show_exer = show
 }
 
@@ -183,19 +183,39 @@ function drawExerPhase(){
   return exer_phase;
 }
 
-// draw the line for the AT if required
-function drawAT(bool){
- var at_line = getTimeString(at_value);
 
-  if (bool){
-    return at_line;
-  }else{
-    return 0;
-  }
+// draw the line for the AT if required
+function drawAtLine(){
+  var at_line = {
+                borderColor: at_colour,
+                backgroundColor: at_colour,
+                pointRadius: 0,
+                label: false,
+                data:[{
+                        x: getTimeString(at_value),
+                        y: 0
+                      },
+                      {
+                        x: getTimeString(at_value),
+                        y: y_exer_phase
+                      }],
+                borderDash: [10,5],
+                scales: {
+                      yAxes: [{
+                          display: false,
+                          ticks: {
+                              suggestedMin: 20,    // minimum will be 0, unless there is a lower value.
+                              // OR //
+                              // beginAtZero: true   // minimum value will be 0.
+                          }
+                      }]
+                  }
+                };
+  return at_line;
 }
 
 // generate the data array to pass to Chart
-function dataSet(vo2, exer){
+function dataSet(vo2, exer, at){
   var dataset = new Array();
   if(vo2){
     dataset.push(drawVO2max());
@@ -243,6 +263,11 @@ function dataSet(vo2, exer){
   if(exer){
     dataset.push(drawExerPhase());
   }
+
+  if(at){
+    dataset.push(drawAtLine());
+  }
+
   return dataset;
 }
 
@@ -330,9 +355,7 @@ function getConfig(){
   var config = {
                 type: 'line',
                 data: {
-                    datasets: dataSet(show_vo2max,show_exer),
-                    lineAtValue: drawAT(show_AT),
-                    colourAt: at_colour
+                    datasets: dataSet(show_vo2max,show_exer, show_AT),
                 },
 
                 options: {
@@ -349,41 +372,6 @@ function getConfig(){
                   }
                 }
               }
+
+  return config;
 }
-
-
-var originalLineDraw = Chart.controllers.line.prototype.draw;
-
-Chart.helpers.extend(Chart.controllers.line.prototype, {
-  draw: function() {
-    originalLineDraw.apply(this, arguments);
-
-    var chart = this.chart;
-    var ctx = chart.chart.ctx;
-
-    var value = chart.config.data.lineAtValue;
-    var colour = chart.config.data.colourAt;
-    if (value) {
-      var xaxis = chart.scales['x-axis-0'];
-      var yaxis = chart.scales['y-axis-1'];
-
-      var at_point = xaxis.getPixelForValue(value);
-
-      ctx.save();
-      ctx.beginPath();
-      ctx.moveTo(at_point, yaxis.top + 60);
-      ctx.strokeStyle = colour;
-      ctx.lineTo(at_point, yaxis.bottom);
-      ctx.stroke();
-      ctx.restore();
-
-      // write AT
-      ctx.textAlign = 'center';
-      ctx.fillStyle = '#000000';
-      ctx.fillText("AT", at_point, yaxis.top + 40);
-    }
-  }
-});
-
-// window.myLine = new Chart(ctx, config);
-

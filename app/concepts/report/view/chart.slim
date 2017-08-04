@@ -9,22 +9,3 @@
   br
 .col-sm-2
 
-script src="/js/generate_chart.js" type="text/javascript"
-
-javascript:
-
-  var data_#{chart_id} = document.addEventListener('DOMContentLoaded', function() {
-
-    var ctx = document.getElementById('#{chart_id}').getContext("2d");
-
-    setTimeParams(#{time_format}, #{x_time?}, #{x}, #{x_type}, #{x_label.inspect})
-    setVO2MaxParams(#{colour_vo2max}, #{vo2_max_starts}, #{vo2_max_ends}, #{vo2_max_value}, #{show_vo2max})
-    setExerParams(#{colour_exer}, #{exer_phase[0]}, #{exer_phase[1]}, #{y_exer_phase}, #{show_exer})
-    setATParams(#{at_colour}, #{at_value}, #{show_AT})
-    setParams1(#{generate_param_1}, #{colour_1}, #{label_1}, #{y1}, #{show_scale_1})
-    setParams2(#{generate_param_2}, #{colour_2}, #{label_2}, #{y2}, #{show_scale_2})
-    setParams3(#{generate_param_3}, #{colour_3}, #{label_3}, #{y3}, #{show_scale_3})
-
-    var config = getConfig().config
-
-  })
