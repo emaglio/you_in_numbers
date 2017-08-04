@@ -184,36 +184,6 @@ function drawExerPhase(){
 }
 
 
-// draw the line for the AT if required
-function drawAtLine(){
-  var at_line = {
-                borderColor: at_colour,
-                backgroundColor: at_colour,
-                pointRadius: 0,
-                label: "AT",
-                data:[{
-                        x: getTimeString(at_value),
-                        y: 0
-                      },
-                      {
-                        x: getTimeString(at_value),
-                        y: y_exer_phase
-                      }],
-                borderDash: [10,5],
-                scales: {
-                      yAxes: [{
-                          display: false,
-                          ticks: {
-                              suggestedMin: 20,    // minimum will be 0, unless there is a lower value.
-                              // OR //
-                              // beginAtZero: true   // minimum value will be 0.
-                          }
-                      }]
-                  }
-                };
-  return at_line;
-}
-
 // generate the data array to pass to Chart
 function dataSet(vo2, exer, at){
   var dataset = new Array();
@@ -262,10 +232,6 @@ function dataSet(vo2, exer, at){
 
   if(exer){
     dataset.push(drawExerPhase());
-  }
-
-  if(at){
-    dataset.push(drawAtLine());
   }
 
   return dataset;
@@ -351,6 +317,32 @@ function getXscaleOptions(){
   return x_options;
 }
 
+// draw the line for the AT if required
+function getAnnotation() {
+  var at;
+  if(show_AT){
+    at = {
+          drawTime: 'afterDatasetsDraw',
+          type: 'line',
+          mode: 'veritical',
+          scaleID: 'x-axis-0',
+          value: getTimeString(at_value),
+          borderColor: at_colour,
+          borderWidth: 2,
+          borderDash: [10,5],
+          label: {
+            yAdjust: -150,
+            fontSize: 14,
+            fontColor: 'black',
+            backgroundColor: 'white',
+            content: "AT",
+            enabled: true
+          }
+          }
+  }
+  return at;
+}
+
 function getConfig(){
   var config = {
                 type: 'line',
@@ -365,20 +357,16 @@ function getConfig(){
                       yAxes: getYaxisOptions(),
                       xAxes: [getXscaleOptions()]
                           },
-
                   legend: {
                     display: true,
-                    position: 'top',
-                    labels: {
-                      filter: function(legendItem, data) {
-                        if (legendItem.text != "AT"){
-                          var data = data.datasets[legendItem.datasetIndex]
-                          return !data.legendHidden;
-                        }
-                      }
-                    }
+                    position: 'top'
+                  },
+
+                  annotation: {
+                    annotations: [getAnnotation()]
                   }
                 }
+
               }
 
   return config;

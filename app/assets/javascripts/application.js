@@ -23,6 +23,7 @@
 //= require moment.min.js
 //= require Chart.js
 //= require utils.js
+//= require chartjs_plugin_annotation.js
 //= require dom-to-image.js
 //= require js/bootstrap-datepicker.js
 //= require js/jquery.dataTables.min.js
