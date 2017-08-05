@@ -331,7 +331,7 @@ function getAnnotation() {
           borderWidth: 2,
           borderDash: [10,5],
           label: {
-            yAdjust: -150,
+            yAdjust: -100,
             fontSize: 14,
             fontColor: 'black',
             backgroundColor: 'white',

@@ -60,3 +60,8 @@ td.details-control {
 tr.shown td.details-control {
   background: url('/assets/images/details_close.png') no-repeat center center;
 }
+
+.footer{
+  margin: 0 0 0 250px;
+  background-color: white !important;
+}
