@@ -4,14 +4,17 @@ ul class="nav navbar-top-links navbar-right"
       = name_link
     li class="dropdown"
       a class="dropdown-toggle" data-toggle="dropdown" href="#"
-        | Settings
+        i class="fa fa-cog"
+        = " Settings"
         span.caret
       ul class="dropdown-menu" aria-haspopup="true" aria-expanded="false"
         li
-          = link_to "User settings", user_path(current_user.id)
+          = link_to '<i class="fa fa-user"></i> User'.html_safe, user_path(current_user.id)
         li
-          = link_to "Report settings", settings_user_path(current_user.id)
+          = link_to '<i class="fa fa-briefcase"></i> Company'.html_safe, user_path(current_user.id)
+        li
+          = link_to '<i class="fa fa-file-pdf-o"></i> Report'.html_safe, settings_user_path(current_user.id)
     li
-      = link_to "Sign Out", sign_out_sessions_path
+      = link_to '<i class="fa fa-sign-out"></i> Sign Out'.html_safe, sign_out_sessions_path
 
   <!-- /.navbar-top-links -->
