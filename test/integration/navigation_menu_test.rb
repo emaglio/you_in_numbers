@@ -20,8 +20,9 @@ class NavigationMenuTest < Trailblazer::Test::Integration
     find('.navbar-top-links').must_have_link "Hi, UserFirstname"
     find('.navbar-top-links').must_have_link "Settings"
     find('.navbar-top-links').must_have_link "Sign Out"
-    find('.navbar-top-links').must_have_link "User settings"
-    find('.navbar-top-links').must_have_link "Report settings"
+    find('.navbar-top-links').must_have_link "User"
+    find('.navbar-top-links').must_have_link "Company"
+    find('.navbar-top-links').must_have_link "Report"
 
     click_link "Sign Out"
 
@@ -35,8 +36,9 @@ class NavigationMenuTest < Trailblazer::Test::Integration
     find('.navbar-top-links').must_have_link "Hi, Admin"
     find('.navbar-top-links').must_have_link "Settings"
     find('.navbar-top-links').must_have_link "Sign Out"
-    find('.navbar-top-links').must_have_link "User settings"
-    find('.navbar-top-links').must_have_link "Report settings"
+    find('.navbar-top-links').must_have_link "User"
+    find('.navbar-top-links').must_have_link "Company"
+    find('.navbar-top-links').must_have_link "Report"
   end
 
 end

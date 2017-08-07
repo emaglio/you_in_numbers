@@ -30,11 +30,7 @@ group :test do
   gem 'database_cleaner'
 end
 
-group :assets do
-  gem 'sass-rails', '~> 5.0'
-  gem 'font-awesome-rails'
-end
-
+gem 'font-awesome-rails'
 gem 'trailblazer', '>= 2.0.1'
 gem 'trailblazer-cells'
 gem 'trailblazer-rails'
