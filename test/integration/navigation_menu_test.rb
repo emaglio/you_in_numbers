@@ -2,7 +2,7 @@ require 'test_helper'
 
 class NavigationMenuTest < Trailblazer::Test::Integration
 
-  it "basic" do
+  it "top bar" do
     #no user logged in
     visit root_path
 
@@ -20,9 +20,11 @@ class NavigationMenuTest < Trailblazer::Test::Integration
     find('.navbar-top-links').must_have_link "Hi, UserFirstname"
     find('.navbar-top-links').must_have_link "Settings"
     find('.navbar-top-links').must_have_link "Sign Out"
-    find('.navbar-top-links').must_have_link "User"
+    find('.navbar-top-links').must_have_link "Account"
     find('.navbar-top-links').must_have_link "Company"
     find('.navbar-top-links').must_have_link "Report"
+    find('.navbar-top-links').wont_have_link "Users"
+
 
     click_link "Sign Out"
 
@@ -36,9 +38,22 @@ class NavigationMenuTest < Trailblazer::Test::Integration
     find('.navbar-top-links').must_have_link "Hi, Admin"
     find('.navbar-top-links').must_have_link "Settings"
     find('.navbar-top-links').must_have_link "Sign Out"
-    find('.navbar-top-links').must_have_link "User"
+    find('.navbar-top-links').must_have_link "Account"
     find('.navbar-top-links').must_have_link "Company"
     find('.navbar-top-links').must_have_link "Report"
+    find('.navbar-top-links').must_have_link "Users"
+  end
+
+  it "side bar" do
+    log_in_as_user
+
+    find('.sidebar').must_have_link "Dashboard"
+    find('.sidebar').must_have_link "Reports"
+    find('.sidebar').must_have_link "My Reports"
+    find('.sidebar').must_have_link "New Report"
+    find('.sidebar').must_have_link "Subjects"
+    find('.sidebar').must_have_link "My Subjects"
+    find('.sidebar').must_have_link "New Subject"
   end
 
 end
