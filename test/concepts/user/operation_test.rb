@@ -140,7 +140,7 @@ class UserOperationTest < MiniTest::Spec
         "current_user" => user2)
     end
 
-    op = User::Block.({id: user.id, block: "true"}, "current_user" => admin)
+    op = User::Block.({id: user.id, "block" => "true"}, "current_user" => admin)
     op.success?.must_equal true
     op["model"].block.must_equal true
   end

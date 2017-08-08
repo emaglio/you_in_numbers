@@ -251,10 +251,11 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     click_link "Sign Out"
 
     log_in_as_admin
-    click_link "All Users"
-    page.must_have_link "my@email.com"
+    click_link "Users"
+    num_user = ::User.all.size - 1
+    page.must_have_content "Users (#{num_user})"
 
-    click_link "my@email.com"
+    visit "/users/#{User.find_by(email: "my@email.com").id}"
 
     page.must_have_button "Block"
     # num_email = Mail::TestMailer.deliveries.length
@@ -267,7 +268,7 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     # Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
     # Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - You have been blocked"
 
-    click_link "my@email.com"
+    visit "/users/#{User.find_by(email: "my@email.com").id}"
     page.must_have_button "Un-Block"
 
     click_link "Sign Out"
@@ -278,9 +279,13 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_content "You have been blocked mate"
 
     log_in_as_admin
-    click_link "All Users"
-    page.must_have_link "my@email.com"
-    click_link "my@email.com"
+
+    #check that edit/change password/delete
+    visit "/users/#{User.find_by(email: "admin@email.com").id}"
+    page.wont_have_button "Block"
+    page.wont_have_button "Un-Block"
+
+    visit "/users/#{User.find_by(email: "my@email.com").id}"
     click_button "Un-Block"
 
     page.must_have_content "UserFirstname has been un-blocked" #flash message

@@ -72,7 +72,7 @@ Trailblazer::Test::Integration.class_eval do
   def log_in_as_admin
     User::Create.(email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin")["model"] unless User.find_by(email: "admin@email.com") != nil
 
-    visit "sessions/new"
+    visit "/sessions/new"
     submit!("admin@email.com", "password")
   end
 

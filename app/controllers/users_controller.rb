@@ -65,7 +65,7 @@ class UsersController < ApplicationController
       return redirect_to "/sessions/new"
     end
 
-    render Tyrant::Cell::ResetPassword, result["contract.default"]
+    render User::Cell::ResetPassword, result["contract.default"], layout_type: nil
   end
 
   def get_new_password
