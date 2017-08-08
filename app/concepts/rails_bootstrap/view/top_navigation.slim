@@ -1,20 +1,22 @@
 ul class="nav navbar-top-links navbar-right"
-  - if current_user != nil
+  li style="border-right: 1px solid #e7e7e7"
+    = name_link
+  - if admin?
     li
-      = name_link
-    li class="dropdown"
-      a class="dropdown-toggle" data-toggle="dropdown" href="#"
-        i class="fa fa-cog"
-        = " Settings"
-        span.caret
-      ul class="dropdown-menu" aria-haspopup="true" aria-expanded="false"
-        li
-          = link_to '<i class="fa fa-user"></i> User'.html_safe, user_path(current_user.id)
-        li
-          = link_to '<i class="fa fa-briefcase"></i> Company'.html_safe, user_path(current_user.id)
-        li
-          = link_to '<i class="fa fa-file-pdf-o"></i> Report'.html_safe, settings_user_path(current_user.id)
-    li
-      = link_to '<i class="fa fa-sign-out"></i> Sign Out'.html_safe, sign_out_sessions_path
+      = link_to '<i class="fa fa-user"></i> Users'.html_safe, users_path
+  li class="dropdown"
+    a class="dropdown-toggle" data-toggle="dropdown" href="#"
+      i class="fa fa-cog"
+      = " Settings"
+      span.caret
+    ul class="dropdown-menu" aria-haspopup="true" aria-expanded="false"
+      li style="border-bottom: 1px solid #e7e7e7"
+        = link_to '<i class="fa fa-user"></i> Account'.html_safe, user_path(current_user.id)
+      li style="border-bottom: 1px solid #e7e7e7"
+        = link_to '<i class="fa fa-briefcase"></i> Company'.html_safe, user_path(current_user.id)
+      li
+        = link_to '<i class="fa fa-file-pdf-o"></i> Report'.html_safe, settings_user_path(current_user.id)
+  li style="border-left: 1px solid #e7e7e7"
+    = link_to '<i class="fa fa-sign-out"></i> Sign Out'.html_safe, sign_out_sessions_path
 
   <!-- /.navbar-top-links -->
