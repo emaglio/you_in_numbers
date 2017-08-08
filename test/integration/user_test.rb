@@ -246,53 +246,52 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     page.must_have_link "Hi, UserFirstname"
   end
 
-  # TODO: implement code to block user
-  # it "only admin can block user" do
-  #   log_in_as_user("my@email.com", "password")
-  #   click_link "Sign Out"
+  it "only admin can block user" do
+    log_in_as_user("my@email.com", "password")
+    click_link "Sign Out"
 
-  #   log_in_as_admin
-  #   click_link "All Users"
-  #   page.must_have_link "my@email.com"
+    log_in_as_admin
+    click_link "All Users"
+    page.must_have_link "my@email.com"
 
-  #   click_link "my@email.com"
+    click_link "my@email.com"
 
-  #   page.must_have_button "Block"
-  #   # num_email = Mail::TestMailer.deliveries.length
-  #   click_button "Block"
+    page.must_have_button "Block"
+    # num_email = Mail::TestMailer.deliveries.length
+    click_button "Block"
 
-  #   page.must_have_content "UserFirstname has been blocked" #flash message
-  #   page.current_path.must_equal users_path
-  #   #user notification
-  #   # Mail::TestMailer.deliveries.length.must_equal num_email+1
-  #   # Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
-  #   # Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - You have been blocked"
+    page.must_have_content "UserFirstname has been blocked" #flash message
+    page.current_path.must_equal users_path
+    #user notification
+    # Mail::TestMailer.deliveries.length.must_equal num_email+1
+    # Mail::TestMailer.deliveries.last.to.must_equal ["my@email.com"]
+    # Mail::TestMailer.deliveries.last.subject.must_equal "TRB Blog Notification - You have been blocked"
 
-  #   click_link "my@email.com"
-  #   page.must_have_button "Un-Block"
+    click_link "my@email.com"
+    page.must_have_button "Un-Block"
 
-  #   click_link "Sign Out"
+    click_link "Sign Out"
 
-  #   visit "/sessions/new"
-  #   submit!("my@email.com", "password")
+    visit "/sessions/new"
+    submit!("my@email.com", "password")
 
-  #   page.must_have_content "You have been blocked mate"
+    page.must_have_content "You have been blocked mate"
 
-  #   log_in_as_admin
-  #   click_link "All Users"
-  #   page.must_have_link "my@email.com"
-  #   click_link "my@email.com"
-  #   click_button "Un-Block"
+    log_in_as_admin
+    click_link "All Users"
+    page.must_have_link "my@email.com"
+    click_link "my@email.com"
+    click_button "Un-Block"
 
-  #   page.must_have_content "UserFirstname has been un-blocked" #flash message
+    page.must_have_content "UserFirstname has been un-blocked" #flash message
 
-  #   click_link "Sign Out"
+    click_link "Sign Out"
 
-  #   visit "/sessions/new"
-  #   submit!("my@email.com", "password")
-  #   page.must_have_content "Hi, UserFirstname"
-  #   page.must_have_link "Sign Out"
-  # end
+    visit "/sessions/new"
+    submit!("my@email.com", "password")
+    page.must_have_content "Hi, UserFirstname"
+    page.must_have_link "Sign Out"
+  end
 
   it "edit template" do
     log_in_as_user("my@email.com", "password")
