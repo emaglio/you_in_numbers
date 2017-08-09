@@ -6,7 +6,7 @@ hr style="margin-top: 0px;"
 .row style="margin-top: 40px;"
   .col-sm-3
   .col-sm-6.mybox
-    = trb_form_for(model, "/users/#{current_user.id}", method: :patch, builder: :bootstrap4, id: :edit_user) do |f|
+    = trb_form_for(model, "/users/#{current_user.id}", method: :patch, builder: :bootstrap3, id: :edit_user) do |f|
       = f.input :id, type: "hidden", value: current_user.id
       .row
         .col-sm-6
@@ -17,36 +17,26 @@ hr style="margin-top: 0px;"
         .col-sm-2
           = f.select :gender, label: "Gender", collection: [["Male"], ["Female"], ["You"]], disabled: "true"
         .col-sm-4
-          = f.input :phone, label: "Phone", disabled: "true"
+          = f.input_group :phone, label: "Phone", disabled: "true", left_addon: '<i class="fa fa-phone"></i>'
         .col-sm-4
-          = f.input :age, label: "Age", disabled: "true"
+          = f.input_group :age, label: "Age", disabled: "true", left_addon: '<i class="fa fa-calendar"></i>'
         .col-sm-2
       .row
         .col-sm-8.offest-sm-2
-          = f.input :email, label: "Email", disabled: "true"
+          = f.input_group :email, label: "Email", disabled: "true", left_addon: '@'
   .col-sm-3
 .row
   .col-sm-3
   .col-sm-6.text-center style="margin-top: 20px;"
-    - if current_user != nil
+    - if current_user?
       .col-sm-4
         = edit
       .col-sm-4
         = change_password
       .col-sm-4
         = delete
-.row
-  .col-sm-3
-  .col-sm-6
-    - if current_user.email == "admin@email.com"
-       = form_tag controller: :users, action: :block  do
-        = hidden_field_tag :id, model.id
-        - if model.block == true
-          = hidden_field_tag :block, "false"
-          h6 = submit_tag "Un-Block", data: {confirm: "Are you sure?"}
-        - else
-          = hidden_field_tag :block, "true"
-          h6 = submit_tag "Block", data: {confirm: "Are you sure?"}
+    - if admin? and !current_user?
+      = block?
 
 .row style="margin-top: 40px;"
   .col-sm-12 class="company"

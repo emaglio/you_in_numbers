@@ -1,0 +1,27 @@
+.row style="margin: 20px;"
+  strong
+    | Select an existing Subject or #{create_subject}
+
+.row style="margin: 20px;"
+  table id="subjects" class="display" width="100%"
+
+javascript:
+  var table;
+
+  $(document).ready(function() {
+    table = $('#subjects').DataTable( {
+      data: [#{subject_array}],
+      "columnDefs": [
+        {"width": "1%", "orderable": false, "targets": 5}
+      ],
+      columns: [
+        { title: "Firstname" },
+        { title: "Lastname" },
+        { title: "Date of Birth" },
+        { title: "Height" },
+        { title: "Weight" },
+        { title: "" }
+      ],
+      "order": [[ 1, "asc" ]]
+    } );
+  });

@@ -29,12 +29,10 @@ html lang = "en"
   body
     . id="wrapper"
       = cell('rails_bootstrap/cell/navigation')
-
-
       . id="page-wrapper"
         .row
           = cell('rails_bootstrap/cell/message')
         .row
           = yield
 
-        = cell('rails_bootstrap/cell/footer')
+    = cell('rails_bootstrap/cell/footer')

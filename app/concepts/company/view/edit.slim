@@ -6,34 +6,34 @@ hr style="margin-top: 0px;"
 .row style="margin-top: 40px;"
   .col-sm-3
   .col-sm-6.mybox
-    = trb_form_for(model, "/companies/#{model.id}", method: :patch, builder: :bootstrap4, id: :new_company, enctype: 'multipart/form-data') do |f|
+    = trb_form_for(model, "/companies/#{model.id}", method: :patch, id: :new_company, enctype: 'multipart/form-data') do |f|
       = f.input :user_id, value: current_user.id, type: "hidden"
       .row
         .col-sm-12
-          = f.input :name, placeholder: "Name"
+          = f.input :name, label: "Name"
       .row
         .col-sm-12
-          = f.input :address_1, placeholder: "Address 1"
+          = f.input_group :address_1, label: "Address 1", left_addon: '<i class="fa fa-briefcase" aria-hidden="true"></i>'
       .row
         .col-sm-12
-          = f.input :address_2, placeholder: "Address 2"
+          = f.input_group :address_2, label: "Address 2", left_addon: '<i class="fa fa-briefcase" aria-hidden="true"></i>'
       .row
         .col-sm-4
-          = f.input :city, placeholder: "City"
+          = f.input :city, label: "City"
         .col-sm-4
-          = f.input :postcode, placeholder: "Postcode"
+          = f.input :postcode, label: "Postcode"
         .col-sm-4
-          = f.input :country, placeholder: "Country"
+          = f.input :country, label: "Country"
       .row
         .col-sm-4
-          = f.input :phone, placeholder: "Phone"
+          = f.input_group :email, label: "Email", left_addon: ' @ '
         .col-sm-4
-          = f.input :email, placeholder: "Email"
+          = f.input_group :phone, label: "Phone", left_addon: '<i class="fa fa-phone"></i>'
         .col-sm-4
-          = f.input :website, placeholder: "Website"
+          = f.input :website, label: "Website"
       .row
         .col-sm-12
           = f.input :logo, label: "Upload Logo", type: "file"
       .row style="margin-bottom: 20px;"
         .col-sm-12.text-center
-          = f.submit(value: "Save Changes")
+          = f.submit(content: "Save Changes")

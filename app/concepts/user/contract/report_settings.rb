@@ -13,6 +13,7 @@ module User::Contract
         property :ergo_params_list
         property :report_path
         property :training_zones_settings
+        property :units_of_measurement
       end
     end
 
@@ -32,21 +33,48 @@ module User::Contract
     property :load_2, virtual: true
     property :load_2_um, virtual: true
 
+    #user for unit_of_measurment
+    property :um_height, virtual: true
+    property :um_weight, virtual: true
 
     unnest :report_settings, from: :content
     unnest :training_zones_settings, from: :report_settings
     unnest :params_list, from: :report_settings
     unnest :ergo_params_list, from: :report_settings
     unnest :report_path, from: :report_settings
+    unnest :units_of_measurement, from: :report_settings
 
     validation  with: { form: true } do
 
-      required(:fat_burning_2).filled
-      required(:endurance_1).filled
-      required(:endurance_2).filled
-      required(:at_1).filled
-      required(:at_2).filled
-      required(:vo2max_1).filled
+      configure do
+        config.messages_file = 'config/error_messages.yml'
+
+        def fat_burning_ok?
+          form.fat_burning_2.to_i > form.fat_burning_1.to_i
+        end
+
+        def endurance_ok?
+          return false if form.endurance_1.to_i < form.fat_burning_2.to_i
+          form.endurance_2.to_i > form.endurance_1.to_i
+        end
+
+        def at_ok?
+          return false if form.at_1.to_i < form.endurance_2.to_i
+          form.at_2.to_i > form.at_1.to_i
+        end
+
+        def vo2max_ok?
+          return false if form.vo2max_1.to_i < form.at_2.to_i
+          form.vo2max_1.to_i < 100
+        end
+      end
+
+      required(:fat_burning_2).filled(:fat_burning_ok?)
+      required(:endurance_1).filled(:endurance_ok?)
+      required(:endurance_2).filled(:endurance_ok?)
+      required(:at_1).filled(:at_ok?)
+      required(:at_2).filled(:at_ok?)
+      required(:vo2max_1).filled(:vo2max_ok?)
 
       required(:params_list).filled
       required(:load_1).filled
@@ -54,29 +82,8 @@ module User::Contract
       required(:load_2).filled
       required(:load_2_um).filled
 
-      rule(zones_ok?: [:fat_burning_1, :fat_burning_2]) do |fat_burning_1, fat_burning_2|
-        fat_burning_2.gt?(value(:fat_burning_1))
-      end
-
-      rule(zones_ok2?: [:fat_burning_2, :endurance_1]) do |fat_burning_2, endurance_1|
-        endurance_1.gt?(value(:fat_burning_2))
-      end
-
-      rule(zones_ok3?: [:endurance_1, :endurance_2]) do |endurance_1, endurance_2|
-        endurance_2.gt?(value(:endurance_1))
-      end
-
-      rule(zones_ok4?: [:endurance_2, :at_1]) do |endurance_2, at_1|
-        at_1.gt?(value(:endurance_2))
-      end
-
-      rule(zones_ok5?: [:at_1, :at_2]) do |at_1, at_2|
-        at_2.gt?(value(:at_1))
-      end
-
-      rule(zones_ok6?: [:at_2, :vo2max_1]) do |at_2, vo2max_1|
-        vo2max_1.gt?(value(:at_2))
-      end
+      required(:um_height).filled
+      required(:um_weight).filled
     end
   end
 end

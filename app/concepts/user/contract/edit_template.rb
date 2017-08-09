@@ -5,16 +5,14 @@ require 'disposable/twin/property/unnest'
 module User::Contract
   class EditTemplate < Reform::Form
     feature Reform::Form::Dry
-    feature Disposable::Twin::Property::Hash
+    include Disposable::Twin::Property::Hash
 
     property :content, field: :hash do
       property :report_template, field: :hash do
         property :custom
+        property :default
       end
     end
-
-    unnest :report_template, from: :content
-    unnest :custom, from: :report_template
 
     property :move_up, virtual: true
     property :move_down, virtual: true
@@ -27,19 +25,23 @@ module User::Contract
 
       configure do
         config.messages_file = 'config/error_messages.yml'
-        def grater_than_zero?(value)
+        def check_index?(value)
           return false if value == ""
           (value).to_i >= 0
         end
 
       end
 
-      required(:move_up).maybe(:grater_than_zero?)
-      required(:move_down).maybe(:grater_than_zero?)
-      required(:edit_chart).maybe(:grater_than_zero?)
-      required(:delete).maybe(:grater_than_zero?)
+      required(:move_up).maybe(:check_index?)
+      required(:move_down).maybe(:check_index?)
+      required(:edit_chart).maybe(:check_index?)
+      required(:delete).maybe(:check_index?)
       required(:type).maybe(:str?)
-      required(:index).maybe(:grater_than_zero?)
+      required(:index).maybe(:check_index?)
     end
+
+    unnest :report_template, from: :content
+    unnest :default, from: :report_template
+    unnest :custom, from: :report_template
   end
 end

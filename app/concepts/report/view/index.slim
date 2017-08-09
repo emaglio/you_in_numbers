@@ -3,5 +3,31 @@
     h3 Reports (#{total})
 hr style="margin-top: 0px;"
 
-= cell('report/cell/item', collection: model)
+.row style="margin: 20px;"
+  table id="reports" class="display" width="100%"
 
+javascript:
+  var table;
+
+  $(document).ready(function() {
+    table = $('#reports').DataTable( {
+      data: [#{report_array}],
+      "columnDefs": [
+        {"width": "1%", "orderable": false, "targets": 0 },
+        {"visible": false, "targets": 0},
+        {"width": "1%", "orderable": false, "targets": 6 },
+        {"width": "1%", "orderable": false, "targets": 7 }
+      ],
+      columns: [
+        {title: "id"},
+        { title: "Title" },
+        { title: "Report Date" },
+        { title: "Subject Firstname" },
+        { title: "Subject Lastname" },
+        { title: "Subject DOB" },
+        { title: "" },
+        { title: "" }
+      ],
+      "order": [[ 1, "asc" ]]
+    } );
+  });

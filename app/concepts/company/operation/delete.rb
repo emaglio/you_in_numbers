@@ -1,6 +1,6 @@
 class Company::Delete < Trailblazer::Operation
   step Model(Company, :find_by)
-  step Policy::Pundit( ::Session::Policy, :report_company_owner?)
+  step Policy::Pundit( ::Session::Policy, :company_owner?)
   failure Session::Lib::ThrowException
   step :delete_logo!
   step :delete!

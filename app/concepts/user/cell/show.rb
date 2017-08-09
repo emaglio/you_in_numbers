@@ -7,27 +7,29 @@ module User::Cell
     property :lastname
 
     def current_user
-      return options[:context][:current_user]
+      options[:context][:current_user]
+    end
+
+    def current_user?
+      current_user.email == model.email
+    end
+
+    def admin?
+      current_user.email == "admin@email.com"
     end
 
     def edit
-      if current_user.email == model.email or current_user.email == "admin@email.com"
-        button_to "Edit", edit_user_path(model), class: "btn btn-outline btn-success", :method => :get
-      end
+      button_to "Edit", edit_user_path(model), class: "btn btn-outline btn-success", :method => :get
     end
 
     def delete
-      if current_user.email == model.email or current_user.email == "admin@email.com"
-        button_to "Delete", user_path(model.id), method: :delete,
-          data: {confirm: 'Your account within your Company details and all your Reports are going to be deleted. Are you sure?'},
-          class: "btn btn-outline btn-danger"
-      end
+      button_to "Delete", user_path(model.id), method: :delete,
+        data: {confirm: 'Your account within your Company details and all your Reports are going to be deleted. Are you sure?'},
+        class: "btn btn-outline btn-danger"
     end
 
     def change_password
-      if current_user.email == model.email or current_user.email == "admin@email.com"
-        button_to "Change Password", get_new_password_users_path, class: "btn btn-outline btn-warning", :method => :get
-      end
+      button_to "Change Password", get_new_password_users_path, class: "btn btn-outline btn-warning", :method => :get
     end
 
     def company
@@ -35,9 +37,12 @@ module User::Cell
     end
 
     def new_company
-      if current_user.email == model.email or current_user.email == "admin@email.com"
-        button_to "Update details", new_company_path, class: "btn btn-outline btn-success", :method => :get
-      end
+      button_to "Update details", new_company_path, class: "btn btn-outline btn-success", :method => :get
+    end
+
+    def block?
+      model.block ? label = "Un-Block" : label = "Block"
+      button_to label, block_users_path(id: model.id, block: !model.block), method: :post, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger"
     end
 
   end

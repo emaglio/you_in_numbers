@@ -37,24 +37,8 @@ module User::Cell
       return label
     end
 
-    def chart_title(obj)
-      this_title = obj[:y1][:name]
-
-      this_title = this_title + " - " + obj[:y2][:name] if label_2(obj) != "nil"
-      this_title = this_title + " - " + obj[:y3][:name] if label_3(obj) != "nil"
-
-      this_title = this_title + " on " + x_label(obj)
-
-      return this_title
-    end
-
     def title(obj)
-      titles = {
-                'report/cell/vo2max_summary' => "VO2max summary",
-                'report/cell/training_zones' => "Training Zones"
-                }
-
-      obj[:type] == 'report/cell/chart' ? chart_title(obj) : titles[obj[:type]]
+      obj[:title]
     end
 
     def edit

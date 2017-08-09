@@ -23,83 +23,83 @@ module Report::Cell
     end
 
     def show_vo2max
-      obj[:show_vo2max][:show]
+      obj[:show_vo2max][:show] == "1"
     end
 
     def show_exer
-      obj[:show_exer][:show]
+      obj[:show_exer][:show] == "1"
     end
 
     def show_AT
-      obj[:show_AT][:show]
+      obj[:show_AT][:show] == "1"
     end
 
     def at_colour
-      show_AT ? obj[:show_AT][:colour].inspect : '#0000'.inspect
+      show_AT ? obj[:show_AT][:colour] : '#0000'
     end
 
     def label_1
-      obj[:y1][:name].inspect
+      obj[:y1][:name] ? obj[:y1][:name] : "null"
     end
 
     def label_2
-      obj[:y2][:name].inspect
+      obj[:y2][:name] ? obj[:y2][:name] : "null"
     end
 
     def label_3
-      obj[:y3][:name].inspect
+      obj[:y3][:name] ? obj[:y3][:name] : "null"
     end
 
     def colour_1
-      obj[:y1][:colour].inspect
+      obj[:y1][:colour] ? obj[:y1][:colour] : '#0000'
     end
 
     def colour_2
-      obj[:y2][:colour].inspect
+      obj[:y2][:colour] ? obj[:y2][:colour] : '#0000'
     end
 
     def colour_3
-      obj[:y3][:colour].inspect
+      obj[:y3][:colour] ? obj[:y3][:colour] : '#0000'
     end
 
     def colour_vo2max
-      obj[:show_vo2max][:colour].inspect
+      obj[:show_vo2max][:colour]
     end
 
     def colour_exer
-      obj[:show_exer][:colour].inspect
+      obj[:show_exer][:colour]
     end
 
     def colour_at
-      obj[:show_AT][:colour].inspect
+      obj[:show_AT][:colour]
     end
 
     def time_format
-      obj[:x][:time_format] ? obj[:x][:time_format].inspect : "mm:ss".inspect
+      obj[:x][:time_format] ? obj[:x][:time_format] : "mm:ss"
     end
 
     def generate_param_1
-      label_1 != "nil"
+      label_1 != "null"
     end
 
     def generate_param_2
-      label_2 != "nil"
+      label_2 != "null"
     end
 
     def generate_param_3
-      label_3 != "nil"
+      label_3 != "null"
     end
 
     def show_scale_1
-      obj[:y1][:show_scale]
+      obj[:y1][:show_scale] == "1"
     end
 
     def show_scale_2
-      obj[:y2][:show_scale]
+      obj[:y2][:show_scale] == "1"
     end
 
     def show_scale_3
-      obj[:y3][:show_scale]
+      obj[:y3][:show_scale] == "1"
     end
 
     def x_label
@@ -109,34 +109,30 @@ module Report::Cell
     end
 
     def title
-      this_title = "#{obj[:y1][:name]}"
-
-      this_title = this_title + " - #{obj[:y2][:name]}" if label_2 != "nil"
-      this_title = this_title + " - #{obj[:y3][:name]}" if label_3 != "nil"
-
-      this_title = this_title + " on " + x_label
-
-      return this_title.inspect
+      obj[:title]
     end
 
     def chart_id
-      "canvas-#{obj[:index]}"
+      "canvas_#{obj[:index]}"
     end
 
     def y1
-      (obj[:only_exer] and label_1 != "nil") ? model["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y1][:name]].inspect
+      return "null" if label_1 == "null"
+      (obj[:only_exer] == "1") ? model["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps] : model["cpet_params"][obj[:y1][:name]]
     end
 
     def y2
-      (obj[:only_exer] and label_2 != "nil") ? model["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y2][:name]].inspect
+      return "null" if label_2 == "null"
+      (obj[:only_exer] == "1") ? model["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps] : model["cpet_params"][obj[:y2][:name]]
     end
 
     def y3
-      (obj[:only_exer] and label_3 != "nil") ? model["cpet_params"][obj[:y3][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:y3][:name]].inspect
+      return "null" if label_3 == "null"
+      (obj[:only_exer] == "1") ? model["cpet_params"][obj[:y3][:name]][exer_phase_starts, exer_num_steps] : model["cpet_params"][obj[:y3][:name]]
     end
 
     def x
-      obj[:only_exer] ? model["cpet_params"][obj[:x][:name]][exer_phase_starts, exer_num_steps].inspect : model["cpet_params"][obj[:x][:name]].inspect
+      obj[:only_exer] == "1" ? model["cpet_params"][obj[:x][:name]][exer_phase_starts, exer_num_steps] : model["cpet_params"][obj[:x][:name]]
     end
 
     def x_time?
@@ -144,7 +140,7 @@ module Report::Cell
     end
 
     def x_type
-      x_time? ? "time".inspect : "linear".inspect
+      x_time? ? "time" : "linear"
     end
 
     def at_index
@@ -152,7 +148,7 @@ module Report::Cell
     end
 
     def at_value
-      model["cpet_params"]["t"][at_index].inspect
+      model["cpet_params"]["t"][at_index]
     end
 
     def exer_phase_starts
@@ -169,8 +165,8 @@ module Report::Cell
 
     def exer_phase
       exer_phase_array = []
-      exer_phase_array[0] = model["cpet_params"]["t"][exer_phase_starts].inspect
-      exer_phase_array[1] = model["cpet_params"]["t"][exer_phase_ends].inspect
+      exer_phase_array[0] = model["cpet_params"]["t"][exer_phase_starts]
+      exer_phase_array[1] = model["cpet_params"]["t"][exer_phase_ends]
 
       return exer_phase_array
     end
@@ -179,8 +175,8 @@ module Report::Cell
     def y_exer_phase #for exersice phase
       array = []
       array[0] = model["cpet_params"][obj[:y1][:name]].max
-      array[1] = model["cpet_params"][obj[:y2][:name]].max unless label_2 == "nil"
-      array[2] = model["cpet_params"][obj[:y3][:name]].max unless label_3 == "nil"
+      array[1] = model["cpet_params"][obj[:y2][:name]].max unless label_2 == "null"
+      array[2] = model["cpet_params"][obj[:y3][:name]].max unless label_3 == "null"
       array.max > 1000 ? (array.max+200).round(-2) : (array.max+10).round(-1)
     end
 
@@ -190,12 +186,12 @@ module Report::Cell
 
     def vo2_max_starts
       index = model["cpet_results"]["vo2_max"]["starts"] + model["cpet_results"]["exer_phase"]["starts"]
-      return model["cpet_params"]["t"][index].inspect
+      return model["cpet_params"]["t"][index]
     end
 
     def vo2_max_ends
       index = model["cpet_results"]["vo2_max"]["ends"] + model["cpet_results"]["exer_phase"]["starts"]
-      return model["cpet_params"]["t"][index].inspect
+      return model["cpet_params"]["t"][index]
     end
   end #class Chart
 

@@ -1,6 +1,6 @@
 module RailsBootstrap::Cell
 
-  class SideNavigation < Trailblazer::Cell
+  class SideNavigation < NavigationMenu
 
   end # class SideNavigation
 

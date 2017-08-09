@@ -6,7 +6,25 @@ hr style="margin-top: 0px;"
 .row style="margin-top: 40px;"
   .col-sm-3
   .col-sm-6.mybox
-    = trb_form_for(model, "/users/#{model.id}/report_settings", method: :get, builder: :bootstrap4, id: :report_settings) do |f|
+    = trb_form_for(model, "/users/#{model.id}/report_settings", method: :get, id: :report_settings) do |f|
+      .row style="margin-top:10px; margin-left:1px;"
+        strong
+          | Subject settings
+      .row style="margin-top:10px;margin-left:1px;"
+        small
+          | Select which units of measurement to use for height and weight
+      .row
+        .col-sm-2.text-right style="margin-top:30px;"
+          strong
+            | Height
+        .col-sm-2
+          = f.select :um_height, label: "Unit of ms.", collection: [["cm"], ["in"]], value: um_height
+        .col-sm-2.text-right style="margin-top:30px;"
+          strong
+            | Weight
+        .col-sm-2
+          = f.select :um_weight, label: "Unit of ms.", collection: [["kg"], ["lbs"]], value: um_weight
+      hr style="margin-top: 0px;"
       .row style="margin-top:10px; margin-left:1px;"
         strong
           | Parameter List
@@ -16,12 +34,14 @@ hr style="margin-top: 0px;"
           |  Add the params as shown in the files for both VO2 and RMR test separated by a comma.
         .col-sm-12
           = f.input :params_list, placeholder: "t,VO2,VCO2,HR....", id:"params_list", value: params
+      hr style="margin-top: 0px;"
       .row style="margin-top:10px;margin-left:1px;"
         strong
           | Ergometer Parameters List
       .row style="margin-top:10px;margin-left:1px;"
         small
           | Type 2 parameters for the ergometer as shown in the VO2max file (bike: Power and Revolution or treadmill: Speed and Grade).
+      .row
         .col-sm-1
         .col-sm-3
           = f.input :load_1, placeholder: "Power, Speed...", id:"load_1", value: ergo_params[0], label: "Load 1"
@@ -32,6 +52,7 @@ hr style="margin-top: 0px;"
           = f.input :load_2, placeholder: "Revolution, Grade...", id:"load_2", value: ergo_params[2], label: "Load 2"
         .col-sm-2
           = f.input :load_2_um, placeholder: "RPM, %...", id:"load_2_um", value: ergo_params[3], label: "Unit of mes."
+      hr style="margin-top: 0px;"
       .row style="margin-top:10px;margin-left:1px;"
         strong
           | Training Zones Levels
@@ -86,9 +107,10 @@ hr style="margin-top: 0px;"
         .col-sm-2.text-left
           = f.input :vo2max_2, value: 100, disabled: "true"
         .col-sm-2
+      hr style="margin-top: 0px;"
       .row
         .col-sm-12.text-center style="margin-bottom:10px;"
-          = f.submit(value:"Submit")
+          = f.submit(content:"Submit")
     .row.text-right style="margin:5px;"
       button id="default" Default settings
 

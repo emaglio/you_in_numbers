@@ -1,4 +1,34 @@
 .row
-  h2 All Users
-.row
-  = cell("user/cell/item", collection: model)
+  .col-sm-12
+    h3 Users (#{total})
+hr style="margin-top: 0px;"
+
+.row style="margin: 20px;"
+  table id="users" class="display" width="100%"
+
+javascript:
+  var table;
+
+  $(document).ready(function() {
+    table = $('#users').DataTable( {
+      data: [#{user_array}],
+      "columnDefs": [
+        {"width": "1%", "orderable": false, "targets": 0 },
+        {"visible": false, "targets": 0},
+        {"width": "1%", "orderable": false, "targets": 7 },
+        {"width": "1%", "orderable": false, "targets": 8 }
+      ],
+      columns: [
+        {title: "id"},
+        { title: "Email" },
+        { title: "Firstname" },
+        { title: "Lastname" },
+        { title: "Gender" },
+        { title: "Created On" },
+        { title: "Num of Reports" },
+        { title: "" },
+        { title: "" }
+      ],
+      "order": [[ 1, "asc" ]]
+    } );
+  });

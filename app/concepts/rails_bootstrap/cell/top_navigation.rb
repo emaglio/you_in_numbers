@@ -14,6 +14,10 @@ module RailsBootstrap::Cell
       link_to "Hi, " + name, user_path(current_user.id)
     end
 
+    def admin?
+      current_user.email == "admin@email.com"
+    end
+
   end # class TopNavigation
 
 end # module RailsBootstrao

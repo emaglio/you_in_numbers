@@ -1,0 +1,21 @@
+.row
+  .col-sm-3
+    h3 Edit table:
+hr style="margin-top: 0px;"
+
+.row style="margin-top: 40px;"
+  .col-sm-3.text-right
+    <i aria-hidden="true" class="fa fa-table fa-4x"></i>
+  .col-sm-6.mybox
+    .col-sm-10.col-sm-offset-1
+      = trb_form_for(model, "/users/#{current_user.id}/update_table", method: :post, id: :edit_chart) do |f|
+        = f.input :edit_table, type: "hidden", value: params[:edit_table]
+        = f.input :title, label: "Title:", value: obj[:title]
+        = f.input :params_list, label: "Params List:", value: obj[:params_list], hint: "Here the full list: #{params_list}"
+        = f.input :unm_list, label: "Unit of measument list:", value: obj[:params_unm_list], hint: "Corrisponding unit of measurement for the parmas list above"
+        = f.row
+          .col-sm-4.col-sm-offset-4.text-center
+            = f.submit(content: "Save changes")
+      .row style="margin-top:20px;margin-bottom:5px;"
+        .col-sm-12.text-left
+          = cancel

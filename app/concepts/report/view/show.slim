@@ -1,51 +1,60 @@
 .row
-  .col-lg-12
+  .col-sm-12
       .page-header
         h1 = model.title
 
 .row
   .col-lg-12
-    .text-right style="margin-bottom: 20px;"
-      button id="generate_report" class="btn btn-outline btn-success" Generate Report
-    .panel.panel-default
-      .panel.body
-        - obj_array.each do |obj|
-          .row style="margin-top:40px;"
-            = cell (obj[:type]), model, obj: obj
+    .row
+      .col-sm-3
+        .text-right style="margin-bottom: 20px;"
+          = form_tag(update_template_report_path(model.id)) do
+            = hidden_field_tag :id, model.id
+            = select_tag :template, options_for_select(["default","custom"])
+            = submit_tag("Update template")
+      .col-sm-3
+      .col-sm-3
+      .col-sm-3
+        .text-right style="margin-bottom: 20px;"
+          button id="generate_report" class="btn btn-outline btn-success" Generate Report
+    .row
+      .panel.panel-default
+        .panel.body
+          - obj_array.each do |obj|
+            .row style="margin-top:40px;"
+              = cell obj[:type], model, obj: obj
+
+script src="/js/generate_chart.js" type="text/javascript"
 
 javascript:
 
-  var originalLineDraw = Chart.controllers.line.prototype.draw;
-  Chart.helpers.extend(Chart.controllers.line.prototype, {
-    draw: function() {
-      originalLineDraw.apply(this, arguments);
 
-      var chart = this.chart;
-      var ctx = chart.chart.ctx;
-
-      var value = chart.config.data.lineAtValue;
-      var colour = chart.config.data.colourAt;
-      if (value) {
-        var xaxis = chart.scales['x-axis-0'];
-        var yaxis = chart.scales['y-axis-1'];
-
-        var at_point = xaxis.getPixelForValue(value);
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(at_point, yaxis.top + 60);
-        ctx.strokeStyle = colour;
-        ctx.lineTo(at_point, yaxis.bottom);
-        ctx.stroke();
-        ctx.restore();
-
-        // write AT
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#000000';
-        ctx.fillText("AT", at_point, yaxis.top + 40);
-      }
-    }
+  $(document).ready(function() {
+    var array = #{raw chart_array.to_json};
+    array.forEach(createChart);
   });
+
+  function loadCharts(){
+  }
+
+  function createChart(item, index){
+    if(item["chart_id"] != "null"){
+
+      var ctx = document.getElementById(item["chart_id"]).getContext("2d");
+
+      setTimeParams(item["time_format"], item["x_time?"], item["x"], item["x_type"], item["x_label"])
+      setVO2MaxParams(item["colour_vo2max"], item["vo2_max_starts"], item["vo2_max_ends"], item["vo2_max_value"], item["show_vo2max"])
+      setExerParams(item["colour_exer"], item["exer_starts"], item["exer_ends"], item["exer_value"], item["show_exer"])
+      setATParams(item["at_colour"], item["at_value"], item["show_AT"])
+      setParams1(item["generate_param_1"], item["colour_1"], item["label_1"], item["y1"], item["show_scale_1"])
+      setParams2(item["generate_param_2"], item["colour_2"], item["label_2"], item["y2"], item["show_scale_2"])
+      setParams3(item["generate_param_3"], item["colour_3"], item["label_3"], item["y3"], item["show_scale_3"])
+
+      var config = getConfig();
+
+      window.myLine = new Chart(ctx, config);
+    }
+  }
 
   function b64toBlob(b64Data, contentType, sliceSize) {
     contentType = contentType || '';
@@ -71,29 +80,47 @@ javascript:
     return blob;
   }
 
-  function getAllElements(){
-
-  }
-
-  document.getElementById('generate_report').addEventListener('click', function() {
-    var canvas = document.getElementById('canvas');
+  function getCanvasImage(id){
+    var complete_id = 'canvas_'.concat(id.toString());
+    var canvas = document.getElementById(complete_id);
     var image_type = 'image/png'
     var dataURL = canvas.toDataURL(image_type, 1.0);
     var mybase64 = dataURL.replace(/^data:image\/\w+;base64,/, "");
 
-    console.log(dataURL);
+    var file = b64toBlob(mybase64, image_type);
 
-    var file= b64toBlob(mybase64, image_type);
-    // Create new form data
-    var fd = new FormData();
-    // Append our Canvas image file to the form data
-    fd.append("image", file);
-    // And send it
+    var form = new FormData();
+    form.append("image", file);
+    form.append("index", id);
+
     $.ajax({
-       url: "/reports/#{model.id}/generate_pdf",
-       type: "POST",
-       data: fd,
-       processData: false,
-       contentType: false,
+      url: "/reports/#{model.id}/generate_image",
+      type: "POST",
+      data: form,
+      processData: false,
+      contentType: false,
+    });
+  }
+
+  function generateImages(item, index){
+    if(item == "chart"){
+      getCanvasImage(index);
+    };
+  }
+
+  document.getElementById('generate_report').addEventListener('click', function() {
+    NProgress.start();
+
+    var array = #{raw js_array.to_json};
+    array.forEach(generateImages);
+    var form = new FormData();
+    var tables = #{raw tables.to_json};
+    form.append("table_obj", tables)
+    $.ajax({
+      url: "/reports/#{model.id}/generate_pdf",
+      type: "POST",
+      data: form,
+      processData: false,
+      contentType: false,
     });
   });

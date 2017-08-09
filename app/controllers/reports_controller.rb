@@ -11,7 +11,7 @@ class ReportsController < ApplicationController
   end
 
   def new
-    run Report::New
+    run Report::Create::Present
 
     render Report::Cell::New, result["contract.default"]
   end
@@ -37,10 +37,36 @@ class ReportsController < ApplicationController
     end
   end
 
-  def generate_pdf
-    file = File.open("#{Rails.root}/public/temp_files/image.jpeg", "wb")
-    file.write(params[:image].read)
+  def generate_image
+    run Report::GenerateImage
+    #TODO: run js stuff to show a message or something
+  end
 
+  def generate_pdf
+    run Report::GeneratePdf do |result|
+      flash[:success] = "Report generated successfully!"
+      return redirect_to "/reports"
+    end
+
+    if result["company"] == nil
+      flash[:danger] = "Create a company and try to generate the report again!"
+      return redirect_to "/companies/new"
+    end
+
+    result["error"].nil? ? error = "" : error = result["error"]
+
+    flash[:danger] = "An error occured -> " + error
+    redirect_to "/reports/#{result["model"].id}"
+  end
+
+  def update_template
+    run Report::UpdateTemplate do |result|
+      flash[:success] = "Report template updated!"
+      return redirect_to "/reports/#{result["model"].id}"
+    end
+
+    result["not_found"] ? flash[:danger] = "Report not found" : flash[:danger] = "Something went wrong, please try again!"
+    return redirect_to reports_path
   end
 
 end

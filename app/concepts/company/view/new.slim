@@ -6,17 +6,17 @@ hr style="margin-top: 0px;"
 .row style="margin-top: 40px;"
   .col-sm-3
   .col-sm-6.mybox
-    = trb_form_for(model, "/companies", method: :post, builder: :bootstrap4, id: :new_company, enctype: 'multipart/form-data') do |f|
+    = trb_form_for(model, "/companies", method: :post, id: :new_company, enctype: 'multipart/form-data') do |f|
       = f.input :user_id, value: current_user.id, type: "hidden"
       .row
         .col-sm-12
           = f.input :name, placeholder: "Name"
       .row
         .col-sm-12
-          = f.input :address_1, placeholder: "Address 1"
+          = f.input_group :address_1, placeholder: "Address 1", left_addon: '<i class="fa fa-briefcase" aria-hidden="true"></i>'
       .row
         .col-sm-12
-          = f.input :address_2, placeholder: "Address 2"
+          = f.input_group :address_2, placeholder: "Address 2", left_addon: '<i class="fa fa-briefcase" aria-hidden="true"></i>'
       .row
         .col-sm-4
           = f.input :city, placeholder: "City"
@@ -25,18 +25,15 @@ hr style="margin-top: 0px;"
         .col-sm-4
           = f.input :country, placeholder: "Country"
       .row
-        .col-sm-2
-        .col-sm-8
-          = f.input :email, placeholder: "Email"
-      .row
-        .col-sm-1
-        .col-sm-5
-          = f.input :phone, placeholder: "Phone"
-        .col-sm-5
+        .col-sm-4
+          = f.input_group :email, placeholder: "Email", left_addon: ' @ '
+        .col-sm-4
+          = f.input_group :phone, placeholder: "Phone", left_addon: '<i class="fa fa-phone"></i>'
+        .col-sm-4
           = f.input :website, placeholder: "Website"
       .row
         .col-sm-12
           = f.input :logo, label: "Upload Logo", type: "file"
       .row style="margin-bottom: 20px;"
         .col-sm-12.text-center
-          = f.submit(value: "Submit")
+          = f.submit(content: "Create Company")

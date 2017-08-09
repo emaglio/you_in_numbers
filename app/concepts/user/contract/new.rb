@@ -56,6 +56,7 @@ module User::Contract
         property :ergo_params_list
         property :report_path
         property :training_zones_settings
+        property :units_of_measurement
       end
 
       property :report_template, field: :hash do
@@ -69,6 +70,7 @@ module User::Contract
     unnest :params_list, from: :report_settings
     unnest :ergo_params_list, from: :report_settings
     unnest :report_path, from: :report_settings
+    unnest :units_of_measurement, from: :report_settings
 
     # to create default template
 

@@ -5,3 +5,4 @@ Dragonfly.app.configure do
     :server_root => 'public',
     :root_path => 'public/images'
 end
+

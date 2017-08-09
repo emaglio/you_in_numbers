@@ -9,17 +9,17 @@
       .row style="margin-top: 20px;"
         = upload_logo
   .col-sm-6.mybox
-    = trb_form_for(model, "/companies/#{model.id}", method: :patch, builder: :bootstrap4, id: :new_company) do |f|
+    = trb_form_for(model, "/companies/#{model.id}", method: :patch, id: :show_company) do |f|
       = f.input :user_id, value: current_user.id, type: "hidden"
       .row
         .col-sm-12
           = f.input :name, label: "Name", disabled: "true"
       .row
         .col-sm-12
-          = f.input :address_1, label: "Address 1", disabled: "true"
+          = f.input_group :address_1, label: "Address 1", left_addon: '<i class="fa fa-briefcase" aria-hidden="true"></i>', disabled: "true"
       .row
         .col-sm-12
-          = f.input :address_2, label: "Address 2", disabled: "true"
+          = f.input_group :address_2, label: "Address 2", left_addon: '<i class="fa fa-briefcase" aria-hidden="true"></i>', disabled: "true"
       .row
         .col-sm-4
           = f.input :city, label: "City", disabled: "true"
@@ -29,9 +29,9 @@
           = f.input :country, label: "Country", disabled: "true"
       .row
         .col-sm-4
-          = f.input :phone, label: "Phone", disabled: "true"
+          = f.input_group :email, label: "Email", left_addon: ' @ ', disabled: "true"
         .col-sm-4
-          = f.input :email, label: "Email", disabled: "true"
+          = f.input_group :phone, label: "Phone", left_addon: '<i class="fa fa-phone"></i>', disabled: "true"
         .col-sm-4
           = f.input :website, label: "Website", disabled: "true"
 .row

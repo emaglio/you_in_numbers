@@ -23,6 +23,14 @@ module User::Cell
       report_settings != nil ? (report_settings["params_list"].map {|str| "#{str}"}.join(',')) : ""
     end
 
+    def um_height
+      report_settings["units_of_measurement"]["height"]
+    end
+
+    def um_weight
+      report_settings["units_of_measurement"]["weight"]
+    end
+
   end # class GetReportSettings
 
 end # module User::Cell

@@ -97,6 +97,27 @@ module Report::Cell
       return load2
     end
 
+    def data
+      array = []
+      array << [0, first_row_1, first_row_2]
+      array << [1, hr[0], hr[1]]
+      array << [2, load1[0], load1[1]]
+      array << [3, load2[0], load2[1]]
+      array << [4, first_row_2, first_row_2]
+      array << [5, hr[2], hr[3]]
+      array << [6, load1[2], load1[3]]
+      array << [7, load2[2], load2[3]]
+
+      result = ""
+
+      array.each_with_index do |obj, index|
+        result += obj.to_json
+        result += ","
+      end
+
+      return result
+    end
+
   end
 
 end

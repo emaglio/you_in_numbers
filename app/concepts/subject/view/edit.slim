@@ -1,0 +1,49 @@
+.row
+  .col-sm-12
+    h3 Subject details
+hr style="margin-top: 0px;"
+
+  .row
+    .col-sm-3
+    .col-sm-6.mybox
+      = trb_form_for(model, "/subjects/#{model.id}", method: :patch, id: :new_subject) do |f|
+        = f.input :new_report, type: "hidden", value: params[:new_report]
+        .row
+          .col-sm-1
+          .col-sm-5
+            = f.input :firstname, placeholder: "Firstname"
+          .col-sm-5
+            = f.input :lastname, placeholder: "Lastname"
+        .row
+          .col-sm-1
+          .col-sm-2
+            = f.select :gender, placeholder: "Gender", collection: [["Male"], ["Female"]]
+          .col-sm-3
+            = f.input_group :dob, placeholder: "Date of Birth", left_addon: '<i class="fa fa-calendar"></i>', value: dob
+          .col-sm-3
+            = f.input :height, placeholder: "Height (#{um_height})"
+          .col-sm-3
+            = f.input :weight, placeholder: "Weight (#{um_weight})"
+        .row
+          .col-sm-4
+          .col-sm-2
+        .row
+          .col-sm-1
+          .col-sm-5
+            = f.input_group :phone, placeholder: "Phone", left_addon: '<i class="fa fa-phone"></i>'
+          .col-sm-5
+            = f.input_group :email, placeholder: "Email", left_addon: ' @ '
+        .row style="margin-bottom:10px;"
+          .col-sm-12.text-center
+            = f.submit(content: "Save Changes")
+
+javascript:
+  $(function () {
+    $('#dob').datepicker({
+        format: "dd-mm-yyyy",
+        endDate: "today",
+        autoclose: true,
+        pickerPosition: "bottom-left",
+        minView: 2 <!-- to not show the hours/mins selection -->
+      });
+  });
