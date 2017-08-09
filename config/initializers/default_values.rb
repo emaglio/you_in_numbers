@@ -55,28 +55,28 @@ class MyDefault < ActiveRecord::Base
   # BMR = 66.5 + (13.75 x weight in kg) + (5.003 x height in cm) – (6.755 x age in years) (man)
   # BMR = 655.1 + (9.563 x weight in kg) + (1.850 x height in cm) – (4.676 x age in years) (woman)
 
-  array =[]
+  EditATObj =[]
 
-  array << OpenStruct.new(type: 'report/cell/chart',
-                        y1: {:name => "VCO2", :colour => "#FF2D2D", :show_scale => true},
-                        y2: {:name => nil, :colour => nil, :show_scale => false},
-                        y3: {:name => nil, :colour => nil, :show_scale => false},
-                        x: {:name => "VO2", :time => false, :time_format => "mm:ss"},
+  EditATObj << OpenStruct.new(type: 'report/cell/chart',
+                        title: "VCO2 on VO2",
+                        y1: {:name => "VCO2", :colour => "#FF2D2D", :show_scale => "1"},
+                        y2: {:name => nil, :colour => nil, :show_scale => "0"},
+                        y3: {:name => nil, :colour => nil, :show_scale => "0"},
+                        x: {:name => "VO2", :time => "0", :time_format => "mm:ss"},
                         index: 0,
-                        show_vo2max: {show: false, colour: nil},
-                        show_exer: {show: true, colour: nil},
-                        show_AT: {show: true, colour: "#FF2D2D"},
-                        only_exer: true)
-  array << OpenStruct.new(type: 'report/cell/chart',
-                        y1: {:name => "VE/VCO2", :colour => "#FF2D2D", :show_scale => true},
-                        y2: {:name => "VE/VO2", :colour => "#2D2DFF", :show_scale => false},
-                        y3: {:name => nil, :colour => nil, :show_scale => true},
-                        x: {:name => "t", :time => true, :time_format => "mm:ss"},
+                        show_vo2max: {show: "0", colour: nil},
+                        show_exer: {show: "1", colour: nil},
+                        show_AT: {show: "1", colour: "#FF2D2D"},
+                        only_exer: "1")
+  EditATObj << OpenStruct.new(type: 'report/cell/chart',
+                        title: "VE/VCO2 and VE/VO2 on time",
+                        y1: {:name => "VE/VCO2", :colour => "#FF2D2D", :show_scale => "1"},
+                        y2: {:name => "VE/VO2", :colour => "#2D2DFF", :show_scale => "0"},
+                        y3: {:name => nil, :colour => nil, :show_scale => "1"},
+                        x: {:name => "t", :time => "1", :time_format => "mm:ss"},
                         index: 1,
-                        show_vo2max: {show: false, colour: nil},
-                        show_exer: {show: false, colour: nil},
-                        show_AT: {show: true, colour: "#FF2D2D"},
-                        only_exer: true)
-
-  EditATObj = array
+                        show_vo2max: {show: "0", colour: nil},
+                        show_exer: {show: "0", colour: nil},
+                        show_AT: {show: "1", colour: "#FF2D2D"},
+                        only_exer: "1")
 end
