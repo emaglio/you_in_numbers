@@ -27,6 +27,11 @@ class ReportsController < ApplicationController
   def show
     run Report::Show
 
+    if result["not_found"]
+      flash[:danger] = "Report not found!"
+      return redirect_to "/reports"
+    end
+
     render Report::Cell::Show, result["model"]
   end
 
@@ -67,6 +72,12 @@ class ReportsController < ApplicationController
 
     result["not_found"] ? flash[:danger] = "Report not found" : flash[:danger] = "Something went wrong, please try again!"
     return redirect_to reports_path
+  end
+
+  def edit_at
+    run Report::EditAt
+
+    render Report::Cell::EditAt, result["model"]
   end
 
 end

@@ -103,6 +103,14 @@ module Report::Cell
       return result
     end
 
+    def edit_at
+      button_to "Edit AT", edit_at_report_path(model.id), class: "btn btn-outline btn-success", :method => :get
+    end
+
+    def edit_vo2max
+      button_to "Edit VO2max", edit_user_path(model), class: "btn btn-outline btn-success", :method => :get
+    end
+
 
   end #class Show
 end
