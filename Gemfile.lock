@@ -20,15 +20,6 @@ GIT
       declarative (~> 0.0.4)
       uber (>= 0.0.11, < 0.2.0)
 
-PATH
-  remote: ../trailblazer-generator
-  specs:
-    trailblazer-generator (0.1.0)
-      cells
-      cells-erb
-      thor
-      trailblazer
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -98,9 +89,6 @@ GEM
       declarative-option (< 0.2.0)
       tilt (>= 1.4, < 3)
       uber (< 0.2.0)
-    cells-erb (0.1.0)
-      cells (~> 4.0)
-      erbse (>= 0.1.1)
     cells-rails (0.0.8)
       actionpack (>= 3.0)
       cells (>= 4.1.6, < 5.0.0)
@@ -159,8 +147,6 @@ GEM
       dry-equalizer (~> 0.2)
       dry-logic (~> 0.4, >= 0.4.0)
       dry-types (~> 0.11.0)
-    erbse (0.1.1)
-      temple
     erubi (1.6.1)
     erubis (2.7.0)
     execjs (2.7.0)
@@ -376,7 +362,6 @@ DEPENDENCIES
   sqlite3
   trailblazer (>= 2.0.1)
   trailblazer-cells
-  trailblazer-generator!
   trailblazer-rails
   turbolinks (~> 5)
   tyrant!

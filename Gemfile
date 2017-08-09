@@ -57,4 +57,4 @@ gem 'prawn-table'
 # waiting bar
 gem 'nprogress-rails'
 
-gem 'trailblazer-generator', :path => '../trailblazer-generator'
+# gem 'trailblazer-generator', :path => '../trailblazer-generator'
