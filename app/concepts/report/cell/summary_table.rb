@@ -12,6 +12,10 @@ module Report::Cell
       options[:type] == "edit"
     end
 
+    def data
+      edit? ? options[:data] : model
+    end
+
     def obj
       options[:obj]
     end
@@ -21,14 +25,14 @@ module Report::Cell
     end
 
     def index_AT
-      model["cpet_results"]["exer_phase"]["starts"] + model["cpet_results"]["at_index"]
+      data["cpet_results"]["exer_phase"]["starts"] + data["cpet_results"]["at_index"]
     end
 
     def index_MAX
-      model["cpet_results"]["exer_phase"]["starts"] + model["cpet_results"]["vo2_max"]["index"]
+      data["cpet_results"]["exer_phase"]["starts"] + data["cpet_results"]["vo2_max"]["index"]
     end
 
-    def data
+    def table_content
       array = ""
       params_list = obj[:params_list].split(",")
       params_unm_list = obj[:params_unm_list].split(",")
@@ -49,11 +53,11 @@ module Report::Cell
     end
 
     def value_at_AT(param)
-      (model["cpet_params"].include? param) ? model["cpet_params"][param][index_AT] : model["cpet_results"][param][index_AT]
+      (data["cpet_params"].include? param) ? data["cpet_params"][param][index_AT] : data["cpet_results"][param][index_AT]
     end
 
     def value_at_MAX(param)
-      (model["cpet_params"].include? param) ? model["cpet_params"][param][index_MAX] : model["cpet_results"][param][index_MAX]
+      (data["cpet_params"].include? param) ? data["cpet_params"][param][index_MAX] : data["cpet_results"][param][index_MAX]
     end
 
     def pred(param)
@@ -76,7 +80,7 @@ module Report::Cell
     end
 
     def subject
-      ::Subject.find_by(id: model.subject_id)
+      ::Subject.find_by(id: data.subject_id)
     end
 
     def hr_pred

@@ -10,6 +10,10 @@ module Report::Cell
       options[:type] == "edit"
     end
 
+    def data
+      edit? ? options[:data] : model
+    end
+
     def obj
       options[:obj]
     end
@@ -118,21 +122,21 @@ module Report::Cell
 
     def y1
       return "null" if label_1 == "null"
-      (obj[:only_exer] == "1") ? model["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps] : model["cpet_params"][obj[:y1][:name]]
+      (obj[:only_exer] == "1") ? data["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps] : data["cpet_params"][obj[:y1][:name]]
     end
 
     def y2
       return "null" if label_2 == "null"
-      (obj[:only_exer] == "1") ? model["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps] : model["cpet_params"][obj[:y2][:name]]
+      (obj[:only_exer] == "1") ? data["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps] : data["cpet_params"][obj[:y2][:name]]
     end
 
     def y3
       return "null" if label_3 == "null"
-      (obj[:only_exer] == "1") ? model["cpet_params"][obj[:y3][:name]][exer_phase_starts, exer_num_steps] : model["cpet_params"][obj[:y3][:name]]
+      (obj[:only_exer] == "1") ? data["cpet_params"][obj[:y3][:name]][exer_phase_starts, exer_num_steps] : data["cpet_params"][obj[:y3][:name]]
     end
 
     def x
-      obj[:only_exer] == "1" ? model["cpet_params"][obj[:x][:name]][exer_phase_starts, exer_num_steps] : model["cpet_params"][obj[:x][:name]]
+      obj[:only_exer] == "1" ? data["cpet_params"][obj[:x][:name]][exer_phase_starts, exer_num_steps] : data["cpet_params"][obj[:x][:name]]
     end
 
     def x_time?
@@ -144,19 +148,19 @@ module Report::Cell
     end
 
     def at_index
-      model["cpet_results"]["at_index"] + model["cpet_results"]["exer_phase"]["starts"]
+      data["cpet_results"]["at_index"] + data["cpet_results"]["exer_phase"]["starts"]
     end
 
     def at_value
-      model["cpet_params"]["t"][at_index]
+      data["cpet_params"]["t"][at_index]
     end
 
     def exer_phase_starts
-      model["cpet_results"]["exer_phase"]["starts"]
+      data["cpet_results"]["exer_phase"]["starts"]
     end
 
     def exer_num_steps
-      model["cpet_results"]["exer_phase"]["num_steps"]
+      data["cpet_results"]["exer_phase"]["num_steps"]
     end
 
     def exer_phase_ends
@@ -165,8 +169,8 @@ module Report::Cell
 
     def exer_phase
       exer_phase_array = []
-      exer_phase_array[0] = model["cpet_params"]["t"][exer_phase_starts]
-      exer_phase_array[1] = model["cpet_params"]["t"][exer_phase_ends]
+      exer_phase_array[0] = data["cpet_params"]["t"][exer_phase_starts]
+      exer_phase_array[1] = data["cpet_params"]["t"][exer_phase_ends]
 
       return exer_phase_array
     end
@@ -174,24 +178,24 @@ module Report::Cell
     # TODO: make this better (maybe get this value from the Chart with js)
     def y_exer_phase #for exersice phase
       array = []
-      array[0] = model["cpet_params"][obj[:y1][:name]].max
-      array[1] = model["cpet_params"][obj[:y2][:name]].max unless label_2 == "null"
-      array[2] = model["cpet_params"][obj[:y3][:name]].max unless label_3 == "null"
+      array[0] = data["cpet_params"][obj[:y1][:name]].max
+      array[1] = data["cpet_params"][obj[:y2][:name]].max unless label_2 == "null"
+      array[2] = data["cpet_params"][obj[:y3][:name]].max unless label_3 == "null"
       array.max > 1000 ? (array.max+200).round(-2) : (array.max+10).round(-1)
     end
 
     def vo2_max_value
-      model["cpet_results"]["vo2_max"]["value"]
+      data["cpet_results"]["vo2_max"]["value"]
     end
 
     def vo2_max_starts
-      index = model["cpet_results"]["vo2_max"]["starts"] + model["cpet_results"]["exer_phase"]["starts"]
-      return model["cpet_params"]["t"][index]
+      index = data["cpet_results"]["vo2_max"]["starts"] + data["cpet_results"]["exer_phase"]["starts"]
+      return data["cpet_params"]["t"][index]
     end
 
     def vo2_max_ends
-      index = model["cpet_results"]["vo2_max"]["ends"] + model["cpet_results"]["exer_phase"]["starts"]
-      return model["cpet_params"]["t"][index]
+      index = data["cpet_results"]["vo2_max"]["ends"] + data["cpet_results"]["exer_phase"]["starts"]
+      return data["cpet_params"]["t"][index]
     end
   end #class Chart
 

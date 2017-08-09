@@ -10,6 +10,10 @@ module Report::Cell
       options[:type] == "edit"
     end
 
+    def data
+      edit? ? options[:data] : model
+    end
+
     def obj
       options[:obj]
     end
@@ -46,9 +50,9 @@ module Report::Cell
       hr = []
       hr_temp = []
 
-      hr_array = model["cpet_params"]["HR"][model["cpet_results"]["exer_phase"]["starts"], model["cpet_results"]["exer_phase"]["num_steps"]]
+      hr_array = data["cpet_params"]["HR"][data["cpet_results"]["exer_phase"]["starts"], data["cpet_results"]["exer_phase"]["num_steps"]]
 
-      model["cpet_results"]["training_zones"].each do |key, index|
+      data["cpet_results"]["training_zones"].each do |key, index|
         hr_temp << hr_array[index]
       end
 
@@ -65,9 +69,9 @@ module Report::Cell
       load1 = []
       load1_temp = []
 
-      load1_array = model["cpet_params"]["Power"][model["cpet_results"]["exer_phase"]["starts"], model["cpet_results"]["exer_phase"]["num_steps"]]
+      load1_array = data["cpet_params"]["Power"][data["cpet_results"]["exer_phase"]["starts"], data["cpet_results"]["exer_phase"]["num_steps"]]
 
-      model["cpet_results"]["training_zones"].each do |key, index|
+      data["cpet_results"]["training_zones"].each do |key, index|
         load1_temp << load1_array[index]
       end
 
@@ -83,9 +87,9 @@ module Report::Cell
       load2 = []
       load2_temp = []
 
-      load2_array = model["cpet_params"]["Revolution"][model["cpet_results"]["exer_phase"]["starts"], model["cpet_results"]["exer_phase"]["num_steps"]]
+      load2_array = data["cpet_params"]["Revolution"][data["cpet_results"]["exer_phase"]["starts"], data["cpet_results"]["exer_phase"]["num_steps"]]
 
-      model["cpet_results"]["training_zones"].each do |key, index|
+      data["cpet_results"]["training_zones"].each do |key, index|
         load2_temp << load2_array[index]
       end
 
@@ -97,7 +101,7 @@ module Report::Cell
       return load2
     end
 
-    def data
+    def table_content
       array = []
       array << [0, first_row_1, first_row_2]
       array << [1, hr[0], hr[1]]

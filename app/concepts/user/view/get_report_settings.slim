@@ -110,7 +110,7 @@ hr style="margin-top: 0px;"
       hr style="margin-top: 0px;"
       .row
         .col-sm-12.text-center style="margin-bottom:10px;"
-          = f.submit(content:"Submit")
+          = f.submit(content:"Save")
     .row.text-right style="margin:5px;"
       button id="default" Default settings
 
@@ -118,7 +118,7 @@ javascript:
 
   document.getElementById('default').addEventListener('click', function() {
 
-    document.getElementById('params_list').value = "t,Rf,VE,VO2,VCO2,RQ,VE/VO2,HR,VO2/Kg,FAT%,CHO%,Phase";
+    document.getElementById('params_list').value = "t,Rf,VE,VO2,VCO2,RQ,VE/VO2,VE/VCO2,HR,VO2/Kg,FAT%,CHO%,Phase";
     document.getElementById('load_1').value = "Power";
     document.getElementById('load_1_um').value = "Watt";
     document.getElementById('load_2').value = "Revolution";
