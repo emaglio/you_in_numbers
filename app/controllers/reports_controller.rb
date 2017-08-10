@@ -32,6 +32,11 @@ class ReportsController < ApplicationController
       return redirect_to "/reports"
     end
 
+    if result["param_not_found"] != nil
+      flash[:danger] = "The parameter #{result["param_not_found"]} has not been found in the report.\n Please check the Report Settings and re-create the report!"
+      return redirect_to "/reports"
+    end
+
     render Report::Cell::Show, result["model"]
   end
 
