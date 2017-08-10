@@ -100,14 +100,13 @@ function setParams3(generate, colour, label, data, show){
   show_scale_3 = show
 }
 
+// used only to edit the AT
 function editAtSettings(line, scale, min, max){
   show_line = line
   same_scale = scale
   min_scale_value = min
   max_scale_value = max
 }
-
-
 
 // get time format
 function getTimeString(time) {
@@ -320,9 +319,6 @@ function  getYaxisOptions(){
   scale.push(y3_scale);
   }
 
-  scale["afterFit"]= function(scaleInstance) {
-                        scaleInstance.width = 100; // sets the width to 100px
-                      }
 
 
   return scale;
