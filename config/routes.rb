@@ -41,6 +41,9 @@ Rails.application.routes.draw do
       post 'generate_image'
       post 'update_template'
       get 'edit_at'
+      post 'update_at'
+      get 'edit_vo2max'
+      post 'update_vo2max'
     end
   end
 

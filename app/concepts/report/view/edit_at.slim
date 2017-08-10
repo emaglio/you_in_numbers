@@ -1,0 +1,48 @@
+.row
+  .col-sm-12
+      .page-header
+        h1 Edit AT
+
+.row
+  .col-lg-12
+    .row.text-center style="margin-bottom: 20px;"
+      .col-sm-3.col-sm-offset-9
+        = save_exit?
+.row
+  .col-lg-12
+    .panel.panel-default
+      - obj_array.each do |obj|
+        .row style="margin-top:40px;"
+          = cell obj[:type], model, obj: obj
+
+script src="/js/generate_chart.js" type="text/javascript"
+
+javascript:
+
+  $(document).ready(function() {
+    var array = #{raw chart_array.to_json};
+    array.forEach(createChart);
+  });
+
+  function loadCharts(){
+  }
+
+  function createChart(item, index){
+    if(item["chart_id"] != "null"){
+
+      var ctx = document.getElementById(item["chart_id"]).getContext("2d");
+
+      setTimeParams(item["time_format"], item["x_time?"], item["x"], item["x_type"], item["x_label"])
+      setVO2MaxParams(item["colour_vo2max"], item["vo2_max_starts"], item["vo2_max_ends"], item["vo2_max_value"], item["show_vo2max"])
+      setExerParams(item["colour_exer"], item["exer_starts"], item["exer_ends"], item["exer_value"], item["show_exer"])
+      setATParams(item["at_colour"], item["at_value"], item["show_AT"])
+      setParams1(item["generate_param_1"], item["colour_1"], item["label_1"], item["y1"], item["show_scale_1"])
+      setParams2(item["generate_param_2"], item["colour_2"], item["label_2"], item["y2"], item["show_scale_2"])
+      setParams3(item["generate_param_3"], item["colour_3"], item["label_3"], item["y3"], item["show_scale_3"])
+      editAtSettings(item["show_line"], item["same_scale"], item["min_scale_value"], item["max_scale_value"])
+
+      var config = getConfig();
+
+      window.myLine = new Chart(ctx, config);
+    }
+  }

@@ -1,7 +1,5 @@
 module Report::Contract
-  class EditAT < Reform::Form
-
-    property :at_position
-
+  class EditAt < Reform::Form
+    property :at_position, virtual: true
   end
 end

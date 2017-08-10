@@ -41,6 +41,11 @@ var label_3
 var y3
 var show_scale_3
 
+var show_line = true
+var same_scale = false
+var max_scale_value
+var min_scale_value
+
 function setTimeParams(format, time, data, type, label){
   time_format = format
   x_time = time
@@ -93,6 +98,13 @@ function setParams3(generate, colour, label, data, show){
   label_3 = label
   y3 = data
   show_scale_3 = show
+}
+
+function editAtSettings(line, scale, min, max){
+  show_line = line
+  same_scale = scale
+  min_scale_value = min
+  max_scale_value = max
 }
 
 
@@ -199,7 +211,8 @@ function dataSet(vo2, exer, at){
                 borderColor: colour_1,
                 fill: false,
                 label: label_1,
-                data: getDataSet(x, y1)
+                data: getDataSet(x, y1),
+                showLine: show_line //used only for VCO2 on VO2 so far
               };
     dataset.push(param1);
   }
@@ -244,6 +257,7 @@ function  getYaxisOptions(){
   if(generate_param_1){
     y1_scale = {
                 type: "linear",
+
                 display: show_scale_1,
                 position: "left",
                 id: "y-axis-1",
@@ -252,6 +266,14 @@ function  getYaxisOptions(){
                               labelString: label_1,
                             },
                 };
+
+    if(same_scale) {
+      y1_scale["ticks"] = {
+        min: min_scale_value,
+        max: max_scale_value
+      }
+    }
+
     scale.push(y1_scale);
   }
 
@@ -270,6 +292,14 @@ function  getYaxisOptions(){
                   drawOnChartArea: false,
                   }
                 };
+
+    if(same_scale) {
+      y2_scale["ticks"] = {
+        min: min_scale_value,
+        max: max_scale_value
+      }
+    }
+
     scale.push(y2_scale);
   }
 
@@ -290,6 +320,10 @@ function  getYaxisOptions(){
   scale.push(y3_scale);
   }
 
+  scale["afterFit"]= function(scaleInstance) {
+                        scaleInstance.width = 100; // sets the width to 100px
+                      }
+
 
   return scale;
 }
@@ -309,24 +343,38 @@ function getXscaleOptions(){
     x_options["time"] = getTimeOptions(x_type);
   }else{
     x_options["ticks"] = {
-      beginAtZero: true,
-      max: 2500
+      beginAtZero: true
     }
   }
-  console.log(x_options);
+
+  if(same_scale){
+    x_options["ticks"] = {
+      min: min_scale_value,
+      max: max_scale_value
+    }
+  }
+
   return x_options;
 }
 
 // draw the line for the AT if required
 function getAnnotation() {
   var at;
+  var position;
+
+  if(x_time) {
+    position = getTimeString(at_value);
+  }else{
+    position = at_value;
+  }
+
   if(show_AT){
     at = {
           drawTime: 'afterDatasetsDraw',
           type: 'line',
           mode: 'veritical',
           scaleID: 'x-axis-0',
-          value: getTimeString(at_value),
+          value: position,
           borderColor: at_colour,
           borderWidth: 2,
           borderDash: [10,5],
@@ -358,7 +406,7 @@ function getConfig(){
                       xAxes: [getXscaleOptions()]
                           },
                   legend: {
-                    display: true,
+                    display: x_time, //currently I don't see the necessity to show the legend if the x is not time
                     position: 'top'
                   },
 
