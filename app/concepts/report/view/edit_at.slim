@@ -18,14 +18,13 @@
 script src="/js/generate_chart.js" type="text/javascript"
 
 javascript:
+  var canvas_0
+  var canvas_1
+  var array = #{raw chart_array.to_json};
 
   $(document).ready(function() {
-    var array = #{raw chart_array.to_json};
     array.forEach(createChart);
   });
-
-  function loadCharts(){
-  }
 
   function createChart(item, index){
     if(item["chart_id"] != "null"){
@@ -43,6 +42,37 @@ javascript:
 
       var config = getConfig();
 
-      window.myLine = new Chart(ctx, config);
+      if(index == 0){
+        canvas_0 = new Chart(ctx, config);
+      }
+
+      if(index == 1){
+        canvas_1 = new Chart(ctx, config);
+      }
     }
   }
+
+  // get time format
+  function getTimeString(time) {
+    return moment(time, time_format);
+  }
+
+  function updateAnnotation(value){
+    canvas_0.options.annotation.annotations[0].value = array[0]["x"][value];
+    canvas_1.options.annotation.annotations[0].value = array[1]["x"][value];
+    canvas_0.update();
+    canvas_1.update();
+  }
+
+
+  document.getElementById("canvas_1").onclick = function (evt) {
+    var activePoints = canvas_1.getElementsAtXAxis(evt);
+    var index = activePoints[0]._index;
+    updateAnnotation(index);
+  };
+
+  document.getElementById("canvas_0").onclick = function (evt) {
+    var activePoints = canvas_0.getElementsAtXAxis(evt);
+    var index = activePoints[0]._index;
+    updateAnnotation(index);
+  };
