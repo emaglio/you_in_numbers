@@ -80,7 +80,16 @@ class ReportsController < ApplicationController
   end
 
   def edit_at
-    run Report::EditAt
+    run Report::EditAt::Present
+
+    render Report::Cell::EditAt, result["model"]
+  end
+
+  def update_at
+    run Report::EditAt do |result|
+      flash[:success] = "New Anaerobic Threshold saved!"
+      return redirect_to "/reports/#{result["model"].id}"
+    end
 
     render Report::Cell::EditAt, result["model"]
   end

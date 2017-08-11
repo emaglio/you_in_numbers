@@ -27,7 +27,10 @@ class Report::GetCpetResults < Trailblazer::Operation
     exer_array = cpet_params["VE/VO2"][exer_phase["starts"], exer_phase["num_steps"]]
 
     # index in the exercise phase
+    # used as restoring point
     options["at_index"] = exer_array.index(exer_array.min)
+    # used during editing and showing
+    options["edited_at_index"] = exer_array.index(exer_array.min)
   end
 
   def find_VO2_max!(options, cpet_params:, exer_phase:, **)
@@ -103,10 +106,11 @@ class Report::GetCpetResults < Trailblazer::Operation
     }
   end
 
-  def cpet_results!(options, exer_phase:, at_index:, vo2_max:, training_zones:, **)
+  def cpet_results!(options, exer_phase:, at_index:, edited_at_index:, vo2_max:, training_zones:, **)
     options["cpet_results"] = {
       "exer_phase" => exer_phase,
       "at_index" => at_index,
+      "edited_at_index" => edited_at_index,
       "vo2_max" => vo2_max,
       "training_zones" => training_zones
     }

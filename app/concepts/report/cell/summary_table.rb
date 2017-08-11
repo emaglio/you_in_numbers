@@ -25,7 +25,7 @@ module Report::Cell
     end
 
     def index_AT
-      data["cpet_results"]["exer_phase"]["starts"] + data["cpet_results"]["at_index"]
+      data["cpet_results"]["exer_phase"]["starts"] + data["cpet_results"]["edited_at_index"]
     end
 
     def index_MAX

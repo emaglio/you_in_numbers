@@ -6,10 +6,15 @@
 .row
   .col-lg-12
     .row.text-center style="margin-bottom: 20px;"
-      .col-sm-3.col-sm-offset-9
-        = save_exit?
+      .col-sm-4
+      .col-sm-4
+        button id="restore" class="btn btn-outline btn-warning" Restore AT
+      .col-sm-4
+        button id="save_and_exit" class="btn btn-outline btn-success" Save & Exit
 .row
   .col-lg-12
+    strong
+      | Click on either charts to move the AT point
     .panel.panel-default
       - obj_array.each do |obj|
         .row style="margin-top:40px;"
@@ -21,6 +26,7 @@ javascript:
   var canvas_0
   var canvas_1
   var array = #{raw chart_array.to_json};
+  var index
 
   $(document).ready(function() {
     array.forEach(createChart);
@@ -57,6 +63,7 @@ javascript:
     return moment(time, time_format);
   }
 
+  // update charts after clicking
   function updateAnnotation(value){
     canvas_0.options.annotation.annotations[0].value = array[0]["x"][value];
     canvas_1.options.annotation.annotations[0].value = array[1]["x"][value];
@@ -64,15 +71,33 @@ javascript:
     canvas_1.update();
   }
 
-
+  // click event on canvas_1
   document.getElementById("canvas_1").onclick = function (evt) {
     var activePoints = canvas_1.getElementsAtXAxis(evt);
-    var index = activePoints[0]._index;
+    index = activePoints[0]._index;
     updateAnnotation(index);
   };
 
+  // click event on canvas_0
   document.getElementById("canvas_0").onclick = function (evt) {
     var activePoints = canvas_0.getElementsAtXAxis(evt);
-    var index = activePoints[0]._index;
+    index = activePoints[0]._index;
     updateAnnotation(index);
   };
+
+  document.getElementById('save_and_exit').addEventListener('click', function() {
+    var form = new FormData();
+    form.append("at_position", index)
+    $.ajax({
+      url: "/reports/#{model.id}/update_at",
+      type: "POST",
+      data: form,
+      processData: false,
+      contentType: false,
+    });
+  });
+
+  document.getElementById('restore').addEventListener('click', function() {
+    index = array[0]["restore_at"];
+    updateAnnotation(index);
+  });

@@ -5,10 +5,6 @@ module Report::Cell
       MyDefault::EditATObj
     end
 
-    def save_exit?
-      button_to "Save & Exit", edit_user_path(model), class: "btn btn-outline btn-success", :method => :get
-    end
-
     def current_user
       options[:context][:current_user] ||= options[:current_user]
     end
@@ -65,6 +61,8 @@ module Report::Cell
         temp["same_scale"] = true
         temp["min_scale_value"] = (index == 0 ? 0 : cell.min_scale_value)
         temp["max_scale_value"] = cell.max_scale_value
+
+        temp["restore_at"] = model["cpet_results"]["at_index"]
 
         array << temp
       end

@@ -148,7 +148,7 @@ module Report::Cell
     end
 
     def at_index
-      data["cpet_results"]["at_index"] + data["cpet_results"]["exer_phase"]["starts"]
+      data["cpet_results"]["edited_at_index"] + data["cpet_results"]["exer_phase"]["starts"]
     end
 
     def at_value
