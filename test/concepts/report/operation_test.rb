@@ -45,7 +45,7 @@ class ReportOperationTest < MiniTest::Spec
     end
 
     report["model"]["cpet_results"].each do |key, hash|
-      if key =="at_index"
+      if key =="at_index" or key == "edited_at_index"
         (value != nil).must_equal true
       else
         hash.each do |key, value|
@@ -182,6 +182,47 @@ class ReportOperationTest < MiniTest::Spec
     # result.success?.must_equal true
 
     Company::Delete.({id: company.id}, "current_user" => user)
+  end
+
+  it "only owner can edit AT" do
+    admin.email.must_equal "admin@email.com" #this needs to be created because the id 1 is used to edit the template and DatabaseCleaner deletes it
+    user.email.must_equal "test@email.com"
+    user2.email.must_equal "test2@email.com"
+    subject.firstname.must_equal "Ema"
+
+    upload_file = ActionDispatch::Http::UploadedFile.new({
+      :tempfile => File.new(Rails.root.join("test/files/cpet.xlsx"))
+    })
+
+    report = Report::Create.({
+          user_id: user.id,
+          subject_id: subject.id,
+          title: "My report",
+          cpet_file_path: upload_file,
+          template: "default"
+      }, "current_user" => user)
+    report.success?.must_equal true
+
+    assert_raises ApplicationController::NotAuthorizedError do
+      Report::EditAt.({
+        id: report["model"].id
+        }, "current_user" => user2)
+    end
+
+    # check errors
+    result = Report::EditAt.({id: report["model"].id}, "current_user" => user )
+    result.failure?.must_equal true
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:at_position=>[\"must be filled\"]}"
+
+    at_calculated = report["model"]["cpet_results"]["at_index"]
+    report["model"]["cpet_results"]["at_index"].must_equal report["model"]["cpet_results"]["edited_at_index"]
+
+    # successfully editing AT
+    result = Report::EditAt.({id: report["model"].id, "at_position" => 80}, "current_user" => user )
+    result.success?.must_equal true
+    result["model"]["cpet_results"]["at_index"].wont_equal result["model"]["cpet_results"]["edited_at_index"]
+    result["model"]["cpet_results"]["at_index"].must_equal at_calculated
+    result["model"]["cpet_results"]["edited_at_index"].must_equal 80
   end
 
 end

@@ -1,6 +1,8 @@
 class Report::EditAt < Trailblazer::Operation
   class Present < Trailblazer::Operation
     step Model( Report, :find_by )
+    step Policy::Pundit( ::Session::Policy, :report_owner?)
+    failure Session::Lib::ThrowException
     step Contract::Build( constant: Report::Contract::EditAt )
   end
 
