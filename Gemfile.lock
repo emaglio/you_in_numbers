@@ -13,7 +13,7 @@ GIT
 
 GIT
   remote: https://github.com/trailblazer/formular.git
-  revision: eaa9fdd1f9313f1de8c3484356446b1e9493216a
+  revision: 84792d7d6577acc1c53d3809a920a4d11c82bfd8
   branch: master
   specs:
     formular (0.2.1)

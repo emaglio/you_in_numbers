@@ -185,16 +185,16 @@ module Report::Cell
     end
 
     def vo2_max_value
-      data["cpet_results"]["vo2_max"]["value"]
+      data["cpet_results"]["edited_vo2_max"]["value"]
     end
 
     def vo2_max_starts
-      index = data["cpet_results"]["vo2_max"]["starts"] + data["cpet_results"]["exer_phase"]["starts"]
+      index = data["cpet_results"]["edited_vo2_max"]["starts"] + data["cpet_results"]["exer_phase"]["starts"]
       return data["cpet_params"]["t"][index]
     end
 
     def vo2_max_ends
-      index = data["cpet_results"]["vo2_max"]["ends"] + data["cpet_results"]["exer_phase"]["starts"]
+      index = data["cpet_results"]["edited_vo2_max"]["ends"] + data["cpet_results"]["exer_phase"]["starts"]
       return data["cpet_params"]["t"][index]
     end
 

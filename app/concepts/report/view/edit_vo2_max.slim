@@ -1,0 +1,148 @@
+.row
+  .col-sm-12
+      .page-header
+        h1 Edit VO2max
+
+.row
+  .col-lg-12
+    .row.text-center style="margin-bottom: 20px;"
+      .col-sm-4
+      .col-sm-4
+        button id="restore" class="btn btn-outline btn-warning" Restore VO2max
+      .col-sm-4
+        button id="save_and_exit" class="btn btn-outline btn-success" Save & Exit
+.row
+  .col-lg-12
+    strong
+      | Left click to move the starting point and right click to move the end point of the VO2max range
+    .panel.panel-default
+      .col-sm-10.col-sm-offset-2
+        .row style="margin-top:10px;"
+          strong
+            | VO2max details:
+        .row style="margin-top:10px;"
+          = form model, user_path do |f|
+            .col-sm-1
+              = f.input :starts, label: "Starts", value: chart_array[0]["vo2_max_starts"], id: "starts", disabled: true
+            .col-sm-1
+              = f.input :ends, label: "Ends", value: chart_array[0]["vo2_max_ends"], id: "ends", disabled: true
+            .col-sm-1
+              = f.input :value, label: "Value", value: chart_array[0]["vo2_max_value"], id: "value", disabled: true
+      - obj_array.each do |obj|
+        .row style="margin-top:20px;"
+          = cell obj[:type], model, obj: obj
+
+script src="/js/generate_chart.js" type="text/javascript"
+
+javascript:
+  var canvas_0
+  var array = #{raw chart_array.to_json};
+  var start_index = array[0]["x"].indexOf(array[0]["vo2_max_starts"])
+  var end_index = array[0]["x"].indexOf(array[0]["vo2_max_ends"])
+  var vo2max_value
+  var min_index = array[0]["min_index"]
+  var max_index = array[0]["max_index"]
+
+  $(document).ready(function() {
+    array.forEach(createChart);
+  });
+
+  function createChart(item, index){
+    if(item["chart_id"] != "null"){
+
+      var ctx = document.getElementById(item["chart_id"]).getContext("2d");
+
+      setTimeParams(item["time_format"], item["x_time?"], item["x"], item["x_type"], item["x_label"])
+      setVO2MaxParams(item["colour_vo2max"], item["vo2_max_starts"], item["vo2_max_ends"], item["vo2_max_value"], item["show_vo2max"])
+      setExerParams(item["colour_exer"], item["exer_starts"], item["exer_ends"], item["exer_value"], item["show_exer"])
+      setATParams(item["at_colour"], item["at_value"], item["show_AT"])
+      setParams1(item["generate_param_1"], item["colour_1"], item["label_1"], item["y1"], item["show_scale_1"])
+      setParams2(item["generate_param_2"], item["colour_2"], item["label_2"], item["y2"], item["show_scale_2"])
+      setParams3(item["generate_param_3"], item["colour_3"], item["label_3"], item["y3"], item["show_scale_3"])
+
+      var config = getConfig();
+
+      canvas_0 = new Chart(ctx, config);
+    }
+  }
+
+  // update charts after left click
+  function updateStarting(value){
+    if(value < max_index && value > min_index ){
+      start_index = value;
+      getVO2Value();
+      canvas_0.data.datasets[0].data = [{x: array[0]["x"][value], y: vo2max_value}, {x: array[0]["x"][end_index], y: vo2max_value}];
+      document.getElementById("starts").value = array[0]["x"][value]._i;
+      canvas_0.update();
+    }else{
+      alert('VO2max range must be choosen inside the exercise phase!')
+    }
+  }
+
+  // update charts after right click
+  function updateEnding(value){
+    if(value < max_index && value > min_index ){
+      end_index = value;
+      getVO2Value();
+      canvas_0.data.datasets[0].data = [{x: array[0]["x"][start_index], y: vo2max_value}, {x: array[0]["x"][value], y: vo2max_value}];
+      document.getElementById("ends").value = array[0]["x"][value]._i;
+      canvas_0.update();
+    }else{
+      alert('VO2max range must be choosen inside the exercise phase!')
+    }
+  }
+
+  // calculate new VO2max value
+  function getVO2Value() {
+    if(start_index < end_index){
+      var my_array = array[0]["y1"].slice(start_index, end_index);
+      var sum = 0;
+      my_array.forEach(function(val){
+        sum += parseFloat(val);
+      })
+      vo2max_value = Math.round(sum/my_array.length);
+      document.getElementById("value").value = vo2max_value;
+
+    }else{
+      alert('Make sure the Starts is set before the Ends!')
+    }
+  }
+
+  // left click event on canvas_0
+  document.getElementById("canvas_0").onclick = function (evt) {
+    var activePoints = canvas_0.getElementsAtXAxis(evt);
+    index = activePoints[0]._index;
+    updateStarting(index);
+  };
+
+  // right click event on canvas_0
+  $('#canvas_0').bind('contextmenu', function(e){
+    e.preventDefault();
+    var activePoints = canvas_0.getElementsAtXAxis(e);
+    index = activePoints[0]._index;
+    updateEnding(index);
+    return false;
+  });
+
+  document.getElementById('save_and_exit').addEventListener('click', function() {
+    if(start_index < end_index){
+      var form = new FormData();
+      form.append("vo2max_starts", start_index - min_index )
+      form.append("vo2max_ends", end_index - min_index)
+      form.append("vo2max_value", vo2max_value)
+      $.ajax({
+        url: "/reports/#{model.id}/update_vo2max",
+        type: "POST",
+        data: form,
+        processData: false,
+        contentType: false,
+      });
+    }else{
+      alert('Starts/Ends are not correct - Fix that and try to Save again!')
+    }
+  });
+
+  document.getElementById('restore').addEventListener('click', function() {
+    updateStarting(array[0]["restore_start"])
+    updateEnding(array[0]["restore_end"])
+  });

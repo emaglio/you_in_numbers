@@ -356,7 +356,7 @@ function getXscaleOptions(){
 // draw the line for the AT if required
 function getAnnotation() {
   var at;
-  var position;
+  var position = -10;
 
   if(x_time) {
     position = getTimeString(at_value);
@@ -364,26 +364,25 @@ function getAnnotation() {
     position = at_value;
   }
 
-  if(show_AT){
-    at = {
-          drawTime: 'afterDatasetsDraw',
-          type: 'line',
-          mode: 'veritical',
-          scaleID: 'x-axis-0',
-          value: position,
-          borderColor: at_colour,
-          borderWidth: 2,
-          borderDash: [10,5],
-          label: {
-            yAdjust: -100,
-            fontSize: 14,
-            fontColor: 'black',
-            backgroundColor: 'white',
-            content: "AT",
-            enabled: true
-          }
-          }
+  at = {
+        drawTime: 'afterDatasetsDraw',
+        type: 'line',
+        mode: 'veritical',
+        scaleID: 'x-axis-0',
+        value: position,
+        borderColor: at_colour,
+        borderWidth: 2,
+        borderDash: [10,5],
+        label: {
+          yAdjust: -100,
+          fontSize: 14,
+          fontColor: 'black',
+          backgroundColor: 'white',
+          content: "AT",
+          enabled: show_AT
+        }
   }
+
   return at;
 }
 

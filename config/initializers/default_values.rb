@@ -79,4 +79,18 @@ class MyDefault < ActiveRecord::Base
                         show_exer: {show: "0", colour: "#000000"},
                         show_AT: {show: "1", colour: "#FF2D2D"},
                         only_exer: "1")
+
+  EditVO2MaxObj = []
+
+  EditVO2MaxObj << OpenStruct.new(type: 'report/cell/chart',
+                        title: "VO2 and VE on time",
+                        y1: {:name => "VO2", :colour => "#FF2D2D", :show_scale => "1"},
+                        y2: {:name => nil, :colour => "#2D2DFF", :show_scale => "1"},
+                        y3: {:name => nil, :colour => "#000000", :show_scale => "0"},
+                        x: {:name => "t", :time => "1", :time_format => "mm:ss"},
+                        index: 0,
+                        show_vo2max: {show: "1", colour: "#000000"},
+                        show_exer: {show: "1", colour: "#F8CA66"},
+                        show_AT: {show: "0", colour: "#FF2D2D"},
+                        only_exer: "0")
 end

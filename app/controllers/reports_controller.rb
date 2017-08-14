@@ -94,4 +94,19 @@ class ReportsController < ApplicationController
     render Report::Cell::EditAt, result["model"]
   end
 
+  def edit_vo2max
+    run Report::EditVO2Max::Present
+
+    render Report::Cell::EditVO2Max, result["model"]
+  end
+
+  def update_vo2max
+    run Report::EditVO2Max do |result|
+      flash[:success] = "VO2 Max saved!"
+      return redirect_to "/reports/#{result["model"].id}"
+    end
+
+    render Report::Cell::EditVO2Max, result["model"]
+  end
+
 end

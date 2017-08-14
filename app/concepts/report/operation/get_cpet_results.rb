@@ -73,6 +73,7 @@ class Report::GetCpetResults < Trailblazer::Operation
     vo2_max = {"index" => ends, "value" => max_value, "starts" => starts, "ends" => ends}
 
     options["vo2_max"] = vo2_max
+    options["edited_vo2_max"] = vo2_max
   end
 
   def find_training_zones!(options, cpet_params:, current_user:, exer_phase:, vo2_max:, **)
@@ -106,12 +107,13 @@ class Report::GetCpetResults < Trailblazer::Operation
     }
   end
 
-  def cpet_results!(options, exer_phase:, at_index:, edited_at_index:, vo2_max:, training_zones:, **)
+  def cpet_results!(options, exer_phase:, at_index:, edited_at_index:, vo2_max:, edited_vo2_max:, training_zones:, **)
     options["cpet_results"] = {
       "exer_phase" => exer_phase,
       "at_index" => at_index,
       "edited_at_index" => edited_at_index,
       "vo2_max" => vo2_max,
+      "edited_vo2_max" => edited_vo2_max,
       "training_zones" => training_zones
     }
   end

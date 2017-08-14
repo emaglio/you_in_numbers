@@ -29,7 +29,7 @@ module Report::Cell
     end
 
     def index_MAX
-      data["cpet_results"]["exer_phase"]["starts"] + data["cpet_results"]["vo2_max"]["index"]
+      data["cpet_results"]["exer_phase"]["starts"] + data["cpet_results"]["edited_vo2_max"]["index"]
     end
 
     def table_content

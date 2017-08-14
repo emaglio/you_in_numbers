@@ -108,7 +108,7 @@ module Report::Cell
     end
 
     def edit_vo2max
-      button_to "Edit VO2max", edit_user_path(model), class: "btn btn-outline btn-success", :method => :get
+      button_to "Edit VO2max", edit_vo2max_report_path(model.id), class: "btn btn-outline btn-success", :method => :get
     end
 
 

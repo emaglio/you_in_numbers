@@ -58,11 +58,6 @@ javascript:
     }
   }
 
-  // get time format
-  function getTimeString(time) {
-    return moment(time, time_format);
-  }
-
   // update charts after clicking
   function updateAnnotation(value){
     canvas_0.options.annotation.annotations[0].value = array[0]["x"][value];
