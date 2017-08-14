@@ -225,4 +225,51 @@ class ReportOperationTest < MiniTest::Spec
     result["model"]["cpet_results"]["edited_at_index"].must_equal 80
   end
 
+  it "only owner can edit VO2max" do
+    admin.email.must_equal "admin@email.com" #this needs to be created because the id 1 is used to edit the template and DatabaseCleaner deletes it
+    user.email.must_equal "test@email.com"
+    user2.email.must_equal "test2@email.com"
+    subject.firstname.must_equal "Ema"
+
+    upload_file = ActionDispatch::Http::UploadedFile.new({
+      :tempfile => File.new(Rails.root.join("test/files/cpet.xlsx"))
+    })
+
+    report = Report::Create.({
+          user_id: user.id,
+          subject_id: subject.id,
+          title: "My report",
+          cpet_file_path: upload_file,
+          template: "default"
+      }, "current_user" => user)
+    report.success?.must_equal true
+
+    assert_raises ApplicationController::NotAuthorizedError do
+      Report::EditVO2Max.({
+        id: report["model"].id
+        }, "current_user" => user2)
+    end
+
+    # check errors
+    result = Report::EditVO2Max.({id: report["model"].id}, "current_user" => user )
+    result.failure?.must_equal true
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:vo2max_starts=>[\"must be filled\"], :vo2max_ends=>[\"must be filled\"], :vo2max_value=>[\"must be filled\"]}"
+
+    vo2_starts = report["model"]["cpet_results"]["vo2_max"]["starts"]
+    vo2_ends = report["model"]["cpet_results"]["vo2_max"]["ends"]
+    vo2_value = report["model"]["cpet_results"]["vo2_max"]["value"]
+    report["model"]["cpet_results"]["vo2_max"].must_equal report["model"]["cpet_results"]["edited_vo2_max"]
+
+    # successfully editing VO2max
+    result = Report::EditVO2Max.({id: report["model"].id, "vo2max_starts" => 40, "vo2max_ends" => 60, "vo2max_value" => 1100}, "current_user" => user )
+    result.success?.must_equal true
+    result["model"]["cpet_results"]["vo2_max"]["starts"].must_equal vo2_starts
+    result["model"]["cpet_results"]["vo2_max"]["ends"].must_equal vo2_ends
+    result["model"]["cpet_results"]["vo2_max"]["value"].must_equal vo2_value
+    result["model"]["cpet_results"]["edited_vo2_max"]["index"].must_equal 60
+    result["model"]["cpet_results"]["edited_vo2_max"]["starts"].must_equal 40
+    result["model"]["cpet_results"]["edited_vo2_max"]["ends"].must_equal 60
+    result["model"]["cpet_results"]["edited_vo2_max"]["value"].must_equal 1100
+  end
+
 end
