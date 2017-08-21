@@ -80,10 +80,10 @@ class UsersController < ApplicationController
     run Tyrant::ResetPassword::Confirm do |result|
       flash[:success] = "New password updated"
       tyrant.sign_in!(result["model"])
-      redirect_to "/reports"
+      return redirect_to "/reports"
     end
 
-    render User::Cell::ConfirmNewPassword, result["contract.default"], layout_type: nil
+    render User::Cell::ConfirmNewPassword, result["contract.default"], layout_type: nil, options: {safe_url: params[:safe_url], email: params[:email]}
   end
 
   def get_new_password

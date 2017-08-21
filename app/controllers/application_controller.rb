@@ -46,7 +46,6 @@ class ApplicationController < ActionController::Base
 
     layout = layout_types[layout_type]
 
-
     if type == "html"
       super(
             html: cell(
