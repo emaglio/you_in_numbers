@@ -56,16 +56,34 @@ class UsersController < ApplicationController
 
   def get_email
     run Tyrant::GetEmail
-    render User::Cell::ResetPassword, result["contract.default"], layout_type: nil
+    render User::Cell::RequestResetPassword, result["contract.default"], layout_type: nil
   end
 
-  def reset_password
-    run Tyrant::ResetPassword do
-      flash[:danger] = "Your password has been reset"
+  def request_reset_password
+    result = Tyrant::ResetPassword::Request.(params, "url" => "http://localhost:3000/users/confirm_new_password")
+
+    if result.success?
+      flash[:success] = "You will receive an email with some instructions!"
       return redirect_to "/sessions/new"
     end
 
-    render User::Cell::ResetPassword, result["contract.default"], layout_type: nil
+    render User::Cell::RequestResetPassword, result["contract.default"], layout_type: nil
+  end
+
+  def confirm_new_password
+    run Tyrant::ResetPassword::Confirm::GetNewPassword
+
+    render User::Cell::ConfirmNewPassword, result["contract.default"], layout_type: nil
+  end
+
+  def update_new_password
+    run Tyrant::ResetPassword::Confirm do |result|
+      flash[:success] = "New password updated"
+      tyrant.sign_in!(result["model"])
+      redirect_to "/reports"
+    end
+
+    render User::Cell::ConfirmNewPassword, result["contract.default"], layout_type: nil
   end
 
   def get_new_password

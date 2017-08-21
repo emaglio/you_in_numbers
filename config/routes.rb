@@ -4,7 +4,9 @@ Rails.application.routes.draw do
 
   resources :users do
     collection do
-      post 'reset_password'
+      get 'request_reset_password'
+      get 'confirm_new_password'
+      post 'update_new_password'
       get 'get_email'
       get 'get_new_password'
       post 'change_password'

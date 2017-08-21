@@ -83,3 +83,6 @@ pickle-email-*.html
 # tilde files are usually backup files from a text editor
 *~
 /node_modules
+
+# email stuff
+my_mail.rb

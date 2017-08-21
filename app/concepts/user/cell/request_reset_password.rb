@@ -1,6 +1,6 @@
 module User::Cell
 
-  class ResetPassword < Trailblazer::Cell
+  class RequestResetPassword < Trailblazer::Cell
     include Formular::RailsHelper
     include ActionView::Helpers::CsrfHelper
 

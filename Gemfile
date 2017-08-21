@@ -39,7 +39,8 @@ gem 'cells-slim'
 gem 'dry-validation'
 gem 'file_validators'
 gem 'formular', :git => "https://github.com/trailblazer/formular.git", :branch => "master"
-gem 'tyrant', :git => "https://github.com/apotonick/tyrant.git", :branch => "trb-2"
+# gem 'tyrant', :git => "https://github.com/apotonick/tyrant.git", :branch => "trb-2"
+gem 'tyrant', :path => "../tyrant"
 gem 'reform', '>= 2.3.0.rc1'
 gem 'reform-rails', '>= 0.2.0.rc1'
 
