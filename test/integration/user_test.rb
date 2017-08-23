@@ -235,15 +235,35 @@ class UsersIntegrationTest < Trailblazer::Test::Integration
     end
     click_button "Reset Password"
 
-    page.must_have_content "Your password has been reset" #flash message
+    page.must_have_content "You will receive an email with some instructions!" #flash message
 
     page.current_path.must_equal "/sessions/new"
 
-    submit!("my@email.com", "password")
-    page.must_have_content "Wrong Password"
+    visit "/users/confirm_new_password?safe_url=safe_url&email=my@email.com"
 
-    submit!("my@email.com", "NewPassword")
+    page.must_have_button "Save"
+    page.must_have_css "#email"
+    page.must_have_css "#new_password"
+    page.must_have_css "#confirm_new_password"
+
+    click_button "Save"
+
+    page.must_have_content "must be filled"
+
+    within("//form[@id='confirm_new_password']") do
+      fill_in 'New Password', with: "new_password"
+      fill_in 'Confirm New Password', with: "new_password"
+    end
+    click_button "Save"
+
+    page.current_path.must_equal "/reports"
     page.must_have_link "Hi, UserFirstname"
+
+    visit "/users/confirm_new_password?safe_url=safe_url&email=my@email.com"
+
+    click_button "Save"
+
+    page.must_have_content "Link expired"
   end
 
   it "only admin can block user" do

@@ -4,6 +4,9 @@ module User::Cell
     include Formular::RailsHelper
     include ActionView::Helpers::CsrfHelper
 
+    def url
+      "http://localhost:3000/users/confirm_new_password"
+    end
 
   end # class ResetPassword
 

@@ -82,8 +82,11 @@ class UserOperationTest < MiniTest::Spec
     res = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
     res.success?.must_equal true
 
-    new_password = -> { "NewPassword" }
-    Tyrant::ResetPassword.({email: res["model"].email}, "generator" => new_password, "via" => :test)
+    result = Tyrant::ResetPassword::Request.({email: res["model"].email}, "via" => :test, "url" => "redirect_link")
+    result.success?.must_equal true
+
+    result = Tyrant::ResetPassword::Confirm.({email: res["model"].email, safe_url: result["safe_url"], new_password: "NewPassword", confirm_new_password: "NewPassword"})
+    result.success?.must_equal true
 
     user = User.find_by(email: res["model"].email)
 
@@ -93,7 +96,6 @@ class UserOperationTest < MiniTest::Spec
     Tyrant::Authenticatable.new(user).confirmable?.must_equal false
 
     Mail::TestMailer.deliveries.last.to.must_equal ["test@email.com"]
-    Mail::TestMailer.deliveries.last.body.raw_source.must_equal "Hi there, here is your temporary password: NewPassword. We suggest you to modify this password ASAP. Cheers"
   end
 
   it "wrong input change password" do
@@ -102,7 +104,7 @@ class UserOperationTest < MiniTest::Spec
 
     res = User::ChangePassword.({email: "wrong@email.com", password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password"}, "current_user" => user["model"])
     res.failure?.must_equal true
-    res["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"User not found\"], :password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"The New Password is not matching\"]}"
+    res["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"User not found\"], :password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"Passwords are not matching\"]}"
   end
 
   it "only current_user can change password" do

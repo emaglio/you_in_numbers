@@ -95,20 +95,20 @@ Trailblazer::Test::Integration.class_eval do
   #   click_button "Create Post"
   # end
 
-end
+  # to test that a new password "NewPassword" is actually saved
+  #in the auth_meta_data of User for integration tests
+  Tyrant::ResetPassword::Request.class_eval do
+    def generate_password!(options, *)
+      options["safe_url"] = "safe_url"
+    end
+  end
 
-# to test that a new password "NewPassword" is actually saved
-#in the auth_meta_data of User for integration tests
-Tyrant::ResetPassword.class_eval do
-  def generate_password!(options, *)
-    options["new_password"] = "NewPassword"
+  #to test the email notification to the user for the ResetPassword
+  #for integration tests
+  Tyrant::Mailer.class_eval do
+    def email_options!(options, *)
+      Pony.options = {via: :test}
+    end
   end
 end
 
-#to test the email notification to the user for the ResetPassword
-#for integration tests
-Tyrant::Mailer.class_eval do
-  def email_options!(options, *)
-    Pony.options = {via: :test}
-  end
-end

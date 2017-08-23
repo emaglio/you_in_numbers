@@ -1,6 +1,5 @@
 require "tyrant/railtie"
 
+require "tyrant/mailer"
 require "tyrant/reset_password"
-require "tyrant/operation/get_new_password"
-require "tyrant/operation/change_password"
-require "tyrant/cell/change_password"
+require "tyrant/change_password"
