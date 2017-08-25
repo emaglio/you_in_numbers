@@ -1,11 +1,11 @@
 require 'reform/form/dry'
 
-module Session::Contract 
+module Session::Contract
   class SignIn < Reform::Form
     feature Reform::Form::Dry
     undef :persisted?
     attr_reader :user
-    
+
     property :email,    virtual: true
     property :password, virtual: true
 
@@ -15,7 +15,7 @@ module Session::Contract
 
         # change this in order to have variable (@user) in order to have it available in the contract and
         # run just @model = contract.user instead of another find_by
-        def user 
+        def user
           return User.find_by(email: form.email)
         end
 
@@ -28,10 +28,10 @@ module Session::Contract
         end
 
         def not_blocked?
-          user.block == false or user.block == nil 
+          user.block == false or user.block == nil
         end
       end
-      
+
       required(:email).filled(:user_exists?)
       required(:password).filled
 

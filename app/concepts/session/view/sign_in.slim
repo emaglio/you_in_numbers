@@ -35,7 +35,7 @@ html lang = "en"
           .login-panel.panel.panel-default
             .panel-heading
               .h3.panel-title
-                = "Please Sing In"
+                = "Please Sign In"
             .panel-body
               = trb_form_for(model, "/sessions", method: :post, id: :new_session) do |f|
                 .row.col-sm-12
@@ -44,6 +44,13 @@ html lang = "en"
                   = f.input_group :password, placeholder: "Password", type: "password", left_addon: '<i class="fa fa-lock"></i>'
                 .row.col-sm-12.text-center
                   = f.submit(content: "Sign In")
+                hr
+                .row.col-sm-12
+                  strong Or use:
+                .row.col-sm-12.text-center
+                  = link_to "Github", 'http://github.com/login/oauth/authorize?client_id=7764859b18066947562c&redirect_uri=http://localhost:3000/sessions/github&state=login'
+                .row.col-sm-12.text-center
+                  = link_to "Facebook"
                 .row
                   .col-sm-6.text-left style="margin-top: 20px;"
                     = link_to "Create Account", new_user_path

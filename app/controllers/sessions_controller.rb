@@ -1,7 +1,11 @@
+require 'uri'
+require 'net/http'
+require 'json'
+
 class SessionsController < ApplicationController
 
   def new
-    run Session::SignInForm
+    run Session::SignIn::Form
     render Session::Cell::SignIn, result["contract.default"], layout_type: nil
   end
 
@@ -20,5 +24,9 @@ class SessionsController < ApplicationController
       flash[:success] = "See ya!"
       redirect_to "/sessions/new"
     end
+  end
+
+  def github
+    run Tyrant::SignUp::GitHub
   end
 end

@@ -59,3 +59,6 @@ gem 'prawn-table'
 gem 'nprogress-rails'
 
 # gem 'trailblazer-generator', :path => '../trailblazer-generator'
+
+gem 'omniauth'
+gem 'omniauth-github'
