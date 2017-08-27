@@ -27,6 +27,12 @@ class SessionsController < ApplicationController
   end
 
   def github
-    run Tyrant::SignUp::GitHub
+    run Session::GitHub do |result|
+      tyrant.sign_in!(result["model"])
+      flash[:success] = "Hey mate"
+      return redirect_to "/reports"
+    end
+    flash[:danger] = result["failure_message"]
+    render Session::Cell::SignIn, result["contract.default"], layout_type: nil
   end
 end

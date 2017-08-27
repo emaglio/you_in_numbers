@@ -46,11 +46,11 @@ html lang = "en"
                   = f.submit(content: "Sign In")
                 hr
                 .row.col-sm-12
-                  strong Or use:
+                  strong Or:
                 .row.col-sm-12.text-center
-                  = link_to "Github", 'http://github.com/login/oauth/authorize?client_id=7764859b18066947562c&redirect_uri=http://localhost:3000/sessions/github&state=login'
-                .row.col-sm-12.text-center
-                  = link_to "Facebook"
+                  = link_to '<span class="fa fa-github"></span> Sing In with GitHub'.html_safe, github_link, class: "btn btn-block btn-social btn-github"
+                .row.col-sm-12.text-center style="margin-top:5px"
+                  = link_to '<span class="fa fa-facebook"></span> Sing In with Facebook'.html_safe, nil, class: "btn btn-block btn-social btn-facebook"
                 .row
                   .col-sm-6.text-left style="margin-top: 20px;"
                     = link_to "Create Account", new_user_path
