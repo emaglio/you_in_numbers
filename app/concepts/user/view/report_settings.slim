@@ -6,7 +6,7 @@
         - if model.content["report_settings"]["units_of_measurement"] != nil
           .row style="margin-top:10px;margin-left:5px;"
             strong
-              | Subject settings
+              | Subject Settings
           .row style="width:80%;margin-left:5px;"
             small
               | Units of measurement used for height and weight
@@ -61,7 +61,7 @@
         - if model.content["report_settings"]["training_zones_settings"] != nil
           .row style="margin-top:10px;margin-left:5px;"
             strong
-              | Training Zones Settings
+              | Training Zones Levels
           .row
             .col-sm-2
             .col-sm-2.text-right
@@ -115,8 +115,5 @@
   .col-sm-3
   .col-sm-6.text-center style="margin-top: 20px;"
     - if current_user != nil
-      .col-sm-2
-      .col-sm-4
+      .col-sm-6.col-sm-offset-3.text-center
         = edit
-      .col-sm-4
-        = delete

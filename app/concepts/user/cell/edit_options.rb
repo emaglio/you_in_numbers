@@ -14,6 +14,10 @@ module User::Cell
       options[:obj][:type]
     end
 
+    def form_id
+      "forms_#{options[:obj][:index]}"
+    end
+
     def not_training_zones?
       type != 'report/cell/training_zones'
     end
@@ -36,11 +40,11 @@ module User::Cell
     end
 
     def move_up
-      link_to '<i class="fa fa-arrow-up" aria-hidden="true"></i>'.html_safe, edit_obj_user_path(current_user.id, move_up: index), method: :get, class: "btn btn-outline btn-success" if index > 0
+      link_to '<i class="fa fa-arrow-up" aria-hidden="true"></i>'.html_safe, edit_obj_user_path(current_user.id, move_up: index), method: :get, class: "btn btn-outline btn-success", id: "move_up" if index > 0
     end
 
     def move_down
-      link_to '<i class="fa fa-arrow-down" aria-hidden="true"></i>'.html_safe, edit_obj_user_path(current_user.id, move_down: index), method: :get, class: "btn btn-outline btn-success" if index < (obj_array_size-1)
+      link_to '<i class="fa fa-arrow-down" aria-hidden="true"></i>'.html_safe, edit_obj_user_path(current_user.id, move_down: index), method: :get, class: "btn btn-outline btn-success", id: "move_down" if index < (obj_array_size-1)
     end
   end # class EditOptions
 

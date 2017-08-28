@@ -9,7 +9,7 @@ hr style="margin-top: 0px;"
     = trb_form_for(model, "/users/#{model.id}/report_settings", method: :get, id: :report_settings) do |f|
       .row style="margin-top:10px; margin-left:1px;"
         strong
-          | Subject settings
+          | Subject Settings
       .row style="margin-top:10px;margin-left:1px;"
         small
           | Select which units of measurement to use for height and weight
@@ -112,7 +112,7 @@ hr style="margin-top: 0px;"
         .col-sm-12.text-center style="margin-bottom:10px;"
           = f.submit(content:"Save")
     .row.text-right style="margin:5px;"
-      button id="default" Default settings
+      button id="default" Default Settings
 
 javascript:
 
