@@ -84,5 +84,6 @@ pickle-email-*.html
 *~
 /node_modules
 
-# email stuff
+<<<<<<< HEAD
+# env
 local_env.yml

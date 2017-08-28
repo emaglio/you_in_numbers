@@ -65,3 +65,7 @@ tr.shown td.details-control {
   margin: 0 0 0 250px;
   background-color: white !important;
 }
+
+.btn-social:hover {
+  color: white !important;
+}
