@@ -18,8 +18,6 @@ Rails.application.routes.draw do
       get 'get_report_template'
       get 'report_settings'
       get 'report_template'
-      delete 'delete_report_settings'
-      delete 'delete_report_template'
       get 'settings'
       # used to manage the single obj that create the template
       get 'edit_obj'

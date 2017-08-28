@@ -21,7 +21,7 @@ en:
     same_size?: "The number of the element in the parameters and the unit of measurement list must be the same. If no unit of measurement is required please use a dash (-) instead"
     acceptable_params?: "One of the paramemter is not in the possible list or the spelling is wrong (case sensitive)"
     fat_burning_ok?: "This must be greater than 35"
-    endurance_ok?: "This range is wrong or it's over the previous one"
-    at_ok?: "This range is wrong or it's over the previous one"
-    vo2max_ok?: "This range is wrong or it's over the previous one"
+    endurance_ok?: "This range was wrong or over the previous one"
+    at_ok?: "This range was wrong or over the previous one"
+    vo2max_ok?: "This range was wrong or over the previous one"
 

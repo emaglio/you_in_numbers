@@ -1,7 +1,7 @@
-.col-sm-3
+.col-sm-3 id= form_id
   .row style="margin-top:50px"
   .col-sm-12
-    = form_tag('edit_obj', method: :get)  do
+    = form_tag('edit_obj', method: :get, id: :add_it)  do
       = hidden_field_tag :index, index
       .col-sm-6
         = select_tag "type", options_for_select(["Test Summary", "Training Zones", "Chart"], "Chart")

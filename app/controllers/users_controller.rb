@@ -125,16 +125,6 @@ class UsersController < ApplicationController
     render User::Cell::GetReportSettings, result["contract.default"]
   end
 
-  #TODO: remove this....nothing would work without it!
-  def delete_report_settings
-    run User::DeleteReportSettings do |result|
-      flash[:success] = "Report settings deleted!"
-      return redirect_to "/users/#{result["model"].id}"
-    end
-
-    render User::Cell::GetReportSettings, result["contract.default"]
-  end
-
   def get_report_template
     run User::GetReportTemplate
 
