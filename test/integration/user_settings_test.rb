@@ -105,11 +105,6 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
     end
 
     it "edit template" do
-
-      Report.delete_all
-      User.delete_all
-      Subject.delete_all
-
       log_in_as_user("my@email.com", "password")
       page.must_have_content "Hi, UserFirstname"
 
@@ -163,7 +158,7 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
       page.current_path.must_equal "/users/#{user.id}/get_report_template"
 
       # first element not having the UP button
-      within('#forms_0') do
+      within(page.all('#forms_0')[0]) do
         page.must_have_css '#type'
         page.must_have_button 'Add it'
         page.must_have_button 'Delete'

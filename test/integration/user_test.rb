@@ -33,6 +33,10 @@ class UserIntegrationTest < Trailblazer::Test::Integration
       page.must_have_content "Sign Out"
       page.current_path.must_equal "/reports"
       page.must_have_content "Welcome UserFirstname!"#flash message
+
+      visit "/users/#{User.last.id}"
+      find('#firstname').value.must_equal "UserFirstname"
+      find('#lastname').value.must_equal "UserLastname"
       #user notification
       # Mail::TestMailer.deliveries.length.must_equal num_email+1
       # Mail::TestMailer.deliveries.last.to.must_equal ["test@email.com"]
@@ -77,10 +81,11 @@ class UserIntegrationTest < Trailblazer::Test::Integration
       end
       click_button "Save"
 
-
       page.must_have_content "New details saved" #flash message
       page.must_have_content "Hi, NewFirstname"
       page.current_path.must_equal "/users/#{user.id}"
+
+      find('#firstname').value.must_equal "NewFirstname"
 
       #user2 trying to update user
       click_link "Sign Out"
