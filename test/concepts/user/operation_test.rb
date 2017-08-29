@@ -245,7 +245,7 @@ class UserOperationTest < MiniTest::Spec
     custom[3][:index].must_equal 3
 
     #edit first chart
-    result = User::UpdateChart.({id: user.id, "edit_chart" => "0", "y1_select" => "something", "y2_select" => "something2", "y1_scale" => "1"}, "current_user" => user)
+    result = User::UpdateChart.({id: user.id, "title" => "newTitle", "edit_chart" => "0", "y1_select" => "something", "y2_select" => "something2", "y1_scale" => "1"}, "current_user" => user)
     result.success?.must_equal true
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
@@ -254,6 +254,7 @@ class UserOperationTest < MiniTest::Spec
     custom.size.must_equal 4
     custom[0][:type].must_equal "report/cell/chart"
     custom[0][:index].must_equal 0
+    custom[0][:title].must_equal "newTitle"
     custom[0][:y1][:name].must_equal "something"
     custom[0][:y2][:name].must_equal "something2"
     custom[1][:type].must_equal 'report/cell/chart'
