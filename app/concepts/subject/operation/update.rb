@@ -14,6 +14,7 @@ class Subject::Update < Trailblazer::Operation
 
   #used in the controller to redirect to new_report_path
   def redirect_new_report!(options, params:, **)
-    params[:new_report] ? (options["new_report"] = params[:new_report]) : true
+    params["new_report"]=="true" ? options["new_report"] = true : options["new_report"] = false
+    true
   end
 end # class Subject::Update

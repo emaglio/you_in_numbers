@@ -83,18 +83,21 @@ Trailblazer::Test::Integration.class_eval do
     submit!(email, "password")
   end
 
-  # def new_post!(title = "Title", subtitle = "Subtitle", body = "Body", author = "Author", signed_in = false)
-  #   within("//form[@id='new_post']") do
-  #     fill_in 'Title',  with: title
-  #     fill_in 'Subtitle', with: subtitle
-  #     fill_in 'What do you wanna say?', with: body
-  #     if !signed_in
-  #       fill_in 'Author', with: author
-  #     end
-  #   end
-  #   click_button "Create Post"
-  # end
+  def new_subject!(firstname = "SubjectFirstname", lastname="SubjectLastname", gender="Male", dob="01/01/1980", height="180", weight="80", phone="0128471", email="subject@email.com")
+    visit '/subjects/new'
 
+    within("//form[@id='new_subject']") do
+      fill_in 'firstname', with: firstname
+      fill_in 'lastname', with: lastname
+      select(gender, from: 'gender')
+      fill_in 'dob', with: dob
+      fill_in 'height', with: height
+      fill_in 'weight', with: weight
+      fill_in 'phone', with: phone
+      fill_in 'email', with: email
+    end
+    click_button "Create Subject"
+  end
   # to test that a new password "NewPassword" is actually saved
   #in the auth_meta_data of User for integration tests
   Tyrant::ResetPassword::Request.class_eval do

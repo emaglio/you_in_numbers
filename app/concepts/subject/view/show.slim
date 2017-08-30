@@ -18,7 +18,7 @@ hr style="margin-top: 0px;"
           .col-sm-2
             = f.select :gender, label: "Gender", collection: [["Male"], ["Female"]], disabled: "true"
           .col-sm-3
-            = f.input :dob, label: "Date of Birth", disabled: "true", value: "#{dob}"
+            = f.input_group :dob, label: "Date of Birth", left_addon: '<i class="fa fa-calendar"></i>', value: "#{dob}", disabled: "true"
           .col-sm-3
             = f.input :height, label: height, disabled: "true"
           .col-sm-3
@@ -29,9 +29,9 @@ hr style="margin-top: 0px;"
         .row
           .col-sm-1
           .col-sm-5
-            = f.input :phone, label: "Phone", disabled: "true"
+            = f.input_group :phone, label: "Phone", left_addon: '<i class="fa fa-phone"></i>', disabled: "true"
           .col-sm-5
-            = f.input :email, label: "Email", disabled: "true"
+            = f.input_group :email, label: "Email", left_addon: ' @ ', disabled: "true"
     .col-sm-3
   .row style="margin-top:20px;"
     .col-sm-3

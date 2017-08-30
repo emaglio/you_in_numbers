@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CompanyTest < Trailblazer::Test::Integration
+class CompanyIntegationTest < Trailblazer::Test::Integration
 
   describe "Company CRUD" do
     it "Company from scratch" do
@@ -114,6 +114,7 @@ class CompanyTest < Trailblazer::Test::Integration
 
       visit "/companies/#{Company.last.id}/edit"
       page.must_have_content "You are not authorized mate!"
+      page.current_path.must_equal "/reports"
     end
 
     it "Delete Company" do
