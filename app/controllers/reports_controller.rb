@@ -18,6 +18,7 @@ class ReportsController < ApplicationController
 
   def create
     run Report::Create do |result|
+      flash[:success] = "Report created"
       return redirect_to "/reports/#{result["model"].id}"
     end
 

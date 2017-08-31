@@ -903,3 +903,4 @@ D, [2017-08-31T09:39:44.437425 #23501] DEBUG -- : DRAGONFLY: shell command: 'con
 D, [2017-08-31T09:39:44.543448 #23501] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170831-23501-1epd0im.jpeg'
 D, [2017-08-31T09:39:45.038830 #23501] DEBUG -- : DRAGONFLY: shell command: 'convert' '/home/emaglio/projects/you_in_numbers/test/images/logo.jpeg' '-resize' '120x120^^' '-gravity' 'Center' '-crop' '120x120+0+0' '+repage' '/tmp/dragonfly20170831-23501-i6ny6d.jpeg'
 D, [2017-08-31T09:39:45.138133 #23501] DEBUG -- : DRAGONFLY: shell command: 'identify' '-ping' '-format' '%m %w %h' '/tmp/dragonfly20170831-23501-i6ny6d.jpeg'
+W, [2017-08-31T10:21:32.916741 #22428]  WARN -- : DRAGONFLY: Dragonfly::FileDataStore destroy error: No such file or directory @ unlink_internal - public/images/thumb-logo.jpeg

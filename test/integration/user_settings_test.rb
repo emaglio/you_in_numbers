@@ -327,4 +327,10 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
 
     end
   end
+
+  describe "Test unit of measurements for User" do
+    it "test it" do
+
+    end
+  end
 end
