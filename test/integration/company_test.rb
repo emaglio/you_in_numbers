@@ -25,7 +25,6 @@ class CompanyIntegationTest < Trailblazer::Test::Integration
       page.must_have_css "#email"
       page.must_have_css "#phone"
       page.must_have_css "#website"
-      page.must_have_css "#website"
       page.must_have_selector("input[type=file][name=logo]")
       page.must_have_button "Create Company"
 

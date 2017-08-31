@@ -84,7 +84,7 @@ Trailblazer::Test::Integration.class_eval do
   end
 
   def new_subject!(firstname = "SubjectFirstname", lastname="SubjectLastname", gender="Male", dob="01/01/1980", height="180", weight="80", phone="0128471", email="subject@email.com")
-    visit '/subjects/new'
+    visit "/subjects/new"
 
     within("//form[@id='new_subject']") do
       fill_in 'firstname', with: firstname
@@ -98,6 +98,35 @@ Trailblazer::Test::Integration.class_eval do
     end
     click_button "Create Subject"
   end
+
+  def new_report!(title = "ReportTitle")
+    visit "/reports/new?subject_id=#{Subject.last.id}"
+
+    within("//form[@id='new_report']") do
+      fill_in 'title', with: title
+      attach_file('cpet_file_path', Rails.root.join("test/files/cpet.xlsx"))
+      attach_file('rmr_file_path', Rails.root.join("test/files/rmr.xlsx"))
+    end
+    click_button "Create Report"
+  end
+
+  def new_company!(name = "CompanyName")
+    visit "/companies/new"
+
+    within("//form[@id='new_company']") do
+      fill_in 'name', with: name
+      fill_in 'address_1', with: "address_1"
+      fill_in 'address_2', with: "address_2"
+      fill_in 'city', with: "city"
+      fill_in 'postcode', with: "postcode"
+      fill_in 'country', with: "country"
+      fill_in 'email', with: "email"
+      fill_in 'phone', with: "phone"
+      attach_file('logo', Rails.root.join("test/images/logo.jpeg"))
+    end
+    click_button "Create Company"
+  end
+
   # to test that a new password "NewPassword" is actually saved
   #in the auth_meta_data of User for integration tests
   Tyrant::ResetPassword::Request.class_eval do

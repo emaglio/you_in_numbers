@@ -47,9 +47,28 @@ class ReportIntegrationTest < Trailblazer::Test::Integration
 
       page.must_have_content "Report created"
       page.must_have_content "ReportTitle"
+      page.must_have_css "#template"
+      page.must_have_button "Update Template"
+      page.must_have_button "Edit AT"
+      page.must_have_button "Edit VO2max"
+      page.must_have_button "Generate Report"
+
       page.current_path.must_equal "/reports/#{Report.last.id}"
 
+      click_button "Generate Report"
+    end
 
+    it "Generate report only if company is created" do
+      log_in_as_user
+
+      new_subject!
+
+      new_report!
+
+      click_button "Generate Report"
+
+      page.must_have_content "Create a company and try to generate the report again!"
+      page.current_path.must_equal "/companies/new"
     end
 
   end

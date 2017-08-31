@@ -1,14 +1,7 @@
 GIT
-  remote: https://github.com/trailblazer/formular.git
-  revision: 84792d7d6577acc1c53d3809a920a4d11c82bfd8
-  branch: master
-  specs:
-    formular (0.2.1)
-      declarative (~> 0.0.4)
-      uber (>= 0.0.11, < 0.2.0)
-
-PATH
-  remote: ../tyrant
+  remote: https://github.com/emaglio/tyrant.git
+  revision: 96a1507b5bb5f3b228ca5221a45ea78185135790
+  branch: playing_with_it
   specs:
     tyrant (0.0.3)
       bcrypt
@@ -19,6 +12,15 @@ PATH
       reform (>= 2.3.0.rc1)
       trailblazer (>= 2.0.1)
       warden (>= 1.2.6)
+
+GIT
+  remote: https://github.com/trailblazer/formular.git
+  revision: 84792d7d6577acc1c53d3809a920a4d11c82bfd8
+  branch: master
+  specs:
+    formular (0.2.1)
+      declarative (~> 0.0.4)
+      uber (>= 0.0.11, < 0.2.0)
 
 GEM
   remote: https://rubygems.org/
