@@ -324,13 +324,36 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
 
       User.find(user.id).content["report_template"]["custom"][0][:title].must_equal "VO2 and VCO2 on time"
       User.find(user.id).content["report_template"]["custom"][0][:title].wont_equal "HR, Power and Ve on time"
-
     end
   end
 
   describe "Test unit of measurements for User" do
     it "test it" do
+      log_in_as_user
 
+      user = User.find_by(email: 'my@email.com')
+
+      new_subject!
+
+      visit "/reports/new?subject_id=#{Subject.last.id}"
+
+      page.must_have_content "Height (cm)"
+      page.must_have_content "Weight (kg)"
+
+      visit "/users/#{user.id}/settings"
+
+      first('.button_to').click_button("Edit")
+
+      within("//form[@id='report_settings']") do
+        select('in', :from => 'um_height')
+        select('lbs', :from => 'um_weight')
+      end
+      click_button "Save"
+
+      visit "/reports/new?subject_id=#{Subject.last.id}"
+
+      page.must_have_content "Height (in)"
+      page.must_have_content "Weight (lbs)"
     end
   end
 end
