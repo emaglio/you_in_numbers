@@ -178,7 +178,7 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
         page.must_have_css '#move_up'
       end
 
-      within('#forms_0') do
+      within(page.all('#forms_0')[0]) do
         click_button "Edit"
       end
 
@@ -236,7 +236,7 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
       # delete object
       visit "/users/#{user.id}/get_report_template"
 
-      within('#forms_0') do
+      within(page.all('#forms_0')[0]) do
         click_button "Delete"
       end
       page.must_have_content "Report template updated!"
@@ -253,7 +253,7 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
       # add obj
       visit "/users/#{user.id}/get_report_template"
 
-      within('#forms_0') do
+      within(page.all('#forms_0')[0]) do
         select("Chart", from: 'type')
         click_button "Add it"
       end
@@ -304,7 +304,7 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
 
       User.find(user.id).content["report_template"]["custom"][0][:title].must_equal "VO2 and VCO2 on time"
 
-      within('#forms_0') do
+      within(page.all('#forms_0')[0]) do
         find('#move_down').click
       end
       page.must_have_content "Report template updated!"
