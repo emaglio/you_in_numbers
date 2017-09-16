@@ -28,6 +28,7 @@ group :test do
   gem "minitest-line"
   gem "minitest-bang"
   gem 'database_cleaner'
+  gem 'trailblazer-test', :git => "https://github.com/trailblazer/trailblazer-test.git", :branch => "master"
 end
 
 gem 'font-awesome-rails'

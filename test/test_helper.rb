@@ -6,10 +6,14 @@ require 'minitest/autorun'
 require "trailblazer/rails/test/integration"
 require 'tyrant'
 require 'database_cleaner'
+require 'trailblazer/test'
 
 DatabaseCleaner.strategy = :transaction
 
 Minitest::Spec.class_eval do
+  include Trailblazer::Test::Assertions
+  include Trailblazer::Test::Operation::Assertions
+
   before :each do
     DatabaseCleaner.start
   end
