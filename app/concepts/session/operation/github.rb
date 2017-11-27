@@ -11,5 +11,4 @@ class Session::GitHub < Trailblazer::Operation
       "client_secret" => ENV['CLIENT_SECRET']
     }
   end )
-
 end # class Session::GitHub

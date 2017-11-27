@@ -4,7 +4,7 @@ module Session::Cell
     include ActionView::Helpers::CsrfHelper
 
     def github_link
-      'http://github.com/login/oauth/authorize?client_id=7764859b18066947562c&redirect_uri=http://localhost:3000/sessions/github&state=login'
+      "http://github.com/login/oauth/authorize?client_id=#{ENV['CLIENT_ID']}&redirect_uri=http://localhost:3000/sessions/github&state=login"
     end
   end
 end
