@@ -3,45 +3,73 @@ require_dependency 'user/contract/edit_template.rb'
 
 class UserOperationTest < MiniTest::Spec
 
-  let(:admin) {admin_for}
-  let(:user) {(User::Create.({email: "test@email.com", password: "password", confirm_password: "password"}))["model"]}
-  let(:user2) {(User::Create.({email: "test2@email.com", password: "password", confirm_password: "password"}))["model"]}
-  let(:subject) {(Subject::Create.({
-                                    user_id: user.id,
-                                    firstname: "Ema",
-                                    lastname: "Maglio",
-                                    gender: "Male",
-                                    dob: "01/01/1980",
-                                    height: "180",
-                                    weight: "80",
-                                    phone: "912873",
-                                    email: "ema@email.com"}, "current_user" => user))["model"]}
+  # let(:admin) {admin_for}
+  # let(:user) {(User::Create.({email: "test@email.com", password: "password", confirm_password: "password"}))["model"]}
+  # let(:user2) {(User::Create.({email: "test2@email.com", password: "password", confirm_password: "password"}))["model"]}
+  # let(:subject) {(Subject::Create.({
+  #                                   user_id: user.id,
+  #                                   firstname: "Ema",
+  #                                   lastname: "Maglio",
+  #                                   gender: "Male",
+  #                                   dob: "01/01/1980",
+  #                                   height: "180",
+  #                                   weight: "80",
+  #                                   phone: "912873",
+  #                                   email: "ema@email.com"}, "current_user" => user))["model"]}
 
-  let(:params_pass) {{email: "test@email.com", password: "password", confirm_password: "password"}}
-  let(:attrs_pass) {{email: "test@email.com", password: "password", confirm_password: "password"}}
+  let(:params_pass) { { password: "password", confirm_password: "password" } }
+  let(:attrs_pass) { { } }
+  let(:email) { { email: "test@email.com" } }
+  let(:user) { factory( User::Create, params_pass.merge(email))['model'] }
 
-  it "validate correct input" do
+  describe 'valid inputs' do
+    let(:report_settings) { {
+      "params_list"=> ["t", "Rf", "VE", "VO2", "VCO2", "RQ", "VE/VO2", "VE/VCO2", "HR", "VO2/Kg", "FAT%", "CHO%", "Phase"],
+      "ergo_params_list" => ["Power", "Watt", "Revolution", "RPM"],
+      "training_zones_settings" => [35, 50, 51, 75, 76, 90, 91, 100],
+      "units_of_measurement" => {"height" => "cm", "weight" => "kg"}
+    } }
 
-    assert_pass User::Create, {title: "test@email.com", password: "password", confirm_password: "password"}, {title: "test@email.com"}
+    let(:report_template) { { "default" => MyDefault::ReportObj.clone, "custom" => MyDefault::ReportObj.clone } }
 
-    result = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
-    result.success?.must_equal true
-    result["model"].email.must_equal "test@email.com"
-    (result["model"]["content"]["report_settings"] != nil).must_equal true
-    (result["model"]["content"]["report_template"] != nil).must_equal true
+    it { assert_pass User::Create, email, email }
+
+    it 'populates default params' do
+      assert_exposes user,
+        email: 'test@email.com',
+        'content' => ->(actual, **) {
+          actual[:actual]['report_settings']== report_settings
+          actual[:actual]['report_template']== report_template
+        }
+    end
   end
 
-  # it "wrong input" do
-  #   result = User::Create.({})
-  #   result.failure?.must_equal true
-  #   result["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"Can't be blank\", \"Wrong format\"], :password=>[\"Can't be blank\"], :confirm_password=>[\"Can't be blank\"]}"
-  # end
+  describe 'empty input hash' do
+    let(:params_pass) {{}}
 
-  # it "passwords not matching" do
-  #   res = User::Create.({email: "test@email.com", password: "password", confirm_password: "notpassword"})
-  #   res.failure?.must_equal true
-  #   res["result.contract.default"].errors.messages.inspect.must_equal "{:confirm_password=>[\"Passwords are not matching\"]}"
-  # end
+
+    it do
+      assert_fail User::Create, {}, {} do |result|
+        assert_equal({
+          :email => ["Can't be blank", "Wrong format"],
+          :password => ["Can't be blank"],
+          :confirm_password => ["Can't be blank"]
+        }, result["contract.default"].errors.messages )
+      end
+    end
+  end
+
+  describe 'passwords not matching' do
+    let(:params_pass) { { password: "password", confirm_password: "notpassword" } }
+
+    it do
+      assert_fail User::Create, { email: "test@email.com" }, {} do |result|
+        assert_equal({
+          :confirm_password => ["Passwords are not matching"]
+        }, result["contract.default"].errors.messages)
+      end
+    end
+  end
 
   # it "unique user" do
   #   res = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
@@ -108,7 +136,7 @@ class UserOperationTest < MiniTest::Spec
   #   user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
   #   user.success?.must_equal true
 
-  #   res = User::ChangePassword.({email: "wrong@email.com", password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password"}, "current_user" => user["model"])
+  #   res = User::ChangePassword.({em ail: "wrong@email.com", password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password"}, "current_user" => user["model"])
   #   res.failure?.must_equal true
   #   res["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"User not found\"], :password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"Passwords are not matching\"]}"
   # end

@@ -24,7 +24,7 @@ GIT
 
 GIT
   remote: https://github.com/trailblazer/trailblazer-test.git
-  revision: 4f86d069ec36f697c5ffd797ae67e8683c8e6bc8
+  revision: 6b6c7a479365a2d2d5dd7a67b58607078b1f4222
   branch: master
   specs:
     trailblazer-test (0.1.0)
@@ -402,4 +402,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.15.3
+   1.15.4

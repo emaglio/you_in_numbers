@@ -13,6 +13,7 @@ DatabaseCleaner.strategy = :transaction
 Minitest::Spec.class_eval do
   include Trailblazer::Test::Assertions
   include Trailblazer::Test::Operation::Assertions
+  include Trailblazer::Test::Helper::Operation
 
   before :each do
     DatabaseCleaner.start
