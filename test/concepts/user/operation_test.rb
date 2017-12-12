@@ -93,9 +93,9 @@ class UserOperationTest < MiniTest::Spec
   #       "current_user" => user2)
   #   end
 
-  #   res = User::Update.({id: user.id, email: "newtest@email.com"}, "current_user" => user)
-  #   res.success?.must_equal true
-  #   res["model"].email.must_equal "newtest@email.com"
+    # res = User::Update.({id: user.id, email: "newtest@email.com"}, "current_user" => user)
+    # res.success?.must_equal true
+    # res["model"].email.must_equal "newtest@email.com"
   # end
 
   # it "only current_user can delete user" do
