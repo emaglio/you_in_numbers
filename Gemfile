@@ -11,15 +11,16 @@ group :development, :test do
   gem 'byebug'
 end
 group :development do
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
 end
 gem 'bootstrap-sass', '~> 3.3.7'
 gem 'high_voltage'
 gem 'slim-rails'
 group :development do
+  gem 'spring'
+  gem 'web-console', '~> 2.0'
   gem 'better_errors'
   gem 'rails_layout'
+  gem 'rubocop', require: false # Code style checks
 end
 
 group :test do
@@ -32,15 +33,15 @@ group :test do
 end
 
 gem 'font-awesome-rails'
-gem 'trailblazer', '>= 2.0.1'
 gem 'trailblazer-cells'
-gem 'trailblazer-rails'
+gem "trailblazer-rails", ">= 1.0.3"
+gem "trailblazer",       ">= 2.0.4"
 gem 'cells-rails'
 gem 'cells-slim'
 gem 'dry-validation'
 gem 'file_validators'
 gem 'formular', :git => "https://github.com/trailblazer/formular.git", :branch => "master"
-gem 'tyrant', :git => "https://github.com/emaglio/tyrant.git", :branch => "playing_with_it"
+gem 'tyrant', :git => "https://github.com/apotonick/tyrant.git", :branch => "trb-2"
 # gem 'tyrant', :path => "../tyrant"
 gem 'reform', '>= 2.3.0.rc1'
 gem 'reform-rails', '>= 0.2.0.rc1'
