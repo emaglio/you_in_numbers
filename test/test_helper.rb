@@ -1,3 +1,9 @@
+require 'simplecov'
+SimpleCov.start
+
+require 'codecov'
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
+
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
@@ -8,12 +14,6 @@ require "trailblazer/rails/test/integration"
 require 'tyrant'
 require 'database_cleaner'
 require 'trailblazer/test'
-
-require 'simplecov'
-SimpleCov.start 'rails'
-
-require 'codecov'
-SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 DatabaseCleaner.strategy = :transaction
 

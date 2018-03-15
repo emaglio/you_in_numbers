@@ -1,9 +1,7 @@
 require 'test_helper'
 
 class UserSettingsIntegrationTest < Trailblazer::Test::Integration
-
   describe 'User report settings/template' do
-
     it "edit settings" do
       log_in_as_user("my@email.com", "password")
 
@@ -54,20 +52,20 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
       page.must_have_button "Save"
       page.must_have_button "Default Settings"
 
-       within("//form[@id='report_settings']") do
-        select('in', :from => 'um_height')
-        select('lbs', :from => 'um_weight')
+      within("//form[@id='report_settings']") do
+        select('in', from: 'um_height')
+        select('lbs', from: 'um_weight')
         fill_in 'params_list', with: "Param1,Param2,Param3"
         fill_in 'load_1', with: "load_1"
         fill_in 'load_1_um', with: "load_1_um"
         fill_in 'load_2', with: "load_2"
         fill_in 'load_2_um', with: "load_2_um"
-        select('49', :from => 'level2')
-        select('65', :from => 'level3')
-        select('74', :from => 'level4')
-        select('80', :from => 'level5')
-        select('85', :from => 'level6')
-        select('95', :from => 'level7')
+        select('49', from: 'level2')
+        select('65', from: 'level3')
+        select('74', from: 'level4')
+        select('80', from: 'level5')
+        select('85', from: 'level6')
+        select('95', from: 'level7')
       end
       click_button "Save"
 
@@ -94,8 +92,8 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
 
       within("//form[@id='report_settings']") do
         fill_in 'params_list', with: ""
-        select('2', :from => 'level2')
-        select('2', :from => 'level4')
+        select('2', from: 'level2')
+        select('2', from: 'level4')
       end
       click_button "Save"
 
@@ -110,7 +108,8 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
 
       user = User.find_by(email: 'my@email.com')
 
-      subject = Subject::Create.({
+      subject = Subject::Create.(
+        {
           user_id: user.id,
           firstname: "Ema",
           lastname: "Maglio",
@@ -120,20 +119,22 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
           weight: "80",
           phone: "912873",
           email: "ema@email.com"
-        }, "current_user" => user)["model"]
+        }, "current_user" => user
+      )["model"]
 
-      upload_file = ActionDispatch::Http::UploadedFile.new({
-        :tempfile => File.new(Rails.root.join("test/files/cpet.xlsx"))
-      })
+      upload_file = ActionDispatch::Http::UploadedFile.new(
+        tempfile: File.new(Rails.root.join("test/files/cpet.xlsx"))
+      )
 
-
-      report = Report::Create.({
-            user_id: user.id,
-            subject_id: subject.id,
-            title: "My report",
-            cpet_file_path: upload_file,
-            template: "default"
-        }, "current_user" => user)
+      report = Report::Create.(
+        {
+          user_id: user.id,
+          subject_id: subject.id,
+          title: "My report",
+          cpet_file_path: upload_file,
+          template: "default"
+        }, "current_user" => user
+      )
 
       visit "/users/#{user.id}/settings"
 
@@ -345,8 +346,8 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
       first('.button_to').click_button("Edit")
 
       within("//form[@id='report_settings']") do
-        select('in', :from => 'um_height')
-        select('lbs', :from => 'um_weight')
+        select('in', from: 'um_height')
+        select('lbs', from: 'um_weight')
       end
       click_button "Save"
 
