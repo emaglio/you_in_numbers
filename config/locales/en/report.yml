@@ -1,0 +1,5 @@
+en:
+  report:
+    error:
+      open_file: Something went wrong when opening the report file..try again! Please contact us if it happens again!
+

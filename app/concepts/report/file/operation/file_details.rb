@@ -1,9 +1,9 @@
 require 'roo'
-require 'pathname'
 
-class Report::Create < Trailblazer::Operation
-  class GetCpetData < Trailblazer::Operation
+module Report::File::Operation
+  class Details < Trailblazer::Operation
     step :open_file!
+    failure :error!, pass_fast: true
     step :set_default_sheet!
     step :cpet_params!
 
@@ -11,21 +11,20 @@ class Report::Create < Trailblazer::Operation
       options["cpet_file"] = Roo::Spreadsheet.open(params[:cpet_file_path]) unless params[:cpet_file_path].nil?
     end
 
-    # gets sheet with higer number of rowss
-    def set_default_sheet!(options, cpet_file:, **)
-      rows = 0
-      sheet_name = ""
-      cpet_file.each_with_pagename do |name, sheet|
-        if sheet.last_row > rows
-          rows = sheet.last_row
-          sheet_name = name
-        end
-      end
-
-      cpet_file.default_sheet = sheet_name
+    def error!(options, *)
+      options[:error] = I18n.t('report.error.open_file')
     end
 
-    def cpet_params!(options, cpet_file:, **)
+    def set_default_sheet!(_options, cpet_file:, **)
+      cpet_file.each_with_pagename do |name, sheet|
+        if sheet.last_row > rows
+          rows ||= sheet.last_row
+          cpet_file.default_sheet ||= name
+        end
+      end
+    end
+
+    def cpet_params!(options, cpet_file:, current_user:, **)
       cpet_params = {}
 
       # generate the cpet_params hash in base on Report settings
@@ -33,11 +32,9 @@ class Report::Create < Trailblazer::Operation
         cpet_params[key] = []
       end
 
-      i = 0
-      options["current_user"].content["report_settings"]["ergo_params_list"].each do |key, value|
+      options["current_user"].content["report_settings"]["ergo_params_list"].each_with_index do |params, index|
         # avoid to add the unit of measurement in the cpet_params array
-        cpet_params[key] = [] if (i==0 or i==2)
-        i += 1
+        cpet_params[hash.key] = [] if index > 2
       end
 
       # TODO: search in each row the cpet_params - generate error in case
@@ -88,8 +85,7 @@ class Report::Create < Trailblazer::Operation
       options["cpet_params"] = cpet_params
     end
 
-
-  private
+    private
     def is_number?(string)
       true if Float(string) rescue false
     end

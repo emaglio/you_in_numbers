@@ -12,8 +12,8 @@ class Report::Create < Trailblazer::Operation
 
   step Nested( Present )
   step Contract::Validate()
-  step Nested(Report::GetCpetData)
-  step Nested(Report::GetCpetResults, input: ->(options, cpet_params:, current_user:, **) do
+  step Nested(GetCpetData)
+  step Nested(GetCpetResults, input: ->(options, cpet_params:, current_user:, **) do
                   {
                     "cpet_params" => cpet_params,
                     "current_user" => current_user

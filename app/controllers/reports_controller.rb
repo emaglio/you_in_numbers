@@ -22,6 +22,7 @@ class ReportsController < ApplicationController
       return redirect_to "/reports/#{result["model"].id}"
     end
 
+    flash[:alert] = result[:error]
     render Report::Cell::New, result["contract.default"]
   end
 
