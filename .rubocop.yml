@@ -30,6 +30,7 @@ Metrics/BlockLength:
     - feature
     - context
     - describe
+    - it
     - scenario
     - shared_examples_for
     - form
