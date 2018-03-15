@@ -10,7 +10,7 @@
         = form_tag(update_template_report_path(model.id)) do
           = hidden_field_tag :id, model.id
           = select_tag :template, options_for_select(["default","custom"])
-          = submit_tag("Update template")
+          = submit_tag("Update Template")
       .col-sm-3
         = edit_at
       .col-sm-3

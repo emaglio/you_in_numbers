@@ -3,7 +3,7 @@ module Subject::Cell
   class Show < New
 
     def dob
-      model.dob.strftime("%d %B %Y")
+      model.dob.strftime("%d/%b/%Y")
     end
 
     def edit

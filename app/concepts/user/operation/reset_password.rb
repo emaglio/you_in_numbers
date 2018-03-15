@@ -1,11 +1,5 @@
 class User::ResetPassword < Trailblazer::Operation
-  step Nested(Tyrant::ResetPassword::Request, input: ->(options, params:, **) do
-                  {
-                    "email" => params[:email],
-                    "url" => "http://localhost:3000/users/confirm_password"
-                  }
-                end
-              )
+  step Nested(Tyrant::ResetPassword)
   failure :get_errors!
 
   def get_errors!(options, *)

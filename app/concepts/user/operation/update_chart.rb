@@ -16,7 +16,7 @@ class User::UpdateChart < Trailblazer::Operation
 
     index = params["edit_chart"].to_i
 
-    obj_array[index][:y1][:title] = params["title"]
+    obj_array[index][:title] = params["title"]
 
     obj_array[index][:y1][:name] = (params["y1_select"] != "none") ? params["y1_select"] : nil
     obj_array[index][:y1][:colour] = params["y1_colour"]
@@ -46,6 +46,5 @@ class User::UpdateChart < Trailblazer::Operation
     obj_array[index][:only_exer] = params["only_exer"]
     true
   end
-
 
 end # class User::EditChart

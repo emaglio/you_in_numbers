@@ -2,14 +2,26 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
+require 'capybara-screenshot/minitest'
 require 'minitest/autorun'
 require "trailblazer/rails/test/integration"
 require 'tyrant'
 require 'database_cleaner'
+require 'trailblazer/test'
+
+require 'simplecov'
+SimpleCov.start 'rails'
+
+require 'codecov'
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 DatabaseCleaner.strategy = :transaction
 
 Minitest::Spec.class_eval do
+  include Trailblazer::Test::Assertions
+  include Trailblazer::Test::Operation::Helper
+  include Trailblazer::Test::Operation::Assertions
+
   before :each do
     DatabaseCleaner.start
   end
@@ -19,7 +31,13 @@ Minitest::Spec.class_eval do
   end
 
   def admin_for
-    User::Create.({email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin"})["model"] unless User.find_by(email: "admin@email.com") != nil
+    return unless User.find_by(email: "admin@email.com").nil?
+    User::Create.(
+      email: "admin@email.com",
+      password: "password",
+      confirm_password: "password",
+      firstname: "Admin"
+    )["model"]
   end
 
   def get_data_sheet(file)
@@ -31,7 +49,7 @@ Minitest::Spec.class_eval do
       end
     end
 
-    return sheet_name
+    sheet_name
   end
 end
 
@@ -42,7 +60,13 @@ end
 
 Trailblazer::Test::Integration.class_eval do
   def admin_for
-    User::Create.({email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin"})["model"] unless User.find_by(email: "admin@email.com") != nil
+    return unless User.find_by(email: "admin@email.com").nil?
+    User::Create.(
+      email: "admin@email.com",
+      password: "password",
+      confirm_password: "password",
+      firstname: "Admin"
+    )["model"]
   end
 
   # puts page.body
@@ -54,15 +78,14 @@ Trailblazer::Test::Integration.class_eval do
     click_button "Sign In"
   end
 
-
   def sign_up!(email = "test@email.com", password = "password")
     within("//form[@id='new_user']") do
-      fill_in 'Firstname',    with: "UserFirstname"
-      fill_in 'Lastname',    with: "UserLastname"
+      fill_in 'Firstname', with: "UserFirstname"
+      fill_in 'Lastname', with: "UserLastname"
       fill_in 'Email',    with: email
       fill_in 'Password', with: password
       fill_in 'Confirm Password', with: password
-      select('Male', :from => 'gender')
+      select('Male', from: 'gender')
       fill_in 'Age', with: "31"
       fill_in 'Phone', with: "32343211"
     end
@@ -70,7 +93,7 @@ Trailblazer::Test::Integration.class_eval do
   end
 
   def log_in_as_admin
-    User::Create.(email: "admin@email.com", password: "password", confirm_password: "password", firstname: "Admin")["model"] unless User.find_by(email: "admin@email.com") != nil
+    admin_for
 
     visit "/sessions/new"
     submit!("admin@email.com", "password")
@@ -80,35 +103,66 @@ Trailblazer::Test::Integration.class_eval do
     email = User::Create.(email: email, password: password, confirm_password: password, firstname: "UserFirstname")["model"].email unless User.find_by(email: email) != nil
 
     visit "/sessions/new"
-    submit!(email, "password")
+    submit!(email, password)
   end
 
-  # def new_post!(title = "Title", subtitle = "Subtitle", body = "Body", author = "Author", signed_in = false)
-  #   within("//form[@id='new_post']") do
-  #     fill_in 'Title',  with: title
-  #     fill_in 'Subtitle', with: subtitle
-  #     fill_in 'What do you wanna say?', with: body
-  #     if !signed_in
-  #       fill_in 'Author', with: author
-  #     end
-  #   end
-  #   click_button "Create Post"
-  # end
+  def new_subject!(firstname = "SubjectFirstname", lastname="SubjectLastname", gender="Male", dob="01/01/1980", height="180", weight="80", phone="0128471", email="subject@email.com")
+    visit "/subjects/new"
+
+    within("//form[@id='new_subject']") do
+      fill_in 'firstname', with: firstname
+      fill_in 'lastname', with: lastname
+      select(gender, from: 'gender')
+      fill_in 'dob', with: dob
+      fill_in 'height', with: height
+      fill_in 'weight', with: weight
+      fill_in 'phone', with: phone
+      fill_in 'email', with: email
+    end
+    click_button "Create Subject"
+  end
+
+  def new_report!(title = "ReportTitle")
+    visit "/reports/new?subject_id=#{Subject.last.id}"
+
+    within("//form[@id='new_report']") do
+      fill_in 'title', with: title
+      attach_file('cpet_file_path', Rails.root.join("test/files/cpet.xlsx"))
+      attach_file('rmr_file_path', Rails.root.join("test/files/rmr.xlsx"))
+    end
+    click_button "Create Report"
+  end
+
+  def new_company!(name = "CompanyName")
+    visit "/companies/new"
+
+    within("//form[@id='new_company']") do
+      fill_in 'name', with: name
+      fill_in 'address_1', with: "address_1"
+      fill_in 'address_2', with: "address_2"
+      fill_in 'city', with: "city"
+      fill_in 'postcode', with: "postcode"
+      fill_in 'country', with: "country"
+      fill_in 'email', with: "email"
+      fill_in 'phone', with: "phone"
+      attach_file('logo', Rails.root.join("test/images/logo.jpeg"))
+    end
+    click_button "Create Company"
+  end
 
   # to test that a new password "NewPassword" is actually saved
-  #in the auth_meta_data of User for integration tests
-  Tyrant::ResetPassword::Request.class_eval do
+  # in the auth_meta_data of User for integration tests
+  Tyrant::ResetPassword.class_eval do
     def generate_password!(options, *)
-      options["safe_url"] = "safe_url"
+      options["new_password"] = "NewPassword"
     end
   end
 
-  #to test the email notification to the user for the ResetPassword
-  #for integration tests
+  # to test the email notification to the user for the ResetPassword
+  # for integration tests
   Tyrant::Mailer.class_eval do
-    def email_options!(options, *)
-      Pony.options = {via: :test}
+    def email_options!(_options, *)
+      Pony.options = { via: :test }
     end
   end
 end
-

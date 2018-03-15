@@ -10,7 +10,7 @@ class Report::GeneratePdf < Trailblazer::Operation
   failure ::Session::Lib::ThrowException
   step :obj_array!
   step :check_files!
-  step :find_company!, fast_fail: true
+  step :find_company!
   step :saving_folder!
   step :elaborate_tables_data!
   step Rescue( NoMethodError, ArgumentError, Prawn::Errors::UnsupportedImageType,  handler: :rollback! ){
@@ -37,7 +37,6 @@ class Report::GeneratePdf < Trailblazer::Operation
   def find_company!(options, current_user:, **)
     options["company"] = ::Company.find_by("user_id like ?", current_user.id)
   end
-
 
   def saving_folder!(options, model:, company:, **)
     #TODO: make this editable by the USER
@@ -123,7 +122,6 @@ class Report::GeneratePdf < Trailblazer::Operation
       File.delete(path)
     end
   end
-
 
   def rollback!(exception, options, *)
    options["error"] = exception.inspect

@@ -50,10 +50,10 @@ class SubjectsController < ApplicationController
     render Subject::Cell::Edit, result["contract.default"]
   end
 
-  def delete
+  def destroy
     run Subject::Delete do |result|
-      flash[:success] = "Subject deleted successfully"
-      return redirect_to "subjects"
+      flash[:success] = "Subject deleted"
+      return redirect_to "/subjects"
     end
   end
 

@@ -1,21 +1,16 @@
 class User::Create < Trailblazer::Operation
-
   class Present < Trailblazer::Operation
     step Model(User, :new)
     step Contract::Build(constant: User::Contract::New)
-  end # class Present
+  end
 
-  step Nested( Present )
+  step Nested(Present)
   step Contract::Validate()
   step :default_report_settings!
   step :default_report_template!
   step Contract::Persist()
   step :create!
-  # step :notify!
-
-  # def notify!(options, model:, **)
-  #   Notification::User.({}, "email" => model.email, "type" => "welcome")
-  # end
+  # TODO: add email notification
 
   def default_report_settings!(options, *)
     options["contract.default"].content.report_settings.params_list = ["t", "Rf", "VE", "VO2", "VCO2", "RQ", "VE/VO2", "VE/VCO2", "HR", "VO2/Kg", "FAT%", "CHO%", "Phase"]

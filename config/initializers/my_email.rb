@@ -1,4 +1,4 @@
-require "tyrant/mailer"
+require "tyrant/operation/mailer"
 
 Tyrant::Mailer.class_eval do
   def email_options!(options, *)

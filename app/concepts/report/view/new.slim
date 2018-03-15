@@ -30,7 +30,7 @@ hr style="margin-top: 0px;"
         .col-sm-4.text-center
           = subject.dob.strftime("%d %B %Y")
     .col-sm-4.mybox
-      = form_tag(edit_height_weight_subject_path(params[:subject_id]))
+      = form_tag(edit_height_weight_subject_path(params[:subject_id]), id: 'edit_heigh_weight')
           .row style="margin-top:10px;"
             .col-sm-6.text-center
               strong
@@ -44,7 +44,7 @@ hr style="margin-top: 0px;"
             .col-sm-6.text-center style="margin-top:20px;"
               = text_field_tag :weight, subject.weight, size: 5
           .row.text-center style="margin-top:20px;"
-            = submit_tag
+            = submit_tag("Save Changes")
           .row.text-center style="margin:10px;"
             small style="color:red;"
               | Make sure the height and weight are correct!
@@ -57,7 +57,7 @@ hr style="margin-top: 0px;"
         = f.input :user_id, type: "hidden", value: current_user.id
         = f.input :subject_id, type: "hidden", value: params[:subject_id]
         .row style="margin:20px;"
-          = f.input :title, placeholder: "Report Title"
+          = f.input :title, placeholder: "Report Title", value: report_title
         .row style="margin:20px;"
           .col-sm-8
             = f.input :cpet_file_path, label: "CPET test", type: 'file'

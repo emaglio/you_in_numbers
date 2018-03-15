@@ -23,5 +23,9 @@ module Report::Cell
       current_user.content["report_settings"]["units_of_measurement"]["weight"]
     end
 
+    def report_title
+      DateTime.now.strftime("%d-%b-%Y") + " - #{subject.firstname} #{subject.lastname} (#{subject.dob.strftime("%d-%b-%Y")})"
+    end
+
   end
 end

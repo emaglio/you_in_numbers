@@ -1,48 +1,48 @@
 class UsersController < ApplicationController
-
   def show
     run User::Show
-    render User::Cell::Show, result["model"]
+    render User::Cell::Show, @model
   end
 
   def settings
     run User::Show
-    render User::Cell::Settings, result["model"]
+    render User::Cell::Settings, @model
   end
 
   def index
     run User::Index
-    render User::Cell::Index, result["model"]
+    render User::Cell::Index, @model
   end
 
   def create
-    run User::Create do |result|
-      tyrant.sign_in!(result["model"])
-      flash[:success] = "Welcome #{get_name(result["model"])}!"
+    run User::Create do
+      tyrant.sign_in!(@model)
+
+      flash[:success] = "Welcome #{get_name(@model)}!"
       return redirect_to "/reports"
     end
-    render User::Cell::New, result["contract.default"], layout_type: nil
+    render User::Cell::New, @form, layout_type: nil
   end
 
   def new
     run User::Create::Present
 
-    render User::Cell::New, result["contract.default"], layout_type: nil
+    render User::Cell::New, @form, layout_type: nil
   end
 
   def edit
     run User::Update::Present
 
-    render User::Cell::Edit, result["model"]
+    render User::Cell::Edit, @model
   end
 
   def update
-    run User::Update do |result|
+    run User::Update do
       flash[:success] = "New details saved"
-      return redirect_to "/users/#{result["model"].id}"
+      return redirect_to "/users/#{@model.id}"
     end
 
-    render User::Cell::Edit, result["model"]
+    render User::Cell::Edit, @model
   end
 
   def destroy
@@ -51,43 +51,27 @@ class UsersController < ApplicationController
       return redirect_to "/sessions/new"
     end
 
-    render User::Cell::Edit, result["contract.default"]
+    render User::Cell::Edit, @form
   end
 
   def get_email
-    run Tyrant::ResetPassword::Request::GetEmail
+    run Tyrant::GetEmail
 
-    render User::Cell::RequestResetPassword, result["contract.default"], layout_type: nil
+    render User::Cell::RequestResetPassword, @form, layout_type: nil
   end
 
   def request_reset_password
-    run Tyrant::ResetPassword::Request do
+    run Tyrant::ResetPassword do
       flash[:success] = "You will receive an email with some instructions!"
       return redirect_to "/sessions/new"
     end
 
-    render User::Cell::RequestResetPassword, result["contract.default"], layout_type: nil
-  end
-
-  def confirm_new_password
-    run Tyrant::ResetPassword::Confirm::GetNewPassword
-
-    render User::Cell::ConfirmNewPassword, result["contract.default"], layout_type: nil
-  end
-
-  def update_new_password
-    run Tyrant::ResetPassword::Confirm do |result|
-      flash[:success] = "New password updated"
-      tyrant.sign_in!(result["model"])
-      return redirect_to "/reports"
-    end
-
-    render User::Cell::ConfirmNewPassword, result["contract.default"], layout_type: nil, options: {safe_url: params[:safe_url], email: params[:email]}
+    render User::Cell::RequestResetPassword, @form, layout_type: nil
   end
 
   def get_new_password
-    run Tyrant::ChangePassword::GetNewPassword
-    render User::Cell::ChangePassword, result["contract.default"]
+    run Tyrant::GetNewPassword
+    render User::Cell::ChangePassword, @form
   end
 
   def change_password
@@ -96,15 +80,15 @@ class UsersController < ApplicationController
       return redirect_to user_path(tyrant.current_user)
     end
 
-    render User::Cell::ChangePassword, result["contract.default"]
+    render User::Cell::ChangePassword, @form
   end
 
   def block
-    run User::Block do |result|
-      if result["model"]["block"] == true
-        flash[:danger] = "#{get_name(result["model"])} has been blocked"
+    run User::Block do
+      if @model["block"] == true
+        flash[:danger] = "#{get_name(@model)} has been blocked"
       else
-        flash[:danger] = "#{get_name(result["model"])} has been un-blocked"
+        flash[:danger] = "#{get_name(@model)} has been un-blocked"
       end
       redirect_to users_path
     end
@@ -113,71 +97,71 @@ class UsersController < ApplicationController
   def get_report_settings
     run User::GetReportSettings
 
-    render User::Cell::GetReportSettings, result["contract.default"]
+    render User::Cell::GetReportSettings, @form
   end
 
   def report_settings
-    run User::ReportSettings do |result|
+    run User::ReportSettings do
       flash[:success] = "Report settings updated!"
-      return redirect_to "/users/#{result["model"].id}/settings"
+      return redirect_to "/users/#{@model.id}/settings"
     end
 
-    render User::Cell::GetReportSettings, result["contract.default"]
+    render User::Cell::GetReportSettings, @form
   end
 
   def get_report_template
     run User::GetReportTemplate
 
-    render User::Cell::GetReportTemplate, result["model"]
+    render User::Cell::GetReportTemplate, @model
   end
 
   # def report_template
-  #   run User::ReportTemplate do |result|
+  #   run User::ReportTemplate do
   #     flash[:success] = "Report template updated!"
-  #     return redirect_to "/users/#{result["model"].id}/settings"
+  #     return redirect_to "/users/#{@model.id}/settings"
   #   end
 
-  #   render User::Cell::GetReportTemplate, result["contract.default"]
+  #   render User::Cell::GetReportTemplate, @form
   # end
 
   def edit_obj
-    run User::EditObj do |result|
+    run User::EditObj do
       flash[:success] = "Report template updated!"
-      return redirect_to "/users/#{result["model"].id}/get_report_template"
+      return redirect_to "/users/#{@model.id}/get_report_template"
     end
 
     flash[:danger] = "Something went wrong and the changes have not been saved!"
-    render User::Cell::GetReportTemplate, result["model"]
+    render User::Cell::GetReportTemplate, @model
   end
 
   def edit_chart
     run User::UpdateChart::Present
 
-    render User::Cell::EditChart, result["contract.default"]
+    render User::Cell::EditChart, @form
   end
 
   def update_chart
-    run User::UpdateChart do |result|
+    run User::UpdateChart do
       flash[:success] = "Chart updated!"
-      return redirect_to "/users/#{result["model"].id}/get_report_template"
+      return redirect_to "/users/#{@model.id}/get_report_template"
     end
 
-    render User::Cell::EditChart, result["contract.default"]
+    render User::Cell::EditChart, @form
   end
 
   def edit_table
     run User::UpdateTable::Present
 
-    render User::Cell::EditTable, result["contract.default"]
+    render User::Cell::EditTable, @form
   end
 
   def update_table
-    run User::UpdateTable do |result|
+    run User::UpdateTable do
       flash[:success] = "Table updated!"
-      return redirect_to "/users/#{result["model"].id}/get_report_template"
+      return redirect_to "/users/#{@model.id}/get_report_template"
     end
 
-    render User::Cell::EditTable, result["contract.default"]
+    render User::Cell::EditTable, @form
   end
 
 private

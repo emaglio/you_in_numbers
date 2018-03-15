@@ -83,7 +83,7 @@ class MyDefault < ActiveRecord::Base
   EditVO2MaxObj = []
 
   EditVO2MaxObj << OpenStruct.new(type: 'report/cell/chart',
-                        title: "VO2 and VE on time",
+                        title: "VO2 on time",
                         y1: {:name => "VO2", :colour => "#FF2D2D", :show_scale => "1"},
                         y2: {:name => nil, :colour => "#2D2DFF", :show_scale => "1"},
                         y3: {:name => nil, :colour => "#000000", :show_scale => "0"},

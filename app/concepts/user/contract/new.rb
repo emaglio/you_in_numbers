@@ -22,22 +22,21 @@ module User::Contract
         config.messages_file = 'config/error_messages.yml'
 
         def unique_email?
-          User.where("email = ?", form.email).size == 0
+          User.where("email = ?", form.email).empty?
         end
 
         def email?
-          ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
+          !/\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
         end
 
         def must_be_equal?
-          return form.password == form.confirm_password
+          form.password == form.confirm_password
         end
       end
 
       required(:email).filled(:email?)
       required(:password).filled
       required(:confirm_password).filled
-
 
       validate(unique_email?: :email) do
         unique_email?
@@ -50,7 +49,6 @@ module User::Contract
 
     # to create default report settings
     property :content, field: :hash do
-
       property :report_settings, field: :hash do
         property :params_list
         property :ergo_params_list
@@ -73,10 +71,8 @@ module User::Contract
     unnest :units_of_measurement, from: :report_settings
 
     # to create default template
-
     unnest :report_template, from: :content
     unnest :default, from: :report_template
     unnest :custom, from: :report_template
-
   end
 end
