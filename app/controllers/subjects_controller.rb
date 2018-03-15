@@ -9,7 +9,7 @@ class SubjectsController < ApplicationController
   def create
     run Subject::Create do |result|
       flash[:success] = "Subject created!"
-      return redirect_to new_report_path(nil, subject_id: result["model"].id) if result["new_report"]
+      return redirect_to new_report_path(nil, subject_id: result[:model].id) if result["new_report"]
       return redirect_to "/subjects"
     end
 
@@ -19,7 +19,7 @@ class SubjectsController < ApplicationController
   def index
     run Subject::Index
 
-    render Subject::Cell::Index, result["model"]
+    render Subject::Cell::Index, result[:model]
   end
 
   def get_reports
@@ -31,7 +31,7 @@ class SubjectsController < ApplicationController
   def show
     run Subject::Show
 
-    render Subject::Cell::Show, result["model"]
+    render Subject::Cell::Show, result[:model]
   end
 
   def edit
@@ -43,8 +43,8 @@ class SubjectsController < ApplicationController
   def update
     run Subject::Update do |result|
       flash[:success] = "Subject details updated"
-      return redirect_to new_report_path(nil, subject_id: result["model"].id) if result["new_report"]
-      return redirect_to "/subjects/#{result["model"].id}"
+      return redirect_to new_report_path(nil, subject_id: result[:model].id) if result["new_report"]
+      return redirect_to "/subjects/#{result[:model].id}"
     end
 
     render Subject::Cell::Edit, result["contract.default"]
@@ -60,10 +60,10 @@ class SubjectsController < ApplicationController
   def edit_height_weight
     run Subject::EditHeightWeight do |result|
       flash[:success] = "Subejct details updated!"
-      return redirect_to new_report_path(nil, subject_id: result["model"].id)
+      return redirect_to new_report_path(nil, subject_id: result[:model].id)
     end
 
     flash[:danger] = "Height and weight must be greater than zero!"
-    return redirect_to edit_subject_path(result["model"].id, new_report: true)
+    return redirect_to edit_subject_path(result[:model].id, new_report: true)
   end
 end

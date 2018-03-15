@@ -9,6 +9,6 @@ class Session::SignIn < Trailblazer::Operation
   step :model!
 
   def model!(options, params:, **)
-    options["model"] = User.find_by(email: params[:email])
+    options[:model] = User.find_by(email: params[:email])
   end
 end

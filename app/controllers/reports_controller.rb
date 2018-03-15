@@ -7,7 +7,7 @@ class ReportsController < ApplicationController
   def index
     run Report::Index
 
-    render Report::Cell::Index, result["model"]
+    render Report::Cell::Index, result[:model]
   end
 
   def new
@@ -19,7 +19,7 @@ class ReportsController < ApplicationController
   def create
     run Report::Create do |result|
       flash[:success] = "Report created"
-      return redirect_to "/reports/#{result["model"].id}"
+      return redirect_to "/reports/#{result[:model].id}"
     end
 
     flash[:alert] = result[:error]
@@ -39,7 +39,7 @@ class ReportsController < ApplicationController
       return redirect_to "/reports"
     end
 
-    render Report::Cell::Show, result["model"]
+    render Report::Cell::Show, result[:model]
   end
 
   def destroy
@@ -68,13 +68,13 @@ class ReportsController < ApplicationController
     result["error"].nil? ? error = "" : error = result["error"]
 
     flash[:danger] = "An error occured -> " + error
-    redirect_to "/reports/#{result["model"].id}"
+    redirect_to "/reports/#{result[:model].id}"
   end
 
   def update_template
     run Report::UpdateTemplate do |result|
       flash[:success] = "Report template updated!"
-      return redirect_to "/reports/#{result["model"].id}"
+      return redirect_to "/reports/#{result[:model].id}"
     end
 
     result["not_found"] ? flash[:danger] = "Report not found" : flash[:danger] = "Something went wrong, please try again!"
@@ -84,31 +84,31 @@ class ReportsController < ApplicationController
   def edit_at
     run Report::EditAt::Present
 
-    render Report::Cell::EditAt, result["model"]
+    render Report::Cell::EditAt, result[:model]
   end
 
   def update_at
     run Report::EditAt do |result|
       flash[:success] = "New Anaerobic Threshold saved!"
-      return redirect_to "/reports/#{result["model"].id}"
+      return redirect_to "/reports/#{result[:model].id}"
     end
 
-    render Report::Cell::EditAt, result["model"]
+    render Report::Cell::EditAt, result[:model]
   end
 
   def edit_vo2max
     run Report::EditVO2Max::Present
 
-    render Report::Cell::EditVO2Max, result["model"]
+    render Report::Cell::EditVO2Max, result[:model]
   end
 
   def update_vo2max
     run Report::EditVO2Max do |result|
       flash[:success] = "VO2 Max saved!"
-      return redirect_to "/reports/#{result["model"].id}"
+      return redirect_to "/reports/#{result[:model].id}"
     end
 
-    render Report::Cell::EditVO2Max, result["model"]
+    render Report::Cell::EditVO2Max, result[:model]
   end
 
 end

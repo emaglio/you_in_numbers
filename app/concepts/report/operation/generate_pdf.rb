@@ -109,7 +109,7 @@ class Report::GeneratePdf < Trailblazer::Operation
     obj_array.each do |obj|
       obj[:type] == 'report/cell/chart' ? write_image!(options, obj: obj, pdf: pdf) : write_table!(options, params: params, pdf: pdf, obj: obj)
     end
-    footer(options, pdf: pdf, model: options["model"], subject: options["subject"], last_page: true)
+    footer(options, pdf: pdf, model: options[:model], subject: options["subject"], last_page: true)
   end
 
   def save_pdf!(options, pdf:, saving_folder:, **)

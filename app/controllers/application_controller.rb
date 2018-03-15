@@ -73,6 +73,6 @@ class ApplicationController < ActionController::Base
   private
 
   def _run_options(options)
-    options.merge("current_user" => tyrant.current_user, "url" => "http://localhost:3000/users/confirm_new_password")
+    options.merge(current_user:tyrant.current_user, "url" => "http://localhost:3000/users/confirm_new_password")
   end
 end

@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
 
   def create
     run Session::SignIn do |result|
-      tyrant.sign_in!(result["model"])
+      tyrant.sign_in!(result[:model])
       flash[:success] = "Hey mate, welcome back!"
       return redirect_to "/reports"
     end
@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
 
   def github
     run Session::GitHub do |result|
-      tyrant.sign_in!(result["model"])
+      tyrant.sign_in!(result[:model])
       flash[:success] = "Hey mate"
       return redirect_to "/reports"
     end

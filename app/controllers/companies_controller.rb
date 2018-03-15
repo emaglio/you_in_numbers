@@ -9,7 +9,7 @@ class CompaniesController < ApplicationController
   def create
     run Company::Create do |result|
       flash[:success] = "Company details updated!"
-      return redirect_to "/users/#{result["model"].user_id}"
+      return redirect_to "/users/#{result[:model].user_id}"
     end
 
     render Company::Cell::New, result["contract.default"]
@@ -18,7 +18,7 @@ class CompaniesController < ApplicationController
   def show
     run Company::Show
 
-    render Company::Cell::Show, result["model"]
+    render Company::Cell::Show, result[:model]
   end
 
   def edit
@@ -30,7 +30,7 @@ class CompaniesController < ApplicationController
   def update
     run Company::Update do |result|
       flash[:success] = "Company details updated!"
-      return redirect_to "/users/#{result["model"].user_id}"
+      return redirect_to "/users/#{result[:model].user_id}"
     end
 
     render Company::Cell::Edit, result["contract.default"]

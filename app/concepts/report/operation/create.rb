@@ -16,7 +16,7 @@ class Report::Create < Trailblazer::Operation
   step Nested(GetCpetResults, input: ->(options, cpet_params:, current_user:, **) do
                   {
                     "cpet_params" => cpet_params,
-                    "current_user" => current_user
+                    current_user:current_user
                   }
                 end
               )

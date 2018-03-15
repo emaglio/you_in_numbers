@@ -2,7 +2,7 @@ class Report::GeneratePdf < Trailblazer::Operation
 
   module ReportUtility
     def write_image!(options, obj:, pdf:, **)
-      footer(options, pdf: pdf, model: options["model"], subject: options["subject"]) if pdf.cursor < 320
+      footer(options, pdf: pdf, model: options[:model], subject: options["subject"]) if pdf.cursor < 320
       pdf.text obj[:title], :size => 12, :style => :bold, :align => :center
       image_path = "#{Rails.root.join("public/temp_files/image-#{obj[:index]}.png")}"
       options["paths"] << image_path
@@ -63,7 +63,7 @@ class Report::GeneratePdf < Trailblazer::Operation
       end
 
       #the height of a row is about 25.5 so check if it fits otherwise go to the next page
-      footer(options, pdf: pdf, model: options["model"], subject: options["subject"]) if pdf.cursor < (data.size*25.5)
+      footer(options, pdf: pdf, model: options[:model], subject: options["subject"]) if pdf.cursor < (data.size*25.5)
 
       pdf.text obj[:title], :size => 12, :style => :bold, :align => :center
       pdf.table data, header: :true, position: :center, width: 400, row_colors: ["F4F4F4", "FFFFFF"]  do
@@ -77,7 +77,7 @@ class Report::GeneratePdf < Trailblazer::Operation
     end
 
     def write_training_zones(options, obj:, pdf:, **)
-      footer(options, pdf: pdf, model: options["model"], subject: options["subject"]) if pdf.cursor < 210
+      footer(options, pdf: pdf, model: options[:model], subject: options["subject"]) if pdf.cursor < 210
 
       pdf.text obj[:title], :size => 12, :style => :bold, :align => :center
       table = "training_zones_#{obj[:index]}"

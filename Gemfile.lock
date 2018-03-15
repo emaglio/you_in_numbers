@@ -1,14 +1,17 @@
 GIT
-  remote: https://github.com/apotonick/tyrant.git
-  revision: adf1f2989eb0403297baf46f924b86e887bf51fb
-  branch: trb-2
+  remote: https://github.com/emaglio/tyrant.git
+  revision: bfb30c3aeb85f75c58dba9f365e589267b549034
+  branch: trb-2_1
   specs:
     tyrant (0.0.3)
       bcrypt
       disposable (>= 0.1.11)
       dry-validation
+      pony
       reform (>= 2.3.0.rc1)
-      trailblazer (>= 2.0.1)
+      trailblazer (> 2.0.7)
+      trailblazer-macro
+      trailblazer-macro-contract
       warden (>= 1.2.6)
 
 GIT
@@ -190,6 +193,7 @@ GEM
       activesupport (>= 4.2.0)
     hashie (3.5.6)
     high_voltage (3.0.0)
+    hirb (0.7.3)
     i18n (0.8.5)
     inflecto (0.0.2)
     jbuilder (2.7.0)
@@ -263,7 +267,6 @@ GEM
     parser (2.5.0.2)
       ast (~> 2.4.0)
     pdf-core (0.7.0)
-    pipetree (0.1.1)
     pony (1.11)
       mail (>= 2.0)
     powerpack (0.1.1)
@@ -356,20 +359,29 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.7)
-    trailblazer (2.0.7)
+    trailblazer (2.1.0.beta5)
       declarative
-      reform (>= 2.2.0, < 3.0.0)
-      trailblazer-operation (>= 0.0.12, < 0.1.0)
+      trailblazer-macro (>= 2.1.0.beta2, < 2.2.0)
+      trailblazer-macro-contract (>= 2.1.0.beta2, < 2.2.0)
+      trailblazer-operation (>= 0.2.4, < 0.3.0)
+    trailblazer-activity (0.5.1)
+      hirb
+      trailblazer-context
     trailblazer-cells (0.0.3)
       cells (>= 4.1.0.rc1, < 5.0.0)
+    trailblazer-context (0.1.2)
     trailblazer-loader (0.1.2)
-    trailblazer-operation (0.0.13)
+    trailblazer-macro (2.1.0.beta3)
+    trailblazer-macro-contract (2.1.0.beta2)
       declarative
-      pipetree (>= 0.1.1, < 0.2.0)
-      uber
-    trailblazer-rails (1.0.4)
+      reform (>= 2.2.0, < 3.0.0)
+      trailblazer-operation (>= 0.2.4, < 0.3.0)
+    trailblazer-operation (0.2.4)
+      trailblazer-activity (>= 0.5.1, < 0.7.0)
+      trailblazer-context (>= 0.1.1, < 0.3.0)
+    trailblazer-rails (2.1.0)
       reform-rails (>= 0.1.4, < 0.2.0)
-      trailblazer (>= 2.0.0, < 2.1.0)
+      trailblazer (>= 2.1.0.beta1, < 2.2.0)
       trailblazer-loader (>= 0.1.0)
     ttfunk (1.5.1)
     turbolinks (5.0.1)
@@ -440,9 +452,11 @@ DEPENDENCIES
   simplecov
   slim-rails
   sqlite3
-  trailblazer (>= 2.0.4)
+  trailblazer (> 2.0.7)
   trailblazer-cells
-  trailblazer-rails (>= 1.0.3)
+  trailblazer-macro
+  trailblazer-macro-contract
+  trailblazer-rails (>= 2.1.0)
   trailblazer-test!
   turbolinks (~> 5)
   tyrant!
