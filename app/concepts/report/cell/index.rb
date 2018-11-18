@@ -24,7 +24,8 @@ module Report::Cell
         temp << subject.lastname
         temp << subject.dob.strftime("%d %B %Y")
         temp << (button_to "Open", report_path(report.id), class: "btn btn-outline btn-success", :method => :get)
-        temp << (button_to "Delete", report_path(report.id), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger")
+        temp << (button_to "Delete", report_path(report.id), method: :delete, data: { confirm: 'Are you sure?' },
+          class: "btn btn-outline btn-danger")
         (index >= 1) ? array += "," : array
         array +=  temp.to_json
         index += 1

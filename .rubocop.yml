@@ -1,12 +1,11 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
-  Include:
-    - Rakefile
-    - config.ru
   Exclude:
     - db/**
     - config/**
     - script/**
-  TargetRubyVersion: 2.4.1
+  TargetRubyVersion: 2.5.0
 
 StringLiterals:
   Enabled: false
@@ -18,7 +17,7 @@ Metrics/BlockLength:
   Exclude:
     - 'Rakefile'
     - '**/*.rake'
-    - 'spec/factories/**'
+    - 'test/factories/**'
   ExcludedMethods:
     - attributes_table
     - register
@@ -56,8 +55,6 @@ Performance/Casecmp:
 
 Style/BlockDelimiters:
   EnforcedStyle: line_count_based
-  Exclude:
-    - 'spec/**/*'
 
 Style/Documentation:
   Enabled: false
@@ -86,16 +83,11 @@ Layout/CaseIndentation:
 
 Layout/MultilineBlockLayout:
   Exclude:
-    - 'spec/**/*'
+    - 'test/**/*'
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
   IndentationWidth: 2
-
-# Disabled so that we can write .to_not change { } in Rspec
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - 'spec/**/*'
 
 Lint/UselessAccessModifier:
   MethodCreatingMethods:
@@ -121,3 +113,6 @@ Style/FormatString:
 
 Style/RegexpLiteral:
   Enabled: false
+
+Layout/AlignHash:
+  EnforcedHashRocketStyle: table

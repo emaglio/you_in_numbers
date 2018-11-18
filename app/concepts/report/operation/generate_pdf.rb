@@ -6,14 +6,14 @@ class Report::GeneratePdf < Trailblazer::Operation
   include ReportUtility
 
   step Model(Report, :find_by)
-  step Policy::Pundit( ::Session::Policy, :report_owner? )
+  step Policy::Pundit(::Session::Policy, :report_owner?)
   failure ::Session::Lib::ThrowException
   step :obj_array!
   step :check_files!
   step :find_company!
   step :saving_folder!
   step :elaborate_tables_data!
-  step Rescue( NoMethodError, ArgumentError, Prawn::Errors::UnsupportedImageType,  handler: :rollback! ){
+  step Rescue(NoMethodError, ArgumentError, Prawn::Errors::UnsupportedImageType,  handler: :rollback!){
     step :generate_pdf!
     step :write_company_details!
     step :write_company_logo!
@@ -28,7 +28,7 @@ class Report::GeneratePdf < Trailblazer::Operation
     options["obj_array"] = current_user.content["report_template"][model.content["template"]]
   end
 
-  def check_files!(options, *)
+  def check_files!(_options, *)
     #TODO: return false if number of files is different than obj_array.size or folder not found
     return true
   end
@@ -38,7 +38,7 @@ class Report::GeneratePdf < Trailblazer::Operation
     options["company"] = ::Company.find_by("user_id like ?", current_user.id)
   end
 
-  def saving_folder!(options, model:, company:, **)
+  def saving_folder!(options, model:, **)
     #TODO: make this editable by the USER
     #TODO: make name of the report editable by the USER %f %l bla bla
     options["saving_folder"] = Rails.root.join("public/reports/#{model.title}.pdf")
@@ -67,18 +67,23 @@ class Report::GeneratePdf < Trailblazer::Operation
 
     pdf.stroke do
       line_at = pdf.cursor
-      (line_at > 720 - MyDefault::ReportPdf["logo_size"]) ? (line_at = 720 - MyDefault::ReportPdf["logo_size"] - 5) : (line_at = pdf.cursor)
+      line_at = if line_at > 720 - MyDefault::ReportPdf["logo_size"]
+                  720 - MyDefault::ReportPdf["logo_size"] - 5
+                else
+                  pdf.cursor
+                end
       pdf.horizontal_line 0, 550, :at => line_at
       options["current_cursor"] = line_at - 2
     end
   end
 
-  def write_company_logo!(options, model:, pdf:, company:, **)
+  def write_company_logo!(_options, pdf:, company:, **)
     return true if company.logo_meta_data == nil
-    pdf.image ("#{Rails.root.join("public/images/")}" + "#{company.logo[:thumb].uid}"),
-              :position => :right,
-              :vposition => :top,
-              :fit => [MyDefault::ReportPdf["logo_size"], MyDefault::ReportPdf["logo_size"]]
+
+    pdf.image "#{Rails.root.join("public/images/")}" + "#{company.logo[:thumb].uid}",
+              :fit       => [MyDefault::ReportPdf["logo_size"], MyDefault::ReportPdf["logo_size"]],
+              :position  => :right,
+              :vposition => :top
   end
 
   def write_subject!(options, model:, current_user:, pdf:, current_cursor:, **)
@@ -86,8 +91,13 @@ class Report::GeneratePdf < Trailblazer::Operation
     weight_unm = current_user.content["report_settings"]["units_of_measurement"]["weight"]
     subject = ::Subject.find(model.subject_id)
     options["subject"] = subject
-    data = [["Firstname", "Lastname", "Date of Birth", "Height(#{height_unm})", "Weight(#{weight_unm})"],
-            ["#{subject.firstname}", "#{subject.lastname}", "#{subject.dob.strftime("%d %B %Y")}", "#{subject.height}", "#{subject.weight}"] ]
+    data = [
+      ["Firstname", "Lastname", "Date of Birth", "Height(#{height_unm})", "Weight(#{weight_unm})"],
+      [
+        "#{subject.firstname}", "#{subject.lastname}", "#{subject.dob.strftime("%d %B %Y")}",
+        "#{subject.height}", "#{subject.weight}"
+      ]
+    ]
     pdf.move_cursor_to current_cursor
     pdf.table data, position: :center, width: 500 do
       cells.borders = []
@@ -104,20 +114,24 @@ class Report::GeneratePdf < Trailblazer::Operation
   end
 
   def write_objects!(options, pdf:, obj_array:, params:, current_cursor:, **)
-    pdf.move_cursor_to current_cursor-5
+    pdf.move_cursor_to current_cursor - 5
     options["paths"] = []
     obj_array.each do |obj|
-      obj[:type] == 'report/cell/chart' ? write_image!(options, obj: obj, pdf: pdf) : write_table!(options, params: params, pdf: pdf, obj: obj)
+      if obj[:type] == 'report/cell/chart'
+        write_image!(options, obj: obj, pdf: pdf)
+      else
+        write_table!(options, params: params, pdf: pdf, obj: obj)
+      end
     end
     footer(options, pdf: pdf, model: options["model"], subject: options["subject"], last_page: true)
   end
 
-  def save_pdf!(options, pdf:, saving_folder:, **)
+  def save_pdf!(_options, pdf:, saving_folder:, **)
     pdf.render_file saving_folder.to_s
     return true
   end
 
-  def delete_images!(options, paths:, **)
+  def delete_images!(_options, paths:, **)
     paths.each do |path|
       File.delete(path)
     end

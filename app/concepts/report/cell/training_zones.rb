@@ -50,7 +50,8 @@ module Report::Cell
       hr = []
       hr_temp = []
 
-      hr_array = data["cpet_params"]["HR"][data["cpet_results"]["exer_phase"]["starts"], data["cpet_results"]["exer_phase"]["num_steps"]]
+      hr_array = data["cpet_params"]["HR"][data["cpet_results"]["exer_phase"]["starts"],
+        data["cpet_results"]["exer_phase"]["num_steps"]]
 
       data["cpet_results"]["training_zones"].each do |key, index|
         hr_temp << hr_array[index]
@@ -58,7 +59,7 @@ module Report::Cell
 
       i = 0
       (1..4).each do
-        hr << "HR (Bpm) " + hr_temp[i].to_s + " - " + hr_temp[i+1].to_s
+        hr << "HR (Bpm) " + hr_temp[i].to_s + " - " + hr_temp[i + 1].to_s
         i += 2
       end
       return hr
@@ -69,7 +70,8 @@ module Report::Cell
       load1 = []
       load1_temp = []
 
-      load1_array = data["cpet_params"]["Power"][data["cpet_results"]["exer_phase"]["starts"], data["cpet_results"]["exer_phase"]["num_steps"]]
+      load1_array = data["cpet_params"]["Power"][data["cpet_results"]["exer_phase"]["starts"],
+        data["cpet_results"]["exer_phase"]["num_steps"]]
 
       data["cpet_results"]["training_zones"].each do |key, index|
         load1_temp << load1_array[index]
@@ -77,7 +79,7 @@ module Report::Cell
 
       i = 0
       (1..4).each do
-        load1 << "#{ergo_params[0]} (#{ergo_params[1]}) " + load1_temp[i].to_s + " - " + load1_temp[i+1].to_s
+        load1 << "#{ergo_params[0]} (#{ergo_params[1]}) " + load1_temp[i].to_s + " - " + load1_temp[i + 1].to_s
         i += 2
       end
       return load1
@@ -87,7 +89,8 @@ module Report::Cell
       load2 = []
       load2_temp = []
 
-      load2_array = data["cpet_params"]["Revolution"][data["cpet_results"]["exer_phase"]["starts"], data["cpet_results"]["exer_phase"]["num_steps"]]
+      load2_array = data["cpet_params"]["Revolution"][data["cpet_results"]["exer_phase"]["starts"],
+        data["cpet_results"]["exer_phase"]["num_steps"]]
 
       data["cpet_results"]["training_zones"].each do |key, index|
         load2_temp << load2_array[index]
@@ -95,7 +98,7 @@ module Report::Cell
 
       i = 0
       (1..4).each do
-        load2 << "#{ergo_params[2]} (#{ergo_params[3]}) " + load2_temp[i].to_s + " - " + load2_temp[i+1].to_s
+        load2 << "#{ergo_params[2]} (#{ergo_params[3]}) " + load2_temp[i].to_s + " - " + load2_temp[i + 1].to_s
         i += 2
       end
       return load2

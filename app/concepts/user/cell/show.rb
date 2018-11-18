@@ -24,7 +24,10 @@ module User::Cell
 
     def delete
       button_to "Delete", user_path(model.id), method: :delete,
-        data: {confirm: 'Your account within your Company details and all your Reports are going to be deleted. Are you sure?'},
+        data: {
+          confirm: "Your account within your Company details and all your Reports are going to be deleted."\
+                   " Are you sure?"
+        },
         class: "btn btn-outline btn-danger"
     end
 
@@ -42,8 +45,10 @@ module User::Cell
 
     def block?
       model.block ? label = "Un-Block" : label = "Block"
-      button_to label, block_users_path(id: model.id, block: !model.block), method: :post, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger"
+      button_to label, block_users_path(id: model.id, block: !model.block),
+        method: :post,
+        data: { confirm: 'Are you sure?' },
+        class: "btn btn-outline btn-danger"
     end
-
   end
 end

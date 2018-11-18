@@ -14,7 +14,7 @@ module Report::Cell
       array = []
       obj_array.each_with_index do |obj, index|
         cell = cell(obj[:type], model, obj: obj,  current_user: current_user)
-        temp ={}
+        temp = {}
 
         temp["chart_id"] = cell.chart_id
 
@@ -58,17 +58,17 @@ module Report::Cell
         temp["y3"] = cell.y3
         temp["show_scale_3"] = cell.show_scale_3
 
-        temp["restore_start"] = model["cpet_results"]["vo2_max"]["starts"] + model["cpet_results"]["exer_phase"]["starts"]
-        temp["restore_end"] = model["cpet_results"]["vo2_max"]["ends"] + model["cpet_results"]["exer_phase"]["starts"]
+        temp["restore_start"] = model["cpet_results"]["vo2_max"]["starts"] +
+                                model["cpet_results"]["exer_phase"]["starts"]
+        temp["restore_end"] = model["cpet_results"]["vo2_max"]["ends"] +
+                              model["cpet_results"]["exer_phase"]["starts"]
         temp["min_index"] = cell.exer_phase_starts
         temp["max_index"] = cell.exer_phase_ends
 
         array << temp
       end
 
-
       return array
     end
-
   end
 end

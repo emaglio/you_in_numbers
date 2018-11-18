@@ -4,7 +4,7 @@ class Session::SignIn < Trailblazer::Operation
     step Contract::Build(constant: Session::Contract::SignIn)
   end
 
-  step Nested( Form )
+  step Nested(Form)
   step Contract::Validate()
   step :model!
 

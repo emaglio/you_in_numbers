@@ -45,7 +45,7 @@ module Report::Cell
         temp << value_at_MAX(param.first)
         temp << pred(param.first)
         temp << result_on_pred(param.first)
-        array +=  temp.to_json
+        array += temp.to_json
         array += ","
       end
 
@@ -53,27 +53,31 @@ module Report::Cell
     end
 
     def value_at_AT(param)
-      (data["cpet_params"].include? param) ? data["cpet_params"][param][index_AT] : data["cpet_results"][param][index_AT]
+      return data["cpet_params"][param][index_AT] if data["cpet_params"].include? param
+
+      data["cpet_results"][param][index_AT]
     end
 
     def value_at_MAX(param)
-      (data["cpet_params"].include? param) ? data["cpet_params"][param][index_MAX] : data["cpet_results"][param][index_MAX]
+      return data["cpet_params"][param][index_MAX] if data["cpet_params"].include? param
+
+      data["cpet_results"][param][index_MAX]
     end
 
     def pred(param)
       preds = {
-        "vo2" => "< " + vo2_pred.to_s,
-        "vo2/kg" => "< " + vo2_kg_pred.to_s,
-        "hr" => hr_pred.to_s,
+        "hr"     => hr_pred.to_s,
+        "vo2"    => "< " + vo2_pred.to_s,
+        "vo2/kg" => "< " + vo2_kg_pred.to_s
       }
       return preds.fetch(param.downcase, "-")
     end
 
     def result_on_pred(param)
       result_on_preds = {
-        "vo2" => vo2_category.to_s,
-        "vo2/kg" => vo2_category.to_s,
-        "hr" => hr_pred_perc.to_s,
+        "hr"       => hr_pred_perc.to_s,
+        "vo2"      => vo2_category.to_s,
+        "vo2/kg"   => vo2_category.to_s,
         "anything" => "-"
       }
       return result_on_preds.fetch(param.downcase, "-")
@@ -84,16 +88,16 @@ module Report::Cell
     end
 
     def hr_pred
-      age = (((DateTime.now.to_i - subject.dob.to_i)/(365*24*60*60)).round)
-      return (220-age)
+      age = (((DateTime.now.to_i - subject.dob.to_i) / (365 * 24 * 60 * 60)).round)
+      return (220 - age)
     end
 
     def hr_pred_perc
-      ((value_at_MAX("HR").to_f/hr_pred.to_f)*100).round
+      ((value_at_MAX("HR").to_f / hr_pred.to_f) * 100).round
     end
 
     def age_index
-      age = (((DateTime.now.to_i - subject.dob.to_i)/(365*24*60*60)).round)
+      age = (((DateTime.now.to_i - subject.dob.to_i) / (365 * 24 * 60 * 60)).round)
 
       age_array = MyDefault::SubjectAges.clone
 
@@ -101,7 +105,12 @@ module Report::Cell
     end
 
     def pred_array
-      (subject.gender == "Male") ? array = MyDefault::ACSM_male[age_index].clone : array = MyDefault::ACSM_female[age_index].clone
+      array = if subject.gender == "Male"
+                MyDefault::ACSM_male[age_index].clone
+              else
+                MyDefault::ACSM_female[age_index].clone
+              end
+
       return array.reverse
     end
 
@@ -110,13 +119,13 @@ module Report::Cell
     end
 
     def vo2_category
-      vo2_index = pred_array.find_index{ |x| ( x > 35)}
+      vo2_index = pred_array.find_index{ |x| (x > 35)}
 
       return score_array[vo2_index]
     end
 
     def vo2_kg_pred
-      pred_array[pred_array.find_index{ |x| ( x > 35)}]
+      pred_array[pred_array.find_index{ |x| (x > 35)}]
     end
 
     def vo2_pred

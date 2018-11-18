@@ -11,7 +11,8 @@ module Subject::Cell
     end
 
     def delete
-      button_to "Delete", subject_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger"
+      button_to "Delete", subject_path(model.id), method: :delete, data: { confirm: 'Are you sure?' },
+        class: "btn btn-outline btn-danger"
     end
 
     def height

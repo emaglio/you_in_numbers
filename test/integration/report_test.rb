@@ -3,10 +3,8 @@ require "test_helper"
 class ReportIntegrationTest < Trailblazer::Test::Integration
 
   describe "CRUD report" do
-
     it "Create report only if subject is select" do
       log_in_as_user
-      user = User.find_by(email: "my@email.com")
 
       click_link "New Report"
 
@@ -72,7 +70,6 @@ class ReportIntegrationTest < Trailblazer::Test::Integration
       # page.must_have_content "Create a company and try to generate the report again!"
       # page.current_path.must_equal "/companies/new"
     end
-
   end
 
   describe "Edit AT and VO2max" do
@@ -105,7 +102,8 @@ class ReportIntegrationTest < Trailblazer::Test::Integration
 
       click_button "Edit VO2max"
 
-      page.must_have_content "Left click to move the starting point and right click to move the end point of the VO2max range"
+      page.must_have_content "Left click to move the starting point and right click " \
+                             "to move the end point of the VO2max range"
       page.must_have_content "VO2max details:"
       page.must_have_css "#starts"
       page.must_have_css "#ends"

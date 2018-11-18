@@ -5,17 +5,17 @@ class Report::Create < Trailblazer::Operation
 
   class Present < Trailblazer::Operation
     step Model(Report, :new)
-    step Policy::Pundit( ::Session::Policy, :signed_in?)
+    step Policy::Pundit(::Session::Policy, :signed_in?)
     failure Session::Lib::ThrowException
     step Contract::Build(constant: Report::Contract::New)
   end # class Present
 
-  step Nested( Present )
+  step Nested(Present)
   step Contract::Validate()
   step Nested(GetCpetData)
   step Nested(GetCpetResults, input: ->(options, cpet_params:, current_user:, **) do
                   {
-                    "cpet_params" => cpet_params,
+                    "cpet_params"  => cpet_params,
                     "current_user" => current_user
                   }
                 end
@@ -35,7 +35,7 @@ class Report::Create < Trailblazer::Operation
     options["contract.default"].content.subject.weight = subject.weight
   end
 
-  def cpet_data!(options, params:, model:, cpet_params:, cpet_results:, **)
+  def cpet_data!(options, cpet_params:, cpet_results:, **)
     options["contract.default"].cpet_params = cpet_params
     options["contract.default"].cpet_results = cpet_results
   end

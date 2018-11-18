@@ -2,7 +2,8 @@ module Subject::Cell
 
   class GetReports < Trailblazer::Cell
     def create_report
-      button_to "Create Report", new_report_path, class: "btn btn-outline btn-success", :method => :get, params: {subject_id: model["id"]}
+      button_to "Create Report", new_report_path, class: "btn btn-outline btn-success", :method => :get,
+        params: { subject_id: model["id"] }
     end
 
     def array

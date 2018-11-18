@@ -24,7 +24,8 @@ module Report::Cell
     end
 
     def report_title
-      DateTime.now.strftime("%d-%b-%Y") + " - #{subject.firstname} #{subject.lastname} (#{subject.dob.strftime("%d-%b-%Y")})"
+      DateTime.now.strftime("%d-%b-%Y") +
+        " - #{subject.firstname} #{subject.lastname} (#{subject.dob.strftime("%d-%b-%Y")})"
     end
 
   end

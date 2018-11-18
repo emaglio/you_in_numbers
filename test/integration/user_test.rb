@@ -64,7 +64,7 @@ class UserIntegrationTest < Trailblazer::Test::Integration
       click_button "Edit"
       page.must_have_css "#firstname"
       page.must_have_css "#lastname"
-      page.must_have_selector ("#gender")
+      page.must_have_selector "#gender"
       page.must_have_css "#phone"
       page.must_have_css "#age"
       page.must_have_css "#email"
@@ -73,7 +73,7 @@ class UserIntegrationTest < Trailblazer::Test::Integration
 
       # set NewFirstname as firstname
       within("//form[@id='edit_user']") do
-        fill_in 'Firstname',    with: "NewFirstname"
+        fill_in 'Firstname', with: "NewFirstname"
       end
       click_button "Save"
 
@@ -187,7 +187,6 @@ class UserIntegrationTest < Trailblazer::Test::Integration
       click_link "Sign Out"
 
       log_in_as_user("my2@email.com", "password")
-      user2 = User.find_by(email: "my2@email.com")
 
       page.must_have_link "Hi, UserFirstname"
 

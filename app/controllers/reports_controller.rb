@@ -35,7 +35,8 @@ class ReportsController < ApplicationController
     end
 
     if result["param_not_found"] != nil
-      flash[:danger] = "The parameter #{result["param_not_found"]} has not been found in the report.\n Please check the Report Settings and re-create the report!"
+      flash[:danger] = "The parameter #{result["param_not_found"]} has not been found in the report.\n"\
+                       " Please check the Report Settings and re-create the report!"
       return redirect_to "/reports"
     end
 
@@ -77,7 +78,11 @@ class ReportsController < ApplicationController
       return redirect_to "/reports/#{result["model"].id}"
     end
 
-    result["not_found"] ? flash[:danger] = "Report not found" : flash[:danger] = "Something went wrong, please try again!"
+    flash[:danger] = if result["not_found"]
+                       "Report not found"
+                     else
+                       "Something went wrong, please try again!"
+                     end
     return redirect_to reports_path
   end
 

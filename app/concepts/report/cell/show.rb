@@ -19,7 +19,11 @@ module Report::Cell
     def js_array
       array = []
       obj_array.each do |obj|
-        obj[:type] == 'report/cell/chart' ? array << "chart" : (obj[:type] == 'report/cell/subject' ? array << "subject" : array << "dom")
+        if obj[:type] == 'report/cell/chart'
+          array << "chart"
+        else
+          obj[:type] == 'report/cell/subject' ? array << "subject" : array << "dom"
+        end
       end
 
       return array
@@ -30,7 +34,7 @@ module Report::Cell
       obj_array.each do |obj|
         if obj[:type] == 'report/cell/chart'
           cell = cell(obj[:type], model, obj: obj,  current_user: current_user)
-          temp ={}
+          temp = {}
 
           temp["chart_id"] = cell.chart_id
 
@@ -94,7 +98,7 @@ module Report::Cell
           result += "//table_#{obj[:index]}//" + cell.to_s
           count += 1
         elsif obj[:type] == 'report/cell/training_zones'
-          cell = Report::Cell::TrainingZones.new(model, obj: obj, context: {current_user: current_user}).data
+          cell = Report::Cell::TrainingZones.new(model, obj: obj, context: { current_user: current_user }).data
           result += "//training_zones_#{obj[:index]}//" + cell.to_s
           count += 1
         end

@@ -12,7 +12,7 @@ class Report::Create < Trailblazer::Operation
     end
 
     # gets sheet with higer number of rowss
-    def set_default_sheet!(options, cpet_file:, **)
+    def set_default_sheet!(_options, cpet_file:, **)
       rows = 0
       sheet_name = ""
       cpet_file.each_with_pagename do |name, sheet|
@@ -36,7 +36,7 @@ class Report::Create < Trailblazer::Operation
       i = 0
       options["current_user"].content["report_settings"]["ergo_params_list"].each do |key, value|
         # avoid to add the unit of measurement in the cpet_params array
-        cpet_params[key] = [] if (i==0 or i==2)
+        cpet_params[key] = [] if (i == 0 or i == 2)
         i += 1
       end
 
@@ -73,11 +73,11 @@ class Report::Create < Trailblazer::Operation
           value = nil
           if (key.downcase == "t" or key.downcase == "time" or key.downcase == "phase")
             # I need strings for Phase and time
-            value = cpet_file.formatted_value(row, params_col[i]+1) if params_col[i] != nil
+            value = cpet_file.formatted_value(row, params_col[i] + 1) if params_col[i] != nil
             cpet_params[key] << value if value != nil
           else
             # numbers for all the rest
-            value = cpet_file.cell(row, params_col[i]+1) if params_col[i] != nil
+            value = cpet_file.cell(row, params_col[i] + 1) if params_col[i] != nil
             cpet_params[key] << value if value != nil
           end
           i += 1

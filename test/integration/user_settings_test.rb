@@ -126,7 +126,7 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
         tempfile: File.new(Rails.root.join("test/files/cpet.xlsx"))
       )
 
-      report = Report::Create.(
+      Report::Create.(
         {
           user_id: user.id,
           subject_id: subject.id,

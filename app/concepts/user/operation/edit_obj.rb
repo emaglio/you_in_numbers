@@ -1,6 +1,6 @@
 class User::EditObj < Trailblazer::Operation
   step Model(User, :find_by)
-  step Policy::Pundit( ::Session::Policy, :current_user? )
+  step Policy::Pundit(::Session::Policy, :current_user?)
   failure ::Session::Lib::ThrowException
   step Contract::Build(constant: User::Contract::EditTemplate)
   step Contract::Validate()
@@ -12,16 +12,16 @@ class User::EditObj < Trailblazer::Operation
 
     if params["move_up"] != nil and params["move_up"].to_i > 0
       index = params["move_up"].to_i
-      obj_array[index-1][:index] = index
-      obj_array[index][:index] = index -1
-      obj_array.insert(index-1, obj_array.delete_at(index))
+      obj_array[index - 1][:index] = index
+      obj_array[index][:index] = index - 1
+      obj_array.insert(index - 1, obj_array.delete_at(index))
     end
 
-    if params["move_down"] != nil and params["move_down"].to_i < (obj_array.size-1)
+    if params["move_down"] != nil and params["move_down"].to_i < (obj_array.size - 1)
       index = params["move_down"].to_i
-      obj_array[index][:index] = index +1
-      obj_array[index+1][:index] = index
-      obj_array.insert(index+1, obj_array.delete_at(index))
+      obj_array[index][:index] = index + 1
+      obj_array[index + 1][:index] = index
+      obj_array.insert(index + 1, obj_array.delete_at(index))
     end
 
     if params["edit_chart"] != nil
@@ -58,16 +58,16 @@ class User::EditObj < Trailblazer::Operation
       index = params["index"].to_i
 
       types = {
+        "Chart"          => MyDefault::ReportObj[0],
         "VO2max summary" => MyDefault::ReportObj[2],
-        "Training Zones" => MyDefault::ReportObj[3],
-        "Chart" => MyDefault::ReportObj[0]
-        }
+        "Training Zones" => MyDefault::ReportObj[3]
+      }
 
       obj = types[params["type"]]
       obj_array.insert(index, obj)
 
       # update index
-      for i in (index+1)..(obj_array.size-1)
+      for i in (index + 1)..(obj_array.size - 1)
         obj_array[i][:index] += 1
       end
 
@@ -80,7 +80,7 @@ class User::EditObj < Trailblazer::Operation
       obj_array.delete_at(index)
 
       # update index
-      for i in (index)..(obj_array.size-1)
+      for i in (index)..(obj_array.size - 1)
         obj_array[i][:index] -= 1
       end
     end

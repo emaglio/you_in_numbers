@@ -122,21 +122,32 @@ module Report::Cell
 
     def y1
       return "null" if label_1 == "null"
-      (obj[:only_exer] == "1") ? data["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps] : data["cpet_params"][obj[:y1][:name]]
+
+      return data["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps] if obj[:only_exer] == "1"
+
+      data["cpet_params"][obj[:y1][:name]]
     end
 
     def y2
       return "null" if label_2 == "null"
-      (obj[:only_exer] == "1") ? data["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps] : data["cpet_params"][obj[:y2][:name]]
+
+      return data["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps] if obj[:only_exer] == "1"
+
+      data["cpet_params"][obj[:y2][:name]]
     end
 
     def y3
       return "null" if label_3 == "null"
-      (obj[:only_exer] == "1") ? data["cpet_params"][obj[:y3][:name]][exer_phase_starts, exer_num_steps] : data["cpet_params"][obj[:y3][:name]]
+
+      return data["cpet_params"][obj[:y3][:name]][exer_phase_starts, exer_num_steps] if obj[:only_exer] == "1"
+
+      data["cpet_params"][obj[:y3][:name]]
     end
 
     def x
-      obj[:only_exer] == "1" ? data["cpet_params"][obj[:x][:name]][exer_phase_starts, exer_num_steps] : data["cpet_params"][obj[:x][:name]]
+      return data["cpet_params"][obj[:x][:name]][exer_phase_starts, exer_num_steps] if obj[:only_exer] == "1"
+
+      data["cpet_params"][obj[:x][:name]]
     end
 
     def x_time?
@@ -181,7 +192,7 @@ module Report::Cell
       array[0] = data["cpet_params"][obj[:y1][:name]].max
       array[1] = data["cpet_params"][obj[:y2][:name]].max unless label_2 == "null"
       array[2] = data["cpet_params"][obj[:y3][:name]].max unless label_3 == "null"
-      array.max > 1000 ? (array.max+200).round(-2) : (array.max+10).round(-1)
+      array.max > 1000 ? (array.max + 200).round(-2) : (array.max + 10).round(-1)
     end
 
     def vo2_max_value
@@ -205,7 +216,7 @@ module Report::Cell
       array << data["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps].max
       array << data["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps].max unless label_2 == "null"
 
-      array.max > 1000 ? (array.max+200).round(-2) : (array.max+5).round(-1)
+      array.max > 1000 ? (array.max + 200).round(-2) : (array.max + 5).round(-1)
     end
 
     def min_scale_value
@@ -214,7 +225,7 @@ module Report::Cell
       array << data["cpet_params"][obj[:y1][:name]][exer_phase_starts, exer_num_steps].min
       array << data["cpet_params"][obj[:y2][:name]][exer_phase_starts, exer_num_steps].min unless label_2 == "null"
 
-      (array.min-5).round(-1)
+      (array.min - 5).round(-1)
     end
 
   end #class Chart

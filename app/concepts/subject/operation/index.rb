@@ -1,7 +1,7 @@
 require_dependency 'session/lib/throw_exception'
 
 class Subject::Index < Trailblazer::Operation
-  step Policy::Pundit( ::Session::Policy, :signed_in?)
+  step Policy::Pundit(::Session::Policy, :signed_in?)
   failure ::Session::Lib::ThrowException
   step :model!
 

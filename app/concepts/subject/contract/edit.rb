@@ -24,17 +24,25 @@ module Subject::Contract
         def unique_email?
           return true if Subject.find(form.id).email == form.email
           return true if form.email == ""
+
           Subject.where("email = ?", form.email).size == 0
         end
 
         def email?
           return true if form.email == ""
+
           ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
         end
 
         def unique_subject?
-          return true if ((Subject.find(form.id).email == form.email) and (Subject.find(form.id).firstname == form.firstname) and (Subject.find(form.id).lastname == form.lastname))
-          Subject.where("firstname like ? AND lastname like ? AND dob like ?", form.firstname, form.lastname, DateTime.parse(form.dob)).size == 0
+          return true if ((Subject.find(form.id).email == form.email) &&
+                         (Subject.find(form.id).firstname == form.firstname) &&
+                         (Subject.find(form.id).lastname == form.lastname))
+
+          Subject.where(
+            "firstname like ? AND lastname like ? AND dob like ?",
+            form.firstname, form.lastname, DateTime.parse(form.dob)
+          ).size == 0
         end
 
         def greater_than_zero?(value)
@@ -43,7 +51,8 @@ module Subject::Contract
 
         def check_age?
           return false if DateTime.parse(form.dob) > DateTime.now
-          dob = (((DateTime.now - DateTime.parse(form.dob))/365).round)
+
+          dob = (((DateTime.now - DateTime.parse(form.dob)) / 365).round)
           dob > 5 and dob < 120
         end
       end

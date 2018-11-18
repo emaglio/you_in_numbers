@@ -31,17 +31,19 @@ class ApplicationController < ActionController::Base
   # exists file and file type are validated in the contract.
   # this is gonna happen when something weird happens
   rescue_from ApplicationController::OpenFileException do
-    flash[:danger] = "Something went wrong when opening the report file..try again! Please contact us if it happens again!"
+    flash[:danger] = "Something went wrong when opening the report file..try again!"\
+                     " Please contact us if it happens again!"
     redirect_to "/reports/new"
   end
 
   def render(cell_constant, model, options: {}, layout_type: "app", type: "html", method: :append)
+    # rubocop:disable Layout/AlignHash
     layout_types = {
       "welcome" => RailsBootstrap::Cell::WelcomeLayout,
       "app" => RailsBootstrap::Cell::Layout,
-
       nil => nil
     }
+    # rubocop:enable Layout/AlignHash
 
     layout = layout_types[layout_type]
 

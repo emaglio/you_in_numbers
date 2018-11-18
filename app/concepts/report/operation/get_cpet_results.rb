@@ -18,7 +18,7 @@ class Report::Create < Trailblazer::Operation
       end_exer = end_exer + start_exer - 1
 
       # hash with starting index of exercise phase and durantion on it (num_steps)
-      exer_phase = { "starts" => start_exer, "num_steps" => end_exer - start_exer + 1}
+      exer_phase = { "starts" => start_exer, "num_steps" => end_exer - start_exer + 1 }
 
       options["exer_phase"] = exer_phase
     end
@@ -68,10 +68,10 @@ class Report::Create < Trailblazer::Operation
         end
       end
 
-      max_value = ((exer_array[starts, ends-starts+1].sum).to_f / (ends-starts+1).to_f).round
+      max_value = ((exer_array[starts, ends - starts + 1].sum).to_f / (ends - starts + 1).to_f).round
 
       # as max point I use the end of the 30 seconds range
-      vo2_max = {"index" => ends, "value" => max_value, "starts" => starts, "ends" => ends}
+      vo2_max = { "index" => ends, "value" => max_value, "starts" => starts, "ends" => ends }
 
       options["vo2_max"] = vo2_max
       options["edited_vo2_max"] = vo2_max.clone
@@ -86,36 +86,36 @@ class Report::Create < Trailblazer::Operation
         level_array << value * 0.01
       end
 
-      index_35 = getValueIndex(vo2_max["value"]*(level_array[0]), vo2_array, 0)
-      index_50 = getValueIndex(vo2_max["value"]*(level_array[1]), vo2_array, index_35)
-      index_51 = getValueIndex(vo2_max["value"]*(level_array[2]), vo2_array, index_50)
-      index_75 = getValueIndex(vo2_max["value"]*(level_array[3]), vo2_array, index_51)
-      index_76 = getValueIndex(vo2_max["value"]*(level_array[4]), vo2_array, index_75)
-      index_90 = getValueIndex(vo2_max["value"]*(level_array[5]), vo2_array, index_76)
-      index_91 = getValueIndex(vo2_max["value"]*(level_array[6]), vo2_array, index_90)
+      index_35 = getValueIndex(vo2_max["value"] * (level_array[0]), vo2_array, 0)
+      index_50 = getValueIndex(vo2_max["value"] * (level_array[1]), vo2_array, index_35)
+      index_51 = getValueIndex(vo2_max["value"] * (level_array[2]), vo2_array, index_50)
+      index_75 = getValueIndex(vo2_max["value"] * (level_array[3]), vo2_array, index_51)
+      index_76 = getValueIndex(vo2_max["value"] * (level_array[4]), vo2_array, index_75)
+      index_90 = getValueIndex(vo2_max["value"] * (level_array[5]), vo2_array, index_76)
+      index_91 = getValueIndex(vo2_max["value"] * (level_array[6]), vo2_array, index_90)
       index_100 = getValueIndex(vo2_max["value"], vo2_array, index_91)
 
 
       options["training_zones"] = {
-        "35%" => index_35,
-        "50%" => index_50,
-        "51%" => index_51,
-        "75%" => index_75,
-        "76%" => index_76,
-        "90%" => index_90,
-        "91%" => index_91,
+        "35%"  => index_35,
+        "50%"  => index_50,
+        "51%"  => index_51,
+        "75%"  => index_75,
+        "76%"  => index_76,
+        "90%"  => index_90,
+        "91%"  => index_91,
         "100%" => index_100
       }
     end
 
     def cpet_results!(options, exer_phase:, at_index:, edited_at_index:, vo2_max:, edited_vo2_max:, training_zones:, **)
       options["cpet_results"] = {
-        "exer_phase" => exer_phase,
-        "at_index" => at_index,
+        "vo2_max"         => vo2_max,
+        "at_index"        => at_index,
+        "exer_phase"      => exer_phase,
         "edited_at_index" => edited_at_index,
-        "vo2_max" => vo2_max,
-        "edited_vo2_max" => edited_vo2_max,
-        "training_zones" => training_zones
+        "edited_vo2_max"  => edited_vo2_max,
+        "training_zones"  => training_zones
       }
     end
 
@@ -160,7 +160,7 @@ class Report::Create < Trailblazer::Operation
         row_index = row_index + 1
       end
 
-      return row_index-1
+      return row_index - 1
   end
   end
 end

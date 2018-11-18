@@ -3,10 +3,8 @@ require 'test_helper'
 class SubjectIntegrationTest < Trailblazer::Test::Integration
 
   describe "Subject CRUD" do
-
     it "Create subject from scratch" do
       log_in_as_user
-      user = User.find_by(email: "my@email.com")
 
       click_link "New Subject"
       page.current_path.must_equal "/subjects/new"
@@ -46,13 +44,17 @@ class SubjectIntegrationTest < Trailblazer::Test::Integration
 
     it "Only subject's owner can edit it" do
       log_in_as_user
-      user = User.find_by(email: "my@email.com")
 
       new_subject!
 
       click_link "Sign Out"
 
-      user2 = User::Create.({email: "test2@email.com", firstname: "User2", password: "password", confirm_password: "password"})["model"]
+      user2 = User::Create.(
+        email: "test2@email.com",
+        firstname: "User2",
+        password: "password",
+        confirm_password: "password"
+      )["model"]
       submit!(user2.email, "password")
 
       visit "/subjects/#{Subject.last.id}"
@@ -86,7 +88,6 @@ class SubjectIntegrationTest < Trailblazer::Test::Integration
 
     it "Delete Subject" do
       log_in_as_user
-      user = User.find_by(email: "my@email.com")
 
       new_subject!
 
@@ -97,7 +98,7 @@ class SubjectIntegrationTest < Trailblazer::Test::Integration
       click_button "Delete"
 
       page.must_have_content "Subject deleted"
-      Subject.all.size.must_equal (subject_num-1)
+      Subject.all.size.must_equal subject_num - 1
     end
   end
 end

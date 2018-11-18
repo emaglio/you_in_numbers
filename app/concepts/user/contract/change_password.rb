@@ -1,7 +1,7 @@
 require 'reform/form/dry'
 
-module User::Contract 
-  class ChangePassword < Reform::Form 
+module User::Contract
+  class ChangePassword < Reform::Form
     feature Reform::Form::Dry
 
     property :email, virtual: true
@@ -25,10 +25,9 @@ module User::Contract
           return form.password != form.new_password
         end
 
-        def password_ok? 
+        def password_ok?
           return Tyrant::Authenticatable.new(User.find_by(email: form.email)).digest?(form.password) == true if user_exists?
         end
-
       end
 
       required(:email).filled(:user_exists?)
@@ -43,7 +42,7 @@ module User::Contract
       validate(new_password_must_be_new?: :new_password) do
         new_password_must_be_new?
       end
-        
+
       validate(new_must_match?: :confirm_new_password) do
         new_must_match?
       end

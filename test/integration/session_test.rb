@@ -5,7 +5,7 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
   it "invalid log in (not existing)" do
     visit "sessions/new"
 
-    submit!("","")
+    submit!("", "")
 
     page.must_have_css "#email"
     page.must_have_css "#password"
@@ -23,11 +23,13 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
   end
 
   it "successfully log in" do
-    user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password", firstname: "NewUser")["model"]
+    user = User::Create.(
+      email: "test@email.com", password: "password", confirm_password: "password", firstname: "NewUser"
+    )["model"]
 
     visit "sessions/new"
 
-    submit!("#{user.email}", "password")
+    submit!(user.email.to_s, "password")
 
     page.must_have_content "Hi, NewUser"
     page.must_have_link "Sign Out"
@@ -40,11 +42,13 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
   end
 
   it "succesfully log out" do
-    user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password", firstname: "NewUser")["model"]
+    user = User::Create.(
+      email: "test@email.com", password: "password", confirm_password: "password", firstname: "NewUser"
+    )["model"]
 
     visit "sessions/new"
 
-    submit!("#{user.email}", "password")
+    submit!(user.email.to_s, "password")
 
     page.must_have_content "Hi, NewUser"
     page.must_have_link "Sign Out"

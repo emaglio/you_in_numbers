@@ -18,7 +18,11 @@ module User::Cell
     def js_array
       array = []
       obj_array.each do |obj|
-        obj[:type] == 'report/cell/chart' ? array << "chart" : (obj[:type] == 'report/cell/subject' ? array << "subject" : array << "dom")
+        if obj[:type] == 'report/cell/chart'
+          array << "chart"
+        else
+          (obj[:type] == 'report/cell/subject' ? array << "subject" : array << "dom")
+        end
       end
 
       return array
@@ -29,7 +33,7 @@ module User::Cell
       obj_array.each do |obj|
         if obj[:type] == 'report/cell/chart'
           cell = cell(obj[:type], model, obj: obj,  current_user: current_user, type: "edit", data: report)
-          temp ={}
+          temp = {}
 
           temp["chart_id"] = cell.chart_id
 

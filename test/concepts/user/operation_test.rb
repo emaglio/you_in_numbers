@@ -3,17 +3,18 @@ require_dependency 'user/contract/edit_template.rb'
 
 class UserOperationTest < MiniTest::Spec
   let(:admin) { admin_for }
-  let(:user2) { (User::Create.({ email: "test2@email.com", password: "password", confirm_password: "password" }))["model"] }
-  let(:subject) { (Subject::Create.({
-                                    user_id: user.id,
-                                    firstname: "Ema",
-                                    lastname: "Maglio",
-                                    gender: "Male",
-                                    dob: "01/01/1980",
-                                    height: "180",
-                                    weight: "80",
-                                    phone: "912873",
-                                    email: "ema@email.com"}, "current_user" => user))["model"]}
+  let(:user2) { User::Create.(email: "test2@email.com", password: "password", confirm_password: "password")["model"] }
+  let(:subject) do Subject::Create.({
+                                      user_id: user.id,
+                                      firstname: "Ema",
+                                      lastname: "Maglio",
+                                      gender: "Male",
+                                      dob: "01/01/1980",
+                                      height: "180",
+                                      weight: "80",
+                                      phone: "912873",
+                                      email: "ema@email.com"
+                                    }, "current_user" => user)["model"] end
 
   let(:params_pass) { { password: "password", confirm_password: "password" } }
   let(:attrs_pass) { {} }
@@ -27,8 +28,8 @@ class UserOperationTest < MiniTest::Spec
     it do
       assert_fail User::Create, { email: "test@email.com" }, {} do |result|
         assert_equal({
-          :confirm_password => ["Passwords are not matching"]
-        }, result["contract.default"].errors.messages)
+                       :confirm_password => ["Passwords are not matching"]
+                     }, result["contract.default"].errors.messages)
       end
     end
   end
@@ -36,14 +37,14 @@ class UserOperationTest < MiniTest::Spec
   describe "unique user" do
     let(:params_pass) { { email: "test@email.com", password: "password", confirm_password: "password" } }
 
-    before { User::Create.({email: "test@email.com", password: "password", confirm_password: "password"}) }
+    before { User::Create.(email: "test@email.com", password: "password", confirm_password: "password") }
 
     it do
       assert_fail User::Create,
         { email: "test@email.com", password: "password", confirm_password: "password" }, {} do |result|
         assert_equal({
-          email: ["This email has been already used"]
-        }, result["contract.default"].errors.messages)
+                       email: ["This email has been already used"]
+                     }, result["contract.default"].errors.messages)
       end
     end
   end
@@ -54,12 +55,13 @@ class UserOperationTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Update.(
-        {id: user.id,
-        email: "newtest@email.com"},
-        "current_user" => user2)
+        { id: user.id,
+          email: "newtest@email.com" },
+        "current_user" => user2
+      )
     end
 
-    res = User::Update.({id: user.id, email: "newtest@email.com"}, "current_user" => user)
+    res = User::Update.({ id: user.id, email: "newtest@email.com" }, "current_user" => user)
     res.success?.must_equal true
     res["model"].email.must_equal "newtest@email.com"
   end
@@ -70,19 +72,20 @@ class UserOperationTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Delete.(
-        {id: user.id},
-        "current_user" => user2)
+        { id: user.id },
+        "current_user" => user2
+      )
     end
 
-    res = User::Delete.({id: user.id}, "current_user" => user)
+    res = User::Delete.({ id: user.id }, "current_user" => user)
     res.success?.must_equal true
   end
 
   it "reset password" do
-    res = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
+    res = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")
     res.success?.must_equal true
 
-    result = Tyrant::ResetPassword.({email: res["model"].email}, "via" => :test)
+    result = Tyrant::ResetPassword.({ email: res["model"].email }, "via" => :test)
     result.success?.must_equal true
 
     user = User.find_by(email: res["model"].email)
@@ -96,12 +99,21 @@ class UserOperationTest < MiniTest::Spec
   end
 
   it "wrong input change password" do
-    user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})
+    user = User::Create.(email: "test@email.com", password: "password", confirm_password: "password")
     user.success?.must_equal true
 
-    res = User::ChangePassword.({email: "wrong@email.com", password: "new_password", new_password: "new_password", confirm_new_password: "wrong_password"}, "current_user" => user["model"])
+    res = User::ChangePassword.(
+      {
+        email: "wrong@email.com",
+        password: "new_password",
+        new_password: "new_password",
+        confirm_new_password: "wrong_password"
+      }, "current_user" => user["model"]
+    )
     res.failure?.must_equal true
-    res["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"User not found\"], :password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], :confirm_new_password=>[\"The New Password is not matching\"]}"
+    res["result.contract.default"].errors.messages.inspect.must_equal "{:email=>[\"User not found\"], " \
+      ":password=>[\"Wrong Password\"], :new_password=>[\"New password can't match the old one\"], "\
+      ":confirm_new_password=>[\"The New Password is not matching\"]}"
   end
 
   it "only current_user can change password" do
@@ -110,14 +122,22 @@ class UserOperationTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::ChangePassword.(
-        {email: user.email,
-        password: "password",
-        new_password: "new_password",
-        confirm_new_password: "new_password"},
-        "current_user" => user2)
+        { email: user.email,
+          password: "password",
+          new_password: "new_password",
+          confirm_new_password: "new_password" },
+        "current_user" => user2
+      )
     end
 
-    op = User::ChangePassword.({email: user.email, password: "password", new_password: "new_password", confirm_new_password: "new_password"}, "current_user" => user)
+    op = User::ChangePassword.(
+      {
+        email: user.email,
+        password: "password",
+        new_password: "new_password",
+        confirm_new_password: "new_password"
+      }, "current_user" => user
+    )
     op.success?.must_equal true
 
     user_updated = User.find_by(email: user.email)
@@ -134,12 +154,13 @@ class UserOperationTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Block.(
-        {id: user.id,
-        block: "true"},
-        "current_user" => user2)
+        { id: user.id,
+          block: "true" },
+        "current_user" => user2
+      )
     end
 
-    op = User::Block.({id: user.id, "block" => "true"}, "current_user" => admin)
+    op = User::Block.({ id: user.id, "block" => "true" }, "current_user" => admin)
     op.success?.must_equal true
     op["model"].block.must_equal true
   end
@@ -148,36 +169,36 @@ class UserOperationTest < MiniTest::Spec
     user.email.must_equal "test@email.com"
 
     # create company
-    company = Company::Create.({ user_id: user.id, name: "My Company"}, "current_user" => user)
+    company = Company::Create.({ user_id: user.id, name: "My Company" }, "current_user" => user)
     company.success?.must_equal true
 
-    upload_file = ActionDispatch::Http::UploadedFile.new({
+    upload_file = ActionDispatch::Http::UploadedFile.new(
       :tempfile => File.new(Rails.root.join("test/files/cpet.xlsx"))
-    })
+    )
 
     # create 2 Reports
     report1 = Report::Create.({
-          user_id: user.id,
-          subject_id: subject.id,
-          title: "My report",
-          cpet_file_path: upload_file,
-          template: "default"
-      }, "current_user" => user)
+                                user_id: user.id,
+                                subject_id: subject.id,
+                                title: "My report",
+                                cpet_file_path: upload_file,
+                                template: "default"
+                              }, "current_user" => user)
     report1.success?.must_equal true
 
     report2 = Report::Create.({
-          user_id: user.id,
-          subject_id: subject.id,
-          title: "My report",
-          cpet_file_path: upload_file,
-          template: "default"
-      }, "current_user" => user)
+                                user_id: user.id,
+                                subject_id: subject.id,
+                                title: "My report",
+                                cpet_file_path: upload_file,
+                                template: "default"
+                              }, "current_user" => user)
     report2.success?.must_equal true
 
     Company.where("user_id like ?", user.id).size.must_equal 1
     Report.where("user_id like ?", user.id).size.must_equal 2
 
-    User::Delete.({id: user.id}, "current_user" => user)
+    User::Delete.({ id: user.id }, "current_user" => user)
 
     Company.where("user_id like ?", user.id).size.must_equal 0
     Report.where("user_id like ?", user.id).size.must_equal 0
@@ -187,12 +208,12 @@ class UserOperationTest < MiniTest::Spec
   it "default settings" do
     user.email.must_equal "test@email.com"
 
-    user.content["report_settings"].each do |key,value|
-      (value.size > 0).must_equal true
+    user.content["report_settings"].each do |_key, value|
+      (!value.empty?).must_equal true
     end
 
-    user.content["report_template"].each do |key,value|
-      (value.size > 0).must_equal true
+    user.content["report_template"].each do |_key, value|
+      (!value.empty?).must_equal true
     end
   end
 
@@ -202,12 +223,13 @@ class UserOperationTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::EditObj.(
-        {id: user.id},
-        "current_user" => user2)
+        { id: user.id },
+        "current_user" => user2
+      )
     end
 
     #move up third element
-    result = User::EditObj.({id: user.id, "move_up" => "2"}, "current_user" => user)
+    result = User::EditObj.({ id: user.id, "move_up" => "2" }, "current_user" => user)
     # result["result.contract.default"].errors.messages.inspect.must_equal ""
     result.success?.must_equal true
     custom = User.find(user.id).content["report_template"]["custom"]
@@ -225,7 +247,7 @@ class UserOperationTest < MiniTest::Spec
     custom[3][:index].must_equal 3
 
     #move down second element
-    result = User::EditObj.({id: user.id, "move_down" => "1"}, "current_user" => user)
+    result = User::EditObj.({ id: user.id, "move_down" => "1" }, "current_user" => user)
     result.success?.must_equal true
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
@@ -242,7 +264,17 @@ class UserOperationTest < MiniTest::Spec
     custom[3][:index].must_equal 3
 
     #edit first chart
-    result = User::UpdateChart.({id: user.id, "title" => "newTitle", "edit_chart" => "0", "y1_select" => "something", "y2_select" => "something2", "y1_scale" => "1"}, "current_user" => user)
+    result = User::UpdateChart.(
+      {
+        id: user.id,
+        "title" => "newTitle",
+        "edit_chart" => "0",
+        "y1_select" => "something",
+        "y2_select" => "something2",
+        "y1_scale" => "1"
+      },
+      "current_user" => user
+    )
     result.success?.must_equal true
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
@@ -264,7 +296,7 @@ class UserOperationTest < MiniTest::Spec
     custom[3][:index].must_equal 3
 
     #delete the first chart
-    result = User::EditObj.({id: user.id, "delete" => "0"}, "current_user" => user)
+    result = User::EditObj.({ id: user.id, "delete" => "0" }, "current_user" => user)
     result.success?.must_equal true
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
@@ -279,7 +311,7 @@ class UserOperationTest < MiniTest::Spec
     custom[2][:index].must_equal 2
 
     #add element
-    result = User::EditObj.({id: user.id, "type" => "VO2max summary", "index" => "0"}, "current_user" => user)
+    result = User::EditObj.({ id: user.id, "type" => "VO2max summary", "index" => "0" }, "current_user" => user)
     result.success?.must_equal true
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
@@ -299,7 +331,16 @@ class UserOperationTest < MiniTest::Spec
     custom[0][:title].must_equal "VO2max Test Summary"
     custom[0][:params_list].must_equal "t,RQ,VO2,VO2/Kg,HR,Power,Revolution"
     custom[0][:params_unm_list].must_equal "mm:ss,-,l/min,ml/min/Kg,bpm,watt,BPM"
-    result = User::UpdateTable.({id: user.id, "edit_table" => "0", "title" => "Test Sum", "params_list" => "t,RQ,VO2,VO2/Kg", "unm_list" => "mm:ss,-,l/min,ml/min/Kg"}, "current_user" => user)
+    result = User::UpdateTable.(
+      {
+        id: user.id,
+        "edit_table" => "0",
+        "title" => "Test Sum",
+        "params_list" => "t,RQ,VO2,VO2/Kg",
+        "unm_list" => "mm:ss,-,l/min,ml/min/Kg"
+      },
+      "current_user" => user
+    )
     result.success?.must_equal true
     custom = User.find(user.id).content["report_template"]["custom"]
     custom[0][:title].must_equal "Test Sum"
@@ -321,7 +362,7 @@ class UserOperationTest < MiniTest::Spec
     user.email.must_equal "test@email.com"
 
     #move up
-    result = User::EditObj.({id: user.id, "move_up" => ""}, "current_user" => user)
+    result = User::EditObj.({ id: user.id, "move_up" => "" }, "current_user" => user)
     result.failure?.must_equal true
     result["result.contract.default"].errors.messages.inspect.must_equal "{:move_up=>[\"Operation not possible\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
@@ -329,7 +370,7 @@ class UserOperationTest < MiniTest::Spec
     (custom == default).must_equal true
 
     #move down
-    result = User::EditObj.({id: user.id, "move_down" => ""}, "current_user" => user)
+    result = User::EditObj.({ id: user.id, "move_down" => "" }, "current_user" => user)
     result.failure?.must_equal true
     result["result.contract.default"].errors.messages.inspect.must_equal "{:move_down=>[\"Operation not possible\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
@@ -337,7 +378,7 @@ class UserOperationTest < MiniTest::Spec
     (custom == default).must_equal true
 
     #edit
-    result = User::EditObj.({id: user.id, "edit_chart" => ""}, "current_user" => user)
+    result = User::EditObj.({ id: user.id, "edit_chart" => "" }, "current_user" => user)
     result.failure?.must_equal true
     result["result.contract.default"].errors.messages.inspect.must_equal "{:edit_chart=>[\"Operation not possible\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
@@ -345,24 +386,43 @@ class UserOperationTest < MiniTest::Spec
     (custom == default).must_equal true
 
     #edit chart
-    result = User::UpdateChart.({id: user.id, "edit_chart" => "0", "y1_select" => "some", "y1_scale" => "0", "y2_scale" => "0", "y3_scale" => "0"}, "current_user" => user)
+    result = User::UpdateChart.(
+      {
+        id: user.id,
+        "edit_chart" => "0",
+        "y1_select" => "some",
+        "y1_scale" => "0",
+        "y2_scale" => "0",
+        "y3_scale" => "0"
+      },
+      "current_user" => user
+    )
     result.success?.must_equal false
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:y1_scale=>[\"Please show at least one Y scale\"], :y2_scale=>[\"Please show at least one Y scale\"], :y3_scale=>[\"Please show at least one Y scale\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:y1_scale=>[\"Please show at least one Y "\
+      "scale\"], :y2_scale=>[\"Please show at least one Y scale\"], :y3_scale=>[\"Please show at least one Y scale\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true
 
     #edit table
-    result = User::UpdateTable.({id: user.id, "edit_table" => "0", "params_list" => "", "unm_list" => ""}, "current_user" => user)
+    result = User::UpdateTable.(
+      { id: user.id, "edit_table" => "0", "params_list" => "", "unm_list" => "" },
+      "current_user" => user
+    )
     result.success?.must_equal false
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:params_list=>[\"Can't be blank\", \"The number of the element in the parameters and the unit of measurement list must be the same. If no unit of measurement is required please use a dash (-) instead\", \"One of the paramemter is not in the possible list or the spelling is wrong (case sensitive)\"], :unm_list=>[\"Can't be blank\", \"The number of the element in the parameters and the unit of measurement list must be the same. If no unit of measurement is required please use a dash (-) instead\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:params_list=>[\"Can't be blank\", "\
+      "\"The number of the element in the parameters and the unit of measurement list must be the same. If no "\
+      "unit of measurement is required please use a dash (-) instead\", \"One of the paramemter is not in the "\
+      "possible list or the spelling is wrong (case sensitive)\"], :unm_list=>[\"Can't be blank\", \"The number"\
+      " of the element in the parameters and the unit of measurement list must be the same. If no unit of measurement"\
+      " is required please use a dash (-) instead\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true
 
 
     #delete
-    result = User::EditObj.({id: user.id, "delete" => ""}, "current_user" => user)
+    result = User::EditObj.({ id: user.id, "delete" => "" }, "current_user" => user)
     result.failure?.must_equal true
     result["result.contract.default"].errors.messages.inspect.must_equal "{:delete=>[\"Operation not possible\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
@@ -370,9 +430,10 @@ class UserOperationTest < MiniTest::Spec
     (custom == default).must_equal true
 
     #add
-    result = User::EditObj.({id: user.id, "type" => 2, "index" => ""}, "current_user" => user)
+    result = User::EditObj.({ id: user.id, "type" => 2, "index" => "" }, "current_user" => user)
     result.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:type=>[\"must be a string\"], :index=>[\"Operation not possible\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:type=>[\"must be a string\"], "\
+      ":index=>[\"Operation not possible\"]}"
     custom = User.find(user.id).content["report_template"]["custom"]
     default = User.find(user.id).content["report_template"]["default"]
     (custom == default).must_equal true
@@ -384,27 +445,29 @@ class UserOperationTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::ReportSettings.(
-        {id: user.id},
-        "current_user" => user2)
+        { id: user.id },
+        "current_user" => user2
+      )
     end
 
     result = User::ReportSettings.(
-              {
-                id: user.id,
-                "params_list" => "Parms0,Parms1,Parms2,Parms3",
-                "load_1" => "Load1",
-                "load_1_um" => "Load1_um",
-                "load_2" => "Load2",
-                "load_2_um" => "Load2_um",
-                "fat_burning_2" => "45",
-                "endurance_1" => "55",
-                "endurance_2" => "65",
-                "at_1" => "75",
-                "at_2" => "85",
-                "vo2max_1" => "95",
-                um_height: "um_h",
-                um_weight: "um_w",
-                }, "current_user" => user)
+      {
+        id: user.id,
+        "params_list" => "Parms0,Parms1,Parms2,Parms3",
+        "load_1" => "Load1",
+        "load_1_um" => "Load1_um",
+        "load_2" => "Load2",
+        "load_2_um" => "Load2_um",
+        "fat_burning_2" => "45",
+        "endurance_1" => "55",
+        "endurance_2" => "65",
+        "at_1" => "75",
+        "at_2" => "85",
+        "vo2max_1" => "95",
+        um_height: "um_h",
+        um_weight: "um_w"
+      }, "current_user" => user
+    )
     result.success?.must_equal true
     result["model"].content["report_settings"]["params_list"][0].must_equal "Parms0"
     result["model"].content["report_settings"]["params_list"][1].must_equal "Parms1"
@@ -425,21 +488,30 @@ class UserOperationTest < MiniTest::Spec
     result["model"].content["report_settings"]["units_of_measurement"]["weight"].must_equal "um_w"
   end
 
-    it "report settings wrong input" do
+  it "report settings wrong input" do
     user.email.must_equal "test@email.com"
     user2.email.must_equal "test2@email.com"
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::ReportSettings.(
-        {id: user.id},
-        "current_user" => user2)
+        { id: user.id },
+        "current_user" => user2
+      )
     end
 
     result = User::ReportSettings.(
-              {
-                id: user.id,
-                }, "current_user" => user)
+      {
+        id: user.id
+      }, "current_user" => user
+    )
     result.failure?.must_equal true
-    result["result.contract.default"].errors.messages.inspect.must_equal "{:fat_burning_2=>[\"Can't be blank\", \"This must be greater than 35\"], :endurance_1=>[\"Can't be blank\", \"This range was wrong or over the previous one\"], :endurance_2=>[\"Can't be blank\", \"This range was wrong or over the previous one\"], :at_1=>[\"Can't be blank\", \"This range was wrong or over the previous one\"], :at_2=>[\"Can't be blank\", \"This range was wrong or over the previous one\"], :vo2max_1=>[\"Can't be blank\", \"This range was wrong or over the previous one\"], :load_1=>[\"Can't be blank\"], :load_1_um=>[\"Can't be blank\"], :load_2=>[\"Can't be blank\"], :load_2_um=>[\"Can't be blank\"], :um_height=>[\"Can't be blank\"], :um_weight=>[\"Can't be blank\"]}"
+    result["result.contract.default"].errors.messages.inspect.must_equal "{:fat_burning_2=>[\"Can't be blank\", "\
+      "\"This must be greater than 35\"], :endurance_1=>[\"Can't be blank\", \"This range was wrong or over the "\
+      "previous one\"], :endurance_2=>[\"Can't be blank\", \"This range was wrong or over the previous one\"], "\
+      ":at_1=>[\"Can't be blank\", \"This range was wrong or over the previous one\"], :at_2=>[\"Can't be blank\","\
+      " \"This range was wrong or over the previous one\"], :vo2max_1=>[\"Can't be blank\", \"This range was wrong "\
+      "or over the previous one\"], :load_1=>[\"Can't be blank\"], :load_1_um=>[\"Can't be blank\"], :load_2=>[\"Can'"\
+      "t be blank\"], :load_2_um=>[\"Can't be blank\"], :um_height=>[\"Can't be blank\"], "\
+      ":um_weight=>[\"Can't be blank\"]}"
   end
 end

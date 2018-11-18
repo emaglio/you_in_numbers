@@ -24,7 +24,8 @@ module Subject::Cell
         temp << subject.weight.to_s
         temp << (button_to "Open", subject_path(subject), class: "btn btn-outline btn-success", :method => :get)
         temp << (button_to "Edit", edit_subject_path(subject), class: "btn btn-outline btn-warning", :method => :get)
-        temp << (button_to "Delete", subject_path(subject.id), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger")
+        temp << (button_to "Delete", subject_path(subject.id),
+          method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline btn-danger")
         (index >= 1) ? array += "," : array
         array +=  temp.to_json
         index += 1
@@ -38,7 +39,10 @@ module Subject::Cell
     end
 
     def create_report
-      (button_to "Create Report", new_report_path, class: "btn btn-outline btn-success", :method => :get, params: {subject_id: model.id}).inspect
+      (
+        button_to "Create Report", new_report_path, class: "btn btn-outline btn-success", :method => :get,
+        params: { subject_id: model.id }
+      ).inspect
     end
 
     def um_height
@@ -48,7 +52,5 @@ module Subject::Cell
     def um_weight
       current_user.content["report_settings"]["units_of_measurement"]["weight"]
     end
-
   end # class Index
-
 end # module Subject::Cell

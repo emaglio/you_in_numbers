@@ -5,7 +5,7 @@ require 'codecov'
 SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
 require 'capybara/rails'
 require 'capybara-screenshot/minitest'
@@ -32,6 +32,7 @@ Minitest::Spec.class_eval do
 
   def admin_for
     return unless User.find_by(email: "admin@email.com").nil?
+
     User::Create.(
       email: "admin@email.com",
       password: "password",
@@ -42,6 +43,7 @@ Minitest::Spec.class_eval do
 
   def get_data_sheet(file)
     rows = 0
+    sheet_name = nil
     file.each_with_pagename do |name, sheet|
       if sheet.last_row > rows
         rows = sheet.last_row
@@ -58,9 +60,10 @@ Cell::TestCase.class_eval do
   include Capybara::Assertions
 end
 
-Trailblazer::Test::Integration.class_eval do
+Trailblazer::Test::Integration.class_eval do # rubocop:disable Metrics/BlockLength
   def admin_for
     return unless User.find_by(email: "admin@email.com").nil?
+
     User::Create.(
       email: "admin@email.com",
       password: "password",
@@ -100,13 +103,20 @@ Trailblazer::Test::Integration.class_eval do
   end
 
   def log_in_as_user(email = "my@email.com", password = "password")
-    email = User::Create.(email: email, password: password, confirm_password: password, firstname: "UserFirstname")["model"].email unless User.find_by(email: email) != nil
+    if User.find_by(email: email).nil?
+      email = User::Create.(
+        email: email, password: password, confirm_password: password, firstname: "UserFirstname"
+      )["model"].email
+    end
 
     visit "/sessions/new"
     submit!(email, password)
   end
 
-  def new_subject!(firstname = "SubjectFirstname", lastname="SubjectLastname", gender="Male", dob="01/01/1980", height="180", weight="80", phone="0128471", email="subject@email.com")
+  def new_subject!(
+    firstname = "SubjectFirstname", lastname = "SubjectLastname", gender = "Male", dob = "01/01/1980",
+    height = "180", weight = "80", phone = "0128471", email = "subject@email.com"
+  )
     visit "/subjects/new"
 
     within("//form[@id='new_subject']") do

@@ -24,7 +24,7 @@ module Report::File::Operation
       end
     end
 
-    def cpet_params!(options, cpet_file:, current_user:, **)
+    def cpet_params!(options, cpet_file:, **)
       cpet_params = {}
 
       # generate the cpet_params hash in base on Report settings
@@ -70,11 +70,11 @@ module Report::File::Operation
           value = nil
           if (key.downcase == "t" or key.downcase == "time" or key.downcase == "phase")
             # I need strings for Phase and time
-            value = cpet_file.formatted_value(row, params_col[i]+1) if params_col[i] != nil
+            value = cpet_file.formatted_value(row, params_col[i] + 1) if params_col[i] != nil
             cpet_params[key] << value if value != nil
           else
             # numbers for all the rest
-            value = cpet_file.cell(row, params_col[i]+1) if params_col[i] != nil
+            value = cpet_file.cell(row, params_col[i] + 1) if params_col[i] != nil
             cpet_params[key] << value if value != nil
           end
           i += 1

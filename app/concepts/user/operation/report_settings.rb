@@ -35,7 +35,9 @@ class User::ReportSettings < Trailblazer::Operation
 
   def units_of_mes!(options, params:, **)
     options["contract.default"].content.report_settings.units_of_measurement = {}
-    options["contract.default"].content.report_settings.units_of_measurement = {"height" => params[:um_height], "weight" => params[:um_weight]}
+    options["contract.default"].content.report_settings.units_of_measurement = {
+      "height" => params[:um_height], "weight" => params[:um_weight]
+    }
   end
 
 end # class User::ReportSettings

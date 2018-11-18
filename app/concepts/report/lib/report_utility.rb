@@ -1,21 +1,29 @@
 class Report::GeneratePdf < Trailblazer::Operation
 
-  module ReportUtility
+  module ReportUtility # rubocop:disable Metrics/ModuleLength
     def write_image!(options, obj:, pdf:, **)
       footer(options, pdf: pdf, model: options["model"], subject: options["subject"]) if pdf.cursor < 320
       pdf.text obj[:title], :size => 12, :style => :bold, :align => :center
       image_path = "#{Rails.root.join("public/temp_files/image-#{obj[:index]}.png")}"
       options["paths"] << image_path
-      pdf.image image_path, :position => :center, :fit => [MyDefault::ReportPdf["chart_size"], MyDefault::ReportPdf["chart_size"]]
+      pdf.image image_path, :position => :center, :fit => [
+        MyDefault::ReportPdf["chart_size"],
+        MyDefault::ReportPdf["chart_size"]
+      ]
       pdf.y = pdf.cursor + 3
     end
 
-    def write_table!(options, params:, obj:, pdf:, **)
-      obj[:type] == "report/cell/summary_table" ? write_summary_table(options, obj: obj, pdf: pdf) : write_training_zones(options, obj: obj, pdf: pdf)
+    def write_table!(options, obj:, pdf:, **)
+      if obj[:type] == "report/cell/summary_table"
+        write_summary_table(options, obj: obj, pdf: pdf)
+      else
+        write_training_zones(options, obj: obj, pdf: pdf)
+      end
+
       pdf.y = pdf.cursor + 3
     end
 
-    def decode_table_data!(options, tables_data:, **)
+    def decode_table_data!(_options, tables_data:, **)
       num_tables = tables_data[/#{"//"}(.*?)#{"//"}/m, 1].to_i
       tables_data.slice!("//#{num_tables}//")
       tables = {}
@@ -63,13 +71,13 @@ class Report::GeneratePdf < Trailblazer::Operation
       end
 
       #the height of a row is about 25.5 so check if it fits otherwise go to the next page
-      footer(options, pdf: pdf, model: options["model"], subject: options["subject"]) if pdf.cursor < (data.size*25.5)
+      footer(options, pdf: pdf, model: options["model"], subject: options["subject"]) if pdf.cursor < (data.size * 25.5)
 
       pdf.text obj[:title], :size => 12, :style => :bold, :align => :center
       pdf.table data, header: :true, position: :center, width: 400, row_colors: ["F4F4F4", "FFFFFF"]  do
         cells.align = :center
         cells.borders = [:bottom]
-        rows(1..(data.size-2)).border_color = "F2F2F2"
+        rows(1..(data.size - 2)).border_color = "F2F2F2"
         row(0).font_style = :bold
         row(0).size = 12
         column(0).font_style = :bold_italic
@@ -98,7 +106,7 @@ class Report::GeneratePdf < Trailblazer::Operation
       end
     end
 
-    def footer(options, pdf:, model:, subject:, last_page: false, **)
+    def footer(_options, pdf:, model:, subject:, last_page: false, **)
       canvas do
         pdf.stroke_horizontal_line 0, 550, at: (bounds.bottom + 20)
         y_position = bounds.bottom + 10
@@ -123,4 +131,3 @@ class Report::GeneratePdf < Trailblazer::Operation
   end # class ReportUtility
 
 end # module Report::GeneratePdf
-

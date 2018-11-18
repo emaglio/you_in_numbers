@@ -14,13 +14,15 @@ module Company::Cell
 
     def delete
       if current_user.id == model.user_id
-        button_to "Delete", company_path(model.id), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger", id: "delete_company"
+        button_to "Delete", company_path(model.id),
+          method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline btn-danger", id: "delete_company"
       end
     end
 
     def delete_logo
       if current_user.id == model.user_id
-        button_to "Remove Logo", delete_logo_company_path(model), method: :post, data: {confirm: 'Are you sure?'}, class: "btn btn-outline btn-danger"
+        button_to "Remove Logo", delete_logo_company_path(model),
+          method: :post, data: { confirm: 'Are you sure?' }, class: "btn btn-outline btn-danger"
       end
     end
 

@@ -1,17 +1,17 @@
 class User::UpdateChart < Trailblazer::Operation
   class Present < Trailblazer::Operation
     step Model(User, :find_by)
-    step Policy::Pundit( ::Session::Policy, :current_user? )
+    step Policy::Pundit(::Session::Policy, :current_user?)
     failure ::Session::Lib::ThrowException
     step Contract::Build(constant: User::Contract::EditChart)
   end # class Present
 
-  step Nested( Present )
+  step Nested(Present)
   step Contract::Validate()
   step :update_chart!
   step Contract::Persist()
 
-  def update_chart!(options, model:, params:, **)
+  def update_chart!(_options, model:, params:, **)
     obj_array = model.content["report_template"]["custom"]
 
     index = params["edit_chart"].to_i
