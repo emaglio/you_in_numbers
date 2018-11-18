@@ -1,4 +1,4 @@
-class Report < ActiveRecord::Base
+class Report < ApplicationRecord
   belongs_to :user
   belongs_to :subject
   serialize :cpet_params

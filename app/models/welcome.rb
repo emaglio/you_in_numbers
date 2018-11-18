@@ -1,3 +1,3 @@
-class Welcome < ActiveRecord::Base 
-  
+class Welcome < ApplicationRecord
+
 end

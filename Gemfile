@@ -5,7 +5,7 @@ ruby '2.5.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
-gem 'rails', '~> 5.1.1'
+gem 'rails', '~> 5.2.1'
 gem 'sass-rails', '~> 5.0'
 gem 'sqlite3'
 gem 'turbolinks', '~> 5'
@@ -25,6 +25,7 @@ group :development do
   gem 'web-console', '~> 2.0'
 end
 
+gem "minitest-rails"
 group :test do
   gem 'capybara'
   gem 'capybara-email'
@@ -36,7 +37,7 @@ group :test do
   gem "memory_test_fix"
   gem "minitest-bang"
   gem "minitest-line"
-  gem "minitest-rails-capybara"
+  gem "minitest-rails-capybara", "~> 3.0.0"
   gem 'simplecov', require: false
   gem 'trailblazer-test', git: "https://github.com/trailblazer/trailblazer-test.git", branch: "master"
 end
@@ -47,10 +48,10 @@ gem 'dry-validation'
 gem 'file_validators'
 gem 'font-awesome-rails'
 gem 'formular', git: "https://github.com/trailblazer/formular.git", branch: "master"
-gem "trailblazer", ">= 2.0.4"
+gem "trailblazer", "~> 2.0.7"
 gem 'trailblazer-cells'
-gem "trailblazer-rails", ">= 1.0.3"
-gem 'tyrant', git: "https://github.com/apotonick/tyrant.git", branch: "trb-2"
+gem "trailblazer-rails", "~> 1.0.10"
+gem 'tyrant', git: "https://github.com/emaglio/tyrant.git", branch: "trb-2"
 # gem 'tyrant', :path => "../tyrant"
 gem 'reform', '>= 2.3.0.rc1'
 gem 'reform-rails', '>= 0.2.0.rc1'
