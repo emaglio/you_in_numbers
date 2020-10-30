@@ -15,7 +15,7 @@ group :development, :test do
 end
 group :development do
 end
-gem 'bootstrap-sass', '~> 3.3.7'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'high_voltage'
 gem 'slim-rails'
 group :development do
