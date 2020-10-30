@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.5.0'
+ruby '2.5.3'
 
 gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
@@ -31,7 +31,6 @@ group :test do
   gem 'capybara-email'
   gem 'capybara-screenshot'
   gem 'capybara-slow_finder_errors'
-  gem 'capybara-webkit', git: 'https://github.com/thoughtbot/capybara-webkit'
   gem 'codecov', require: false
   gem 'database_cleaner'
   gem "memory_test_fix"
@@ -39,12 +38,12 @@ group :test do
   gem "minitest-line"
   gem "minitest-rails-capybara", "~> 3.0.0"
   gem 'simplecov', require: false
-  gem 'trailblazer-test', git: "https://github.com/trailblazer/trailblazer-test.git", branch: "master"
+  gem 'trailblazer-test'
 end
 
 gem 'cells-rails'
 gem 'cells-slim'
-gem 'dry-validation'
+gem 'dry-validation', '~> 0.13.3'
 gem 'file_validators'
 gem 'font-awesome-rails'
 gem 'formular', git: "https://github.com/trailblazer/formular.git", branch: "master"
