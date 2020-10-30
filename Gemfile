@@ -10,22 +10,22 @@ gem 'sass-rails', '~> 5.0'
 gem 'sqlite3'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
-group :development, :test do
-  gem 'byebug'
-end
-group :development do
-end
-gem 'bootstrap-sass', '~> 3.3.7'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'high_voltage'
 gem 'slim-rails'
+
+group :development, :test do
+end
+
 group :development do
+  gem 'byebug'
   gem 'better_errors'
   gem 'rails_layout'
   gem 'rubocop', require: false # Code style checks
   gem 'web-console', '~> 2.0'
+  gem 'spring'
 end
 
-gem "minitest-rails"
 group :test do
   gem 'capybara'
   gem 'capybara-email'
@@ -36,6 +36,7 @@ group :test do
   gem "memory_test_fix"
   gem "minitest-bang"
   gem "minitest-line"
+  gem "minitest-rails"
   gem "minitest-rails-capybara", "~> 3.0.0"
   gem 'simplecov', require: false
   gem 'trailblazer-test'
