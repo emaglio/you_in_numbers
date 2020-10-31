@@ -2,10 +2,14 @@ source 'https://rubygems.org'
 
 ruby '2.5.3'
 
+gem 'rails', '~> 5.2.1'
+
+gem 'puma'
+gem 'early'
+
 gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
-gem 'rails', '~> 5.2.1'
 gem 'sass-rails', '~> 5.0'
 gem 'pg'
 gem 'turbolinks', '~> 5'
