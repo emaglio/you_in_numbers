@@ -1,9 +1,12 @@
 class Session::Policy
-
   def initialize(user, model)
     @user = user
     @model = model
   end
+
+  attr_reader :user
+
+  delegate :admin?, to: :user
 
   def true?
     true
@@ -21,11 +24,6 @@ class Session::Policy
 
   def subject_owner?
     company_owner?
-  end
-
-  def admin?
-    return unless @user
-    @user.email == "admin@email.com"
   end
 
   def update_delete_report?

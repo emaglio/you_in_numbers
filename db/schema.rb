@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 2017_03_03_220114) do
 
-  create_table "companies", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "companies", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.string "name"
     t.string "address_1"
@@ -27,9 +30,10 @@ ActiveRecord::Schema.define(version: 2017_03_03_220114) do
     t.text "logo_meta_data"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["user_id"], name: "index_companies_on_user_id"
   end
 
-  create_table "reports", force: :cascade do |t|
+  create_table "reports", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "subject_id"
     t.string "title"
@@ -42,9 +46,10 @@ ActiveRecord::Schema.define(version: 2017_03_03_220114) do
     t.text "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["user_id"], name: "index_reports_on_user_id"
   end
 
-  create_table "subjects", force: :cascade do |t|
+  create_table "subjects", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.string "email"
     t.string "firstname"
@@ -57,9 +62,10 @@ ActiveRecord::Schema.define(version: 2017_03_03_220114) do
     t.text "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["user_id"], name: "index_subjects_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "email"
     t.string "firstname"
     t.string "lastname"
@@ -69,6 +75,7 @@ ActiveRecord::Schema.define(version: 2017_03_03_220114) do
     t.text "auth_meta_data"
     t.boolean "block"
     t.text "content"
+    t.boolean "admin"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

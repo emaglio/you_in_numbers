@@ -7,7 +7,7 @@ module Subject::Cell
     end
 
     def total
-      Subject.where("user_id like ?", current_user.id).size
+      Subject.where(user_id: current_user.id).size
     end
 
     def subject_array

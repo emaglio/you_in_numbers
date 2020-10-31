@@ -35,7 +35,7 @@ class Report::GeneratePdf < Trailblazer::Operation
 
 
   def find_company!(options, current_user:, **)
-    options["company"] = ::Company.find_by("user_id like ?", current_user.id)
+    options["company"] = ::Company.find_by(user_id: current_user.id)
   end
 
   def saving_folder!(options, model:, **)

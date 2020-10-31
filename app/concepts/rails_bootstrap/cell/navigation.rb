@@ -1,6 +1,7 @@
 module RailsBootstrap::Cell
 
   class NavigationMenu < Trailblazer::Cell
+    delegate :admin?, to: :current_user
 
     def current_user
       options[:context][:current_user]
@@ -8,10 +9,6 @@ module RailsBootstrap::Cell
 
     def welcome
       current_user.firstname.blank? ? "Hi, " + current_user.email : "Hi, " + current_user.firstname
-    end
-
-    def admin?
-      current_user.email == "admin@email.com"
     end
 
     def signed_in?

@@ -15,19 +15,19 @@ class User::Delete < Trailblazer::Operation
   # end
 
   def delete_company!(_options, model:, current_user:, **)
-    Company.where("user_id like ?", model.id).each do |company|
+    Company.where(user_id: model.id).each do |company|
       Company::Delete.({ id: company.id }, "current_user" => current_user)
     end
   end
 
   def delete_reports!(_options, model:, current_user:, **)
-    Report.where("user_id like ?", model.id).each do |report|
+    Report.where(user_id: model.id).each do |report|
       Report::Delete.({ id: report.id }, "current_user" => current_user)
     end
   end
 
   def delete_subjects!(_options, model:, current_user:, **)
-    Subject.where("user_id like ?", model.id).each do |subject|
+    Subject.where(user_id: model.id).each do |subject|
       Subject::Delete.({ id: subject.id }, "current_user" => current_user)
     end
   end

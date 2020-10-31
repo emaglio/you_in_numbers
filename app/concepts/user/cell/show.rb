@@ -1,10 +1,10 @@
 module User::Cell
-
   class Show < New
-
     property :email
     property :firstname
     property :lastname
+
+    delegate :admin?, to: :current_user
 
     def current_user
       options[:context][:current_user]
@@ -12,10 +12,6 @@ module User::Cell
 
     def current_user?
       current_user.email == model.email
-    end
-
-    def admin?
-      current_user.email == "admin@email.com"
     end
 
     def edit

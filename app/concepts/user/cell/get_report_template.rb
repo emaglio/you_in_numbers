@@ -7,7 +7,7 @@ module User::Cell
     end
 
     def report
-      user_reports = Report.where("user_id like ?", model.id)
+      user_reports = Report.where(user_id: model.id)
       user_reports.size > 0 ? user_reports.last : Report.find_by(user_id: 1)
     end
 

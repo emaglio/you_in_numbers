@@ -7,7 +7,7 @@ module Subject::Cell
     end
 
     def subjects
-      Subject.where("user_id like ?", current_user.id)
+      Subject.where(user_id: current_user.id)
     end
 
     def subject_array

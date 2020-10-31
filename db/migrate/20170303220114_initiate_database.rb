@@ -10,6 +10,7 @@ class InitiateDatabase < ActiveRecord::Migration[4.2]
       t.text :auth_meta_data
       t.boolean :block
       t.text :content
+      t.boolean :admin
 
       t.timestamps
     end
@@ -61,5 +62,9 @@ class InitiateDatabase < ActiveRecord::Migration[4.2]
 
       t.timestamps
     end
+
+    add_index :companies, :user_id
+    add_index :reports, :user_id
+    add_index :subjects, :user_id
   end
 end

@@ -20,7 +20,7 @@ module User::Cell
         temp << user.lastname
         temp << user.gender
         temp << user.created_at.strftime("%d %B %Y at %m:%H %P")
-        temp << ::Report.where("user_id like ?", user.id).size
+        temp << ::Report.where(user_id: user.id).size
         temp << (button_to "Open", user_path(user), class: "btn btn-outline btn-success", :method => :get)
         user.block ? label = "Un-Block" : label = "Block"
         temp << (button_to label, block_users_path(id: user.id, block: !user.block),

@@ -1,6 +1,6 @@
 module RailsBootstrap::Cell
-
   class TopNavigation < Trailblazer::Cell
+    delegate :admin?, to: :current_user
 
     def current_user
       options[:context][:current_user]
@@ -13,11 +13,5 @@ module RailsBootstrap::Cell
     def name_link
       link_to "Hi, " + name, user_path(current_user.id)
     end
-
-    def admin?
-      current_user.email == "admin@email.com"
-    end
-
-  end # class TopNavigation
-
-end # module RailsBootstrao
+  end
+end
