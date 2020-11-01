@@ -1,6 +1,6 @@
 require 'puma'
 
-workers_count = ENV.fetch('PUMA_WORKERS', 0).to_i
+workers_count = ENV.fetch('PUMA_WORKERS', 1).to_i
 threads_count = ENV.fetch('PUMA_THREADS', 16).to_i
 
 workers workers_count
