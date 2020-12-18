@@ -10,11 +10,6 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
-//= require bootstrap-sprockets
-//= require js/bootstrap.min.js
-//= require js/bootstrap.js
 //= require js/npm.js
 //= require metisMenu.min.js
 //= require js/sb-admin-2.js
@@ -24,7 +19,6 @@
 //= require utils.js
 //= require chartjs_plugin_annotation.js
 //= require dom-to-image.js
-//= require js/bootstrap-datepicker.js
 //= require js/jquery.dataTables.min.js
 //= require js/dataTables.responsive.min.js
 //= require nprogress

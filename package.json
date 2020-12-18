@@ -1,8 +1,24 @@
 {
   "dependencies": {
-    "@rails/webpacker": "3.5"
+    "@rails/webpacker": "^5.2.1",
+    "core-js": "^3.8.1",
+    "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
-    "webpack-dev-server": "2.11.2"
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/preset-env": "^7.12.1",
+    "babel-loader": "^8.2.1",
+    "bootstrap": "^4.5.3",
+    "bootstrap-sass": "^3.4.1",
+    "css-loader": "^5.0.1",
+    "jquery": "^3.5.1",
+    "jquery-ujs": "^1.2.2",
+    "popper.js": "^1.16.1",
+    "sass": "^1.29.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.4.0",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-jquery-ui": "^2.0.1"
   }
 }
