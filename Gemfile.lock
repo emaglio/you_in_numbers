@@ -68,7 +68,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     arel (9.0.0)
     ast (2.4.1)
-    autoprefixer-rails (10.0.1.0)
+    autoprefixer-rails (10.1.0.0)
       execjs
     bcrypt (3.1.16)
     better_errors (2.8.3)
@@ -77,9 +77,10 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass (3.4.1)
-      autoprefixer-rails (>= 5.2.1)
-      sassc (>= 2.0.0)
+    bootstrap (4.0.0)
+      autoprefixer-rails (>= 6.0.3)
+      popper_js (>= 1.12.9, < 2)
+      sass (>= 3.5.2)
     builder (3.2.4)
     byebug (11.1.3)
     capybara (3.33.0)
@@ -265,6 +266,7 @@ GEM
     pipetree (0.1.1)
     pony (1.13.1)
       mail (>= 2.0)
+    popper_js (1.16.0)
     prawn (2.3.0)
       pdf-core (~> 0.8.1)
       ttfunk (~> 1.6)
@@ -348,8 +350,6 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    sassc (2.4.0)
-      ffi (~> 1.9)
     semantic_range (2.3.1)
     simplecov (0.19.1)
       docile (~> 1.1)
@@ -433,7 +433,7 @@ PLATFORMS
 
 DEPENDENCIES
   better_errors
-  bootstrap-sass (~> 3.4.1)
+  bootstrap (~> 4.0.0)
   byebug
   capybara
   capybara-email
