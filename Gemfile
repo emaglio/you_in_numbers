@@ -7,6 +7,9 @@ gem 'rails', '~> 5.2.1'
 gem 'puma'
 gem 'early'
 
+# front-end
+gem 'webpacker', '~> 5.x'
+
 gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
