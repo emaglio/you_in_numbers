@@ -1,14 +1,19 @@
 {
-  "application.js": "/assets/packs/js/application-b3cba704e06b5be46222.js",
-  "application.js.map": "/assets/packs/js/application-b3cba704e06b5be46222.js.map",
+  "application.js": "/assets/packs/js/application-3fb7d1d60bffbca3f2f1.js",
+  "application.js.map": "/assets/packs/js/application-3fb7d1d60bffbca3f2f1.js.map",
   "entrypoints": {
     "application": {
       "js": [
-        "/assets/packs/js/application-b3cba704e06b5be46222.js"
+        "/assets/packs/js/application-3fb7d1d60bffbca3f2f1.js"
       ],
       "js.map": [
-        "/assets/packs/js/application-b3cba704e06b5be46222.js.map"
+        "/assets/packs/js/application-3fb7d1d60bffbca3f2f1.js.map"
       ]
     }
-  }
+  },
+  "media/bootstrap/glyphicons-halflings-regular.eot": "/assets/packs/media/bootstrap/glyphicons-halflings-regular-5be1347c.eot",
+  "media/bootstrap/glyphicons-halflings-regular.svg": "/assets/packs/media/bootstrap/glyphicons-halflings-regular-060b2710.svg",
+  "media/bootstrap/glyphicons-halflings-regular.ttf": "/assets/packs/media/bootstrap/glyphicons-halflings-regular-4692b9ec.ttf",
+  "media/bootstrap/glyphicons-halflings-regular.woff": "/assets/packs/media/bootstrap/glyphicons-halflings-regular-82b1212e.woff",
+  "media/bootstrap/glyphicons-halflings-regular.woff2": "/assets/packs/media/bootstrap/glyphicons-halflings-regular-be810be3.woff2"
 }

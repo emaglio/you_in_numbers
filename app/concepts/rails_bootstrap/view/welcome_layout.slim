@@ -11,8 +11,10 @@ html lang = "en"
     title = "You In Numbers"
 
     <!-- Theme CSS -->
-    = stylesheet_link_tag 'welcome', media: 'all', 'data-turbolinks-track' => false
-    = javascript_include_tag 'welcome', medial: 'all', 'data-turbolinks-track' => false
+    = stylesheet_link_tag 'welcome', media: 'all', 'data-turbolinks-track': false
+    = stylesheet_pack_tag 'application', media: 'all'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'welcome', medial: 'all', 'data-turbolinks-track': false
     = csrf_meta_tags
 
     <!-- Custom Fonts -->
