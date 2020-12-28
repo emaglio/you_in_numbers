@@ -10,10 +10,11 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_self
  *= require_tree ../../../vendor/assets/new-age/css
  *= require_tree ../../../vendor/assets/font-awesome/css
  *= require_tree ../../../vendor/assets/device-mockups
  *= require_tree ../../../vendor/assets/simple-line-icons/css
  *= require_tree ../../../app/assets/stylesheets/mine
+ *= require_self
+ *= require_tree '.'
  */
