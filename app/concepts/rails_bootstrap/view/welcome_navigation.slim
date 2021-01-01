@@ -1,20 +1,14 @@
-nav id="mainNav" class="navbar navbar-default navbar-fixed-top"
-  . class="container"
-    <!-- Brand and toggle get grouped for better mobile display -->
-    . class="navbar-header"
-      button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-        span class="sr-only" Toggle navigation
-        i class="fa fa-bars"
-      a class="navbar-brand page-scroll" href="#page-top" You In Numbers
+nav id="mainNav" class="navbar navbar-default fixed-top"
+  a class="navbar-brand page-scroll" href="#page-top" You In Numbers
+  button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+    span class="sr-only" Toggle navigation
+    i class="fa fa-bars"
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    . class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"
-      ul class="nav navbar-nav navbar-right"
-        li
-          = link_to "Sign In", new_session_path
-        li
-          span class="pipe"
-        li
-          = link_to "Sign Up", new_user_path
-    <!-- /.navbar-collapse -->
-  <!-- /.container-fluid -->
+  .navbar-collapse.collapse id="bs-example-navbar-collapse-1"
+    ul class="navbar-nav my-2 my-lg-0"
+      li
+        = link_to "Sign In", new_session_path
+      li
+        span class="pipe"
+      li
+        = link_to "Sign Up", new_user_path
