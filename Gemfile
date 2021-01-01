@@ -7,7 +7,6 @@ gem 'rails', '~> 5.2.1'
 gem 'puma'
 gem 'early'
 
-# front-end
 gem 'webpacker', '~> 5.x'
 
 gem 'coffee-rails', '~> 4.2'
@@ -17,7 +16,6 @@ gem 'sass-rails', '~> 5.0'
 gem 'pg'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
-gem 'bootstrap-sass', '~> 3.4.1'
 gem 'high_voltage'
 gem 'slim-rails'
 

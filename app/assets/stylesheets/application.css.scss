@@ -10,8 +10,6 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_self
- *= require_tree ../../../vendor/assets/bootstrap/css
  *= require_tree ../../../vendor/assets/metisMenu
  *= require_tree ../../../vendor/assets/admin/css
  *= require_tree ../../../vendor/assets/font-awesome/css
@@ -20,4 +18,6 @@
  *= require nprogress
  *= require nprogress-bootstrap
  *= require nprogress-turbolinks5
+ *= require_self
+ *= require_tree '.'
  */

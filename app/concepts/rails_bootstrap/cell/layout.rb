@@ -2,6 +2,8 @@ module RailsBootstrap::Cell
 
   class Layout < Trailblazer::Cell
     include ActionView::Helpers::CsrfHelper
+    include Webpacker::Helper
+
     property :current_user
     property :real_user
     property :signed_in?
