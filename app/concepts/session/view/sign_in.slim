@@ -35,7 +35,7 @@ html lang = "en"
           .login-panel.panel.panel-default
             .panel-heading
               .h3.panel-title
-                = "Please Sign In"
+                = title
             .panel-body
               = trb_form_for(model, "/sessions", method: :post, id: :new_session) do |f|
                 .row.col-sm-12

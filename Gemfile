@@ -20,35 +20,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap-sass', '~> 3.4.1'
 gem 'high_voltage'
 gem 'slim-rails'
-
-group :development, :test do
-end
-
-group :development do
-  gem 'byebug'
-  gem 'better_errors'
-  gem 'rails_layout'
-  gem 'rubocop', require: false # Code style checks
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
-end
-
-group :test do
-  gem 'capybara'
-  gem 'capybara-email'
-  gem 'capybara-screenshot'
-  gem 'capybara-slow_finder_errors'
-  gem 'codecov', require: false
-  gem 'database_cleaner'
-  gem "memory_test_fix"
-  gem "minitest-bang"
-  gem "minitest-line"
-  gem "minitest-rails"
-  gem "minitest-rails-capybara", "~> 3.0.0"
-  gem 'simplecov', require: false
-  gem 'trailblazer-test'
-end
-
 gem 'cells-rails'
 gem 'cells-slim'
 gem 'dry-validation', '~> 0.13.3'
@@ -79,3 +50,31 @@ gem 'nprogress-rails'
 
 gem 'omniauth'
 gem 'omniauth-github'
+
+# locale
+gem 'rails-i18n', '~> 5.0'
+
+group :development do
+  gem 'byebug'
+  gem 'better_errors'
+  gem 'rails_layout'
+  gem 'rubocop', require: false # Code style checks
+  gem 'web-console', '~> 2.0'
+  gem 'spring'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'capybara-email'
+  gem 'capybara-screenshot'
+  gem 'capybara-slow_finder_errors'
+  gem 'codecov', require: false
+  gem 'database_cleaner'
+  gem "memory_test_fix"
+  gem "minitest-bang"
+  gem "minitest-line"
+  gem "minitest-rails"
+  gem "minitest-rails-capybara", "~> 3.0.0"
+  gem 'simplecov', require: false
+  gem 'trailblazer-test'
+end

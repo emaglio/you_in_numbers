@@ -295,6 +295,9 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.3.0)
       loofah (~> 2.3)
+    rails-i18n (5.1.3)
+      i18n (>= 0.7, < 2)
+      railties (>= 5.0, < 6)
     rails_layout (1.0.42)
     railties (5.2.4.4)
       actionpack (= 5.2.4.4)
@@ -351,6 +354,9 @@ GEM
     sassc (2.4.0)
       ffi (~> 1.9)
     semantic_range (2.3.1)
+    simple_form (5.0.3)
+      actionpack (>= 5.0)
+      activemodel (>= 5.0)
     simplecov (0.19.1)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -467,12 +473,14 @@ DEPENDENCIES
   prawn-table
   puma
   rails (~> 5.2.1)
+  rails-i18n (~> 5.0)
   rails_layout
   reform (>= 2.3.0.rc1)
   reform-rails (>= 0.2.0.rc1)
   roo (~> 2.7.0)
   rubocop
   sass-rails (~> 5.0)
+  simple_form (~> 5.0)
   simplecov
   slim-rails
   spring
