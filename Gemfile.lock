@@ -169,7 +169,7 @@ GEM
       dry-logic (~> 0.5, >= 0.5.0)
       dry-types (~> 0.14.0)
     early (0.3.1)
-    erubi (1.9.0)
+    erubi (1.10.0)
     execjs (2.7.0)
     faraday (1.1.0)
       multipart-post (>= 1.2, < 3)
@@ -184,7 +184,7 @@ GEM
       activesupport (>= 4.2.0)
     hashie (4.1.0)
     high_voltage (3.1.2)
-    i18n (1.8.5)
+    i18n (1.8.6)
       concurrent-ruby (~> 1.0)
     jbuilder (2.10.1)
       activesupport (>= 5.0.0)
@@ -196,7 +196,7 @@ GEM
     jwt (2.2.2)
     launchy (2.5.0)
       addressable (~> 2.7)
-    loofah (2.7.0)
+    loofah (2.8.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -409,7 +409,7 @@ GEM
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    tzinfo (1.2.7)
+    tzinfo (1.2.9)
       thread_safe (~> 0.1)
     uber (0.1.0)
     uglifier (4.2.0)
@@ -480,7 +480,7 @@ DEPENDENCIES
   roo (~> 2.7.0)
   rubocop
   sass-rails (~> 5.0)
-  simple_form (~> 5.0)
+  simple_form
   simplecov
   slim-rails
   spring

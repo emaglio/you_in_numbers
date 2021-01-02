@@ -26,6 +26,7 @@ gem 'dry-validation', '~> 0.13.3'
 gem 'file_validators'
 gem 'font-awesome-rails'
 gem 'formular', git: "https://github.com/trailblazer/formular.git", branch: "master"
+gem 'simple_form'
 gem "trailblazer", "~> 2.0.7"
 gem 'trailblazer-cells'
 gem "trailblazer-rails", "~> 1.0.10"

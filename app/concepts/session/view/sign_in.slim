@@ -37,15 +37,16 @@ html lang = "en"
               .h3.panel-title
                 = title
             .panel-body
-              = trb_form_for(model, "/sessions", method: :post, id: :new_session) do |f|
+              = simple_form_for(model, as: :sessions, url: sessions_path, html: { method: :post }) do |f|
                 .row.col-sm-12
-                  = f.input_group :email, placeholder: "Email", left_addon: '@'
+                  = f.input_field :email
                 .row.col-sm-12
-                  = f.input_group :password, placeholder: "Password", type: "password", left_addon: '<i class="fa fa-lock"></i>'
+                  = f.input :password, as: :password
                 .row.col-sm-12.text-center
-                  = f.submit(content: "Sign In")
-                .row
-                  .col-sm-6.text-left style="margin-top: 20px;"
-                    = link_to "Create Account", new_user_path
-                  .col-sm-6.text-right style="margin-top: 20px;"
-                    = link_to "Forgot Password", get_email_users_path
+                  = f.button :submit, "Sign In"
+
+              .row
+                .col-sm-6.text-left style="margin-top: 20px;"
+                  = link_to "Create Account", new_user_path
+                .col-sm-6.text-right style="margin-top: 20px;"
+                  = link_to "Forgot Password", get_email_users_path

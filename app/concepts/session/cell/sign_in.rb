@@ -2,10 +2,16 @@ require "cell/translation"
 
 module Session::Cell
   class SignIn < Trailblazer::Cell
-    include Formular::RailsHelper
-    include ActionView::Helpers::CsrfHelper
     include ActionView::Helpers::TranslationHelper
+    include ActionView::Helpers::FormHelper
+    include ActionView::Helpers::TextHelper
+    include ActionView::Context
     include ::Cell::Translation
+
+    include ::Cell::Slim
+
+    include ActionView::Helpers::CsrfHelper
+    include SimpleForm::ActionViewExtensions::FormHelper
 
     self.translation_path = 'session.sign_in'
 
@@ -14,3 +20,8 @@ module Session::Cell
     end
   end
 end
+
+
+
+
+
