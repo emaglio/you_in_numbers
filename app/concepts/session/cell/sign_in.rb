@@ -11,7 +11,6 @@ module Session::Cell
     include ::Cell::Slim
 
     include ActionView::Helpers::CsrfHelper
-    include SimpleForm::ActionViewExtensions::FormHelper
 
     self.translation_path = 'session.sign_in'
 
