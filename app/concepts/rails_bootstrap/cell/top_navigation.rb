@@ -11,7 +11,7 @@ module RailsBootstrap::Cell
     end
 
     def name_link
-      link_to "Hi, " + name, user_path(current_user.id)
+      link_to 'Hi, ' + name, user_path(current_user.id)
     end
   end
 end

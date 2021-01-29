@@ -1,5 +1,4 @@
 class Subject::Create < Trailblazer::Operation
-
   class Present < Trailblazer::Operation
     step Model(Subject, :new)
     step Policy::Pundit(::Session::Policy, :signed_in?)
@@ -13,7 +12,7 @@ class Subject::Create < Trailblazer::Operation
   step :redirect_new_report!
 
   def redirect_new_report!(options, params:, **)
-    params["new_report"] == "true" ? (options["new_report"] = true) : (options["new_report"] = false)
+    params['new_report'] == 'true' ? (options['new_report'] = true) : (options['new_report'] = false)
     return true
   end
 end # class Subject::Create

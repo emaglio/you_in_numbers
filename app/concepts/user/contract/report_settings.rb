@@ -33,7 +33,7 @@ module User::Contract
     property :load_2, virtual: true
     property :load_2_um, virtual: true
 
-    #user for unit_of_measurment
+    # user for unit_of_measurment
     property :um_height, virtual: true
     property :um_weight, virtual: true
 
@@ -45,7 +45,6 @@ module User::Contract
     unnest :units_of_measurement, from: :report_settings
 
     validation  with: { form: true } do
-
       configure do
         config.messages_file = 'config/error_messages.yml'
 

@@ -46,7 +46,6 @@ module User::Contract
       validate(new_must_match?: :confirm_new_password) do
         new_must_match?
       end
-
     end
   end
 end

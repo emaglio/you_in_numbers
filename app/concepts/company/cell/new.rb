@@ -1,5 +1,4 @@
 module Company::Cell
-
   class New < Trailblazer::Cell
     include Formular::RailsHelper
 
@@ -7,5 +6,4 @@ module Company::Cell
       return options[:context][:current_user]
     end
   end # class New
-
 end # module Company::Cell

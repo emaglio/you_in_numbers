@@ -27,14 +27,13 @@ module Company::Contract
 
         def email?
           return true if form.email == ''
-          ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
+          !/\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
         end
 
         def number?
           return true if form.postcode == ''
           true if Float(form.postcode) rescue false
         end
-
       end
 
       # TODO: add limit in lenght maybe

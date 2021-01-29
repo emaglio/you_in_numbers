@@ -22,14 +22,12 @@ module User::Contract
     property :index, virtual: true
 
     validation  with: { form: true } do
-
       configure do
         config.messages_file = 'config/error_messages.yml'
         def check_index?(value)
-          return false if value == ""
+          return false if value == ''
           (value).to_i >= 0
         end
-
       end
 
       required(:move_up).maybe(:check_index?)

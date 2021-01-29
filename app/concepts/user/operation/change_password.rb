@@ -5,6 +5,6 @@ class User::ChangePassword < Tyrant::ChangePassword
   # TODO: notify user
 
   def raise_error!(options, *)
-    raise ApplicationController::NotAuthorizedError if options["result.policy.default"].failure?
+    raise ApplicationController::NotAuthorizedError if options['result.policy.default'].failure?
   end
 end

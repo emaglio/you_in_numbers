@@ -23,15 +23,15 @@ module Subject::Contract
 
         def unique_email?
           return true if Subject.find(form.id).email == form.email
-          return true if form.email == ""
+          return true if form.email == ''
 
-          Subject.where("email = ?", form.email).size == 0
+          Subject.where('email = ?', form.email).size == 0
         end
 
         def email?
-          return true if form.email == ""
+          return true if form.email == ''
 
-          ! /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
+          !/\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.match(form.email).nil?
         end
 
         def unique_subject?
@@ -40,7 +40,7 @@ module Subject::Contract
                          (Subject.find(form.id).lastname == form.lastname))
 
           Subject.where(
-            "firstname like ? AND lastname like ? AND dob like ?",
+            'firstname like ? AND lastname like ? AND dob like ?',
             form.firstname, form.lastname, DateTime.parse(form.dob)
           ).size == 0
         end
@@ -77,6 +77,5 @@ module Subject::Contract
         unique_subject?
       end
     end
-
   end
 end

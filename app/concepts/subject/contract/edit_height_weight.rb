@@ -19,6 +19,5 @@ module Subject::Contract
       required(:height).filled(:greater_than_zero?)
       required(:weight).filled(:greater_than_zero?)
     end
-
   end
 end

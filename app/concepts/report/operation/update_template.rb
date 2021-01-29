@@ -9,10 +9,10 @@ class Report::UpdateTemplate < Trailblazer::Operation
   step Contract::Persist()
 
   def report_not_found!(options, *)
-    options["not_found"] = true
+    options['not_found'] = true
   end
 
   def set_template!(options, params:, **)
-    options["contract.default"].content.template = params[:template]
+    options['contract.default'].content.template = params[:template]
   end
 end # class Report::UpdateTemplate

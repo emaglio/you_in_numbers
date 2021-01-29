@@ -9,6 +9,5 @@ module Report::Contract
     validation do
       required(:at_position).filled
     end
-
   end
 end

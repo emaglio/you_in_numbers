@@ -8,7 +8,7 @@ module Report::File::Operation
     step :cpet_params!
 
     def open_file!(options, params:, **)
-      options["cpet_file"] = Roo::Spreadsheet.open(params[:cpet_file_path]) unless params[:cpet_file_path].nil?
+      options['cpet_file'] = Roo::Spreadsheet.open(params[:cpet_file_path]) unless params[:cpet_file_path].nil?
     end
 
     def error!(options, *)
@@ -28,11 +28,11 @@ module Report::File::Operation
       cpet_params = {}
 
       # generate the cpet_params hash in base on Report settings
-      options["current_user"].content["report_settings"]["params_list"].each do |key, value|
+      options['current_user'].content['report_settings']['params_list'].each do |key, value|
         cpet_params[key] = []
       end
 
-      options["current_user"].content["report_settings"]["ergo_params_list"].each_with_index do |params, index|
+      options['current_user'].content['report_settings']['ergo_params_list'].each_with_index do |params, index|
         # avoid to add the unit of measurement in the cpet_params array
         cpet_params[hash.key] = [] if index > 2
       end
@@ -51,7 +51,7 @@ module Report::File::Operation
       # search the time key
       vo2_index = 0
       cpet_params.each do |key, value|
-        key.downcase == "vo2" ? break : vo2_index += 1
+        key.downcase == 'vo2' ? break : vo2_index += 1
       end
 
       first_num = 0
@@ -68,7 +68,7 @@ module Report::File::Operation
         i = 0
         cpet_params.each do |key, value|
           value = nil
-          if (key.downcase == "t" or key.downcase == "time" or key.downcase == "phase")
+          if ((key.downcase == 't') || (key.downcase == 'time') || (key.downcase == 'phase'))
             # I need strings for Phase and time
             value = cpet_file.formatted_value(row, params_col[i] + 1) if params_col[i] != nil
             cpet_params[key] << value if value != nil
@@ -82,7 +82,7 @@ module Report::File::Operation
         row += 1
       end
 
-      options["cpet_params"] = cpet_params
+      options['cpet_params'] = cpet_params
     end
 
     private

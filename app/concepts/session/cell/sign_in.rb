@@ -1,4 +1,4 @@
-require "cell/translation"
+require 'cell/translation'
 
 module Session::Cell
   class SignIn < Trailblazer::Cell

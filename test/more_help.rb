@@ -1,5 +1,6 @@
-class GetData
+# frozen_string_literal: true
 
+class GetData
   def number?(string)
     true if Float(string)
   rescue StandardError
@@ -10,7 +11,7 @@ class GetData
   # and set it as defualt one
   def default_sheet(file)
     rows = 0
-    sheet_name = ""
+    sheet_name = ''
     file.each_with_pagename do |name, sheet|
       if sheet.last_row > rows
         rows = sheet.last_row
@@ -23,9 +24,9 @@ class GetData
 
   # find list of column index for all the parameters
   def cpet_params(file)
-    cpet_params = { "t" => [], "time" => [], "Rf" => [], "VE" => [], "VO2" => [], "VCO2" => [],
-                    "RQ" => [], "VE/VO2" => [], "HR" => [], "VO2/Kg" => [], "FAT%" => [], "CHO%" => [],
-                    "Power" => [], "Revolution" => [], "Phase" => [] }
+    cpet_params = { 't' => [], 'time' => [], 'Rf' => [], 'VE' => [], 'VO2' => [], 'VCO2' => [],
+                    'RQ' => [], 'VE/VO2' => [], 'HR' => [], 'VO2/Kg' => [], 'FAT%' => [], 'CHO%' => [],
+                    'Power' => [], 'Revolution' => [], 'Phase' => [] }
 
     params_header = file.row(1)
     params_col = []
@@ -50,7 +51,7 @@ class GetData
       i = 0
       cpet_params.each do |key, value|
         value = nil
-        if (key == "t") || (key == "time") || (key == "Phase")
+        if (key == 't') || (key == 'time') || (key == 'Phase')
           # I need strings for Phase and time
           value = file.formatted_value(row, params_col[i] + 1) unless params_col[i].nil?
         else

@@ -25,17 +25,17 @@ gem 'cells-slim'
 gem 'dry-validation', '~> 0.13.3'
 gem 'file_validators'
 gem 'font-awesome-rails'
-gem 'formular', git: "https://github.com/trailblazer/formular.git", branch: "master"
-gem "trailblazer", "~> 2.0.7"
+gem 'formular', git: 'https://github.com/trailblazer/formular.git', branch: 'master'
+gem 'trailblazer', '~> 2.0.7'
 gem 'trailblazer-cells'
-gem "trailblazer-rails", "~> 1.0.10"
-gem 'tyrant', git: "https://github.com/emaglio/tyrant.git", branch: "trb-2"
+gem 'trailblazer-rails', '~> 1.0.10'
+gem 'tyrant', git: 'https://github.com/emaglio/tyrant.git', branch: 'trb-2'
 # gem 'tyrant', :path => "../tyrant"
 gem 'reform', '>= 2.3.0.rc1'
 gem 'reform-rails', '>= 0.2.0.rc1'
 
 # excel-csv file elaboration
-gem "roo", "~> 2.7.0"
+gem 'roo', '~> 2.7.0'
 
 # email and image processing
 gem 'paperdragon'
@@ -58,9 +58,11 @@ group :development do
   gem 'byebug'
   gem 'better_errors'
   gem 'rails_layout'
-  gem 'rubocop', require: false # Code style checks
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'rubocop', '~> 0.92', require: false
+  gem 'rubocop-performance', '~> 1.8', require: false
+  gem 'rubocop-rails', '~> 2.8', require: false
 end
 
 group :test do
@@ -70,11 +72,10 @@ group :test do
   gem 'capybara-slow_finder_errors'
   gem 'codecov', require: false
   gem 'database_cleaner'
-  gem "memory_test_fix"
-  gem "minitest-bang"
-  gem "minitest-line"
-  gem "minitest-rails"
-  gem "minitest-rails-capybara", "~> 3.0.0"
+  gem 'memory_test_fix'
+  gem 'minitest-bang'
+  gem 'minitest-line'
+  gem 'minitest-rails-capybara'
   gem 'simplecov', require: false
   gem 'trailblazer-test'
 end

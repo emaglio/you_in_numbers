@@ -22,7 +22,7 @@ module User::Contract
         config.messages_file = 'config/error_messages.yml'
 
         def unique_email?
-          User.where("email = ?", form.email).empty?
+          User.where('email = ?', form.email).empty?
         end
 
         def email?

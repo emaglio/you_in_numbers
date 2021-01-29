@@ -23,7 +23,7 @@ module Session::Contract
           return user != nil
         end
 
-        def password_ok? #change this in order to run this only if user exists
+        def password_ok? # change this in order to run this only if user exists
           Tyrant::Authenticatable.new(user).digest?(form.password) == true if user != nil
         end
 
@@ -35,12 +35,12 @@ module Session::Contract
       required(:email).filled(:user_exists?)
       required(:password).filled
 
-      #check if user is blocked only if email is filled and user exists
+      # check if user is blocked only if email is filled and user exists
       validate(not_blocked?: :email) do
         not_blocked?
       end
 
-      #verify password only if it has been filled first
+      # verify password only if it has been filled first
       validate(password_ok?: :password) do
         password_ok?
       end

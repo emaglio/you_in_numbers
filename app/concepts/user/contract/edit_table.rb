@@ -4,8 +4,8 @@ module User::Contract
   class EditTable < Reform::Form
     feature Reform::Form::Dry
 
-    property :edit_table, virtual: true #used as index
-    property :user_id, virtual: true #used as index
+    property :edit_table, virtual: true # used as index
+    property :user_id, virtual: true # used as index
     property :title, virtual: true
     property :params_list, virtual: true
     property :unm_list, virtual: true
@@ -20,11 +20,11 @@ module User::Contract
 
         def acceptable_params?
           user = User.find(form.id)
-          params_list = user.content["report_settings"]["params_list"]
-          ergo_params_list = user.content["report_settings"]["ergo_params_list"]
+          params_list = user.content['report_settings']['params_list']
+          ergo_params_list = user.content['report_settings']['ergo_params_list']
 
-          form.params_list.split(",").each do |param|
-            return false if !(params_list.include? param) and !(ergo_params_list.include? param)
+          form.params_list.split(',').each do |param|
+            return false if params_list.exclude?(param) && ergo_params_list.exclude?(param)
             true
           end
         end

@@ -6,6 +6,6 @@ class Subject::Index < Trailblazer::Operation
   step :model!
 
   def model!(options, current_user:, **)
-    options["model"] = Subject.where(user_id: current_user.id)
+    options['model'] = Subject.where(user_id: current_user.id)
   end
 end # class Subject::Index

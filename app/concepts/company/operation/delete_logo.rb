@@ -14,5 +14,4 @@ class Company::DeleteLogo < Trailblazer::Operation
   def save!(_options, model:, **)
     model.save
   end
-
 end # class Company::DeleteLogo

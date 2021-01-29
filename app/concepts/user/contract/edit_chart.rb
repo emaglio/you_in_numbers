@@ -4,7 +4,7 @@ module User::Contract
   class EditChart < Reform::Form
     feature Reform::Form::Dry
 
-    property :edit_chart, virtual: true #used as index
+    property :edit_chart, virtual: true # used as index
     property :title, virtual: true
     property :y1_select, virtual: true
     property :y1_colour, virtual: true
@@ -31,7 +31,7 @@ module User::Contract
         config.messages_file = 'config/error_messages.yml'
 
         def at_least_one_y_scale?
-          form.y1_scale == "1" or form.y2_scale == "1" or form.y3_scale == "1"
+          form.y1_scale == '1' or form.y2_scale == '1' or form.y3_scale == '1'
         end
       end
 
@@ -48,7 +48,6 @@ module User::Contract
       validate(y3_scale: :y1_select) do
         at_least_one_y_scale?
       end
-
     end
   end
 end

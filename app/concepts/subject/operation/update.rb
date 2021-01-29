@@ -1,5 +1,4 @@
 class Subject::Update < Trailblazer::Operation
-
   class Present < Trailblazer::Operation
     step Model(Subject, :find_by)
     step Policy::Pundit(::Session::Policy, :subject_owner?)
@@ -12,9 +11,9 @@ class Subject::Update < Trailblazer::Operation
   step Contract::Persist()
   step :redirect_new_report!
 
-  #used in the controller to redirect to new_report_path
+  # used in the controller to redirect to new_report_path
   def redirect_new_report!(options, params:, **)
-    params["new_report"] == "true" ? options["new_report"] = true : options["new_report"] = false
+    params['new_report'] == 'true' ? options['new_report'] = true : options['new_report'] = false
     true
   end
 end # class Subject::Update

@@ -7,5 +7,4 @@ class Report::Delete < Trailblazer::Operation
   def delete!(_options, model:, **)
     model.destroy
   end
-
 end

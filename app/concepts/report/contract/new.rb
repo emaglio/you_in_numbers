@@ -63,6 +63,5 @@ module Report::Contract
     unnest :height, from: :subject
     unnest :weight, from: :subject
     unnest :template, from: :content
-
   end
 end

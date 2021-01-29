@@ -1,5 +1,4 @@
 class User::Update < Trailblazer::Operation
-
   class Present < Trailblazer::Operation
     step Model(User, :find_by)
     step Policy::Pundit(::Session::Policy, :current_user?)

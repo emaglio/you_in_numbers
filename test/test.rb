@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 # require 'test_helper.rb'
-
 
 # class GeneratehvPDF < MiniTest::Spec
 
@@ -36,7 +36,6 @@
 #     form.content.report_template.custom.each do |obj|
 #       puts obj.inspect
 #     end
-
 
 #   end
 

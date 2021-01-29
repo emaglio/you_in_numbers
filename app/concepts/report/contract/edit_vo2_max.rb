@@ -13,6 +13,5 @@ module Report::Contract
       required(:vo2max_ends).filled
       required(:vo2max_value).filled
     end
-
   end
 end

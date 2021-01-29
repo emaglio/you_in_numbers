@@ -1,53 +1,51 @@
 class CompaniesController < ApplicationController
-
   def new
-    run Company::Create::Present
+    run(Company::Create::Present)
 
-    render Company::Cell::New, result["contract.default"]
+    render Company::Cell::New, result['contract.default']
   end
 
   def create
-    run Company::Create do |result|
-      flash[:success] = "Company details updated!"
-      return redirect_to "/users/#{result["model"].user_id}"
+    run(Company::Create) do |result|
+      flash[:success] = 'Company details updated!'
+      return redirect_to "/users/#{result['model'].user_id}"
     end
 
-    render Company::Cell::New, result["contract.default"]
+    render Company::Cell::New, result['contract.default']
   end
 
   def show
-    run Company::Show
+    run(Company::Show)
 
-    render Company::Cell::Show, result["model"]
+    render Company::Cell::Show, result['model']
   end
 
   def edit
-    run Company::Update::Present
+    run(Company::Update::Present)
 
-    render Company::Cell::Edit, result["contract.default"]
+    render Company::Cell::Edit, result['contract.default']
   end
 
   def update
-    run Company::Update do |result|
-      flash[:success] = "Company details updated!"
-      return redirect_to "/users/#{result["model"].user_id}"
+    run(Company::Update) do |result|
+      flash[:success] = 'Company details updated!'
+      return redirect_to "/users/#{result['model'].user_id}"
     end
 
-    render Company::Cell::Edit, result["contract.default"]
+    render Company::Cell::Edit, result['contract.default']
   end
 
   def destroy
-    run Company::Delete do |result|
-      flash[:success] = "Company deleted!"
-      return  redirect_to "/users/#{current_user.id}"
+    run(Company::Delete) do |result|
+      flash[:success] = 'Company deleted!'
+      return redirect_to "/users/#{current_user.id}"
     end
   end
 
   def delete_logo
-    run Company::DeleteLogo do
-      flash[:success] = "Company Logo deleted!"
-      return  redirect_to "/users/#{current_user.id}"
+    run(Company::DeleteLogo) do
+      flash[:success] = 'Company Logo deleted!'
+      return redirect_to "/users/#{current_user.id}"
     end
   end
-
 end # class CompaniesController

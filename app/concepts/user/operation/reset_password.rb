@@ -3,7 +3,6 @@ class User::ResetPassword < Trailblazer::Operation
   failure :get_errors!
 
   def get_errors!(options, *)
-    raise options["result.contract.default"].errors.messages.inspect
+    raise options['result.contract.default'].errors.messages.inspect
   end
 end
-

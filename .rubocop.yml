@@ -1,118 +1,158 @@
-inherit_from: .rubocop_todo.yml
+inherit_from:
+  - .rubocop_todo.yml
+  -
+require:
+  - rubocop-performance
+  - rubocop-rails
 
 AllCops:
+  DefaultFormatter: progress
+  TargetRubyVersion: 2.5
+  DisplayCopNames: true
+  NewCops: enable
   Exclude:
-    - db/**
-    - config/**
-    - script/**
-  TargetRubyVersion: 2.5.0
+    - node_modules/**/*
+    - db/schema.rb
+    - vendor/**/*
+    - bin/**/*
+    - out/**/*
 
-StringLiterals:
+Bundler/OrderedGems:
   Enabled: false
 
-LambdaCall:
+Style/ConditionalAssignment:
   Enabled: false
 
-Metrics/BlockLength:
-  Exclude:
-    - 'Rakefile'
-    - '**/*.rake'
-    - 'test/factories/**'
-  ExcludedMethods:
-    - attributes_table
-    - register
-    - controller
-    - show
-    - table_for
-    - columns
-    - column
-    - feature
-    - context
-    - describe
-    - it
-    - scenario
-    - shared_examples_for
-    - form
-    - inputs
-    - shared_examples
+Style/BlockComments:
+  Enabled: false
 
+Layout/CommentIndentation:
+  Enabled: false
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+# Complexity
 Metrics/ClassLength:
   Enabled: false
+  CountComments: false
+  Max: 200
 
-Metrics/LineLength:
-  Max: 120
+Metrics/CyclomaticComplexity:
+  Enabled: false
+  Max: 20
+  Exclude:
+    - db/migrate/**/*
+
+Layout/LineLength:
+  Enabled: false
+  Max: 300
 
 Metrics/MethodLength:
   Enabled: false
+  CountComments: false
+  Max: 20
+  Exclude:
+    - db/migrate/**/*
 
-Naming/PredicateName:
-  NamePrefixBlacklist:
-    - is_
-
-# Casecmp isn't particularly readable
-Performance/Casecmp:
+Security/MarshalLoad:
   Enabled: false
 
-Style/BlockDelimiters:
-  EnforcedStyle: line_count_based
+Style/Alias:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  Exclude:
+    - app/**/*
+    - lib/**/*
+    - db/**/*
+    - config/**/*
+    - Gemfile
+    - Rakefile
+    - config.ru
+    - code_coverage.rb
 
 Style/Documentation:
   Enabled: false
 
-Style/FrozenStringLiteralComment:
+Style/DocumentationMethod:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/EmptyLambdaParameter:
+  Enabled: false
+
+Style/EmptyLiteral:
+  Enabled: false
+
+Style/EmptyMethod:
+  Enabled: false
+
+Style/Encoding:
+  Enabled: false
+
+Style/GlobalVars:
+  Enabled: false
+
+Style/GuardClause:
   Enabled: false
 
 Style/Lambda:
   Enabled: false
 
-Style/NestedParenthesizedCalls:
+Style/MutableConstant:
   Enabled: false
 
-# We don't consider .positive? etc to be that readable
-Style/NumericPredicate:
+Style/RedundantSelf:
   Enabled: false
 
-Layout/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
-Layout/BlockEndNewline:
+Style/RescueStandardError:
   Enabled: false
 
-Layout/CaseIndentation:
-  IndentOneStep: true
-
-Layout/MultilineBlockLayout:
-  Exclude:
-    - 'test/**/*'
-
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-  IndentationWidth: 2
-
-Lint/UselessAccessModifier:
-  MethodCreatingMethods:
-    - delegate
-
-Style/AsciiComments:
+Style/SymbolArray:
   Enabled: false
 
-Style/AndOr:
-  EnforcedStyle: conditionals
-
-Style/ClassAndModuleChildren:
+Style/SymbolProc:
   Enabled: false
 
-Style/CollectionMethods:
+Naming/MethodParameterName:
+  Enabled: false
+
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+
+Rails/HttpPositionalArguments:
   Enabled: true
+  Exclude:
+    - spec/api/v1/**/*
 
-Style/DoubleNegation:
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+  Include:
+    - app/**/*
+  IgnoredMethods:
+    - require
+    - require_relative
+    - raise
+    - render
+    - link_to
+    - redirect_to
+    - redirect_back
+    - return
+    - stream_from
+    - error
+    - info
+    - debug
+    - yield
+    - head
+    - puts
+    - send_file
+    - redirect_post
+    - send_data
+    - mail
+
+Metrics/ModuleLength:
   Enabled: false
-
-Style/FormatString:
-  Enabled: false
-
-Style/RegexpLiteral:
-  Enabled: false
-
-Layout/AlignHash:
-  EnforcedHashRocketStyle: table

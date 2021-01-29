@@ -12,16 +12,14 @@ class User::UpdateTable < Trailblazer::Operation
   step Contract::Persist()
 
   def update_table!(_options, model:, params:, **)
-    obj_array = model.content["report_template"]["custom"]
+    obj_array = model.content['report_template']['custom']
 
-    index = params["edit_table"].to_i
+    index = params['edit_table'].to_i
 
-    obj_array[index][:title] = params["title"]
-    obj_array[index][:params_list] = params["params_list"]
-    obj_array[index][:params_unm_list] = params["unm_list"]
+    obj_array[index][:title] = params['title']
+    obj_array[index][:params_list] = params['params_list']
+    obj_array[index][:params_unm_list] = params['unm_list']
 
     true
   end
-
-
 end # class User::EditChart

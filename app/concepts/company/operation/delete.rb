@@ -15,5 +15,4 @@ class Company::Delete < Trailblazer::Operation
   def delete!(_options, model:, **)
     model.destroy
   end
-
 end # class Company::Delete

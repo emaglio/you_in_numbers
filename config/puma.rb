@@ -3,10 +3,10 @@ require 'puma'
 threads_count = ENV.fetch('PUMA_THREADS', 16).to_i
 threads 1, threads_count
 
-rails_env = ENV.fetch("RAILS_ENV") { "development" }
+rails_env = ENV.fetch('RAILS_ENV') { 'development' }
 environment rails_env
 
-app_dir = File.expand_path("../..", __FILE__)
+app_dir = File.expand_path('../..', __FILE__)
 directory app_dir
 
 if %w[production staging].member?(rails_env)
@@ -27,11 +27,11 @@ if %w[production staging].member?(rails_env)
   activate_control_app
 
   on_worker_boot do
-   require "active_record"
+   require 'active_record'
    ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
    ActiveRecord::Base.establish_connection(YAML.load_file("#{app_dir}/config/database.yml")[rails_env])
   end
-elsif rails_env == "development"
-  port   ENV.fetch("PORT") { 3000 }
+elsif rails_env == 'development'
+  port   ENV.fetch('PORT') { 3000 }
   plugin :tmp_restart
 end

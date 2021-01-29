@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'test_helper.rb'
 
 class ReportOperationTest < MiniTest::Spec
   let(:upload_file) do ActionDispatch::Http::UploadedFile.new(
-    :tempfile => File.new(Rails.root.join("test/files/cpet.xlsx"))
+    :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
   )
   end
   let(:params_pass) { {} }
@@ -13,5 +15,4 @@ class ReportOperationTest < MiniTest::Spec
     it 'populates ' do
     end
   end
-
 end

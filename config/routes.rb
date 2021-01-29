@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   root to: 'reports#welcome'
 
   resources :users do
@@ -69,5 +68,4 @@ Rails.application.routes.draw do
       post 'delete_logo'
     end
   end
-
 end

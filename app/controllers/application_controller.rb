@@ -19,35 +19,33 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ApplicationController::NotAuthorizedError do
-    flash[:danger] = "You are not authorized mate!"
+    flash[:danger] = 'You are not authorized mate!'
     redirect_to reports_path
   end
 
   rescue_from ApplicationController::NotSignedIn do
-    flash[:danger] = "Sign In or Sign Up please!"
-    redirect_to "/sessions/new"
+    flash[:danger] = 'Sign In or Sign Up please!'
+    redirect_to '/sessions/new'
   end
 
   # exists file and file type are validated in the contract.
   # this is gonna happen when something weird happens
   rescue_from ApplicationController::OpenFileException do
-    flash[:danger] = "Something went wrong when opening the report file..try again!"\
-                     " Please contact us if it happens again!"
-    redirect_to "/reports/new"
+    flash[:danger] = 'Something went wrong when opening the report file..try again!'\
+                     ' Please contact us if it happens again!'
+    redirect_to '/reports/new'
   end
 
-  def render(cell_constant, model, options: {}, layout_type: "app", type: "html", method: :append)
-    # rubocop:disable Layout/AlignHash
+  def render(cell_constant, model, options: {}, layout_type: 'app', type: 'html', method: :append)
     layout_types = {
-      "welcome" => RailsBootstrap::Cell::WelcomeLayout,
-      "app" => RailsBootstrap::Cell::Layout,
+      'welcome' => RailsBootstrap::Cell::WelcomeLayout,
+      'app' => RailsBootstrap::Cell::Layout,
       nil => nil
     }
-    # rubocop:enable Layout/AlignHash
 
     layout = layout_types[layout_type]
 
-    if type == "html"
+    if type == 'html'
       super(
             html: cell(
               cell_constant,
@@ -75,6 +73,6 @@ class ApplicationController < ActionController::Base
   private
 
   def _run_options(options)
-    options.merge("current_user" => tyrant.current_user, "url" => "http://localhost:3000/users/confirm_new_password")
+    options.merge('current_user' => tyrant.current_user, 'url' => 'http://localhost:3000/users/confirm_new_password')
   end
 end

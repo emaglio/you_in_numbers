@@ -12,6 +12,6 @@ class Report::EditAt < Trailblazer::Operation
   step Contract::Persist()
 
   def update_at!(_options, params:, model:, **)
-    model["cpet_results"]["edited_at_index"] = params["at_position"].to_i
+    model['cpet_results']['edited_at_index'] = params['at_position'].to_i
   end
 end
