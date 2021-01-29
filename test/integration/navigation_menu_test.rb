@@ -7,24 +7,21 @@ class NavigationMenuTest < Trailblazer::Test::Integration
     # no user logged in
     visit root_path
 
-    find('.nav').must_have_link 'Sign In'
-    find('.nav').must_have_link 'Sign Up'
-    find('.nav').must_have_link 'Download'
-    find('.nav').must_have_link 'Features'
-    find('.nav').must_have_link 'Contact'
+    _(find('.nav')).must_have_link 'Sign In'
+    _(find('.nav')).must_have_link 'Sign Up'
 
     # normal user logged in
     log_in_as_user
 
-    find('.navbar-top-links').wont_have_link 'Sign In'
-    find('.navbar-top-links').wont_have_link 'Sign Up'
-    find('.navbar-top-links').must_have_link 'Hi, UserFirstname'
-    find('.navbar-top-links').must_have_link 'Settings'
-    find('.navbar-top-links').must_have_link 'Sign Out'
-    find('.navbar-top-links').must_have_link 'Account'
-    find('.navbar-top-links').must_have_link 'Company'
-    find('.navbar-top-links').must_have_link 'Report'
-    find('.navbar-top-links').wont_have_link 'Users'
+    _(find('.navbar-top-links')).wont_have_link 'Sign In'
+    _(find('.navbar-top-links')).wont_have_link 'Sign Up'
+    _(find('.navbar-top-links')).must_have_link 'Hi, UserFirstname'
+    _(find('.navbar-top-links')).must_have_link 'Settings'
+    _(find('.navbar-top-links')).must_have_link 'Sign Out'
+    _(find('.navbar-top-links')).must_have_link 'Account'
+    _(find('.navbar-top-links')).must_have_link 'Company'
+    _(find('.navbar-top-links')).must_have_link 'Report'
+    _(find('.navbar-top-links')).wont_have_link 'Users'
 
     click_link 'Sign Out'
 
@@ -33,26 +30,26 @@ class NavigationMenuTest < Trailblazer::Test::Integration
     log_in_as_admin
 
     # TODO: create more logic for admin and add the tests here
-    find('.navbar-top-links').wont_have_link 'Sign In'
-    find('.navbar-top-links').wont_have_link 'Sign Up'
-    find('.navbar-top-links').must_have_link 'Hi, Admin'
-    find('.navbar-top-links').must_have_link 'Settings'
-    find('.navbar-top-links').must_have_link 'Sign Out'
-    find('.navbar-top-links').must_have_link 'Account'
-    find('.navbar-top-links').must_have_link 'Company'
-    find('.navbar-top-links').must_have_link 'Report'
-    find('.navbar-top-links').must_have_link 'Users'
+    _(find('.navbar-top-links')).wont_have_link 'Sign In'
+    _(find('.navbar-top-links')).wont_have_link 'Sign Up'
+    _(find('.navbar-top-links')).must_have_link 'Hi, Admin'
+    _(find('.navbar-top-links')).must_have_link 'Settings'
+    _(find('.navbar-top-links')).must_have_link 'Sign Out'
+    _(find('.navbar-top-links')).must_have_link 'Account'
+    _(find('.navbar-top-links')).must_have_link 'Company'
+    _(find('.navbar-top-links')).must_have_link 'Report'
+    _(find('.navbar-top-links')).must_have_link 'Users'
   end
 
   it 'side bar' do
     log_in_as_user
 
-    find('.sidebar').must_have_link 'Dashboard'
-    find('.sidebar').must_have_link 'Reports'
-    find('.sidebar').must_have_link 'My Reports'
-    find('.sidebar').must_have_link 'New Report'
-    find('.sidebar').must_have_link 'Subjects'
-    find('.sidebar').must_have_link 'My Subjects'
-    find('.sidebar').must_have_link 'New Subject'
+    _(find('.sidebar')).must_have_link 'Dashboard'
+    _(find('.sidebar')).must_have_link 'Reports'
+    _(find('.sidebar')).must_have_link 'My Reports'
+    _(find('.sidebar')).must_have_link 'New Report'
+    _(find('.sidebar')).must_have_link 'Subjects'
+    _(find('.sidebar')).must_have_link 'My Subjects'
+    _(find('.sidebar')).must_have_link 'New Subject'
   end
 end

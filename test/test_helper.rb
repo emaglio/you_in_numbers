@@ -18,6 +18,7 @@ require 'trailblazer/rails/test/integration'
 require 'tyrant'
 require 'database_cleaner'
 require 'trailblazer/test'
+require "trailblazer/test/deprecation/operation/assertions"
 
 DatabaseCleaner.strategy = :transaction
 
@@ -25,6 +26,7 @@ Minitest::Spec.class_eval do
   include Trailblazer::Test::Assertions
   include Trailblazer::Test::Operation::Helper
   include Trailblazer::Test::Operation::Assertions
+  include Trailblazer::Test::Deprecation::Operation::Assertions
 
   before :each do
     DatabaseCleaner.start
@@ -35,14 +37,14 @@ Minitest::Spec.class_eval do
   end
 
   def admin_for
-    return unless User.find_by(email: 'admin@email.com').nil?
-
-    User::Create.(
-      email: 'admin@email.com',
-      password: 'password',
-      confirm_password: 'password',
-      firstname: 'Admin'
-    )['model']
+    User.find_by(email: 'admin@email.com') ||
+      User::Create.(
+        email: 'admin@email.com',
+        password: 'password',
+        confirm_password: 'password',
+        firstname: 'Admin',
+        admin: true
+      )['model']
   end
 
   def get_data_sheet(file)
@@ -65,15 +67,17 @@ Cell::TestCase.class_eval do
 end
 
 Trailblazer::Test::Integration.class_eval do
-  def admin_for
-    return unless User.find_by(email: 'admin@email.com').nil?
+  include Capybara::Screenshot::MiniTestPlugin
 
-    User::Create.(
-      email: 'admin@email.com',
-      password: 'password',
-      confirm_password: 'password',
-      firstname: 'Admin'
-    )['model']
+  def admin_for
+    User.find_by(email: 'admin@email.com') ||
+      User::Create.(
+        email: 'admin@email.com',
+        password: 'password',
+        confirm_password: 'password',
+        firstname: 'Admin',
+        admin: true
+      )['model']
   end
 
   # puts page.body

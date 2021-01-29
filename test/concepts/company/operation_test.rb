@@ -5,7 +5,7 @@ require 'test_helper.rb'
 class CompanyOperationTest < MiniTest::Spec
   it 'successfully create Company' do
     user = User::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')
-    user.success?.must_equal true
+    _(user.success?).must_equal true
 
     result = Company::Create.(
       {
@@ -14,17 +14,17 @@ class CompanyOperationTest < MiniTest::Spec
         phone: '12345', website: 'wwww.company.com.au'
       }, 'current_user' => user['model']
     )
-    result.success?.must_equal true
-    result['model'].name.must_equal 'My Company'
-    result['model'].address_1.must_equal 'address 1'
-    result['model'].address_2.must_equal 'address 2'
-    result['model'].city.must_equal 'Freshwater'
-    result['model'].postcode.must_equal '2096'
-    result['model'].country.must_equal 'Australia'
-    result['model'].email.must_equal 'company@email.com'
-    result['model'].phone.must_equal '12345'
-    result['model'].website.must_equal 'wwww.company.com.au'
-    result['model'].user_id.must_equal user['model'].id
+    _(result.success?).must_equal true
+    _(result['model'].name).must_equal 'My Company'
+    _(result['model'].address_1).must_equal 'address 1'
+    _(result['model'].address_2).must_equal 'address 2'
+    _(result['model'].city).must_equal 'Freshwater'
+    _(result['model'].postcode).must_equal '2096'
+    _(result['model'].country).must_equal 'Australia'
+    _(result['model'].email).must_equal 'company@email.com'
+    _(result['model'].phone).must_equal '12345'
+    _(result['model'].website).must_equal 'wwww.company.com.au'
+    _(result['model'].user_id).must_equal user['model'].id
   end
 
   it 'create only if singed_in' do
@@ -39,10 +39,10 @@ class CompanyOperationTest < MiniTest::Spec
 
   it 'wrong input' do
     user = User::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')
-    user.success?.must_equal true
+    _(user.success?).must_equal true
 
     result = Company::Create.({}, 'current_user' => user)
-    result['result.contract.default'].errors.messages.inspect.must_equal "{:user_id=>[\"Can't be blank\"],"\
+    _(result['result.contract.default'].errors.messages.inspect).must_equal "{:user_id=>[\"Can't be blank\"],"\
       " :name=>[\"Can't be blank\"]}"
   end
 
@@ -51,8 +51,8 @@ class CompanyOperationTest < MiniTest::Spec
     user2 = User::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model']
 
     company = Company::Create.({ user_id: user.id, name: 'Company User 1' }, 'current_user' => user)
-    company.success?.must_equal true
-    company['model'].name.must_equal 'Company User 1'
+    _(company.success?).must_equal true
+    _(company['model'].name).must_equal 'Company User 1'
 
     assert_raises ApplicationController::NotAuthorizedError do
       Company::Update.(
@@ -63,8 +63,8 @@ class CompanyOperationTest < MiniTest::Spec
     end
 
     result = Company::Update.({ id: company['model'].id, name: 'My new company name' }, 'current_user' => user)
-    result.success?.must_equal true
-    result['model'].name.must_equal 'My new company name'
+    _(result.success?).must_equal true
+    _(result['model'].name).must_equal 'My new company name'
   end
 
   it "only the Company's owner can delete it" do
@@ -72,8 +72,8 @@ class CompanyOperationTest < MiniTest::Spec
     user2 = User::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model']
 
     company = Company::Create.({ user_id: user.id, name: 'Company User 1' }, 'current_user' => user)
-    company.success?.must_equal true
-    company['model'].name.must_equal 'Company User 1'
+    _(company.success?).must_equal true
+    _(company['model'].name).must_equal 'Company User 1'
 
     assert_raises ApplicationController::NotAuthorizedError do
       Company::Delete.(
@@ -83,7 +83,7 @@ class CompanyOperationTest < MiniTest::Spec
     end
 
     result = Company::Delete.({ id: company['model'].id }, 'current_user' => user)
-    result.success?.must_equal true
+    _(result.success?).must_equal true
   end
 
   # valid file upload.
@@ -94,9 +94,9 @@ class CompanyOperationTest < MiniTest::Spec
                                  name: 'New Company',
                                  logo: File.open('test/images/logo.jpeg')
                                }, 'current_user' => user)
-    company.success?.must_equal true
+    _(company.success?).must_equal true
 
-    Paperdragon::Attachment.new(company['model'].logo_meta_data).exists?.must_equal true
+    _(Paperdragon::Attachment.new(company['model'].logo_meta_data).exists?).must_equal true
     Company::Delete.({ id: company['model'].id }, 'current_user' => user)
   end
 
@@ -126,18 +126,18 @@ class CompanyOperationTest < MiniTest::Spec
                                  name: 'New Company',
                                  logo: File.open('test/images/logo.jpeg')
                                }, 'current_user' => user)
-    company.success?.must_equal true
+    _(company.success?).must_equal true
 
-    Paperdragon::Attachment.new(company['model'].logo_meta_data).exists?.must_equal true
+    _(Paperdragon::Attachment.new(company['model'].logo_meta_data).exists?).must_equal true
 
     # num_file = Dir["test/images/"].length
     # puts num_file.inspect
 
     delete_logo = Company::DeleteLogo.({ id: company['model'].id }, 'current_user' => user)
-    delete_logo.success?.must_equal true
+    _(delete_logo.success?).must_equal true
 
     company = Company.find_by(id: company['model'].id)
 
-    Paperdragon::Attachment.new(company.logo_meta_data).exists?.must_equal false
+    _(Paperdragon::Attachment.new(company.logo_meta_data).exists?).must_equal false
   end
 end

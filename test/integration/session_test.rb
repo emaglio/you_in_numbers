@@ -8,19 +8,19 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
 
     submit!('', '')
 
-    page.must_have_css '#email'
-    page.must_have_css '#password'
-    page.must_have_content "Can't be blank"
-    page.must_have_button 'Sign In'
+    _(page).must_have_css '#email'
+    _(page).must_have_css '#password'
+    _(page).must_have_content "Can't be blank"
+    _(page).must_have_button 'Sign In'
 
     submit!('wrong@email.com', 'wrong')
 
-    page.must_have_content 'User not found'
-    page.must_have_css '#email'
-    page.must_have_css '#password'
-    page.must_have_button 'Sign In'
-    page.must_have_content 'User not found'
-    page.current_path.must_equal sessions_path
+    _(page).must_have_content 'User not found'
+    _(page).must_have_css '#email'
+    _(page).must_have_css '#password'
+    _(page).must_have_button 'Sign In'
+    _(page).must_have_content 'User not found'
+    _(page.current_path).must_equal sessions_path
   end
 
   it 'successfully log in' do
@@ -32,14 +32,14 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
 
     submit!(user.email.to_s, 'password')
 
-    page.must_have_content 'Hi, NewUser'
-    page.must_have_link 'Sign Out'
-    page.wont_have_css '#email'
-    page.wont_have_css '#password'
-    page.wont_have_button 'Sign In'
-    page.current_path.must_equal reports_path
+    _(page).must_have_content 'Hi, NewUser'
+    _(page).must_have_link 'Sign Out'
+    _(page).wont_have_css '#email'
+    _(page).wont_have_css '#password'
+    _(page).wont_have_button 'Sign In'
+    _(page.current_path).must_equal reports_path
 
-    page.must_have_content 'Hey mate, welcome back!'
+    _(page).must_have_content 'Hey mate, welcome back!'
   end
 
   it 'succesfully log out' do
@@ -51,11 +51,11 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
 
     submit!(user.email.to_s, 'password')
 
-    page.must_have_content 'Hi, NewUser'
-    page.must_have_link 'Sign Out'
+    _(page).must_have_content 'Hi, NewUser'
+    _(page).must_have_link 'Sign Out'
 
     click_link 'Sign Out'
-    page.wont_have_content 'Hi, NewUser'
-    page.must_have_content 'See ya!'
+    _(page).wont_have_content 'Hi, NewUser'
+    _(page).must_have_content 'See ya!'
   end
 end
