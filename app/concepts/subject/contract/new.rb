@@ -24,7 +24,7 @@ module Subject::Contract
         def unique_email?
           return true if form.email == ''
 
-          Subject.where('email = ?', form.email).size == 0
+          !Subject.exists?(email: form.email)
         end
 
         def email?
@@ -34,10 +34,7 @@ module Subject::Contract
         end
 
         def unique_subject? # TODO: call this only if form.dob is != nil
-          Subject.where(
-            'firstname like ? AND lastname like ? AND dob like ?',
-            form.firstname, form.lastname, DateTime.parse(form.dob)
-          ).size == 0
+          !Subject.exists?(firstname: form.firstname, lastname: form.lastname, dob: DateTime.parse(form.dob))
         end
 
         def greater_than_zero?(value)

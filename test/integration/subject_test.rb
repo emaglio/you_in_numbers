@@ -8,39 +8,39 @@ class SubjectIntegrationTest < Trailblazer::Test::Integration
       log_in_as_user
 
       click_link 'New Subject'
-      page.current_path.must_equal '/subjects/new'
+      _(page.current_path).must_equal '/subjects/new'
 
-      page.must_have_content 'New Subject'
-      page.must_have_css '#firstname'
-      page.must_have_css '#lastname'
-      page.must_have_css '#gender'
-      page.must_have_css '#dob'
-      page.must_have_css '#height'
-      page.must_have_css '#weight'
-      page.must_have_css '#phone'
-      page.must_have_css '#email'
-      page.must_have_button 'Create Subject'
+      _(page).must_have_content 'New Subject'
+      _(page).must_have_css '#firstname'
+      _(page).must_have_css '#lastname'
+      _(page).must_have_css '#gender'
+      _(page).must_have_css '#dob'
+      _(page).must_have_css '#height'
+      _(page).must_have_css '#weight'
+      _(page).must_have_css '#phone'
+      _(page).must_have_css '#email'
+      _(page).must_have_button 'Create Subject'
 
       # test errors
       click_button 'Create Subject'
-      page.must_have_content "Can't be blank"
+      _(page).must_have_content "Can't be blank"
 
       # create subject successfully
       new_subject!
 
-      page.must_have_content 'Subject created'
-      page.current_path.must_equal '/subjects'
+      _(page).must_have_content 'Subject created'
+      _(page.current_path).must_equal '/subjects'
 
       visit "/subjects/#{Subject.last.id}"
 
-      find('#firstname').value.must_equal 'SubjectFirstname'
-      find('#lastname').value.must_equal 'SubjectLastname'
-      find('#gender').value.must_equal 'Male'
-      find('#dob').value.must_equal '01/Jan/1980'
-      find('#height').value.must_equal '180'
-      find('#weight').value.must_equal '80'
-      find('#phone').value.must_equal '0128471'
-      find('#email').value.must_equal 'subject@email.com'
+      _(find('#firstname').value).must_equal 'SubjectFirstname'
+      _(find('#lastname').value).must_equal 'SubjectLastname'
+      _(find('#gender').value).must_equal 'Male'
+      _(find('#dob').value).must_equal '01/Jan/1980'
+      _(find('#height').value).must_equal '180'
+      _(find('#weight').value).must_equal '80'
+      _(find('#phone').value).must_equal '0128471'
+      _(find('#email').value).must_equal 'subject@email.com'
     end
 
     it "Only subject's owner can edit it" do
@@ -59,32 +59,32 @@ class SubjectIntegrationTest < Trailblazer::Test::Integration
       submit!(user2.email, 'password')
 
       visit "/subjects/#{Subject.last.id}"
-      page.must_have_content 'You are not authorized mate!'
-      page.current_path.must_equal '/reports'
+      _(page).must_have_content 'You are not authorized mate!'
+      _(page.current_path).must_equal '/reports'
 
       log_in_as_user
       visit "/subjects/#{Subject.last.id}"
       click_button 'Edit'
 
-      page.must_have_content 'New Subject'
-      page.must_have_css '#firstname'
-      page.must_have_css '#lastname'
-      page.must_have_css '#gender'
-      page.must_have_css '#dob'
-      page.must_have_css '#height'
-      page.must_have_css '#weight'
-      page.must_have_css '#phone'
-      page.must_have_css '#email'
-      page.must_have_button 'Save Changes'
+      _(page).must_have_content 'New Subject'
+      _(page).must_have_css '#firstname'
+      _(page).must_have_css '#lastname'
+      _(page).must_have_css '#gender'
+      _(page).must_have_css '#dob'
+      _(page).must_have_css '#height'
+      _(page).must_have_css '#weight'
+      _(page).must_have_css '#phone'
+      _(page).must_have_css '#email'
+      _(page).must_have_button 'Save Changes'
 
       within("//form[@id='edit_subject']") do
         fill_in 'firstname', with: 'NewSubjectFirstname'
       end
       click_button 'Save Changes'
 
-      page.current_path.must_equal "/subjects/#{Subject.last.id}"
+      _(page.current_path).must_equal "/subjects/#{Subject.last.id}"
 
-      find('#firstname').value.must_equal 'NewSubjectFirstname'
+      _(find('#firstname').value).must_equal 'NewSubjectFirstname'
     end
 
     it 'Delete Subject' do
@@ -98,8 +98,8 @@ class SubjectIntegrationTest < Trailblazer::Test::Integration
 
       click_button 'Delete'
 
-      page.must_have_content 'Subject deleted'
-      Subject.all.size.must_equal subject_num - 1
+      _(page).must_have_content 'Subject deleted'
+      _(Subject.all.size).must_equal subject_num - 1
     end
   end
 end

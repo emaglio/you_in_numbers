@@ -5,7 +5,6 @@ module Subject::Contract
   class Edit < Reform::Form
     feature Reform::Form::Dry
 
-    property :id
     property :email
     property :firstname
     property :lastname
@@ -35,14 +34,12 @@ module Subject::Contract
         end
 
         def unique_subject?
-          return true if ((Subject.find(form.id).email == form.email) &&
-                         (Subject.find(form.id).firstname == form.firstname) &&
-                         (Subject.find(form.id).lastname == form.lastname))
+          model = form.model
+          return true if ((model.email == form.email) &&
+                         (model.firstname == form.firstname) &&
+                         (model.lastname == form.lastname))
 
-          Subject.where(
-            'firstname like ? AND lastname like ? AND dob like ?',
-            form.firstname, form.lastname, DateTime.parse(form.dob)
-          ).size == 0
+          !Subject.exists?(firstname: form.firstname, lastname: form.lastname, dob: DateTime.parse(form.dob))
         end
 
         def greater_than_zero?(value)

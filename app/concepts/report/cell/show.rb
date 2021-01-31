@@ -1,5 +1,6 @@
 module Report::Cell
   class Show < Trailblazer::Cell
+    include ActionView::Context
     include ActionView::Helpers::FormOptionsHelper
     include ActionView::Helpers::FormTagHelper
 

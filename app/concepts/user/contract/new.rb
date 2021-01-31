@@ -10,6 +10,7 @@ module User::Contract
     property :email
     property :firstname
     property :lastname
+    property :admin # this is probably not safe need to be able to have this only if current user is admin
     property :gender
     property :phone
     property :age
