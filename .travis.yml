@@ -1,5 +1,6 @@
 language: ruby
 rvm:
   - 2.5.3
+cache: bundle
 script:
-  - bundle && rake test
+  - bundle && bundle exec rake test
