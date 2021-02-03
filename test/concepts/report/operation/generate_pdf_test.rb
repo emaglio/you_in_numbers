@@ -27,12 +27,12 @@ class ReportOperationGeneratePdfTest < MiniTest::Spec
     _(subject.firstname).must_equal 'Ema'
 
     company = Company::Operation::Create.(
-      {
+      params: {
         user_id: user.id, name: 'My Company', address_1: 'address 1', address_2: 'address 2', city: 'Freshwater',
         postcode: '2096', country: 'Australia', email: 'company@email.com', phone: '12345',
         website: 'wwww.company.com.au', logo: File.open('test/images/logo.jpeg')
-      }, 'current_user' => user
-    )['model']
+      }, current_user: user
+    )[:model]
 
     upload_file = ActionDispatch::Http::UploadedFile.new(
       :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
@@ -48,7 +48,5 @@ class ReportOperationGeneratePdfTest < MiniTest::Spec
 
     # result = Report::Operation::GeneratePdf.({id: report["model"].id}, "current_user" => user)
     # result.success?.must_equal true
-
-    Company::Operation::Delete.({ id: company.id }, 'current_user' => user)
   end
 end

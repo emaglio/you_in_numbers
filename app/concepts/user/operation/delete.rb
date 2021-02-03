@@ -16,7 +16,7 @@ class User::Operation::Delete < Trailblazer::Operation
 
   def delete_company!(_options, model:, current_user:, **)
     Company.where(user_id: model.id).each do |company|
-      Company::Operation::Delete.({ id: company.id }, 'current_user' => current_user)
+      Company::Operation::Delete.(params: { id: company.id }, current_user: current_user)
     end
   end
 

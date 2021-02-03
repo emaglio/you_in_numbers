@@ -21,6 +21,7 @@ require 'trailblazer/test'
 require 'trailblazer/test/deprecation/operation/assertions'
 
 DatabaseCleaner.strategy = :transaction
+Rails.application.config.trailblazer.enable_tracing = false # enable to troubleshoot v2.1 operations
 
 Minitest::Spec.class_eval do
   include Trailblazer::Test::Assertions
@@ -111,11 +112,10 @@ Trailblazer::Test::Integration.class_eval do
   end
 
   def log_in_as_user(email = 'my@email.com', password = 'password')
-    if User.find_by(email: email).nil?
-      email = User::Operation::Create.(
+    User.find_by(email: email).present? ||
+      User::Operation::Create.(
         email: email, password: password, confirm_password: password, firstname: 'UserFirstname'
-      )['model'].email
-    end
+      )
 
     visit '/sessions/new'
     submit!(email, password)

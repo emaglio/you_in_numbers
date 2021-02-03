@@ -3,6 +3,21 @@
 require 'test_helper'
 
 class CompanyOperationDeleteLogoTest < MiniTest::Spec
+  let(:user) { User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:company) do
+    factory(
+      Company::Operation::Create,
+      {
+        params: {
+          user_id: user.id,
+          name: 'New Company',
+          logo: File.open('test/images/logo.jpeg')
+        },
+        current_user: user
+      }
+    )[:model]
+  end
+
   # it "wrong file type" do
   #   res, op = User::Operation::Create.run(user: attributes_for(:user,
   #     profile_image: File.open("test/files/wrong_file.docx"),
@@ -23,23 +38,15 @@ class CompanyOperationDeleteLogoTest < MiniTest::Spec
   # end
 
   it 'delete logo' do
-    user = User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')['model']
-    company = Company::Operation::Create.({
-                                            user_id: user.id,
-                                            name: 'New Company',
-                                            logo: File.open('test/images/logo.jpeg')
-                                          }, 'current_user' => user)
-    _(company.success?).must_equal true
-
-    _(Paperdragon::Attachment.new(company['model'].logo_meta_data).exists?).must_equal true
+    _(Paperdragon::Attachment.new(company.logo_meta_data).exists?).must_equal true
 
     # num_file = Dir["test/images/"].length
     # puts num_file.inspect
 
-    delete_logo = Company::Operation::DeleteLogo.({ id: company['model'].id }, 'current_user' => user)
+    delete_logo = Company::Operation::DeleteLogo.(params: { id: company.id }, current_user: user)
     _(delete_logo.success?).must_equal true
 
-    company = Company.find_by(id: company['model'].id)
+    company.reload
 
     _(Paperdragon::Attachment.new(company.logo_meta_data).exists?).must_equal false
   end

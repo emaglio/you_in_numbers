@@ -3,22 +3,19 @@
 require 'test_helper'
 
 class CompanyOperationDeleteTest < MiniTest::Spec
+  let(:user) { User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:company) { factory(Company::Operation::Create, { params: { user_id: user.id, name: 'Company User 1' }, current_user: user }) }
+
   it "only the Company's owner can delete it" do
-    user = User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')['model']
-    user2 = User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model']
-
-    company = Company::Operation::Create.({ user_id: user.id, name: 'Company User 1' }, 'current_user' => user)
-    _(company.success?).must_equal true
-    _(company['model'].name).must_equal 'Company User 1'
-
     assert_raises ApplicationController::NotAuthorizedError do
       Company::Operation::Delete.(
-        { id: company['model'].id },
-        'current_user' => user2
+        params: { id: company['model'].id },
+        current_user: user2
       )
     end
 
-    result = Company::Operation::Delete.({ id: company['model'].id }, 'current_user' => user)
+    result = Company::Operation::Delete.(params: { id: company['model'].id }, current_user: user)
     _(result.success?).must_equal true
   end
 end

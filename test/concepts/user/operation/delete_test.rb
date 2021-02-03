@@ -45,7 +45,7 @@ class UserOperationDeleteTest < MiniTest::Spec
     _(user.email).must_equal 'test@email.com'
 
     # create company
-    company = Company::Operation::Create.({ user_id: user.id, name: 'My Company' }, 'current_user' => user)
+    company = Company::Operation::Create.(params: { user_id: user.id, name: 'My Company' }, current_user: user)
     _(company.success?).must_equal true
 
     upload_file = ActionDispatch::Http::UploadedFile.new(
