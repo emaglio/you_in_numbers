@@ -4,30 +4,29 @@ ruby '2.5.3'
 
 gem 'rails', '~> 5.2.1'
 
-gem 'puma'
-gem 'early'
+gem 'puma', '~> 3.12'
+gem 'early', '~> 0.3'
 
 # front-end
 gem 'webpacker', '~> 5.x'
 
 gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 4.4'
 gem 'sass-rails', '~> 5.0'
-gem 'pg'
+gem 'pg', '~> 1.2'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap-sass', '~> 3.4.1'
-gem 'high_voltage'
-gem 'slim-rails'
-gem 'cells-rails'
-gem 'cells-slim'
+gem 'slim-rails', '~> 3.2'
+gem 'cells-rails', '~> 0.1'
+gem 'cells-slim', '~> 0.1'
 gem 'dry-validation', '~> 0.13.3'
-gem 'file_validators'
-gem 'font-awesome-rails'
+gem 'file_validators', '~> 2.3'
+gem 'font-awesome-rails', '~> 4.7.0'
 gem 'formular', git: 'https://github.com/trailblazer/formular.git', branch: 'master'
 gem 'trailblazer', '~> 2.0.7'
-gem 'trailblazer-cells'
+gem 'trailblazer-cells', '~> 0.0'
 gem 'trailblazer-rails', '~> 1.0.10'
 gem 'tyrant', git: 'https://github.com/emaglio/tyrant.git', branch: 'trb-2'
 # gem 'tyrant', :path => "../tyrant"
@@ -38,44 +37,42 @@ gem 'reform-rails', '>= 0.2.0.rc1'
 gem 'roo', '~> 2.7.0'
 
 # email and image processing
-gem 'paperdragon'
-gem 'pony'
+gem 'paperdragon', '~> 0.0'
+gem 'pony', '~> 1.13'
 
 # pdf generation
-gem 'prawn'
-gem 'prawn-table'
+gem 'prawn', '~> 2.3'
+gem 'prawn-table', '~> 0.2'
 
 # waiting bar
-gem 'nprogress-rails'
+gem 'nprogress-rails', '~> 0.2.0'
 
-gem 'omniauth'
-gem 'omniauth-github'
+gem 'omniauth', '~> 1.9'
+gem 'omniauth-github', '~> 1.4'
 
 # locale
 gem 'rails-i18n', '~> 5.0'
 
 group :development do
-  gem 'byebug'
-  gem 'better_errors'
-  gem 'rails_layout'
+  gem 'byebug', '~> 11.1'
+  gem 'better_errors', '~> 2.8'
   gem 'web-console', '~> 2.0'
-  gem 'spring'
+  gem 'spring', '~> 2.1'
   gem 'rubocop', '~> 0.92', require: false
   gem 'rubocop-performance', '~> 1.8', require: false
   gem 'rubocop-rails', '~> 2.8', require: false
 end
 
 group :test do
-  gem 'capybara'
-  gem 'capybara-email'
-  gem 'capybara-screenshot'
-  gem 'capybara-slow_finder_errors'
-  gem 'codecov', require: false
-  gem 'database_cleaner'
-  gem 'memory_test_fix'
-  gem 'minitest-bang'
-  gem 'minitest-line'
-  gem 'minitest-rails-capybara'
-  gem 'simplecov', require: false
-  gem 'trailblazer-test'
+  gem 'capybara', '~> 3.35'
+  gem 'capybara-email', '~> 3.0'
+  gem 'capybara-screenshot', '~> 1.0'
+  gem 'capybara-slow_finder_errors', '~> 0.1'
+  gem 'codecov', '~> 0.2', require: false
+  gem 'database_cleaner', '~> 1.8'
+  gem 'minitest-bang', '~> 1.0'
+  gem 'minitest-line', '~> 0.6'
+  gem 'minitest-rails-capybara', '~> 3.0'
+  gem 'simplecov', '~> 0.19', require: false
+  gem 'trailblazer-test', '~> 0.1'
 end
