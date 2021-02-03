@@ -1,12 +1,12 @@
 class SubjectsController < ApplicationController
   def new
-    run(Subject::Create::Present)
+    run(Subject::Operation::Create::Present)
 
     render Subject::Cell::New, result['contract.default']
   end
 
   def create
-    run(Subject::Create) do |result|
+    run(Subject::Operation::Create) do |result|
       flash[:success] = 'Subject created!'
       return redirect_to new_report_path(nil, subject_id: result['model'].id) if result['new_report']
       return redirect_to '/subjects'
@@ -16,31 +16,31 @@ class SubjectsController < ApplicationController
   end
 
   def index
-    run(Subject::Index)
+    run(Subject::Operation::Index)
 
     render Subject::Cell::Index, result['model']
   end
 
   def get_reports
-    run(Subject::GetReports)
+    run(Subject::Operation::GetReports)
 
     render Subject::Cell::GetReports, result['reports'], layout_type: nil
   end
 
   def show
-    run(Subject::Show)
+    run(Subject::Operation::Show)
 
     render Subject::Cell::Show, result['model']
   end
 
   def edit
-    run(Subject::Update::Present)
+    run(Subject::Operation::Update::Present)
 
     render Subject::Cell::Edit, result['contract.default']
   end
 
   def update
-    run(Subject::Update) do |result|
+    run(Subject::Operation::Update) do |result|
       flash[:success] = 'Subject details updated'
       return redirect_to new_report_path(nil, subject_id: result['model'].id) if result['new_report']
       return redirect_to "/subjects/#{result['model'].id}"
@@ -50,14 +50,14 @@ class SubjectsController < ApplicationController
   end
 
   def destroy
-    run(Subject::Delete) do |result|
+    run(Subject::Operation::Delete) do |result|
       flash[:success] = 'Subject deleted'
       return redirect_to '/subjects'
     end
   end
 
   def edit_height_weight
-    run(Subject::EditHeightWeight) do |result|
+    run(Subject::Operation::EditHeightWeight) do |result|
       flash[:success] = 'Subejct details updated!'
       return redirect_to new_report_path(nil, subject_id: result['model'].id)
     end

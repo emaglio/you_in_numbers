@@ -1,4 +1,4 @@
-class Subject::Create < Trailblazer::Operation
+class Subject::Operation::Create < Trailblazer::Operation
   class Present < Trailblazer::Operation
     step Model(Subject, :new)
     step Policy::Pundit(::Session::Policy, :signed_in?)
@@ -15,4 +15,4 @@ class Subject::Create < Trailblazer::Operation
     params['new_report'] == 'true' ? (options['new_report'] = true) : (options['new_report'] = false)
     return true
   end
-end # class Subject::Create
+end # class Subject::Operation::Create

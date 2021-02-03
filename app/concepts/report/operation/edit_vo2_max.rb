@@ -1,4 +1,4 @@
-class Report::EditVO2Max < Trailblazer::Operation
+class Report::Operation::EditVO2Max < Trailblazer::Operation
   class Present < Trailblazer::Operation
     step Model(Report, :find_by)
     step Policy::Pundit(::Session::Policy, :report_owner?)

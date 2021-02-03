@@ -88,7 +88,7 @@ class UserIntegrationTest < Trailblazer::Test::Integration
       # user2 trying to update user
       click_link 'Sign Out'
 
-      user2 = User::Create.(
+      user2 = User::Operation::Create.(
         email: 'test2@email.com', firstname: 'User2', password: 'password', confirm_password: 'password'
       )['model']
       submit!(user2.email, 'password')

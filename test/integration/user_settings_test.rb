@@ -111,7 +111,7 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
 
       user = User.find_by(email: 'my@email.com')
 
-      subject = Subject::Create.(
+      subject = Subject::Operation::Create.(
         {
           user_id: user.id,
           firstname: 'Ema',
@@ -129,7 +129,7 @@ class UserSettingsIntegrationTest < Trailblazer::Test::Integration
         tempfile: File.new(Rails.root.join('test/files/cpet.xlsx'))
       )
 
-      Report::Create.(
+      Report::Operation::Create.(
         {
           user_id: user.id,
           subject_id: subject.id,

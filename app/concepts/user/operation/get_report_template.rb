@@ -1,4 +1,4 @@
-class User::GetReportTemplate < Trailblazer::Operation
+class User::Operation::GetReportTemplate < Trailblazer::Operation
   step Model(User, :find_by)
   step Policy::Pundit(::Session::Policy, :current_user?)
   failure ::Session::Lib::ThrowException

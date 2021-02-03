@@ -1,4 +1,4 @@
-class Report::GeneratePdf < Trailblazer::Operation
+class Report::Operation::GeneratePdf < Trailblazer::Operation
   module ReportUtility
     def write_image!(options, obj:, pdf:, **)
       footer(options, pdf: pdf, model: options['model'], subject: options['subject']) if pdf.cursor < 320
@@ -128,4 +128,4 @@ class Report::GeneratePdf < Trailblazer::Operation
       last_page ? true : pdf.start_new_page
     end
   end # class ReportUtility
-end # module Report::GeneratePdf
+end # module Report::Operation::GeneratePdf

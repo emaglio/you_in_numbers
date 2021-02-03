@@ -3,7 +3,7 @@
 
 # class GeneratehvPDF < MiniTest::Spec
 
-#   let(:user) {(User::Create.({email: "test@email.com", password: "password", confirm_password: "password"}))["model"]}
+#   let(:user) {(User::Operation::Create.({email: "test@email.com", password: "password", confirm_password: "password"}))["model"]}
 
 #   it "some" do
 #     user.email.must_equal "test@email.com"

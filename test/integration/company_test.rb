@@ -45,7 +45,7 @@ class CompanyIntegationTest < Trailblazer::Test::Integration
       _(page).must_have_button 'Delete'
       _(page).must_have_button 'Upload Logo'
 
-      Company::Delete.({ id: Company.last }, 'current_user' => user)
+      Company::Operation::Delete.({ id: Company.last }, 'current_user' => user)
     end
 
     it 'Upload/Delete logo' do
@@ -93,7 +93,7 @@ class CompanyIntegationTest < Trailblazer::Test::Integration
       _(page).must_have_content 'No logo'
       _(page).must_have_button 'Upload Logo'
 
-      Company::Delete.({ id: Company.last }, 'current_user' => user)
+      Company::Operation::Delete.({ id: Company.last }, 'current_user' => user)
     end
 
     it "Only company's owner can edit it" do
@@ -109,7 +109,7 @@ class CompanyIntegationTest < Trailblazer::Test::Integration
 
       click_link 'Sign Out'
 
-      user2 = User::Create.(
+      user2 = User::Operation::Create.(
         email: 'test2@email.com', firstname: 'User2', password: 'password', confirm_password: 'password'
       )['model']
       submit!(user2.email, 'password')

@@ -1,4 +1,4 @@
-class Subject::Update < Trailblazer::Operation
+class Subject::Operation::Update < Trailblazer::Operation
   class Present < Trailblazer::Operation
     step Model(Subject, :find_by)
     step Policy::Pundit(::Session::Policy, :subject_owner?)
@@ -16,4 +16,4 @@ class Subject::Update < Trailblazer::Operation
     params['new_report'] == 'true' ? options['new_report'] = true : options['new_report'] = false
     true
   end
-end # class Subject::Update
+end # class Subject::Operation::Update

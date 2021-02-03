@@ -1,4 +1,4 @@
-class Report::Create < Trailblazer::Operation
+class Report::Operation::Create < Trailblazer::Operation
   class GetCpetResults < Trailblazer::Operation
     step :find_exer_phase!
     step :find_AT!

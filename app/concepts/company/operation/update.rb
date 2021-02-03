@@ -1,4 +1,4 @@
-class Company::Update < Trailblazer::Operation
+class Company::Operation::Update < Trailblazer::Operation
   class Present < Trailblazer::Operation
     step Model(Company, :find_by)
     step Policy::Pundit(::Session::Policy, :company_owner?)
@@ -17,4 +17,4 @@ class Company::Update < Trailblazer::Operation
       v.process!(:thumb) { |job| job.thumb!('120x120#') }
     end
   end
-end # class Company::Update
+end # class Company::Operation::Update

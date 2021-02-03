@@ -1,4 +1,4 @@
-class Report::GenerateImage < Trailblazer::Operation
+class Report::Operation::GenerateImage < Trailblazer::Operation
   step Model(Report, :find_by)
   step Policy::Pundit(::Session::Policy, :report_owner?)
   failure ::Session::Lib::ThrowException
@@ -21,4 +21,4 @@ class Report::GenerateImage < Trailblazer::Operation
   def error!(options, *)
     options['error'] = 'Something went wrong'
   end
-end # class Report::GenerateImage
+end # class Report::Operation::GenerateImage

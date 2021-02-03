@@ -1,6 +1,6 @@
 require 'reform/form/dry'
 
-class User::ChangePassword < Tyrant::ChangePassword
+class User::Operation::ChangePassword < Tyrant::ChangePassword
   failure :raise_error!
   # TODO: notify user
 

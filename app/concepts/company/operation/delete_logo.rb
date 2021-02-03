@@ -1,4 +1,4 @@
-class Company::DeleteLogo < Trailblazer::Operation
+class Company::Operation::DeleteLogo < Trailblazer::Operation
   step Model(Company, :find_by)
   step Policy::Pundit(::Session::Policy, :company_owner?)
   failure Session::Lib::ThrowException
@@ -14,4 +14,4 @@ class Company::DeleteLogo < Trailblazer::Operation
   def save!(_options, model:, **)
     model.save
   end
-end # class Company::DeleteLogo
+end # class Company::Operation::DeleteLogo

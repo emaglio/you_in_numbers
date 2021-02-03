@@ -1,12 +1,12 @@
 class CompaniesController < ApplicationController
   def new
-    run(Company::Create::Present)
+    run(Company::Operation::Create::Present)
 
     render Company::Cell::New, result['contract.default']
   end
 
   def create
-    run(Company::Create) do |result|
+    run(Company::Operation::Create) do |result|
       flash[:success] = 'Company details updated!'
       return redirect_to "/users/#{result['model'].user_id}"
     end
@@ -15,19 +15,19 @@ class CompaniesController < ApplicationController
   end
 
   def show
-    run(Company::Show)
+    run(Company::Operation::Show)
 
     render Company::Cell::Show, result['model']
   end
 
   def edit
-    run(Company::Update::Present)
+    run(Company::Operation::Update::Present)
 
     render Company::Cell::Edit, result['contract.default']
   end
 
   def update
-    run(Company::Update) do |result|
+    run(Company::Operation::Update) do |result|
       flash[:success] = 'Company details updated!'
       return redirect_to "/users/#{result['model'].user_id}"
     end
@@ -36,14 +36,14 @@ class CompaniesController < ApplicationController
   end
 
   def destroy
-    run(Company::Delete) do |result|
+    run(Company::Operation::Delete) do |result|
       flash[:success] = 'Company deleted!'
       return redirect_to "/users/#{current_user.id}"
     end
   end
 
   def delete_logo
-    run(Company::DeleteLogo) do
+    run(Company::Operation::DeleteLogo) do
       flash[:success] = 'Company Logo deleted!'
       return redirect_to "/users/#{current_user.id}"
     end

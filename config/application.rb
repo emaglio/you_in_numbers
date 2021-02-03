@@ -22,9 +22,9 @@ module YouInNumbers
     # Do not swallow errors in after_commit/after_rollback callbacks.
     # config.active_record.raise_in_transactional_callbacks = true
 
-    config.assets.precompile = ['welcome.js', 'welcome.css', 'application.js', 'application.css']
+    config.assets.precompile = %w[welcome.js welcome.css application.js application.css]
 
-    config.trailblazer.enable_loader = true
+    config.trailblazer.enable_loader = false
 
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')

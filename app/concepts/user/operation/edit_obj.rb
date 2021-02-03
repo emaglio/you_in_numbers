@@ -1,4 +1,4 @@
-class User::EditObj < Trailblazer::Operation
+class User::Operation::EditObj < Trailblazer::Operation
   step Model(User, :find_by)
   step Policy::Pundit(::Session::Policy, :current_user?)
   failure ::Session::Lib::ThrowException
@@ -90,4 +90,4 @@ class User::EditObj < Trailblazer::Operation
     options['contract.default'].content.report_template.default = model.content['report_template']['default']
   end
   # rubocop:enable Metrics/AbcSize
-end # class User::EditObj
+end # class User::Operation::EditObj
