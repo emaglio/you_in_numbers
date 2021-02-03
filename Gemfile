@@ -54,13 +54,14 @@ gem 'omniauth-github', '~> 1.4'
 gem 'rails-i18n', '~> 5.0'
 
 group :development do
-  gem 'byebug', '~> 11.1'
   gem 'better_errors', '~> 2.8'
   gem 'web-console', '~> 2.0'
   gem 'spring', '~> 2.1'
   gem 'rubocop', '~> 0.92', require: false
   gem 'rubocop-performance', '~> 1.8', require: false
   gem 'rubocop-rails', '~> 2.8', require: false
+  gem 'rack-mini-profiler', '~> 2.3.0'
+  gem 'memory_profiler', '~> 1.0.0'
 end
 
 group :test do
@@ -76,3 +77,9 @@ group :test do
   gem 'simplecov', '~> 0.19', require: false
   gem 'trailblazer-test', '~> 0.1'
 end
+
+group :development, :test do
+  gem 'pry-rails', '~> 0.3.9'
+  gem 'pry-byebug', '~> 3.9.0'
+end
+
