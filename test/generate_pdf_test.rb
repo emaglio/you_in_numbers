@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 require 'prawn'
 
 class Header
@@ -43,9 +43,9 @@ end
 
 class GeneratehvPDF < MiniTest::Spec
   # it "description" do
-  #   user = User::Create.({email: "test@email.com", password: "password", confirm_password: "password"})["model"]
+  #   user = User::Operation::Create.({email: "test@email.com", password: "password", confirm_password: "password"})["model"]
 
-  #   company = Company::Create.(
+  #   company = Company::Operation::Create.(
   #     {
   #       user_id: user.id, name: "My Company", address_1: "address 1", address_2: "address 2", city: "Freshwater",
   #       postcode: "2096", country: "Australia", country: "Australia", email: "company@email.com", phone: "12345",
@@ -56,7 +56,7 @@ class GeneratehvPDF < MiniTest::Spec
   #   # upload_file = ActionDispatch::Http::UploadedFile.new({
   #   #   :tempfile => File.new(Rails.root.join("test/files/cpet.xlsx"))
   #   # })
-  #   # report = Report::Create.(
+  #   # report = Report::Operation::Create.(
   #       { user_id: user.id, title: "Report", cpet_file_path: upload_file, template: "default" },
   #       "current_user" => user
   #     )

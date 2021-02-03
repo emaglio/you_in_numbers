@@ -126,8 +126,6 @@ Naming/HeredocDelimiterNaming:
 
 Rails/HttpPositionalArguments:
   Enabled: true
-  Exclude:
-    - spec/api/v1/**/*
 
 Style/MethodCallWithArgsParentheses:
   Enabled: true
@@ -156,3 +154,7 @@ Style/MethodCallWithArgsParentheses:
 
 Metrics/ModuleLength:
   Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - test/**/*

@@ -1,7 +1,7 @@
 require 'prawn'
 require_dependency 'report/lib/report_utility'
 
-class Report::GeneratePdf < Trailblazer::Operation
+class Report::Operation::GeneratePdf < Trailblazer::Operation
   include Prawn::View
   include ReportUtility
 
@@ -141,6 +141,6 @@ class Report::GeneratePdf < Trailblazer::Operation
   end
 
   def error!(options, *)
-    # TODO: delete folder create in Report::GenerateImage
+    # TODO: delete folder create in Report::Operation::GenerateImage
   end
-end # class Report::GeneratePdf
+end # class Report::Operation::GeneratePdf

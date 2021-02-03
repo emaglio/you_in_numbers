@@ -1,5 +1,5 @@
-class User::ReportSettings < Trailblazer::Operation
-  step Nested(User::GetReportSettings)
+class User::Operation::ReportSettings < Trailblazer::Operation
+  step Nested(User::Operation::GetReportSettings)
   step Contract::Validate()
   step :params_list!
   step :ergo_params_list!
@@ -39,4 +39,4 @@ class User::ReportSettings < Trailblazer::Operation
       'height' => params[:um_height], 'weight' => params[:um_weight]
     }
   end
-end # class User::ReportSettings
+end # class User::Operation::ReportSettings

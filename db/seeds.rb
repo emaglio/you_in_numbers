@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-admin = User::Create.({
+admin = User::Operation::Create.({
                       firstname: 'Admin',
                       lastname: 'Imp',
                       email: 'admin@email.com',
@@ -14,7 +14,7 @@ admin = User::Create.({
                       confirm_password: 'Test1234' })['model']
 puts 'Admin account created successfully!' if admin.id
 
-subject = Subject::Create.({
+subject = Subject::Operation::Create.({
                           user_id: admin.id,
                           firstname: 'Ema',
                           lastname: 'Maglio',
@@ -31,7 +31,7 @@ upload_file = ActionDispatch::Http::UploadedFile.new({
   :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
 })
 
-report = Report::Create.({
+report = Report::Operation::Create.({
           user_id: admin.id,
           subject_id: subject.id,
           title: 'My report',

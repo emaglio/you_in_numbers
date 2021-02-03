@@ -1,4 +1,2 @@
-module Session
-  class SignOut < Trailblazer::Operation
-  end
+class Session::Operation::SignOut < Trailblazer::Operation
 end

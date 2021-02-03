@@ -18,7 +18,7 @@ require 'trailblazer/rails/test/integration'
 require 'tyrant'
 require 'database_cleaner'
 require 'trailblazer/test'
-require "trailblazer/test/deprecation/operation/assertions"
+require 'trailblazer/test/deprecation/operation/assertions'
 
 DatabaseCleaner.strategy = :transaction
 
@@ -38,7 +38,7 @@ Minitest::Spec.class_eval do
 
   def admin_for
     User.find_by(email: 'admin@email.com') ||
-      User::Create.(
+      User::Operation::Create.(
         email: 'admin@email.com',
         password: 'password',
         confirm_password: 'password',
@@ -71,7 +71,7 @@ Trailblazer::Test::Integration.class_eval do
 
   def admin_for
     User.find_by(email: 'admin@email.com') ||
-      User::Create.(
+      User::Operation::Create.(
         email: 'admin@email.com',
         password: 'password',
         confirm_password: 'password',
@@ -112,7 +112,7 @@ Trailblazer::Test::Integration.class_eval do
 
   def log_in_as_user(email = 'my@email.com', password = 'password')
     if User.find_by(email: email).nil?
-      email = User::Create.(
+      email = User::Operation::Create.(
         email: email, password: password, confirm_password: password, firstname: 'UserFirstname'
       )['model'].email
     end
@@ -170,7 +170,7 @@ Trailblazer::Test::Integration.class_eval do
 
   # to test that a new password "NewPassword" is actually saved
   # in the auth_meta_data of User for integration tests
-  Tyrant::ResetPassword.class_eval do
+  User::Operation::ResetPassword.class_eval do
     def generate_password!(options, *)
       options['new_password'] = 'NewPassword'
     end

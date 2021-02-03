@@ -1,4 +1,4 @@
-class Company::Delete < Trailblazer::Operation
+class Company::Operation::Delete < Trailblazer::Operation
   step Model(Company, :find_by)
   step Policy::Pundit(::Session::Policy, :company_owner?)
   failure Session::Lib::ThrowException
@@ -15,4 +15,4 @@ class Company::Delete < Trailblazer::Operation
   def delete!(_options, model:, **)
     model.destroy
   end
-end # class Company::Delete
+end # class Company::Operation::Delete

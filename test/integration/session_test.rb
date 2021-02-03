@@ -24,7 +24,7 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
   end
 
   it 'successfully log in' do
-    user = User::Create.(
+    user = User::Operation::Create.(
       email: 'test@email.com', password: 'password', confirm_password: 'password', firstname: 'NewUser'
     )['model']
 
@@ -43,7 +43,7 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
   end
 
   it 'succesfully log out' do
-    user = User::Create.(
+    user = User::Operation::Create.(
       email: 'test@email.com', password: 'password', confirm_password: 'password', firstname: 'NewUser'
     )['model']
 

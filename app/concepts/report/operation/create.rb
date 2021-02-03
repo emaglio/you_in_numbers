@@ -1,7 +1,4 @@
-require_dependency 'report/operation/get_cpet_data'
-require_dependency 'report/operation/get_cpet_results'
-
-class Report::Create < Trailblazer::Operation
+class Report::Operation::Create < Trailblazer::Operation
   class Present < Trailblazer::Operation
     step Model(Report, :new)
     step Policy::Pundit(::Session::Policy, :signed_in?)

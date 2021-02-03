@@ -1,4 +1,4 @@
-class Company::Create < Trailblazer::Operation
+class Company::Operation::Create < Trailblazer::Operation
   class Present < Trailblazer::Operation
     step Model(Company, :new)
     step Policy::Pundit(::Session::Policy, :signed_in?)
@@ -17,4 +17,4 @@ class Company::Create < Trailblazer::Operation
       v.process!(:thumb) { |job| job.thumb!('120x120#') }
     end
   end
-end # class Company::Create
+end # class Company::Operation::Create

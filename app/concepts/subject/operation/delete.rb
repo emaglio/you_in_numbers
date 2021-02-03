@@ -1,4 +1,4 @@
-class Subject::Delete < Trailblazer::Operation
+class Subject::Operation::Delete < Trailblazer::Operation
   step Model(Subject, :find_by)
   step Policy::Pundit(::Session::Policy, :subject_owner?)
   failure Session::Lib::ThrowException
@@ -7,7 +7,7 @@ class Subject::Delete < Trailblazer::Operation
 
   def delete_reports!(_options, model:, current_user:, **)
     Report.where(subject_id: model.id).ids.each do |report_id|
-      Report::Delete.({ id: report_id }, 'current_user' => current_user)
+      Report::Operation::Delete.({ id: report_id }, 'current_user' => current_user)
     end
     true
   end
@@ -15,4 +15,4 @@ class Subject::Delete < Trailblazer::Operation
   def delete!(_options, model:, **)
     model.destroy
   end
-end # class Subject::Delete
+end # class Subject::Operation::Delete

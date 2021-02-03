@@ -1,4 +1,4 @@
-class User::UpdateChart < Trailblazer::Operation
+class User::Operation::UpdateChart < Trailblazer::Operation
   class Present < Trailblazer::Operation
     step Model(User, :find_by)
     step Policy::Pundit(::Session::Policy, :current_user?)

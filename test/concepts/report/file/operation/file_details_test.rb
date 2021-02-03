@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class ReportOperationTest < MiniTest::Spec
   let(:upload_file) do ActionDispatch::Http::UploadedFile.new(

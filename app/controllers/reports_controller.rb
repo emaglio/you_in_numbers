@@ -4,19 +4,19 @@ class ReportsController < ApplicationController
   end
 
   def index
-    run(Report::Index)
+    run(Report::Operation::Index)
 
     render Report::Cell::Index, result['model']
   end
 
   def new
-    run(Report::Create::Present)
+    run(Report::Operation::Create::Present)
 
     render Report::Cell::New, result['contract.default']
   end
 
   def create
-    run(Report::Create) do |result|
+    run(Report::Operation::Create) do |result|
       flash[:success] = 'Report created'
       return redirect_to "/reports/#{result['model'].id}"
     end
@@ -26,7 +26,7 @@ class ReportsController < ApplicationController
   end
 
   def show
-    run(Report::Show)
+    run(Report::Operation::Show)
 
     if result['not_found']
       flash[:danger] = 'Report not found!'
@@ -43,19 +43,19 @@ class ReportsController < ApplicationController
   end
 
   def destroy
-    run(Report::Delete) do
+    run(Report::Operation::Delete) do
       flash[:success] = 'Report deleted!'
       return redirect_to '/reports'
     end
   end
 
   def generate_image
-    run(Report::GenerateImage)
+    run(Report::Operation::GenerateImage)
     # TODO: run js stuff to show a message or something
   end
 
   def generate_pdf
-    run(Report::GeneratePdf) do |result|
+    run(Report::Operation::GeneratePdf) do |result|
       flash[:success] = 'Report generated successfully!'
       return redirect_to '/reports'
     end
@@ -72,7 +72,7 @@ class ReportsController < ApplicationController
   end
 
   def update_template
-    run(Report::UpdateTemplate) do |result|
+    run(Report::Operation::UpdateTemplate) do |result|
       flash[:success] = 'Report template updated!'
       return redirect_to "/reports/#{result['model'].id}"
     end
@@ -86,13 +86,13 @@ class ReportsController < ApplicationController
   end
 
   def edit_at
-    run(Report::EditAt::Present)
+    run(Report::Operation::EditAt::Present)
 
     render Report::Cell::EditAt, result['model']
   end
 
   def update_at
-    run(Report::EditAt) do |result|
+    run(Report::Operation::EditAt) do |result|
       flash[:success] = 'New Anaerobic Threshold saved!'
       return redirect_to "/reports/#{result['model'].id}"
     end
@@ -101,13 +101,13 @@ class ReportsController < ApplicationController
   end
 
   def edit_vo2max
-    run(Report::EditVO2Max::Present)
+    run(Report::Operation::EditVO2Max::Present)
 
     render Report::Cell::EditVO2Max, result['model']
   end
 
   def update_vo2max
-    run(Report::EditVO2Max) do |result|
+    run(Report::Operation::EditVO2Max) do |result|
       flash[:success] = 'VO2 Max saved!'
       return redirect_to "/reports/#{result['model'].id}"
     end

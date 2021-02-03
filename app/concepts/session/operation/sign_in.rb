@@ -1,4 +1,4 @@
-class Session::SignIn < Trailblazer::Operation
+class Session::Operation::SignIn < Trailblazer::Operation
   class Form < Trailblazer::Operation
     step Contract::Build(constant: Session::Contract::SignIn)
   end

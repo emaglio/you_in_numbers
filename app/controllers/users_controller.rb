@@ -1,21 +1,21 @@
 class UsersController < ApplicationController
   def show
-    run(User::Show)
+    run(User::Operation::Show)
     render User::Cell::Show, @model
   end
 
   def settings
-    run(User::Show)
+    run(User::Operation::Show)
     render User::Cell::Settings, @model
   end
 
   def index
-    run(User::Index)
+    run(User::Operation::Index)
     render User::Cell::Index, @model
   end
 
   def create
-    run(User::Create) do
+    run(User::Operation::Create) do
       tyrant.sign_in!(@model)
 
       flash[:success] = "Welcome #{get_name(@model)}!"
@@ -25,19 +25,19 @@ class UsersController < ApplicationController
   end
 
   def new
-    run(User::Create::Present)
+    run(User::Operation::Create::Present)
 
     render User::Cell::New, @form, layout_type: nil
   end
 
   def edit
-    run(User::Update::Present)
+    run(User::Operation::Update::Present)
 
     render User::Cell::Edit, @model
   end
 
   def update
-    run(User::Update) do
+    run(User::Operation::Update) do
       flash[:success] = 'New details saved'
       return redirect_to "/users/#{@model.id}"
     end
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    run(User::Delete) do
+    run(User::Operation::Delete) do
       flash[:danger] = 'User deleted'
       return redirect_to '/sessions/new'
     end
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
   end
 
   def request_reset_password
-    run(Tyrant::ResetPassword) do
+    run(User::Operation::ResetPassword) do
       flash[:success] = 'You will receive an email with some instructions!'
       return redirect_to '/sessions/new'
     end
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
   end
 
   def change_password
-    run(User::ChangePassword) do
+    run(User::Operation::ChangePassword) do
       flash[:danger] = 'The new password has been saved'
       return redirect_to user_path(tyrant.current_user)
     end
@@ -84,7 +84,7 @@ class UsersController < ApplicationController
   end
 
   def block
-    run(User::Block) do
+    run(User::Operation::Block) do
       if @model['block'] == true
         flash[:danger] = "#{get_name(@model)} has been blocked"
       else
@@ -95,13 +95,13 @@ class UsersController < ApplicationController
   end
 
   def get_report_settings
-    run(User::GetReportSettings)
+    run(User::Operation::GetReportSettings)
 
     render User::Cell::GetReportSettings, @form
   end
 
   def report_settings
-    run(User::ReportSettings) do
+    run(User::Operation::ReportSettings) do
       flash[:success] = 'Report settings updated!'
       return redirect_to "/users/#{@model.id}/settings"
     end
@@ -110,7 +110,7 @@ class UsersController < ApplicationController
   end
 
   def get_report_template
-    run(User::GetReportTemplate)
+    run(User::Operation::GetReportTemplate)
 
     render User::Cell::GetReportTemplate, @model
   end
@@ -125,7 +125,7 @@ class UsersController < ApplicationController
   # end
 
   def edit_obj
-    run(User::EditObj) do
+    run(User::Operation::EditObj) do
       flash[:success] = 'Report template updated!'
       return redirect_to "/users/#{@model.id}/get_report_template"
     end
@@ -135,13 +135,13 @@ class UsersController < ApplicationController
   end
 
   def edit_chart
-    run(User::UpdateChart::Present)
+    run(User::Operation::UpdateChart::Present)
 
     render User::Cell::EditChart, @form
   end
 
   def update_chart
-    run(User::UpdateChart) do
+    run(User::Operation::UpdateChart) do
       flash[:success] = 'Chart updated!'
       return redirect_to "/users/#{@model.id}/get_report_template"
     end
@@ -150,13 +150,13 @@ class UsersController < ApplicationController
   end
 
   def edit_table
-    run(User::UpdateTable::Present)
+    run(User::Operation::UpdateTable::Present)
 
     render User::Cell::EditTable, @form
   end
 
   def update_table
-    run(User::UpdateTable) do
+    run(User::Operation::UpdateTable) do
       flash[:success] = 'Table updated!'
       return redirect_to "/users/#{@model.id}/get_report_template"
     end

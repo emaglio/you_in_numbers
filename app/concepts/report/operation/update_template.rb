@@ -1,4 +1,4 @@
-class Report::UpdateTemplate < Trailblazer::Operation
+class Report::Operation::UpdateTemplate < Trailblazer::Operation
   step Model(Report, :find_by)
   failure :report_not_found!, fail_fast: :true
   step Policy::Pundit(::Session::Policy, :report_owner?)
@@ -15,4 +15,4 @@ class Report::UpdateTemplate < Trailblazer::Operation
   def set_template!(options, params:, **)
     options['contract.default'].content.template = params[:template]
   end
-end # class Report::UpdateTemplate
+end # class Report::Operation::UpdateTemplate
