@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class SubjectOperationDeleteTest < MiniTest::Spec
   it 'only owner can delete subject' do
@@ -9,16 +9,16 @@ class SubjectOperationDeleteTest < MiniTest::Spec
     user2 = User::Operation::Create.(email: 'tes2t@email.com', password: 'password', confirm_password: 'password')
 
     subject = Subject::Operation::Create.({
-      user_id: user['model'].id,
-      firstname: 'Ema',
-      lastname: 'Maglio',
-      gender: 'Male',
-      dob: '01/01/1980',
-      height: '180',
-      weight: '80',
-      phone: '912873',
-      email: 'ema@email.com'
-    }, 'current_user' => user)
+                                            user_id: user['model'].id,
+                                            firstname: 'Ema',
+                                            lastname: 'Maglio',
+                                            gender: 'Male',
+                                            dob: '01/01/1980',
+                                            height: '180',
+                                            weight: '80',
+                                            phone: '912873',
+                                            email: 'ema@email.com'
+                                          }, 'current_user' => user)
     _(subject.success?).must_equal true
 
     upload_file = ActionDispatch::Http::UploadedFile.new(
@@ -26,18 +26,18 @@ class SubjectOperationDeleteTest < MiniTest::Spec
     )
 
     report = Report::Operation::Create.({
-      user_id: user['model'].id,
-      subject_id: subject['model'].id,
-      title: 'My report',
-      cpet_file_path: upload_file,
-      template: 'default'
-    }, 'current_user' => user['model'])
+                                          user_id: user['model'].id,
+                                          subject_id: subject['model'].id,
+                                          title: 'My report',
+                                          cpet_file_path: upload_file,
+                                          template: 'default'
+                                        }, 'current_user' => user['model'])
     _(report.success?).must_equal true
 
     assert_raises ApplicationController::NotAuthorizedError do
       Subject::Operation::Delete.(
         { id: subject['model'].id },
-          'current_user' => user2['model']
+        'current_user' => user2['model']
       )
     end
 

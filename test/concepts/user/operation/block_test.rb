@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class UserOperationBlockTest < MiniTest::Spec
   let(:admin) { admin_for }
@@ -18,7 +18,7 @@ class UserOperationBlockTest < MiniTest::Spec
         phone: '912873',
         email: 'ema@email.com'
       },
-        'current_user' => user
+      'current_user' => user
     )['model']
   end
 
@@ -34,7 +34,7 @@ class UserOperationBlockTest < MiniTest::Spec
       User::Operation::Block.(
         { id: user.id,
           block: 'true' },
-          'current_user' => user2
+        'current_user' => user2
       )
     end
 

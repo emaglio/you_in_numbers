@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class UserOperationChangePasswordTest < MiniTest::Spec
   let(:admin) { admin_for }
@@ -54,7 +54,7 @@ class UserOperationChangePasswordTest < MiniTest::Spec
           password: 'password',
           new_password: 'new_password',
           confirm_new_password: 'new_password' },
-          'current_user' => user2
+        'current_user' => user2
       )
     end
 

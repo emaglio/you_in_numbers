@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
-require_dependency 'user/contract/edit_template.rb'
+require 'test_helper'
 
 class UserOperationTest < MiniTest::Spec
   let(:admin) { admin_for }
@@ -34,7 +33,7 @@ class UserOperationTest < MiniTest::Spec
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::ReportSettings.(
         { id: user.id },
-          'current_user' => user2
+        'current_user' => user2
       )
     end
 
@@ -83,7 +82,7 @@ class UserOperationTest < MiniTest::Spec
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::ReportSettings.(
         { id: user.id },
-          'current_user' => user2
+        'current_user' => user2
       )
     end
 

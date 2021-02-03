@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class CompanyOperationDeleteLogoTest < MiniTest::Spec
   # it "wrong file type" do
@@ -25,10 +25,10 @@ class CompanyOperationDeleteLogoTest < MiniTest::Spec
   it 'delete logo' do
     user = User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')['model']
     company = Company::Operation::Create.({
-      user_id: user.id,
-      name: 'New Company',
-      logo: File.open('test/images/logo.jpeg')
-    }, 'current_user' => user)
+                                            user_id: user.id,
+                                            name: 'New Company',
+                                            logo: File.open('test/images/logo.jpeg')
+                                          }, 'current_user' => user)
     _(company.success?).must_equal true
 
     _(Paperdragon::Attachment.new(company['model'].logo_meta_data).exists?).must_equal true

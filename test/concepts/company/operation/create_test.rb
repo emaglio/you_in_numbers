@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class CompanyOperationCreateTest < MiniTest::Spec
   it 'successfully create Company' do
@@ -32,7 +32,7 @@ class CompanyOperationCreateTest < MiniTest::Spec
       Company::Operation::Create.(
         { user_id: 1,
           name: 'NewTitle' },
-          'current_user' => nil
+        'current_user' => nil
       )
     end
   end

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class ReportOperationGeneratePdfTest < MiniTest::Spec
   let(:admin) { admin_for }
   let(:user) { User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')['model'] }
   let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
-  let(:subject_params) { { firstname: 'Ema', lastname: 'Maglio', dob: '01/01/1980'}}
+  let(:subject_params) { { firstname: 'Ema', lastname: 'Maglio', dob: '01/01/1980' } }
   let(:subject) do
     Subject.find_by(subject_params) ||
       Subject::Operation::Create.(
@@ -18,7 +18,7 @@ class ReportOperationGeneratePdfTest < MiniTest::Spec
           phone: '912873',
           email: 'ema@email.com'
         ),
-          'current_user' => user
+        'current_user' => user
       )['model']
   end
 

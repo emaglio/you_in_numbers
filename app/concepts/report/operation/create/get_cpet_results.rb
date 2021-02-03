@@ -43,7 +43,7 @@ class Report::Operation::Create < Trailblazer::Operation
       max_index = exer_array.index(exer_array.max)
 
       # get the correct time array
-      cpet_params['t'] != nil ? time_array = cpet_params['t'] : time_array = cpet_params['time']
+      !cpet_params['t'].nil? ? time_array = cpet_params['t'] : time_array = cpet_params['time']
       time_array = time_array[exer_phase['starts'], exer_phase['num_steps']]
 
       # last index
@@ -68,7 +68,7 @@ class Report::Operation::Create < Trailblazer::Operation
         end
       end
 
-      max_value = ((exer_array[starts, ends - starts + 1].sum).to_f / (ends - starts + 1).to_f).round
+      max_value = (exer_array[starts, ends - starts + 1].sum.to_f / (ends - starts + 1).to_f).round
 
       # as max point I use the end of the 30 seconds range
       vo2_max = { 'index' => ends, 'value' => max_value, 'starts' => starts, 'ends' => ends }
@@ -118,7 +118,7 @@ class Report::Operation::Create < Trailblazer::Operation
       }
     end
 
-  private
+    private
 
     def sec(time)
       zero = Time.parse('00:00:00')
@@ -136,28 +136,28 @@ class Report::Operation::Create < Trailblazer::Operation
       check = 0
       found = false
 
-      while (row_index <= vo2.size) && (found == false) do
+      while (row_index <= vo2.size) && (found == false)
 
         if vo2[row_index] > value
           if count == 0
-              check = row_index
-              count += 1
+            check = row_index
+            count += 1
           else
             if row_index != check + 1
-                count = 0
+              count = 0
             else
-                check = row_index
-                count += 1
+              check = row_index
+              count += 1
             end
           end
         end
 
         found = true if count == 3
 
-        row_index = row_index + 1
+        row_index += 1
       end
 
       return row_index - 1
-  end
+    end
   end
 end

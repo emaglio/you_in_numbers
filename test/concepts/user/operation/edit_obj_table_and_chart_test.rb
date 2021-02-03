@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 require_dependency 'user/contract/edit_template.rb'
 
 class UserOperationEditObjTest < MiniTest::Spec
@@ -46,7 +46,7 @@ class UserOperationEditObjTest < MiniTest::Spec
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::EditObj.(
         { id: user.id },
-          'current_user' => user2
+        'current_user' => user2
       )
     end
 
@@ -95,7 +95,7 @@ class UserOperationEditObjTest < MiniTest::Spec
         'y2_select' => 'something2',
         'y1_scale' => '1'
       },
-        'current_user' => user
+      'current_user' => user
     )
     _(result.success?).must_equal true
     custom = User.find(user.id).content['report_template']['custom']
@@ -161,7 +161,7 @@ class UserOperationEditObjTest < MiniTest::Spec
         'params_list' => 't,RQ,VO2,VO2/Kg',
         'unm_list' => 'mm:ss,-,l/min,ml/min/Kg'
       },
-        'current_user' => user
+      'current_user' => user
     )
     _(result.success?).must_equal true
     custom = User.find(user.id).content['report_template']['custom']
@@ -217,7 +217,7 @@ class UserOperationEditObjTest < MiniTest::Spec
         'y2_scale' => '0',
         'y3_scale' => '0'
       },
-        'current_user' => user
+      'current_user' => user
     )
     _(result.success?).must_equal false
     _(result['result.contract.default'].errors.messages.inspect).must_equal '{:y1_scale=>["Please show at least one Y '\
@@ -229,7 +229,7 @@ class UserOperationEditObjTest < MiniTest::Spec
     # edit table
     result = User::Operation::UpdateTable.(
       { id: user.id, 'edit_table' => '0', 'params_list' => '', 'unm_list' => '' },
-        'current_user' => user
+      'current_user' => user
     )
     _(result.success?).must_equal false
     _(result['result.contract.default'].errors.messages.inspect).must_equal "{:params_list=>[\"Can't be blank\", "\

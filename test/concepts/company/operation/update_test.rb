@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class CompanyOperationUpdateTest < MiniTest::Spec
   it "only the Company's owner can edit it" do
@@ -15,7 +15,7 @@ class CompanyOperationUpdateTest < MiniTest::Spec
       Company::Operation::Update.(
         { id: company['model'].id,
           name: 'NewTitle' },
-          'current_user' => user2
+        'current_user' => user2
       )
     end
 

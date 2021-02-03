@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class CompanyOperationDeleteTest < MiniTest::Spec
   it "only the Company's owner can delete it" do
@@ -14,7 +14,7 @@ class CompanyOperationDeleteTest < MiniTest::Spec
     assert_raises ApplicationController::NotAuthorizedError do
       Company::Operation::Delete.(
         { id: company['model'].id },
-          'current_user' => user2
+        'current_user' => user2
       )
     end
 

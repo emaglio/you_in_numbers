@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class SubjectOperationCreateTest < MiniTest::Spec
   it 'create only if singed_in' do
@@ -8,7 +8,7 @@ class SubjectOperationCreateTest < MiniTest::Spec
       Subject::Operation::Create.(
         { user_id: 1,
           name: 'NewTitle' },
-          'current_user' => nil
+        'current_user' => nil
       )
     end
   end
@@ -30,21 +30,21 @@ class SubjectOperationCreateTest < MiniTest::Spec
     _(user.success?).must_equal true
 
     result = Subject::Operation::Create.({
-      user_id: user['model'].id,
-      firstname: 'Ema',
-      lastname: 'Maglio',
-      gender: 'Male',
-      dob: '01/01/1980',
-      height: '180',
-      weight: '80',
-      phone: '912873',
-      email: 'ema@email.com'
-    }, 'current_user' => user)
+                                           user_id: user['model'].id,
+                                           firstname: 'Ema',
+                                           lastname: 'Maglio',
+                                           gender: 'Male',
+                                           dob: '01/01/1980',
+                                           height: '180',
+                                           weight: '80',
+                                           phone: '912873',
+                                           email: 'ema@email.com'
+                                         }, 'current_user' => user)
     _(result.success?).must_equal true
     _(result['model'].firstname).must_equal 'Ema'
     _(result['model'].lastname).must_equal 'Maglio'
     _(result['model'].gender).must_equal 'Male'
-    _(result['model'].dob).must_equal Time.parse('01/01/1980').to_date
+    _(result['model'].dob).must_equal Time.zone.parse('01/01/1980').to_date
     _(result['model'].height).must_equal 180
     _(result['model'].weight).must_equal 80
     _(result['model'].phone).must_equal '912873'
@@ -56,29 +56,29 @@ class SubjectOperationCreateTest < MiniTest::Spec
     _(user.success?).must_equal true
 
     subject = Subject::Operation::Create.({
-      user_id: user['model'].id,
-      firstname: 'Ema',
-      lastname: 'Maglio',
-      gender: 'Male',
-      dob: '01/01/1980',
-      height: '180',
-      weight: '80',
-      phone: '912873',
-      email: 'ema@email.com'
-    }, 'current_user' => user)
+                                            user_id: user['model'].id,
+                                            firstname: 'Ema',
+                                            lastname: 'Maglio',
+                                            gender: 'Male',
+                                            dob: '01/01/1980',
+                                            height: '180',
+                                            weight: '80',
+                                            phone: '912873',
+                                            email: 'ema@email.com'
+                                          }, 'current_user' => user)
     _(subject.success?).must_equal true
 
     result = Subject::Operation::Create.({
-      user_id: user['model'].id,
-      firstname: 'Ema',
-      lastname: 'Maglio',
-      gender: 'Male',
-      dob: '01/01/1980',
-      height: '180',
-      weight: '80',
-      phone: '912873',
-      email: 'ema@email.com'
-    }, 'current_user' => user)
+                                           user_id: user['model'].id,
+                                           firstname: 'Ema',
+                                           lastname: 'Maglio',
+                                           gender: 'Male',
+                                           dob: '01/01/1980',
+                                           height: '180',
+                                           weight: '80',
+                                           phone: '912873',
+                                           email: 'ema@email.com'
+                                         }, 'current_user' => user)
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect)
       .must_equal '{:firstname=>["Subject already present in the database"]}'
@@ -88,37 +88,37 @@ class SubjectOperationCreateTest < MiniTest::Spec
     user = User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')
     _(user.success?).must_equal true
 
-    now = Time.now
+    now = Time.zone.now
 
     year_4_old = now - (365 * 4)
     year_121_old = now - (365 * 121)
 
     result = Subject::Operation::Create.({
-      user_id: user['model'].id,
-      firstname: 'Ema',
-      lastname: 'Maglio',
-      gender: 'Male',
-      dob: year_4_old.strftime('%d/%m/%Y'),
-      height: '180',
-      weight: '80',
-      phone: '912873',
-      email: 'ema@email.com'
-    }, 'current_user' => user)
+                                           user_id: user['model'].id,
+                                           firstname: 'Ema',
+                                           lastname: 'Maglio',
+                                           gender: 'Male',
+                                           dob: year_4_old.strftime('%d/%m/%Y'),
+                                           height: '180',
+                                           weight: '80',
+                                           phone: '912873',
+                                           email: 'ema@email.com'
+                                         }, 'current_user' => user)
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect)
       .must_equal '{:dob=>["Wrong age, Subject must be between 5 and 120 years old"]}'
 
     result = Subject::Operation::Create.({
-      user_id: user['model'].id,
-      firstname: 'Ema',
-      lastname: 'Maglio',
-      gender: 'Male',
-      dob: year_121_old.strftime('%d/%m/%Y'),
-      height: '180',
-      weight: '80',
-      phone: '912873',
-      email: 'ema@email.com'
-    }, 'current_user' => user)
+                                           user_id: user['model'].id,
+                                           firstname: 'Ema',
+                                           lastname: 'Maglio',
+                                           gender: 'Male',
+                                           dob: year_121_old.strftime('%d/%m/%Y'),
+                                           height: '180',
+                                           weight: '80',
+                                           phone: '912873',
+                                           email: 'ema@email.com'
+                                         }, 'current_user' => user)
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect)
       .must_equal '{:dob=>["Wrong age, Subject must be between 5 and 120 years old"]}'

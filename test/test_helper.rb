@@ -18,7 +18,7 @@ require 'trailblazer/rails/test/integration'
 require 'tyrant'
 require 'database_cleaner'
 require 'trailblazer/test'
-require "trailblazer/test/deprecation/operation/assertions"
+require 'trailblazer/test/deprecation/operation/assertions'
 
 DatabaseCleaner.strategy = :transaction
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class UserOperationDeleteTest < MiniTest::Spec
   let(:admin) { admin_for }
@@ -33,7 +33,7 @@ class UserOperationDeleteTest < MiniTest::Spec
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::Delete.(
         { id: user.id },
-          'current_user' => user2
+        'current_user' => user2
       )
     end
 
@@ -54,21 +54,21 @@ class UserOperationDeleteTest < MiniTest::Spec
 
     # create 2 Reports
     report1 = Report::Operation::Create.({
-      user_id: user.id,
-      subject_id: subject.id,
-      title: 'My report',
-      cpet_file_path: upload_file,
-      template: 'default'
-    }, 'current_user' => user)
+                                           user_id: user.id,
+                                           subject_id: subject.id,
+                                           title: 'My report',
+                                           cpet_file_path: upload_file,
+                                           template: 'default'
+                                         }, 'current_user' => user)
     _(report1.success?).must_equal true
 
     report2 = Report::Operation::Create.({
-      user_id: user.id,
-      subject_id: subject.id,
-      title: 'My report',
-      cpet_file_path: upload_file,
-      template: 'default'
-    }, 'current_user' => user)
+                                           user_id: user.id,
+                                           subject_id: subject.id,
+                                           title: 'My report',
+                                           cpet_file_path: upload_file,
+                                           template: 'default'
+                                         }, 'current_user' => user)
     _(report2.success?).must_equal true
 
     _(Company.where(user_id: user.id).size).must_equal 1

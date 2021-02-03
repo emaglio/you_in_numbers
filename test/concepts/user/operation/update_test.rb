@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class UserOperationUpdateTest < MiniTest::Spec
   let(:admin) { admin_for }
@@ -36,7 +36,7 @@ class UserOperationUpdateTest < MiniTest::Spec
           id: user.id,
           email: 'newtest@email.com'
         },
-          'current_user' => user2
+        'current_user' => user2
       )
     end
 

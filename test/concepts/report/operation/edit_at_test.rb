@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'test_helper.rb'
+require 'test_helper'
 
 class ReportOperationEditAtTest < MiniTest::Spec
   let(:admin) { admin_for }
   let(:user) { User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')['model'] }
   let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
-  let(:subject_params) { { firstname: 'Ema', lastname: 'Maglio', dob: '01/01/1980'}}
+  let(:subject_params) { { firstname: 'Ema', lastname: 'Maglio', dob: '01/01/1980' } }
   let(:subject) do
     Subject.find_by(subject_params) ||
       Subject::Operation::Create.(
@@ -34,18 +34,18 @@ class ReportOperationEditAtTest < MiniTest::Spec
     )
 
     report = Report::Operation::Create.({
-      user_id: user.id,
-      subject_id: subject.id,
-      title: 'My report',
-      cpet_file_path: upload_file,
-      template: 'default'
-    }, 'current_user' => user)
+                                          user_id: user.id,
+                                          subject_id: subject.id,
+                                          title: 'My report',
+                                          cpet_file_path: upload_file,
+                                          template: 'default'
+                                        }, 'current_user' => user)
     _(report.success?).must_equal true
 
     assert_raises ApplicationController::NotAuthorizedError do
       Report::Operation::EditAt.({
-        id: report['model'].id
-      }, 'current_user' => user2)
+                                   id: report['model'].id
+                                 }, 'current_user' => user2)
     end
 
     # check errors
