@@ -20,7 +20,4 @@ module RailsBootstrap::Cell
       options[:context][:current_user]
     end
   end
-
-  class WelcomeNavigation < Trailblazer::Cell
-  end
 end
