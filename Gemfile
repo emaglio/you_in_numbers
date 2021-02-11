@@ -53,6 +53,8 @@ gem 'omniauth-github', '~> 1.4'
 # locale
 gem 'rails-i18n', '~> 5.0'
 
+gem 'trailblazer-future', git: 'https://github.com/trailblazer/trailblazer-future.git', branch: 'master'
+
 group :development do
   gem 'better_errors', '~> 2.8'
   gem 'web-console', '~> 2.0'
