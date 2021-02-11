@@ -1,18 +1,18 @@
-class Company::Operation::Delete < Trailblazer::Operation
+class Company::Operation::Delete < Trailblazer::V2_1::Operation
   step Model(Company, :find_by)
   step Policy::Pundit(::Session::Policy, :company_owner?)
-  failure Session::Lib::ThrowException
+  fail Session::Lib::ThrowException
   step :delete_logo!
   step :delete!
 
-  def delete_logo!(_options, model:, **)
+  def delete_logo!(_ctx, model:, **)
     return true if model.logo_meta_data == nil
     model.logo do |v|
       v.delete!
     end
   end
 
-  def delete!(_options, model:, **)
+  def delete!(_ctx, model:, **)
     model.destroy
   end
 end # class Company::Operation::Delete

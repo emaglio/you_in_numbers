@@ -1,19 +1,19 @@
-class Company::Operation::Create < Trailblazer::Operation
-  class Present < Trailblazer::Operation
+class Company::Operation::Create < Trailblazer::V2_1::Operation
+  class Present < Trailblazer::V2_1::Operation
     step Model(Company, :new)
     step Policy::Pundit(::Session::Policy, :signed_in?)
-    failure Session::Lib::ThrowException
+    fail Session::Lib::ThrowException
     step Contract::Build(constant: Company::Contract::New)
   end # class Present
 
-  step Nested(Present)
+  step Subprocess(Present)
   step Contract::Validate()
   step :upload_image!
   step Contract::Persist()
 
-  def upload_image!(options, *)
-    return true if options['contract.default'].logo == nil
-    options['contract.default'].logo!(options['contract.default'].logo) do |v|
+  def upload_image!(ctx, *)
+    return true if ctx['contract.default'].logo == nil
+    ctx['contract.default'].logo!(ctx['contract.default'].logo) do |v|
       v.process!(:thumb) { |job| job.thumb!('120x120#') }
     end
   end

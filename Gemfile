@@ -84,4 +84,3 @@ group :development, :test do
   gem 'pry-rails', '~> 0.3.9'
   gem 'pry-byebug', '~> 3.9.0'
 end
-
