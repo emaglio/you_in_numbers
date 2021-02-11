@@ -1,9 +1,9 @@
-class Session::Operation::SignIn < Trailblazer::Operation
-  class Form < Trailblazer::Operation
+class Session::Operation::SignIn < Trailblazer::V2_1::Operation
+  class Form < Trailblazer::V2_1::Operation
     step Contract::Build(constant: Session::Contract::SignIn)
   end
 
-  step Nested(Form)
+  step Subprocess(Form)
   step Contract::Validate()
   step :model!
 
