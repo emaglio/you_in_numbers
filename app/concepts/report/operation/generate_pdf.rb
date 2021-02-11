@@ -1,13 +1,13 @@
 require 'prawn'
 require_dependency 'report/lib/report_utility'
 
-class Report::Operation::GeneratePdf < Trailblazer::Operation
+class Report::Operation::GeneratePdf < Trailblazer::V2_1::Operation
   include Prawn::View
   include ReportUtility
 
   step Model(Report, :find_by)
   step Policy::Pundit(::Session::Policy, :report_owner?)
-  failure ::Session::Lib::ThrowException
+  fail ::Session::Lib::ThrowException
   step :obj_array!
   step :check_files!
   step :find_company!

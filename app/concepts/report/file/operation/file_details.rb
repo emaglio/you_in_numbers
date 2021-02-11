@@ -1,9 +1,9 @@
 require 'roo'
 
 module Report::File::Operation
-  class Details < Trailblazer::Operation
+  class Details < Trailblazer::V2_1::Operation
     step :open_file!
-    failure :error!, pass_fast: true
+    fail :error!, pass_fast: true
     step :set_default_sheet!
     step :cpet_params!
 

@@ -1,8 +1,8 @@
 require 'roo'
 require 'pathname'
 
-class Report::Operation::Create < Trailblazer::Operation
-  class GetCpetData < Trailblazer::Operation
+class Report::Operation::Create < Trailblazer::V2_1::Operation
+  class GetCpetData < Trailblazer::V2_1::Operation
     step :open_file!
     step :set_default_sheet!
     step :cpet_params!

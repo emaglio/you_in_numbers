@@ -1,12 +1,12 @@
-class Report::Operation::EditAt < Trailblazer::Operation
-  class Present < Trailblazer::Operation
+class Report::Operation::EditAt < Trailblazer::V2_1::Operation
+  class Present < Trailblazer::V2_1::Operation
     step Model(Report, :find_by)
     step Policy::Pundit(::Session::Policy, :report_owner?)
-    failure Session::Lib::ThrowException
+    fail Session::Lib::ThrowException
     step Contract::Build(constant: Report::Contract::EditAt)
   end
 
-  step Nested(Present)
+  step Subprocess(Present)
   step Contract::Validate()
   step :update_at!
   step Contract::Persist()

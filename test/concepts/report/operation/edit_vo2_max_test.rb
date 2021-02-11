@@ -21,6 +21,24 @@ class ReportOperationVo2MaxTest < MiniTest::Spec
         'current_user' => user
       )['model']
   end
+  let(:upload_file) do
+    ActionDispatch::Http::UploadedFile.new(
+      :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
+    )
+  end
+  let(:report) do
+    factory(
+      Report::Operation::Create,
+      params: {
+        user_id: user.id,
+        subject_id: subject.id,
+        title: 'My report',
+        cpet_file_path: upload_file,
+        template: 'default'
+      },
+      current_user: user
+    )[:model]
+  end
 
   it 'only owner can edit VO2max' do
     # this needs to be created because the id 1 is used to edit the template and DatabaseCleaner deletes it
@@ -29,49 +47,29 @@ class ReportOperationVo2MaxTest < MiniTest::Spec
     _(user2.email).must_equal 'test2@email.com'
     _(subject.firstname).must_equal 'Ema'
 
-    upload_file = ActionDispatch::Http::UploadedFile.new(
-      :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
-    )
-
-    report = Report::Operation::Create.({
-                                          user_id: user.id,
-                                          subject_id: subject.id,
-                                          title: 'My report',
-                                          cpet_file_path: upload_file,
-                                          template: 'default'
-                                        }, 'current_user' => user)
-    _(report.success?).must_equal true
-
     assert_raises ApplicationController::NotAuthorizedError do
-      Report::Operation::EditVO2Max.({
-                                       id: report['model'].id
-                                     }, 'current_user' => user2)
+      Report::Operation::EditVO2Max.(params: { id: report.id }, current_user: user2)
     end
 
     # check errors
-    result = Report::Operation::EditVO2Max.({ id: report['model'].id }, 'current_user' => user)
+    result = Report::Operation::EditVO2Max.(params: { id: report.id }, current_user: user)
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect)
       .must_equal '{:vo2max_starts=>["must be filled"], :vo2max_ends=>["must be filled"],'\
                   ' :vo2max_value=>["must be filled"]}'
 
-    vo2_starts = report['model']['cpet_results']['vo2_max']['starts']
-    vo2_ends = report['model']['cpet_results']['vo2_max']['ends']
-    vo2_value = report['model']['cpet_results']['vo2_max']['value']
-    _(report['model']['cpet_results']['vo2_max']).must_equal report['model']['cpet_results']['edited_vo2_max']
+    _(report.cpet_results['vo2_max']).must_equal report.cpet_results['edited_vo2_max']
 
     # successfully editing VO2max
     result = Report::Operation::EditVO2Max.(
-      { id: report['model'].id, 'vo2max_starts' => 40, 'vo2max_ends' => 60, 'vo2max_value' => 1100 },
-      'current_user' => user
+      params: { id: report.id, 'vo2max_starts' => 40, 'vo2max_ends' => 60, 'vo2max_value' => 1100 },
+      current_user: user
     )
     _(result.success?).must_equal true
-    _(result['model']['cpet_results']['vo2_max']['starts']).must_equal vo2_starts
-    _(result['model']['cpet_results']['vo2_max']['ends']).must_equal vo2_ends
-    _(result['model']['cpet_results']['vo2_max']['value']).must_equal vo2_value
-    _(result['model']['cpet_results']['edited_vo2_max']['index']).must_equal 60
-    _(result['model']['cpet_results']['edited_vo2_max']['starts']).must_equal 40
-    _(result['model']['cpet_results']['edited_vo2_max']['ends']).must_equal 60
-    _(result['model']['cpet_results']['edited_vo2_max']['value']).must_equal 1100
+    report.reload
+    _(report.cpet_results['edited_vo2_max']['index']).must_equal 60
+    _(report.cpet_results['edited_vo2_max']['starts']).must_equal 40
+    _(report.cpet_results['edited_vo2_max']['ends']).must_equal 60
+    _(report.cpet_results['edited_vo2_max']['value']).must_equal 1100
   end
 end

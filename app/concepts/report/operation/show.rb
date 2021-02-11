@@ -1,8 +1,8 @@
-class Report::Operation::Show < Trailblazer::Operation
+class Report::Operation::Show < Trailblazer::V2_1::Operation
   step Model(Report, :find_by)
-  failure :not_found!, fail_fast: true
+  fail :not_found!, fail_fast: true
   step Policy::Pundit(::Session::Policy, :report_owner?)
-  failure Session::Lib::ThrowException
+  fail Session::Lib::ThrowException
   step :check_params!
 
   def not_found!(options, *)

@@ -1,22 +1,23 @@
 class ReportsController < ApplicationController
+  include TrbV21
   def welcome
     render RailsBootstrap::Cell::Welcome, nil, layout_type: 'welcome'
   end
 
   def index
-    run(Report::Operation::Index)
+    run_v21(Report::Operation::Index)
 
     render Report::Cell::Index, result['model']
   end
 
   def new
-    run(Report::Operation::Create::Present)
+    run_v21(Report::Operation::Create::Present)
 
     render Report::Cell::New, result['contract.default']
   end
 
   def create
-    run(Report::Operation::Create) do |result|
+    run_v21(Report::Operation::Create) do |result|
       flash[:success] = 'Report created'
       return redirect_to "/reports/#{result['model'].id}"
     end
@@ -26,7 +27,7 @@ class ReportsController < ApplicationController
   end
 
   def show
-    run(Report::Operation::Show)
+    run_v21(Report::Operation::Show)
 
     if result['not_found']
       flash[:danger] = 'Report not found!'
@@ -43,19 +44,19 @@ class ReportsController < ApplicationController
   end
 
   def destroy
-    run(Report::Operation::Delete) do
+    run_v21(Report::Operation::Delete) do
       flash[:success] = 'Report deleted!'
       return redirect_to '/reports'
     end
   end
 
   def generate_image
-    run(Report::Operation::GenerateImage)
-    # TODO: run js stuff to show a message or something
+    run_v21(Report::Operation::GenerateImage)
+    # TODO: run_v21 js stuff to show a message or something
   end
 
   def generate_pdf
-    run(Report::Operation::GeneratePdf) do |result|
+    run_v21(Report::Operation::GeneratePdf) do |result|
       flash[:success] = 'Report generated successfully!'
       return redirect_to '/reports'
     end
@@ -72,7 +73,7 @@ class ReportsController < ApplicationController
   end
 
   def update_template
-    run(Report::Operation::UpdateTemplate) do |result|
+    run_v21(Report::Operation::UpdateTemplate) do |result|
       flash[:success] = 'Report template updated!'
       return redirect_to "/reports/#{result['model'].id}"
     end
@@ -86,13 +87,13 @@ class ReportsController < ApplicationController
   end
 
   def edit_at
-    run(Report::Operation::EditAt::Present)
+    run_v21(Report::Operation::EditAt::Present)
 
     render Report::Cell::EditAt, result['model']
   end
 
   def update_at
-    run(Report::Operation::EditAt) do |result|
+    run_v21(Report::Operation::EditAt) do |result|
       flash[:success] = 'New Anaerobic Threshold saved!'
       return redirect_to "/reports/#{result['model'].id}"
     end
@@ -101,13 +102,13 @@ class ReportsController < ApplicationController
   end
 
   def edit_vo2max
-    run(Report::Operation::EditVO2Max::Present)
+    run_v21(Report::Operation::EditVO2Max::Present)
 
     render Report::Cell::EditVO2Max, result['model']
   end
 
   def update_vo2max
-    run(Report::Operation::EditVO2Max) do |result|
+    run_v21(Report::Operation::EditVO2Max) do |result|
       flash[:success] = 'VO2 Max saved!'
       return redirect_to "/reports/#{result['model'].id}"
     end

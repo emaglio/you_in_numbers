@@ -1,24 +1,23 @@
-class Report::Operation::Create < Trailblazer::Operation
-  class Present < Trailblazer::Operation
+class Report::Operation::Create < Trailblazer::V2_1::Operation
+  class Present < Trailblazer::V2_1::Operation
     step Model(Report, :new)
     step Policy::Pundit(::Session::Policy, :signed_in?)
-    failure Session::Lib::ThrowException
+    fail Session::Lib::ThrowException
     step Contract::Build(constant: Report::Contract::New)
   end # class Present
 
-  step Nested(Present)
+  step Subprocess(Present)
   step Contract::Validate()
-  step Nested(GetCpetData)
-  step Nested(GetCpetResults, input: ->(options, cpet_params:, current_user:, **) do
-                  {
-                    'cpet_params' => cpet_params,
-                    'current_user' => current_user
-                  }
-                end
-              )
+  step Subprocess(GetCpetData)
+  step Subprocess(GetCpetResults), input: ->(options, cpet_params:, current_user:, **) do
+                                            {
+                                              'cpet_params' => cpet_params,
+                                              'current_user' => current_user
+                                            }
+                                          end
 
-  # step Nested(Report::GetRmrData)
-  # step Nested(Report::GetCpetResults)
+  # step Subprocess(Report::GetRmrData)
+  # step Subprocess(Report::GetCpetResults)
   step :set_template_subject_details!
   step :cpet_data!
   # step :rmr_data!

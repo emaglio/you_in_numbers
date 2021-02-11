@@ -21,8 +21,27 @@ class ReportOperationGeneratePdfTest < MiniTest::Spec
         'current_user' => user
       )['model']
   end
+  let(:upload_file) do
+    ActionDispatch::Http::UploadedFile.new(
+      :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
+    )
+  end
+  let(:report) do
+    factory(
+      Report::Operation::Create,
+      params: {
+        user_id: user.id,
+        subject_id: subject.id,
+        title: 'My report',
+        cpet_file_path: upload_file,
+        template: 'default'
+      },
+      current_user: user
+    )[:model]
+  end
 
   it 'generate pdf' do
+    skip 'need to move 4 images into the temp_file folder to test this'
     _(user.email).must_equal 'test@email.com'
     _(subject.firstname).must_equal 'Ema'
 
@@ -34,19 +53,7 @@ class ReportOperationGeneratePdfTest < MiniTest::Spec
       }, current_user: user
     )[:model]
 
-    upload_file = ActionDispatch::Http::UploadedFile.new(
-      :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
-    )
-    report = Report::Operation::Create.(
-      {
-        user_id: user.id, subject_id: subject.id, title: 'Report', cpet_file_path: upload_file, template: 'default'
-      }, 'current_user' => user
-    )
-    _(report.success?).must_equal true
-
-    # TODO: need to move 4 images into the temp_file folder to test this
-
-    # result = Report::Operation::GeneratePdf.({id: report["model"].id}, "current_user" => user)
-    # result.success?.must_equal true
+    result = Report::Operation::GeneratePdf.(params: { id: report.id}, current_user: user)
+    result.success?.must_equal true
   end
 end

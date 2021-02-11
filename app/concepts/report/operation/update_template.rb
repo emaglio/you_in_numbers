@@ -1,8 +1,8 @@
-class Report::Operation::UpdateTemplate < Trailblazer::Operation
+class Report::Operation::UpdateTemplate < Trailblazer::V2_1::Operation
   step Model(Report, :find_by)
-  failure :report_not_found!, fail_fast: :true
+  fail :report_not_found!, fail_fast: :true
   step Policy::Pundit(::Session::Policy, :report_owner?)
-  failure Session::Lib::ThrowException
+  fail Session::Lib::ThrowException
   step Contract::Build(constant: Report::Contract::UpdateTemplate)
   step Contract::Validate()
   step :set_template!
