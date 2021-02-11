@@ -25,13 +25,14 @@ class SubjectOperationDeleteTest < MiniTest::Spec
       :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
     )
 
-    report = Report::Operation::Create.({
-                                          user_id: user['model'].id,
-                                          subject_id: subject['model'].id,
-                                          title: 'My report',
-                                          cpet_file_path: upload_file,
-                                          template: 'default'
-                                        }, 'current_user' => user['model'])
+    report = Report::Operation::Create.(
+      params: {
+        user_id: user['model'].id,
+        subject_id: subject['model'].id,
+        title: 'My report',
+        cpet_file_path: upload_file,
+        template: 'default'
+      }, current_user: user['model'])
     _(report.success?).must_equal true
 
     assert_raises ApplicationController::NotAuthorizedError do

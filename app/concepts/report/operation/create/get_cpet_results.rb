@@ -1,5 +1,5 @@
-class Report::Operation::Create < Trailblazer::Operation
-  class GetCpetResults < Trailblazer::Operation
+class Report::Operation::Create < Trailblazer::V2_1::Operation
+  class GetCpetResults < Trailblazer::V2_1::Operation
     step :find_exer_phase!
     step :find_AT!
     step :find_VO2_max!

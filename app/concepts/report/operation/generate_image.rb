@@ -1,4 +1,4 @@
-class Report::Operation::GenerateImage < Trailblazer::Operation
+class Report::Operation::GenerateImage < Trailblazer::V2_1::Operation
   step Model(Report, :find_by)
   step Policy::Pundit(::Session::Policy, :report_owner?)
   failure ::Session::Lib::ThrowException

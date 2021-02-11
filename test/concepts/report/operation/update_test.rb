@@ -21,6 +21,24 @@ class ReportOperationUpdateTest < MiniTest::Spec
         'current_user' => user
       )['model']
   end
+  let(:upload_file) do
+    ActionDispatch::Http::UploadedFile.new(
+      :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
+    )
+  end
+  let(:report) do
+    factory(
+      Report::Operation::Create,
+      params: {
+        user_id: user.id,
+        subject_id: subject.id,
+        title: 'My report',
+        cpet_file_path: upload_file,
+        template: 'default'
+      },
+      current_user: user
+    )[:model]
+  end
 
   it 'only report owner can update template' do
     # this needs to be created because the user_id 1 is used to edit the template and DatabaseCleaner deletes it
@@ -29,32 +47,27 @@ class ReportOperationUpdateTest < MiniTest::Spec
     _(user2.email).must_equal 'test2@email.com'
     _(subject.firstname).must_equal 'Ema'
 
-    upload_file = ActionDispatch::Http::UploadedFile.new(
-      :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
+    _(report.content['template']).must_equal 'default'
+
+    result = Report::Operation::UpdateTemplate.(
+      params: {
+        id: report.id,
+        template: 'custom'
+      },
+      current_user: user
     )
-
-    report = Report::Operation::Create.({
-                                          user_id: user.id,
-                                          subject_id: subject.id,
-                                          title: 'My report',
-                                          cpet_file_path: upload_file,
-                                          template: 'default'
-                                        }, 'current_user' => user)
-    _(report.success?).must_equal true
-    _(report['model'].content['template']).must_equal 'default'
-
-    result = Report::Operation::UpdateTemplate.({
-                                                  id: report['model'].id,
-                                                  template: 'custom'
-                                                }, 'current_user' => user)
     _(result.success?).must_equal true
-    _(result['model'].content['template']).must_equal 'custom'
+    report.reload
+    _(report.content['template']).must_equal 'custom'
 
     assert_raises ApplicationController::NotAuthorizedError do
-      Report::Operation::UpdateTemplate.({
-                                           id: report['model'].id,
-                                           template: 'default'
-                                         }, 'current_user' => user2)
+      Report::Operation::UpdateTemplate.(
+        params: {
+          id: report.id,
+          template: 'custom'
+        },
+        current_user: user2
+      )
     end
   end
 end

@@ -7,7 +7,7 @@ class Subject::Operation::Delete < Trailblazer::Operation
 
   def delete_reports!(_options, model:, current_user:, **)
     Report.where(subject_id: model.id).ids.each do |report_id|
-      Report::Operation::Delete.({ id: report_id }, 'current_user' => current_user)
+      Report::Operation::Delete.(params: { id: report_id }, current_user: current_user)
     end
     true
   end

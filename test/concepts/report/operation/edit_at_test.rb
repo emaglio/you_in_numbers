@@ -21,6 +21,24 @@ class ReportOperationEditAtTest < MiniTest::Spec
         'current_user' => user
       )['model']
   end
+  let(:upload_file) do
+    ActionDispatch::Http::UploadedFile.new(
+      :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
+    )
+  end
+  let(:report) do
+    factory(
+      Report::Operation::Create,
+      params: {
+        user_id: user.id,
+        subject_id: subject.id,
+        title: 'My report',
+        cpet_file_path: upload_file,
+        template: 'default'
+      },
+      current_user: user
+    )[:model]
+  end
 
   it 'only owner can edit AT' do
     # this needs to be created because the id 1 is used to edit the template and DatabaseCleaner deletes it
@@ -29,38 +47,23 @@ class ReportOperationEditAtTest < MiniTest::Spec
     _(user2.email).must_equal 'test2@email.com'
     _(subject.firstname).must_equal 'Ema'
 
-    upload_file = ActionDispatch::Http::UploadedFile.new(
-      :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
-    )
-
-    report = Report::Operation::Create.({
-                                          user_id: user.id,
-                                          subject_id: subject.id,
-                                          title: 'My report',
-                                          cpet_file_path: upload_file,
-                                          template: 'default'
-                                        }, 'current_user' => user)
-    _(report.success?).must_equal true
-
     assert_raises ApplicationController::NotAuthorizedError do
-      Report::Operation::EditAt.({
-                                   id: report['model'].id
-                                 }, 'current_user' => user2)
+      Report::Operation::EditAt.(params: { id: report.id }, current_user: user2)
     end
 
     # check errors
-    result = Report::Operation::EditAt.({ id: report['model'].id }, 'current_user' => user)
+    result = Report::Operation::EditAt.(params: { id: report.id }, current_user: user)
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect).must_equal '{:at_position=>["must be filled"]}'
 
-    at_calculated = report['model']['cpet_results']['at_index']
-    _(report['model']['cpet_results']['at_index']).must_equal report['model']['cpet_results']['edited_at_index']
+    report.reload
+    _(report.cpet_results['at_index']).must_equal result['model']['cpet_results']['edited_at_index']
 
     # successfully editing AT
-    result = Report::Operation::EditAt.({ id: report['model'].id, 'at_position' => 80 }, 'current_user' => user)
+    result = Report::Operation::EditAt.(params: { id: report.id, 'at_position' => 80 }, current_user: user)
     _(result.success?).must_equal true
-    _(result['model']['cpet_results']['at_index']).wont_equal result['model']['cpet_results']['edited_at_index']
-    _(result['model']['cpet_results']['at_index']).must_equal at_calculated
+    report.reload
+    _(result['model']['cpet_results']['at_index']).must_equal report.cpet_results['at_index']
     _(result['model']['cpet_results']['edited_at_index']).must_equal 80
   end
 end

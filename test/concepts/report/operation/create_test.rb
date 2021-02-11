@@ -30,13 +30,16 @@ class ReportOperationCreateTest < MiniTest::Spec
       :tempfile => File.new(Rails.root.join('test/files/cpet.xlsx'))
     )
 
-    report = Report::Operation::Create.({
-                                          user_id: user.id,
-                                          subject_id: subject.id,
-                                          title: 'My report',
-                                          cpet_file_path: upload_file,
-                                          template: 'default'
-                                        }, 'current_user' => user)
+    report = Report::Operation::Create.(
+      params: {
+        user_id: user.id,
+        subject_id: subject.id,
+        title: 'My report',
+        cpet_file_path: upload_file,
+        template: 'default'
+      },
+      current_user: user
+    )
     _(report.success?).must_equal true
 
     _(report['model'].title).must_equal 'My report'
@@ -73,7 +76,7 @@ class ReportOperationCreateTest < MiniTest::Spec
     _(user.email).must_equal 'test@email.com'
     _(subject.firstname).must_equal 'Ema'
 
-    result = Report::Operation::Create.({}, 'current_user' => user)
+    result = Report::Operation::Create.(params: {}, current_user: user)
 
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect)
