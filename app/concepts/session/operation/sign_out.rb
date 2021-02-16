@@ -1,2 +1,2 @@
-class Session::Operation::SignOut < Trailblazer::V2_1::Operation
+class Session::Operation::SignOut < Trailblazer::Operation
 end

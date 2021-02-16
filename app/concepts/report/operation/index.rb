@@ -1,4 +1,4 @@
-class Report::Operation::Index < Trailblazer::V2_1::Operation
+class Report::Operation::Index < Trailblazer::Operation
   step Policy::Pundit(::Session::Policy, :signed_in?)
   fail ::Session::Lib::ThrowException
   step :model!

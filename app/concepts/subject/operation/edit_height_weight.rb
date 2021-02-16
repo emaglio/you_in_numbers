@@ -1,4 +1,4 @@
-class Subject::Operation::EditHeightWeight < Trailblazer::V2_1::Operation
+class Subject::Operation::EditHeightWeight < Trailblazer::Operation
   step Model(Subject, :find_by)
   step Policy::Pundit(::Session::Policy, :subject_owner?)
   fail Session::Lib::ThrowException

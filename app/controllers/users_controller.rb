@@ -1,23 +1,21 @@
 class UsersController < ApplicationController
-  include TrbV21
-
   def show
-    run_v21(User::Operation::Show)
+    run(User::Operation::Show)
     render User::Cell::Show, @model
   end
 
   def settings
-    run_v21(User::Operation::Show)
+    run(User::Operation::Show)
     render User::Cell::Settings, @model
   end
 
   def index
-    run_v21(User::Operation::Index)
+    run(User::Operation::Index)
     render User::Cell::Index, @model
   end
 
   def create
-    run_v21(User::Operation::Create) do
+    run(User::Operation::Create) do
       tyrant.sign_in!(@model)
 
       flash[:success] = "Welcome #{get_name(@model)}!"
@@ -27,19 +25,19 @@ class UsersController < ApplicationController
   end
 
   def new
-    run_v21(User::Operation::Create::Present)
+    run(User::Operation::Create::Present)
 
     render User::Cell::New, @form, layout_type: nil
   end
 
   def edit
-    run_v21(User::Operation::Update::Present)
+    run(User::Operation::Update::Present)
 
     render User::Cell::Edit, @model
   end
 
   def update
-    run_v21(User::Operation::Update) do
+    run(User::Operation::Update) do
       flash[:success] = 'New details saved'
       return redirect_to "/users/#{@model.id}"
     end
@@ -48,7 +46,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    run_v21(User::Operation::Delete) do
+    run(User::Operation::Delete) do
       flash[:danger] = 'User deleted'
       return redirect_to '/sessions/new'
     end
@@ -86,7 +84,7 @@ class UsersController < ApplicationController
   end
 
   def block
-    run_v21(User::Operation::Block) do
+    run(User::Operation::Block) do
       if @model['block'] == true
         flash[:danger] = "#{get_name(@model)} has been blocked"
       else
@@ -97,13 +95,13 @@ class UsersController < ApplicationController
   end
 
   def get_report_settings
-    run_v21(User::Operation::GetReportSettings)
+    run(User::Operation::GetReportSettings)
 
     render User::Cell::GetReportSettings, @form
   end
 
   def report_settings
-    run_v21(User::Operation::ReportSettings) do
+    run(User::Operation::ReportSettings) do
       flash[:success] = 'Report settings updated!'
       return redirect_to "/users/#{@model.id}/settings"
     end
@@ -112,7 +110,7 @@ class UsersController < ApplicationController
   end
 
   def get_report_template
-    run_v21(User::Operation::GetReportTemplate)
+    run(User::Operation::GetReportTemplate)
 
     render User::Cell::GetReportTemplate, @model
   end
@@ -127,7 +125,7 @@ class UsersController < ApplicationController
   # end
 
   def edit_obj
-    run_v21(User::Operation::EditObj) do
+    run(User::Operation::EditObj) do
       flash[:success] = 'Report template updated!'
       return redirect_to "/users/#{@model.id}/get_report_template"
     end
@@ -137,13 +135,13 @@ class UsersController < ApplicationController
   end
 
   def edit_chart
-    run_v21(User::Operation::UpdateChart::Present)
+    run(User::Operation::UpdateChart::Present)
 
     render User::Cell::EditChart, @form
   end
 
   def update_chart
-    run_v21(User::Operation::UpdateChart) do
+    run(User::Operation::UpdateChart) do
       flash[:success] = 'Chart updated!'
       return redirect_to "/users/#{@model.id}/get_report_template"
     end
@@ -152,13 +150,13 @@ class UsersController < ApplicationController
   end
 
   def edit_table
-    run_v21(User::Operation::UpdateTable::Present)
+    run(User::Operation::UpdateTable::Present)
 
     render User::Cell::EditTable, @form
   end
 
   def update_table
-    run_v21(User::Operation::UpdateTable) do
+    run(User::Operation::UpdateTable) do
       flash[:success] = 'Table updated!'
       return redirect_to "/users/#{@model.id}/get_report_template"
     end

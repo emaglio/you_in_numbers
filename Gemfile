@@ -25,10 +25,10 @@ gem 'dry-validation', '~> 0.13.3'
 gem 'file_validators', '~> 2.3'
 gem 'font-awesome-rails', '~> 4.7.0'
 gem 'formular', git: 'https://github.com/trailblazer/formular.git', branch: 'master'
-gem 'trailblazer', '~> 2.0.7'
+gem 'trailblazer', '~> 2.1'
 gem 'trailblazer-cells', '~> 0.0'
-gem 'trailblazer-rails', '~> 1.0.10'
-gem 'tyrant', git: 'https://github.com/emaglio/tyrant.git', branch: 'trb-2'
+gem 'trailblazer-rails', '~> 2.0'
+gem 'tyrant', git: 'https://github.com/emaglio/tyrant.git', branch: 'trb-2_1'
 # gem 'tyrant', :path => "../tyrant"
 gem 'reform', '>= 2.3.0.rc1'
 gem 'reform-rails', '>= 0.2.0.rc1'
@@ -52,8 +52,6 @@ gem 'omniauth-github', '~> 1.4'
 
 # locale
 gem 'rails-i18n', '~> 5.0'
-
-gem 'trailblazer-future', git: 'https://github.com/trailblazer/trailblazer-future.git', branch: 'master'
 
 group :development do
   gem 'better_errors', '~> 2.8'

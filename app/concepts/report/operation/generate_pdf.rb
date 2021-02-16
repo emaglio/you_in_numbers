@@ -1,7 +1,7 @@
 require 'prawn'
 require_dependency 'report/lib/report_utility'
 
-class Report::Operation::GeneratePdf < Trailblazer::V2_1::Operation
+class Report::Operation::GeneratePdf < Trailblazer::Operation
   include Prawn::View
   include ReportUtility
 

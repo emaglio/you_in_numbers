@@ -1,5 +1,5 @@
-class Report::Operation::EditAt < Trailblazer::V2_1::Operation
-  class Present < Trailblazer::V2_1::Operation
+class Report::Operation::EditAt < Trailblazer::Operation
+  class Present < Trailblazer::Operation
     step Model(Report, :find_by)
     step Policy::Pundit(::Session::Policy, :report_owner?)
     fail Session::Lib::ThrowException

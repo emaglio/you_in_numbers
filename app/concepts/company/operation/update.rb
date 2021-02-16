@@ -1,5 +1,5 @@
-class Company::Operation::Update < Trailblazer::V2_1::Operation
-  class Present < Trailblazer::V2_1::Operation
+class Company::Operation::Update < Trailblazer::Operation
+  class Present < Trailblazer::Operation
     step Model(Company, :find_by)
     step Policy::Pundit(::Session::Policy, :company_owner?)
     fail Session::Lib::ThrowException

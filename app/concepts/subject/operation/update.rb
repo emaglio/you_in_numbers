@@ -1,5 +1,5 @@
-class Subject::Operation::Update < Trailblazer::V2_1::Operation
-  class Present < Trailblazer::V2_1::Operation
+class Subject::Operation::Update < Trailblazer::Operation
+  class Present < Trailblazer::Operation
     step Model(Subject, :find_by)
     step Policy::Pundit(::Session::Policy, :subject_owner?)
     fail Session::Lib::ThrowException

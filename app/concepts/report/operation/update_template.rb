@@ -1,4 +1,4 @@
-class Report::Operation::UpdateTemplate < Trailblazer::V2_1::Operation
+class Report::Operation::UpdateTemplate < Trailblazer::Operation
   step Model(Report, :find_by)
   fail :report_not_found!, fail_fast: :true
   step Policy::Pundit(::Session::Policy, :report_owner?)

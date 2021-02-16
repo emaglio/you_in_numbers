@@ -1,4 +1,4 @@
-class Company::Operation::DeleteLogo < Trailblazer::V2_1::Operation
+class Company::Operation::DeleteLogo < Trailblazer::Operation
   step Model(Company, :find_by)
   step Policy::Pundit(::Session::Policy, :company_owner?)
   fail Session::Lib::ThrowException

@@ -1,5 +1,5 @@
-class Subject::Operation::Create < Trailblazer::V2_1::Operation
-  class Present < Trailblazer::V2_1::Operation
+class Subject::Operation::Create < Trailblazer::Operation
+  class Present < Trailblazer::Operation
     step Model(Subject, :new)
     step Policy::Pundit(::Session::Policy, :signed_in?)
     fail Session::Lib::ThrowException

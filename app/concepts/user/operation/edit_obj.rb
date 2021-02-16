@@ -1,4 +1,4 @@
-class User::Operation::EditObj < Trailblazer::V2_1::Operation
+class User::Operation::EditObj < Trailblazer::Operation
   step Model(User, :find_by)
   step Policy::Pundit(::Session::Policy, :current_user?)
   fail ::Session::Lib::ThrowException

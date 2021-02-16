@@ -30,7 +30,7 @@ class UserOperationResetPasswordTest < MiniTest::Spec
     res = User::Operation::Create.(params: { email: 'test@email.com', password: 'password', confirm_password: 'password' })
     _(res.success?).must_equal true
 
-    result = User::Operation::ResetPassword.({ email: res['model'].email }, 'via' => :test)
+    result = User::Operation::ResetPassword.(params: { email: res['model'].email }, via: :test)
     _(result.success?).must_equal true
 
     user = User.find_by(email: res['model'].email)

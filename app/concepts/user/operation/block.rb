@@ -1,6 +1,6 @@
 require_dependency 'session/lib/throw_exception'
 
-class User::Operation::Block < Trailblazer::V2_1::Operation
+class User::Operation::Block < Trailblazer::Operation
   step Model(User, :find_by)
   step Policy::Pundit(::Session::Policy, :admin?)
   fail Session::Lib::ThrowException

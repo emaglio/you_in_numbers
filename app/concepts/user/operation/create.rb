@@ -1,5 +1,5 @@
-class User::Operation::Create < Trailblazer::V2_1::Operation
-  class Present < Trailblazer::V2_1::Operation
+class User::Operation::Create < Trailblazer::Operation
+  class Present < Trailblazer::Operation
     step Model(User, :new)
     step Contract::Build(constant: User::Contract::New)
   end

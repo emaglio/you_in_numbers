@@ -1,4 +1,4 @@
-class User::Operation::ReportSettings < Trailblazer::V2_1::Operation
+class User::Operation::ReportSettings < Trailblazer::Operation
   step Subprocess(User::Operation::GetReportSettings)
   step Contract::Validate()
   step :params_list!

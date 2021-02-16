@@ -1,4 +1,4 @@
-class Report::Operation::Delete < Trailblazer::V2_1::Operation
+class Report::Operation::Delete < Trailblazer::Operation
   step Model(Report, :find_by)
   step Policy::Pundit(::Session::Policy, :report_owner?)
   fail Session::Lib::ThrowException

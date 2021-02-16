@@ -5,38 +5,19 @@ require 'test_helper'
 class UserOperationChangePasswordTest < MiniTest::Spec
   let(:admin) { admin_for }
   let(:user2) { User::Operation::Create.(params: { email: 'test2@email.com', password: 'password', confirm_password: 'password' })[:model] }
-  let(:subject) do
-    Subject::Operation::Create.(
-      {
-        user_id: user.id,
-        firstname: 'Ema',
-        lastname: 'Maglio',
-        gender: 'Male',
-        dob: '01/01/1980',
-        height: '180',
-        weight: '80',
-        phone: '912873',
-        email: 'ema@email.com'
-      },
-      'current_user' => user
-    )['model']
-  end
 
   let(:default_params) { { password: 'password', confirm_password: 'password' } }
   let(:expected_attrs) { { email: 'test@email.com' } }
   let(:user) { User::Operation::Create.(params: default_params.merge(expected_attrs))[:model] }
 
   it 'wrong input change password' do
-    user = User::Operation::Create.(params: { email: 'test@email.com', password: 'password', confirm_password: 'password' })
-    _(user.success?).must_equal true
-
     res = User::Operation::ChangePassword.(
-      {
+      params: {
         email: 'wrong@email.com',
         password: 'new_password',
         new_password: 'new_password',
         confirm_new_password: 'wrong_password'
-      }, 'current_user' => user['model']
+      }, current_user: user
     )
     _(res.failure?).must_equal true
     _(res['result.contract.default'].errors.messages.inspect).must_equal '{:email=>["User not found"], ' \
@@ -50,21 +31,23 @@ class UserOperationChangePasswordTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::ChangePassword.(
-        { email: user.email,
+        params: {
+          email: user.email,
           password: 'password',
           new_password: 'new_password',
-          confirm_new_password: 'new_password' },
-        'current_user' => user2
+          confirm_new_password: 'new_password'
+        },
+        current_user: user2
       )
     end
 
     op = User::Operation::ChangePassword.(
-      {
+      params: {
         email: user.email,
         password: 'password',
         new_password: 'new_password',
         confirm_new_password: 'new_password'
-      }, 'current_user' => user
+      }, current_user: user
     )
     _(op.success?).must_equal true
 

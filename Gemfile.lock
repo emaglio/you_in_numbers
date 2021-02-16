@@ -1,14 +1,17 @@
 GIT
   remote: https://github.com/emaglio/tyrant.git
-  revision: adf1f2989eb0403297baf46f924b86e887bf51fb
-  branch: trb-2
+  revision: 16388b3bb7728df668a809026f01c416b0478c5b
+  branch: trb-2_1
   specs:
     tyrant (0.0.3)
       bcrypt
       disposable (>= 0.1.11)
-      dry-validation
+      dry-validation (~> 0.13)
+      pony
       reform (>= 2.3.0.rc1)
-      trailblazer (>= 2.0.1)
+      trailblazer (> 2.0.7)
+      trailblazer-macro
+      trailblazer-macro-contract
       warden (>= 1.2.6)
 
 GIT
@@ -19,15 +22,6 @@ GIT
     formular (0.2.3)
       declarative (~> 0.0.4)
       uber (>= 0.0.11, < 0.2.0)
-
-GIT
-  remote: https://github.com/trailblazer/trailblazer-future.git
-  revision: 6d88b5e87f7c320cba3dfac9557ea0327c5ff683
-  branch: master
-  specs:
-    trailblazer-future (2.1.0.rc1)
-      hirb
-      trailblazer (~> 2.0.7)
 
 GEM
   remote: https://rubygems.org/
@@ -272,7 +266,6 @@ GEM
       ast (~> 2.4.1)
     pdf-core (0.8.1)
     pg (1.2.3)
-    pipetree (0.1.1)
     pony (1.13.1)
       mail (>= 2.0)
     prawn (2.3.0)
@@ -404,10 +397,10 @@ GEM
     thor (1.1.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    trailblazer (2.0.7)
-      declarative
-      reform (>= 2.2.0, < 3.0.0)
-      trailblazer-operation (>= 0.0.12, < 0.1.0)
+    trailblazer (2.1.0)
+      trailblazer-macro (>= 2.1.0, < 2.2.0)
+      trailblazer-macro-contract (>= 2.1.0, < 2.2.0)
+      trailblazer-operation
     trailblazer-activity (0.11.4)
       trailblazer-context (>= 0.3.1, < 0.4.0)
     trailblazer-activity-dsl-linear (0.3.4)
@@ -416,14 +409,25 @@ GEM
       cells (>= 4.1.0.rc1, < 5.0.0)
     trailblazer-context (0.3.1)
       hashie (~> 4.1)
+    trailblazer-developer (0.0.20)
+      hirb
+      representable
+      trailblazer-activity (>= 0.11.0, < 1.0.0)
+      trailblazer-activity-dsl-linear
     trailblazer-loader (0.1.2)
-    trailblazer-operation (0.0.13)
-      declarative
-      pipetree (>= 0.1.1, < 0.2.0)
-      uber
-    trailblazer-rails (1.0.11)
+    trailblazer-macro (2.1.4)
+      trailblazer-activity (>= 0.11.2, < 1.0.0)
+      trailblazer-activity-dsl-linear (>= 0.3.3, < 1.0.0)
+      trailblazer-operation (>= 0.6.5)
+    trailblazer-macro-contract (2.1.0)
+      reform (>= 2.2.0, < 3.0.0)
+    trailblazer-operation (0.6.6)
+      trailblazer-activity (>= 0.11.2, < 1.0.0)
+      trailblazer-activity-dsl-linear (>= 0.3.2, < 1.0.0)
+      trailblazer-developer (>= 0.0.8)
+    trailblazer-rails (2.1.7)
       railties (>= 4.0.0)
-      trailblazer (~> 2.0.0)
+      trailblazer (>= 2.1.0.beta1, < 2.2.0)
       trailblazer-loader (>= 0.1.0)
     trailblazer-test (0.1.1)
       hashie
@@ -508,10 +512,9 @@ DEPENDENCIES
   simplecov (~> 0.19)
   slim-rails (~> 3.2)
   spring (~> 2.1)
-  trailblazer (~> 2.0.7)
+  trailblazer (~> 2.1)
   trailblazer-cells (~> 0.0)
-  trailblazer-future!
-  trailblazer-rails (~> 1.0.10)
+  trailblazer-rails (~> 2.0)
   trailblazer-test (~> 0.1)
   turbolinks (~> 5)
   tyrant!

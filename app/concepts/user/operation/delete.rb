@@ -1,6 +1,6 @@
 require_dependency 'session/lib/throw_exception'
 
-class User::Operation::Delete < Trailblazer::V2_1::Operation
+class User::Operation::Delete < Trailblazer::Operation
   step Model(User, :find_by)
   step Policy::Pundit(::Session::Policy, :current_user?)
   fail ::Session::Lib::ThrowException
