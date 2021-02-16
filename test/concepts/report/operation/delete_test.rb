@@ -4,13 +4,13 @@ require 'test_helper'
 
 class ReportOperationDeleteTest < MiniTest::Spec
   let(:admin) { admin_for }
-  let(:user) { User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')['model'] }
-  let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:user) { User::Operation::Create.(params: { email: 'test@email.com', password: 'password', confirm_password: 'password' })[:model] }
+  let(:user2) { User::Operation::Create.(params: { email: 'test2@email.com', password: 'password', confirm_password: 'password' })[:model] }
   let(:subject_params) { { firstname: 'Ema', lastname: 'Maglio', dob: '01/01/1980' } }
   let(:subject) do
     Subject.find_by(subject_params) ||
       Subject::Operation::Create.(
-        subject_params.merge(
+        params: subject_params.merge(
           user_id: user.id,
           gender: 'Male',
           height: '180',
@@ -18,8 +18,8 @@ class ReportOperationDeleteTest < MiniTest::Spec
           phone: '912873',
           email: 'ema@email.com'
         ),
-        'current_user' => user
-      )['model']
+        current_user: user
+      )[:model]
   end
   let(:upload_file) do
     ActionDispatch::Http::UploadedFile.new(

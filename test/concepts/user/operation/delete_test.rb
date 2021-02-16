@@ -4,10 +4,10 @@ require 'test_helper'
 
 class UserOperationDeleteTest < MiniTest::Spec
   let(:admin) { admin_for }
-  let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:user2) { User::Operation::Create.(params: { email: 'test2@email.com', password: 'password', confirm_password: 'password' })[:model] }
   let(:subject) do
     Subject::Operation::Create.(
-      {
+      params: {
         user_id: user.id,
         firstname: 'Ema',
         lastname: 'Maglio',
@@ -18,13 +18,13 @@ class UserOperationDeleteTest < MiniTest::Spec
         phone: '912873',
         email: 'ema@email.com'
       },
-      'current_user' => user
-    )['model']
+      current_user: user
+    )[:model]
   end
 
   let(:default_params) { { password: 'password', confirm_password: 'password' } }
   let(:expected_attrs) { { email: 'test@email.com' } }
-  let(:user) { User::Operation::Create.(default_params.merge(expected_attrs))['model'] }
+  let(:user) { User::Operation::Create.(params: default_params.merge(expected_attrs))[:model] }
 
   it 'only current_user can delete user' do
     _(user.email).must_equal 'test@email.com'
@@ -32,12 +32,12 @@ class UserOperationDeleteTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::Delete.(
-        { id: user.id },
-        'current_user' => user2
+        params: { id: user.id },
+        current_user: user2
       )
     end
 
-    res = User::Operation::Delete.({ id: user.id }, 'current_user' => user)
+    res = User::Operation::Delete.(params: { id: user.id }, current_user: user)
     _(res.success?).must_equal true
   end
 
@@ -76,7 +76,7 @@ class UserOperationDeleteTest < MiniTest::Spec
     _(Company.where(user_id: user.id).size).must_equal 1
     _(Report.where(user_id: user.id).size).must_equal 2
 
-    User::Operation::Delete.({ id: user.id }, 'current_user' => user)
+    User::Operation::Delete.(params: { id: user.id }, current_user: user)
 
     _(Company.where(user_id: user.id).size).must_equal 0
     _(Report.where(user_id: user.id).size).must_equal 0

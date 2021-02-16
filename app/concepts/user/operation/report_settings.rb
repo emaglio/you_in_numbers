@@ -1,5 +1,5 @@
-class User::Operation::ReportSettings < Trailblazer::Operation
-  step Nested(User::Operation::GetReportSettings)
+class User::Operation::ReportSettings < Trailblazer::V2_1::Operation
+  step Subprocess(User::Operation::GetReportSettings)
   step Contract::Validate()
   step :params_list!
   step :ergo_params_list!

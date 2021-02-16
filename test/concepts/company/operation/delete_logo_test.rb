@@ -3,7 +3,7 @@
 require 'test_helper'
 
 class CompanyOperationDeleteLogoTest < MiniTest::Spec
-  let(:user) { User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:user) { User::Operation::Create.(params: { email: 'test@email.com', password: 'password', confirm_password: 'password' })[:model] }
   let(:company) do
     factory(
       Company::Operation::Create,

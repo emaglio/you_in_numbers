@@ -1,7 +1,7 @@
-class Subject::Operation::GetReports < Trailblazer::Operation
+class Subject::Operation::GetReports < Trailblazer::V2_1::Operation
   step Model(Subject, :find_by)
   step Policy::Pundit(::Session::Policy, :subject_owner?)
-  failure Session::Lib::ThrowException
+  fail Session::Lib::ThrowException
   step :get_reports!
 
   def get_reports!(options, model:, current_user:, **)

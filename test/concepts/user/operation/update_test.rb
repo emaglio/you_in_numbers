@@ -4,7 +4,7 @@ require 'test_helper'
 
 class UserOperationUpdateTest < MiniTest::Spec
   let(:admin) { admin_for }
-  let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:user2) { User::Operation::Create.(params: { email: 'test2@email.com', password: 'password', confirm_password: 'password' })[:model] }
   let(:subject) do
     Subject::Operation::Create.(
       {
@@ -24,7 +24,7 @@ class UserOperationUpdateTest < MiniTest::Spec
 
   let(:default_params) { { password: 'password', confirm_password: 'password' } }
   let(:expected_attrs) { { email: 'test@email.com' } }
-  let(:user) { User::Operation::Create.(default_params.merge(expected_attrs))['model'] }
+  let(:user) { User::Operation::Create.(params: default_params.merge(expected_attrs))[:model] }
 
   it 'only current_user can modify user' do
     _(user.email).must_equal 'test@email.com'
@@ -32,15 +32,15 @@ class UserOperationUpdateTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::Update.(
-        {
+        params: {
           id: user.id,
           email: 'newtest@email.com'
         },
-        'current_user' => user2
+        current_user: user2
       )
     end
 
-    res = User::Operation::Update.({ id: user.id, email: 'newtest@email.com' }, 'current_user' => user)
+    res = User::Operation::Update.(params: { id: user.id, email: 'newtest@email.com' }, current_user: user)
     _(res.success?).must_equal true
     _(res['model'].email).must_equal 'newtest@email.com'
   end

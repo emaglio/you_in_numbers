@@ -1,10 +1,10 @@
-class User::Operation::Create < Trailblazer::Operation
-  class Present < Trailblazer::Operation
+class User::Operation::Create < Trailblazer::V2_1::Operation
+  class Present < Trailblazer::V2_1::Operation
     step Model(User, :new)
     step Contract::Build(constant: User::Contract::New)
   end
 
-  step Nested(Present)
+  step Subprocess(Present)
   step Contract::Validate()
   step :default_report_settings!
   step :default_report_template!

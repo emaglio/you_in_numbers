@@ -25,8 +25,8 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
 
   it 'successfully log in' do
     user = User::Operation::Create.(
-      email: 'test@email.com', password: 'password', confirm_password: 'password', firstname: 'NewUser'
-    )['model']
+      params: { email: 'test@email.com', password: 'password', confirm_password: 'password', firstname: 'NewUser' }
+    )[:model]
 
     visit 'sessions/new'
 
@@ -44,8 +44,8 @@ class SessionsIntegrationTest < Trailblazer::Test::Integration
 
   it 'succesfully log out' do
     user = User::Operation::Create.(
-      email: 'test@email.com', password: 'password', confirm_password: 'password', firstname: 'NewUser'
-    )['model']
+      params: { email: 'test@email.com', password: 'password', confirm_password: 'password', firstname: 'NewUser' }
+    )[:model]
 
     visit 'sessions/new'
 

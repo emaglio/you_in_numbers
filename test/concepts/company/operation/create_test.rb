@@ -4,7 +4,7 @@ require 'test_helper'
 
 class CompanyOperationCreateTest < MiniTest::Spec
   it 'successfully create Company' do
-    user = User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')
+    user = User::Operation::Create.(params: { email: 'test@email.com', password: 'password', confirm_password: 'password' })
     _(user.success?).must_equal true
 
     result = Company::Operation::Create.(
@@ -45,7 +45,7 @@ class CompanyOperationCreateTest < MiniTest::Spec
   end
 
   it 'wrong input' do
-    user = User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')
+    user = User::Operation::Create.(params: { email: 'test@email.com', password: 'password', confirm_password: 'password' })
     _(user.success?).must_equal true
 
     result = Company::Operation::Create.(params: {}, current_user: user)

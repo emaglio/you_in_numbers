@@ -4,10 +4,10 @@ require 'test_helper'
 
 class UserOperationResetPasswordTest < MiniTest::Spec
   let(:admin) { admin_for }
-  let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:user2) { User::Operation::Create.(params: { email: 'test2@email.com', password: 'password', confirm_password: 'password' })[:model] }
   let(:subject) do
     Subject::Operation::Create.(
-      {
+      params: {
         user_id: user.id,
         firstname: 'Ema',
         lastname: 'Maglio',
@@ -18,16 +18,16 @@ class UserOperationResetPasswordTest < MiniTest::Spec
         phone: '912873',
         email: 'ema@email.com'
       },
-      'current_user' => user
-    )['model']
+      current_user: user
+    )[:model]
   end
 
   let(:default_params) { { password: 'password', confirm_password: 'password' } }
   let(:expected_attrs) { { email: 'test@email.com' } }
-  let(:user) { User::Operation::Create.(default_params.merge(expected_attrs))['model'] }
+  let(:user) { User::Operation::Create.(params: default_params.merge(expected_attrs))[:model] }
 
   it 'reset password' do
-    res = User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')
+    res = User::Operation::Create.(params: { email: 'test@email.com', password: 'password', confirm_password: 'password' })
     _(res.success?).must_equal true
 
     result = User::Operation::ResetPassword.({ email: res['model'].email }, 'via' => :test)

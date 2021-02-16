@@ -5,10 +5,10 @@ require_dependency 'user/contract/edit_template.rb'
 
 class UserOperationEditObjTest < MiniTest::Spec
   let(:admin) { admin_for }
-  let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:user2) { User::Operation::Create.(params: { email: 'test2@email.com', password: 'password', confirm_password: 'password' })[:model] }
   let(:subject) do
     Subject::Operation::Create.(
-      {
+      params: {
         user_id: user.id,
         firstname: 'Ema',
         lastname: 'Maglio',
@@ -19,13 +19,13 @@ class UserOperationEditObjTest < MiniTest::Spec
         phone: '912873',
         email: 'ema@email.com'
       },
-      'current_user' => user
-    )['model']
+      current_user: user
+    )[:model]
   end
 
   let(:default_params) { { password: 'password', confirm_password: 'password' } }
   let(:expected_attrs) { { email: 'test@email.com' } }
-  let(:user) { User::Operation::Create.(default_params.merge(expected_attrs))['model'] }
+  let(:user) { User::Operation::Create.(params: default_params.merge(expected_attrs))[:model] }
 
   it 'default settings' do
     _(user.email).must_equal 'test@email.com'
@@ -45,13 +45,13 @@ class UserOperationEditObjTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::EditObj.(
-        { id: user.id },
-        'current_user' => user2
+        params: { id: user.id },
+        current_user: user2
       )
     end
 
     # move up third element
-    result = User::Operation::EditObj.({ id: user.id, 'move_up' => '2' }, 'current_user' => user)
+    result = User::Operation::EditObj.(params: { id: user.id, 'move_up' => '2' }, current_user: user)
     # _(result["result.contract.default"].errors.messages.inspect).must_equal ""
     _(result.success?).must_equal true
     custom = User.find(user.id).content['report_template']['custom']
@@ -69,7 +69,7 @@ class UserOperationEditObjTest < MiniTest::Spec
     _(custom[3][:index]).must_equal 3
 
     # move down second element
-    result = User::Operation::EditObj.({ id: user.id, 'move_down' => '1' }, 'current_user' => user)
+    result = User::Operation::EditObj.(params: { id: user.id, 'move_down' => '1' }, current_user: user)
     _(result.success?).must_equal true
     custom = User.find(user.id).content['report_template']['custom']
     default = User.find(user.id).content['report_template']['default']
@@ -87,7 +87,7 @@ class UserOperationEditObjTest < MiniTest::Spec
 
     # edit first chart
     result = User::Operation::UpdateChart.(
-      {
+      params: {
         id: user.id,
         'title' => 'newTitle',
         'edit_chart' => '0',
@@ -95,7 +95,7 @@ class UserOperationEditObjTest < MiniTest::Spec
         'y2_select' => 'something2',
         'y1_scale' => '1'
       },
-      'current_user' => user
+      current_user: user
     )
     _(result.success?).must_equal true
     custom = User.find(user.id).content['report_template']['custom']
@@ -118,7 +118,7 @@ class UserOperationEditObjTest < MiniTest::Spec
     _(custom[3][:index]).must_equal 3
 
     # delete the first chart
-    result = User::Operation::EditObj.({ id: user.id, 'delete' => '0' }, 'current_user' => user)
+    result = User::Operation::EditObj.(params: { id: user.id, 'delete' => '0' }, current_user: user)
     _(result.success?).must_equal true
     custom = User.find(user.id).content['report_template']['custom']
     default = User.find(user.id).content['report_template']['default']
@@ -133,7 +133,7 @@ class UserOperationEditObjTest < MiniTest::Spec
     _(custom[2][:index]).must_equal 2
 
     # add element
-    result = User::Operation::EditObj.({ id: user.id, 'type' => 'VO2max summary', 'index' => '0' }, 'current_user' => user)
+    result = User::Operation::EditObj.(params: { id: user.id, 'type' => 'VO2max summary', 'index' => '0' }, current_user: user)
     _(result.success?).must_equal true
     custom = User.find(user.id).content['report_template']['custom']
     default = User.find(user.id).content['report_template']['default']
@@ -154,14 +154,14 @@ class UserOperationEditObjTest < MiniTest::Spec
     _(custom[0][:params_list]).must_equal 't,RQ,VO2,VO2/Kg,HR,Power,Revolution'
     _(custom[0][:params_unm_list]).must_equal 'mm:ss,-,l/min,ml/min/Kg,bpm,watt,BPM'
     result = User::Operation::UpdateTable.(
-      {
+      params: {
         id: user.id,
         'edit_table' => '0',
         'title' => 'Test Sum',
         'params_list' => 't,RQ,VO2,VO2/Kg',
         'unm_list' => 'mm:ss,-,l/min,ml/min/Kg'
       },
-      'current_user' => user
+      current_user: user
     )
     _(result.success?).must_equal true
     custom = User.find(user.id).content['report_template']['custom']
@@ -184,7 +184,7 @@ class UserOperationEditObjTest < MiniTest::Spec
     _(user.email).must_equal 'test@email.com'
 
     # move up
-    result = User::Operation::EditObj.({ id: user.id, 'move_up' => '' }, 'current_user' => user)
+    result = User::Operation::EditObj.(params: { id: user.id, 'move_up' => '' }, current_user: user)
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect).must_equal '{:move_up=>["Operation not possible"]}'
     custom = User.find(user.id).content['report_template']['custom']
@@ -192,7 +192,7 @@ class UserOperationEditObjTest < MiniTest::Spec
     _((custom == default)).must_equal true
 
     # move down
-    result = User::Operation::EditObj.({ id: user.id, 'move_down' => '' }, 'current_user' => user)
+    result = User::Operation::EditObj.(params: { id: user.id, 'move_down' => '' }, current_user: user)
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect).must_equal '{:move_down=>["Operation not possible"]}'
     custom = User.find(user.id).content['report_template']['custom']
@@ -200,7 +200,7 @@ class UserOperationEditObjTest < MiniTest::Spec
     _((custom == default)).must_equal true
 
     # edit
-    result = User::Operation::EditObj.({ id: user.id, 'edit_chart' => '' }, 'current_user' => user)
+    result = User::Operation::EditObj.(params: { id: user.id, 'edit_chart' => '' }, current_user: user)
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect).must_equal '{:edit_chart=>["Operation not possible"]}'
     custom = User.find(user.id).content['report_template']['custom']
@@ -209,7 +209,7 @@ class UserOperationEditObjTest < MiniTest::Spec
 
     # edit chart
     result = User::Operation::UpdateChart.(
-      {
+      params: {
         id: user.id,
         'edit_chart' => '0',
         'y1_select' => 'some',
@@ -217,7 +217,7 @@ class UserOperationEditObjTest < MiniTest::Spec
         'y2_scale' => '0',
         'y3_scale' => '0'
       },
-      'current_user' => user
+      current_user: user
     )
     _(result.success?).must_equal false
     _(result['result.contract.default'].errors.messages.inspect).must_equal '{:y1_scale=>["Please show at least one Y '\
@@ -228,8 +228,8 @@ class UserOperationEditObjTest < MiniTest::Spec
 
     # edit table
     result = User::Operation::UpdateTable.(
-      { id: user.id, 'edit_table' => '0', 'params_list' => '', 'unm_list' => '' },
-      'current_user' => user
+      params: { id: user.id, 'edit_table' => '0', 'params_list' => '', 'unm_list' => '' },
+      current_user: user
     )
     _(result.success?).must_equal false
     _(result['result.contract.default'].errors.messages.inspect).must_equal "{:params_list=>[\"Can't be blank\", "\
@@ -243,7 +243,7 @@ class UserOperationEditObjTest < MiniTest::Spec
     _((custom == default)).must_equal true
 
     # delete
-    result = User::Operation::EditObj.({ id: user.id, 'delete' => '' }, 'current_user' => user)
+    result = User::Operation::EditObj.(params: { id: user.id, 'delete' => '' }, current_user: user)
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect).must_equal '{:delete=>["Operation not possible"]}'
     custom = User.find(user.id).content['report_template']['custom']
@@ -251,7 +251,7 @@ class UserOperationEditObjTest < MiniTest::Spec
     _((custom == default)).must_equal true
 
     # add
-    result = User::Operation::EditObj.({ id: user.id, 'type' => 2, 'index' => '' }, 'current_user' => user)
+    result = User::Operation::EditObj.(params: { id: user.id, 'type' => 2, 'index' => '' }, current_user: user)
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect).must_equal '{:type=>["must be a string"], '\
       ':index=>["Operation not possible"]}'

@@ -4,10 +4,10 @@ require 'test_helper'
 
 class UserOperationBlockTest < MiniTest::Spec
   let(:admin) { admin_for }
-  let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:user2) { User::Operation::Create.(params: { email: 'test2@email.com', password: 'password', confirm_password: 'password' })[:model] }
   let(:subject) do
     Subject::Operation::Create.(
-      {
+      params: {
         user_id: user.id,
         firstname: 'Ema',
         lastname: 'Maglio',
@@ -18,13 +18,13 @@ class UserOperationBlockTest < MiniTest::Spec
         phone: '912873',
         email: 'ema@email.com'
       },
-      'current_user' => user
-    )['model']
+      current_user: user
+    )[:model]
   end
 
   let(:default_params) { { password: 'password', confirm_password: 'password' } }
   let(:expected_attrs) { { email: 'test@email.com' } }
-  let(:user) { User::Operation::Create.(default_params.merge(expected_attrs))['model'] }
+  let(:user) { User::Operation::Create.(params: default_params.merge(expected_attrs))[:model] }
 
   it 'only admin can block user' do
     _(user.email).must_equal 'test@email.com'
@@ -32,13 +32,12 @@ class UserOperationBlockTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::Block.(
-        { id: user.id,
-          block: 'true' },
-        'current_user' => user2
+        params: { id: user.id, block: 'true' },
+        current_user: user2
       )
     end
 
-    op = User::Operation::Block.({ id: user.id, 'block' => 'true' }, 'current_user' => admin)
+    op = User::Operation::Block.(params: { id: user.id, 'block' => 'true' }, current_user: admin)
     _(op.success?).must_equal true
     _(op['model'].block).must_equal true
   end

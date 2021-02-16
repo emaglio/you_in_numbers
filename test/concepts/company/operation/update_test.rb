@@ -3,8 +3,8 @@
 require 'test_helper'
 
 class CompanyOperationUpdateTest < MiniTest::Spec
-  let(:user) { User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')['model'] }
-  let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:user) { User::Operation::Create.(params: { email: 'test@email.com', password: 'password', confirm_password: 'password' })[:model] }
+  let(:user2) { User::Operation::Create.(params: { email: 'test2@email.com', password: 'password', confirm_password: 'password' })[:model] }
   let(:company) { factory(Company::Operation::Create, { params: { user_id: user.id, name: 'Company User 1' }, current_user: user })[:model] }
 
   it "only the Company's owner can edit it" do

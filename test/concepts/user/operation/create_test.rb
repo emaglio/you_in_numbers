@@ -11,7 +11,7 @@ class UserOperationCreateTest < MiniTest::Spec
     }
   end
   let(:expected_attrs) { { email: 'test@email.com' } }
-  let(:user) { User::Operation::Create.(default_params)['model'] }
+  let(:user) { User::Operation::Create.(params: default_params)[:model] }
   let(:report_settings) do
     {
       params_list: %w[t Rf VE VO2 VCO2 RQ VE/VO2 VE/VCO2 HR VO2/Kg FAT% CHO% Phase],
@@ -23,8 +23,8 @@ class UserOperationCreateTest < MiniTest::Spec
   let(:report_template) { { 'default' => MyDefault::ReportObj.clone, 'custom' => MyDefault::ReportObj.clone } }
 
   it do
-    assert_pass(User::Operation::Create, params(firstname: 'first'), firstname: 'first') do |result|
-      assert_exposes result['model'],
+    assert_pass(User::Operation::Create, params(firstname: 'first'), params: { firstname: 'first' }) do |result|
+      assert_exposes result[:model],
                      'content' => ->(actual, *) {
                        actual[:actual]['report_settings'] == ''
                        actual[:actual]['report_template'] == report_template

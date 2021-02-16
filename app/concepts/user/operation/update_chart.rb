@@ -1,12 +1,12 @@
-class User::Operation::UpdateChart < Trailblazer::Operation
-  class Present < Trailblazer::Operation
+class User::Operation::UpdateChart < Trailblazer::V2_1::Operation
+  class Present < Trailblazer::V2_1::Operation
     step Model(User, :find_by)
     step Policy::Pundit(::Session::Policy, :current_user?)
-    failure ::Session::Lib::ThrowException
+    fail ::Session::Lib::ThrowException
     step Contract::Build(constant: User::Contract::EditChart)
   end # class Present
 
-  step Nested(Present)
+  step Subprocess(Present)
   step Contract::Validate()
   step :update_chart!
   step Contract::Persist()

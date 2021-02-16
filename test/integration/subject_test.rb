@@ -51,11 +51,13 @@ class SubjectIntegrationTest < Trailblazer::Test::Integration
       click_link 'Sign Out'
 
       user2 = User::Operation::Create.(
-        email: 'test2@email.com',
-        firstname: 'User2',
-        password: 'password',
-        confirm_password: 'password'
-      )['model']
+        params: {
+          email: 'test2@email.com',
+          firstname: 'User2',
+          password: 'password',
+          confirm_password: 'password'
+        }
+      )[:model]
       submit!(user2.email, 'password')
 
       visit "/subjects/#{Subject.last.id}"

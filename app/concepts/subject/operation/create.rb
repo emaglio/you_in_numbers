@@ -1,12 +1,12 @@
-class Subject::Operation::Create < Trailblazer::Operation
-  class Present < Trailblazer::Operation
+class Subject::Operation::Create < Trailblazer::V2_1::Operation
+  class Present < Trailblazer::V2_1::Operation
     step Model(Subject, :new)
     step Policy::Pundit(::Session::Policy, :signed_in?)
-    failure Session::Lib::ThrowException
+    fail Session::Lib::ThrowException
     step Contract::Build(constant: Subject::Contract::New)
   end # class Present
 
-  step Nested(Present)
+  step Subprocess(Present)
   step Contract::Validate()
   step Contract::Persist()
   step :redirect_new_report!

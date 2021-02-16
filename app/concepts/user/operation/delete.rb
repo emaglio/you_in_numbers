@@ -1,9 +1,9 @@
 require_dependency 'session/lib/throw_exception'
 
-class User::Operation::Delete < Trailblazer::Operation
+class User::Operation::Delete < Trailblazer::V2_1::Operation
   step Model(User, :find_by)
   step Policy::Pundit(::Session::Policy, :current_user?)
-  failure ::Session::Lib::ThrowException
+  fail ::Session::Lib::ThrowException
   # step :notify!
   step :delete_company!
   step :delete_reports!
@@ -28,7 +28,7 @@ class User::Operation::Delete < Trailblazer::Operation
 
   def delete_subjects!(_options, model:, current_user:, **)
     Subject.where(user_id: model.id).each do |subject|
-      Subject::Operation::Delete.({ id: subject.id }, 'current_user' => current_user)
+      Subject::Operation::Delete.(params: { id: subject.id }, current_user: current_user)
     end
   end
 

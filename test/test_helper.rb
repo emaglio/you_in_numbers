@@ -27,7 +27,6 @@ Minitest::Spec.class_eval do
   include Trailblazer::Test::Assertions
   include Trailblazer::Test::Operation::Helper
   include Trailblazer::Test::Operation::Assertions
-  include Trailblazer::Test::Deprecation::Operation::Assertions
 
   before :each do
     DatabaseCleaner.start
@@ -40,12 +39,14 @@ Minitest::Spec.class_eval do
   def admin_for
     User.find_by(email: 'admin@email.com') ||
       User::Operation::Create.(
-        email: 'admin@email.com',
-        password: 'password',
-        confirm_password: 'password',
-        firstname: 'Admin',
-        admin: true
-      )['model']
+        params: {
+          email: 'admin@email.com',
+          password: 'password',
+          confirm_password: 'password',
+          firstname: 'Admin',
+          admin: true
+        }
+      )[:model]
   end
 
   def get_data_sheet(file)
@@ -73,12 +74,14 @@ Trailblazer::Test::Integration.class_eval do
   def admin_for
     User.find_by(email: 'admin@email.com') ||
       User::Operation::Create.(
-        email: 'admin@email.com',
-        password: 'password',
-        confirm_password: 'password',
-        firstname: 'Admin',
-        admin: true
-      )['model']
+        params: {
+          email: 'admin@email.com',
+          password: 'password',
+          confirm_password: 'password',
+          firstname: 'Admin',
+          admin: true
+        }
+      )[:model]
   end
 
   # puts page.body
@@ -114,7 +117,7 @@ Trailblazer::Test::Integration.class_eval do
   def log_in_as_user(email = 'my@email.com', password = 'password')
     User.find_by(email: email).present? ||
       User::Operation::Create.(
-        email: email, password: password, confirm_password: password, firstname: 'UserFirstname'
+        params: { email: email, password: password, confirm_password: password, firstname: 'UserFirstname' }
       )
 
     visit '/sessions/new'

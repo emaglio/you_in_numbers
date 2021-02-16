@@ -4,7 +4,7 @@ require 'test_helper'
 
 class UserOperationChangePasswordTest < MiniTest::Spec
   let(:admin) { admin_for }
-  let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:user2) { User::Operation::Create.(params: { email: 'test2@email.com', password: 'password', confirm_password: 'password' })[:model] }
   let(:subject) do
     Subject::Operation::Create.(
       {
@@ -24,10 +24,10 @@ class UserOperationChangePasswordTest < MiniTest::Spec
 
   let(:default_params) { { password: 'password', confirm_password: 'password' } }
   let(:expected_attrs) { { email: 'test@email.com' } }
-  let(:user) { User::Operation::Create.(default_params.merge(expected_attrs))['model'] }
+  let(:user) { User::Operation::Create.(params: default_params.merge(expected_attrs))[:model] }
 
   it 'wrong input change password' do
-    user = User::Operation::Create.(email: 'test@email.com', password: 'password', confirm_password: 'password')
+    user = User::Operation::Create.(params: { email: 'test@email.com', password: 'password', confirm_password: 'password' })
     _(user.success?).must_equal true
 
     res = User::Operation::ChangePassword.(

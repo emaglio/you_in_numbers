@@ -1,12 +1,14 @@
 class SubjectsController < ApplicationController
+  include TrbV21
+
   def new
-    run(Subject::Operation::Create::Present)
+    run_v21(Subject::Operation::Create::Present)
 
     render Subject::Cell::New, result['contract.default']
   end
 
   def create
-    run(Subject::Operation::Create) do |result|
+    run_v21(Subject::Operation::Create) do |result|
       flash[:success] = 'Subject created!'
       return redirect_to new_report_path(nil, subject_id: result['model'].id) if result['new_report']
       return redirect_to '/subjects'
@@ -16,31 +18,31 @@ class SubjectsController < ApplicationController
   end
 
   def index
-    run(Subject::Operation::Index)
+    run_v21(Subject::Operation::Index)
 
     render Subject::Cell::Index, result['model']
   end
 
   def get_reports
-    run(Subject::Operation::GetReports)
+    run_v21(Subject::Operation::GetReports)
 
     render Subject::Cell::GetReports, result['reports'], layout_type: nil
   end
 
   def show
-    run(Subject::Operation::Show)
+    run_v21(Subject::Operation::Show)
 
     render Subject::Cell::Show, result['model']
   end
 
   def edit
-    run(Subject::Operation::Update::Present)
+    run_v21(Subject::Operation::Update::Present)
 
     render Subject::Cell::Edit, result['contract.default']
   end
 
   def update
-    run(Subject::Operation::Update) do |result|
+    run_v21(Subject::Operation::Update) do |result|
       flash[:success] = 'Subject details updated'
       return redirect_to new_report_path(nil, subject_id: result['model'].id) if result['new_report']
       return redirect_to "/subjects/#{result['model'].id}"
@@ -50,14 +52,14 @@ class SubjectsController < ApplicationController
   end
 
   def destroy
-    run(Subject::Operation::Delete) do |result|
+    run_v21(Subject::Operation::Delete) do |result|
       flash[:success] = 'Subject deleted'
       return redirect_to '/subjects'
     end
   end
 
   def edit_height_weight
-    run(Subject::Operation::EditHeightWeight) do |result|
+    run_v21(Subject::Operation::EditHeightWeight) do |result|
       flash[:success] = 'Subejct details updated!'
       return redirect_to new_report_path(nil, subject_id: result['model'].id)
     end

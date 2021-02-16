@@ -4,7 +4,7 @@ require 'test_helper'
 
 class UserOperationTest < MiniTest::Spec
   let(:admin) { admin_for }
-  let(:user2) { User::Operation::Create.(email: 'test2@email.com', password: 'password', confirm_password: 'password')['model'] }
+  let(:user2) { User::Operation::Create.(params: { email: 'test2@email.com', password: 'password', confirm_password: 'password' })[:model] }
   let(:subject) do
     Subject::Operation::Create.(
       {
@@ -24,7 +24,7 @@ class UserOperationTest < MiniTest::Spec
 
   let(:default_params) { { password: 'password', confirm_password: 'password' } }
   let(:expected_attrs) { { email: 'test@email.com' } }
-  let(:user) { User::Operation::Create.(default_params.merge(expected_attrs))['model'] }
+  let(:user) { User::Operation::Create.(params: default_params.merge(expected_attrs))[:model] }
 
   it 'report settings correct input' do
     _(user.email).must_equal 'test@email.com'
@@ -32,13 +32,13 @@ class UserOperationTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::ReportSettings.(
-        { id: user.id },
-        'current_user' => user2
+        params: { id: user.id },
+        current_user: user2
       )
     end
 
     result = User::Operation::ReportSettings.(
-      {
+      params: {
         id: user.id,
         'params_list' => 'Parms0,Parms1,Parms2,Parms3',
         'load_1' => 'Load1',
@@ -53,26 +53,26 @@ class UserOperationTest < MiniTest::Spec
         'vo2max_1' => '95',
         um_height: 'um_h',
         um_weight: 'um_w'
-      }, 'current_user' => user
+      }, current_user: user
     )
     _(result.success?).must_equal true
-    _(result['model'].content['report_settings']['params_list'][0]).must_equal 'Parms0'
-    _(result['model'].content['report_settings']['params_list'][1]).must_equal 'Parms1'
-    _(result['model'].content['report_settings']['params_list'][2]).must_equal 'Parms2'
-    _(result['model'].content['report_settings']['params_list'][3]).must_equal 'Parms3'
-    _(result['model'].content['report_settings']['ergo_params_list'][0]).must_equal 'Load1'
-    _(result['model'].content['report_settings']['ergo_params_list'][1]).must_equal 'Load1_um'
-    _(result['model'].content['report_settings']['ergo_params_list'][2]).must_equal 'Load2'
-    _(result['model'].content['report_settings']['ergo_params_list'][3]).must_equal 'Load2_um'
-    _(result['model'].content['report_settings']['training_zones_settings'][0]).must_equal 35
-    _(result['model'].content['report_settings']['training_zones_settings'][1]).must_equal 45
-    _(result['model'].content['report_settings']['training_zones_settings'][2]).must_equal 55
-    _(result['model'].content['report_settings']['training_zones_settings'][3]).must_equal 65
-    _(result['model'].content['report_settings']['training_zones_settings'][4]).must_equal 75
-    _(result['model'].content['report_settings']['training_zones_settings'][5]).must_equal 85
-    _(result['model'].content['report_settings']['training_zones_settings'][6]).must_equal 95
-    _(result['model'].content['report_settings']['units_of_measurement']['height']).must_equal 'um_h'
-    _(result['model'].content['report_settings']['units_of_measurement']['weight']).must_equal 'um_w'
+    _(result[:model].content['report_settings']['params_list'][0]).must_equal 'Parms0'
+    _(result[:model].content['report_settings']['params_list'][1]).must_equal 'Parms1'
+    _(result[:model].content['report_settings']['params_list'][2]).must_equal 'Parms2'
+    _(result[:model].content['report_settings']['params_list'][3]).must_equal 'Parms3'
+    _(result[:model].content['report_settings']['ergo_params_list'][0]).must_equal 'Load1'
+    _(result[:model].content['report_settings']['ergo_params_list'][1]).must_equal 'Load1_um'
+    _(result[:model].content['report_settings']['ergo_params_list'][2]).must_equal 'Load2'
+    _(result[:model].content['report_settings']['ergo_params_list'][3]).must_equal 'Load2_um'
+    _(result[:model].content['report_settings']['training_zones_settings'][0]).must_equal 35
+    _(result[:model].content['report_settings']['training_zones_settings'][1]).must_equal 45
+    _(result[:model].content['report_settings']['training_zones_settings'][2]).must_equal 55
+    _(result[:model].content['report_settings']['training_zones_settings'][3]).must_equal 65
+    _(result[:model].content['report_settings']['training_zones_settings'][4]).must_equal 75
+    _(result[:model].content['report_settings']['training_zones_settings'][5]).must_equal 85
+    _(result[:model].content['report_settings']['training_zones_settings'][6]).must_equal 95
+    _(result[:model].content['report_settings']['units_of_measurement']['height']).must_equal 'um_h'
+    _(result[:model].content['report_settings']['units_of_measurement']['weight']).must_equal 'um_w'
   end
 
   it 'report settings wrong input' do
@@ -81,15 +81,14 @@ class UserOperationTest < MiniTest::Spec
 
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::ReportSettings.(
-        { id: user.id },
-        'current_user' => user2
+        params: { id: user.id },
+        current_user: user2
       )
     end
 
     result = User::Operation::ReportSettings.(
-      {
-        id: user.id
-      }, 'current_user' => user
+      params: { id: user.id },
+      current_user: user
     )
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect).must_equal "{:fat_burning_2=>[\"Can't be blank\", "\
