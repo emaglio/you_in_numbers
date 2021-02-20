@@ -28,8 +28,8 @@ gem 'formular', git: 'https://github.com/trailblazer/formular.git', branch: 'mas
 gem 'trailblazer', '~> 2.1'
 gem 'trailblazer-cells', '~> 0.0'
 gem 'trailblazer-rails', '~> 2.0'
-gem 'tyrant', git: 'https://github.com/emaglio/tyrant.git', branch: 'trb-2_1'
-# gem 'tyrant', :path => "../tyrant"
+# gem 'tyrant', git: 'https://github.com/emaglio/tyrant.git', branch: 'trb-2_1'
+gem 'tyrant', :path => '../tyrant'
 gem 'reform', '>= 2.3.0.rc1'
 gem 'reform-rails', '>= 0.2.0.rc1'
 
@@ -71,6 +71,8 @@ group :test do
   gem 'capybara-slow_finder_errors', '~> 0.1'
   gem 'codecov', '~> 0.2', require: false
   gem 'database_cleaner', '~> 1.8'
+  gem 'factory_bot_rails', '~> 6.1'
+  gem 'faker', '~> 2.16'
   gem 'minitest-bang', '~> 1.0'
   gem 'minitest-line', '~> 0.6'
   gem 'minitest-rails-capybara', '~> 3.0'

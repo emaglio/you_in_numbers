@@ -1,7 +1,14 @@
 GIT
-  remote: https://github.com/emaglio/tyrant.git
-  revision: 16388b3bb7728df668a809026f01c416b0478c5b
-  branch: trb-2_1
+  remote: https://github.com/trailblazer/formular.git
+  revision: 807864127697bc51437201d21f8a22f26838f4f3
+  branch: master
+  specs:
+    formular (0.2.3)
+      declarative (~> 0.0.4)
+      uber (>= 0.0.11, < 0.2.0)
+
+PATH
+  remote: ../tyrant
   specs:
     tyrant (0.0.3)
       bcrypt
@@ -13,15 +20,6 @@ GIT
       trailblazer-macro
       trailblazer-macro-contract
       warden (>= 1.2.6)
-
-GIT
-  remote: https://github.com/trailblazer/formular.git
-  revision: 807864127697bc51437201d21f8a22f26838f4f3
-  branch: master
-  specs:
-    formular (0.2.3)
-      declarative (~> 0.0.4)
-      uber (>= 0.0.11, < 0.2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -174,6 +172,13 @@ GEM
     early (0.3.1)
     erubi (1.10.0)
     execjs (2.7.0)
+    factory_bot (6.1.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.1.0)
+      factory_bot (~> 6.1.0)
+      railties (>= 5.0.0)
+    faker (2.16.0)
+      i18n (>= 1.6, < 2)
     faraday (1.1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
@@ -479,6 +484,8 @@ DEPENDENCIES
   database_cleaner (~> 1.8)
   dry-validation (~> 0.13.3)
   early (~> 0.3)
+  factory_bot_rails (~> 6.1)
+  faker (~> 2.16)
   file_validators (~> 2.3)
   font-awesome-rails (~> 4.7.0)
   formular!

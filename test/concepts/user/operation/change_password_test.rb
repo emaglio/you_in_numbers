@@ -3,12 +3,8 @@
 require 'test_helper'
 
 class UserOperationChangePasswordTest < MiniTest::Spec
-  let(:admin) { admin_for }
-  let(:user2) { User::Operation::Create.(params: { email: 'test2@email.com', password: 'password', confirm_password: 'password' })[:model] }
-
-  let(:default_params) { { password: 'password', confirm_password: 'password' } }
-  let(:expected_attrs) { { email: 'test@email.com' } }
-  let(:user) { User::Operation::Create.(params: default_params.merge(expected_attrs))[:model] }
+  let(:user) { trb_create(:user, password: 'password', confirm_password: 'password') }
+  let(:user2) { create(:user) }
 
   it 'wrong input change password' do
     res = User::Operation::ChangePassword.(
@@ -26,9 +22,7 @@ class UserOperationChangePasswordTest < MiniTest::Spec
   end
 
   it 'only current_user can change password' do
-    _(user.email).must_equal 'test@email.com'
-    _(user2.email).must_equal 'test2@email.com'
-
+    _(user.email).wont_equal user2.email
     assert_raises ApplicationController::NotAuthorizedError do
       User::Operation::ChangePassword.(
         params: {

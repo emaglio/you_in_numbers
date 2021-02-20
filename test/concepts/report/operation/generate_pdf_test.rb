@@ -45,7 +45,7 @@ class ReportOperationGeneratePdfTest < MiniTest::Spec
     _(user.email).must_equal 'test@email.com'
     _(subject.firstname).must_equal 'Ema'
 
-    company = Company::Operation::Create.(
+    Company::Operation::Create.(
       params: {
         user_id: user.id, name: 'My Company', address_1: 'address 1', address_2: 'address 2', city: 'Freshwater',
         postcode: '2096', country: 'Australia', email: 'company@email.com', phone: '12345',
@@ -53,7 +53,7 @@ class ReportOperationGeneratePdfTest < MiniTest::Spec
       }, current_user: user
     )[:model]
 
-    result = Report::Operation::GeneratePdf.(params: { id: report.id}, current_user: user)
+    result = Report::Operation::GeneratePdf.(params: { id: report.id }, current_user: user)
     result.success?.must_equal true
   end
 end

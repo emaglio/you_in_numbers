@@ -14,7 +14,8 @@ admin = User::Operation::Create.(
     password: 'Test1234',
     confirm_password: 'Test1234',
     admin: true
-  })[:model]
+  }
+)[:model]
 puts 'Admin account created successfully!' if admin.id
 
 subject = Subject::Operation::Create.(
@@ -28,7 +29,9 @@ subject = Subject::Operation::Create.(
     weight: '80',
     phone: '912873',
     email: 's@e.com'
-  }, current_user: admin)[:model]
+  },
+  current_user: admin
+)[:model]
 puts 'Dummy Subject created successfully!' if subject.id
 
 upload_file = ActionDispatch::Http::UploadedFile.new({
@@ -42,5 +45,6 @@ report = Report::Operation::Create.(
       title: 'My report',
       cpet_file_path: upload_file,
       template: 'default'
-  }, current_user => admin)[:model]
+  }, current_user => admin
+)[:model]
 puts 'Dummy Report created successfully!' if report.id

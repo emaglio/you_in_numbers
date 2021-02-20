@@ -129,7 +129,8 @@ class SubjectOperationCreateTest < MiniTest::Spec
         weight: '80',
         phone: '912873',
         email: 'ema@email.com'
-      }, current_user: user)
+      }, current_user: user
+    )
     _(result.failure?).must_equal true
     _(result['result.contract.default'].errors.messages.inspect)
       .must_equal '{:dob=>["Wrong age, Subject must be between 5 and 120 years old"]}'

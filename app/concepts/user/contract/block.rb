@@ -4,7 +4,7 @@ module User::Contract
   class Block < Reform::Form
     feature Reform::Form::Dry
 
-    property :block, virtual: true
+    property :block
 
     validation do
       required(:block).filled

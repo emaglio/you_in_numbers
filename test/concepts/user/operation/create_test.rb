@@ -11,7 +11,6 @@ class UserOperationCreateTest < MiniTest::Spec
     }
   end
   let(:expected_attrs) { { email: 'test@email.com' } }
-  let(:user) { User::Operation::Create.(params: default_params)[:model] }
   let(:report_settings) do
     {
       params_list: %w[t Rf VE VO2 VCO2 RQ VE/VO2 VE/VCO2 HR VO2/Kg FAT% CHO% Phase],
@@ -51,7 +50,7 @@ class UserOperationCreateTest < MiniTest::Spec
   describe 'unique user' do
     let(:default_params) { { email: 'test@email.com', password: 'password', confirm_password: 'password' } }
 
-    before { user }
+    before { create(:user, email: 'test@email.com') }
 
     it do
       assert_fail User::Operation::Create, params(email: 'test@email.com'), expected_errors: %i[email] do |result|

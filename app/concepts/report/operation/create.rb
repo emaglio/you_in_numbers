@@ -16,8 +16,6 @@ class Report::Operation::Create < Trailblazer::Operation
                                             }
                                           end
 
-  # step Subprocess(Report::GetRmrData)
-  # step Subprocess(Report::GetCpetResults)
   step :set_template_subject_details!
   step :cpet_data!
   # step :rmr_data!
